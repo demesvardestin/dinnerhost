@@ -1,25 +1,80 @@
-<h2>Sign up</h2>
-
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
-
-  <div class="form-inputs">
-    <%= f.input :email,
-                required: true,
-                autofocus: true ,
-                input_html: { autocomplete: "email" }%>
-    <%= f.input :password,
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
+<section id="store-signup">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card">
+        <div class="card-body">
+          <div class="header">
+            <h5 class="text-center medium-gray">Store signup</h5>
+            <hr style="text-align: center; width: 25%;">
+          </div>
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+            <div class="form-inputs">
+              <% if !devise_error_messages!.empty? %>
+                <div id="error_explanation">
+                  <ul>
+                    <li><%= devise_error_messages! %></li>
+                  </ul>
+                </div>
+              <% end %>
+              
+              <div class="field">
+                <%= f.text_field :name, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"Store name", value:"#{@registration['store_name']}" %>
+              </div>
+              <div class="field">
+                <%= f.text_field :street_address, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"Street address", value:"#{@registration['store_address'].split(', ')[0]}" %>
+              </div>
+              <div class="row field">
+                <div class="col-md-4">
+                  <%= f.text_field :town, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"Town", value:"#{@registration['store_address'].split(', ')[1]}" %>
+                </div>
+                <div class="col-md-4">
+                  <%= f.text_field :state, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"State", value:"#{@registration['store_address'].split(', ')[2]}" %>
+                </div>
+                <div class="col-md-4">
+                  <%= f.text_field :zipcode, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"Zipcode", value:"#{@registration['store_address'].split(', ')[3]}" %>
+                </div>
+              </div>
+              <div class="field">
+                <%= f.text_field :supervisor, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"Supervisor/manager", value:"#{@registration['store_manager']}" %>
+              </div>
+              <div class="field">
+                <%= f.text_field :phone, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"Store number", value:"#{@registration['store_phone']}" %>
+              </div>
+              <div class="field">
+                <%= f.text_field :website, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"Store website", value:"#{@registration['store_website']}" %>
+              </div>
+              <div class="field">
+                <%= f.email_field :email, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"Email", value:"#{@registration['store_email']}" %>
+              </div>
+            
+              <div class="field">
+                <%= f.password_field :password, class:"form-control height-50 no-box-shadow", autocomplete: "off", placeholder:"Password" %>
+              </div>
+              <div class="field">
+                <%= f.password_field :password_confirmation, class:"form-control height-50 no-box-shadow", autocomplete: "off", placeholder:"Password confirmation" %>
+              </div>
+            
+              <div class="actions" style="margin-top: 10px;">
+                <div class="row">
+                  <div class="col-md-12">
+                    <%= f.submit "Create account", class:"btn btn-primary btn-block box-shadow height-50" %>
+                  </div>
+                  <div class="col-md-12 add-padding-top">
+                    <%= link_to "Log into existing account", store_login_path, class:"btn btn-link btn-block" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
+</section>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+<script>
+  $('#new_store').on('submit', e => {
+    $('#logIn').css('opacity', '0.7');
+    document.getElementById('logIn').value = 'Logging you in...';
+  });
+</script>

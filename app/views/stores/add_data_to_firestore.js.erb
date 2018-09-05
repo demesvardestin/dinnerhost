@@ -1,0 +1,53 @@
+// FIREBASE
+var config = {
+    apiKey: "AIzaSyANDuiukk9oahdlYJ5i5fzvlbnJhEme0L0",
+    authDomain: "senzzu-d2fbe.firebaseapp.com",
+    databaseURL: "https://senzzu-d2fbe.firebaseio.com",
+    projectId: "senzzu-d2fbe",
+    storageBucket: "senzzu-d2fbe.appspot.com",
+    messagingSenderId: "312266021503"
+};
+
+firebase.initializeApp(config);
+const firestore = firebase.firestore();
+const settings = {timestampsInSnapshots: true};
+firestore.settings(settings);
+
+var type = "<%= @type %>";
+
+if (type === 'new-store') {
+    // ADDING A NEW STORE
+    var data = {
+        store_id: <%= current_store.id %>,
+        store_name: "<%= current_store.name %>",
+        street_address: "<%= current_store.street_address %>",
+        town: "<%= current_store.town %>",
+        state: "<%= current_store.state %>",
+        zipcode: "<%= current_store.zipcode %>",
+        active: <%= current_store.active %>,
+        live: <%= current_store.live %>,
+        website: "<%= current_store.website %>",
+        latitude: <%= current_store.latitude %>,
+        longitude: <%= current_store.longitude %>,
+        email: "<%= current_store.email %>",
+        opening_weekday: "<%= current_store.opening_weekday %>",
+        closing_weekday: "<%= current_store.closing_weekday %>",
+        opening_saturday: "<%= current_store.opening_saturday %>",
+        closing_saturday: "<%= current_store.closing_saturday %>",
+        opening_sunday: "<%= current_store.opening_sunday %>",
+        closing_sunday: "<%= current_store.closing_sunday %>",
+    };
+    firestore.collection('stores').add(data)
+    .then((response) => {
+        console.log('pharmacy added!');
+        $.get('/update_sessions_count'); // update sessions count
+    }).catch((error) => {
+        console.error('an error occurred!');
+    });
+    // END ADDING A NEW STORE
+} else if(type === 'new-item') {
+    // ADDING A NEW ITEM
+        var storeId = <%= @store.id %>;
+        var storeTokenID = <%= @store.token_id %>;
+    // END ADDING A NEW ITEM
+}

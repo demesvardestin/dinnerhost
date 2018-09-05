@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180903001304) do
+ActiveRecord::Schema.define(version: 20180905141708) do
+
+  create_table "registration_requests", force: :cascade do |t|
+    t.string   "store_name"
+    t.string   "store_address"
+    t.string   "store_manager"
+    t.string   "store_phone"
+    t.string   "store_email"
+    t.string   "store_website"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
   create_table "stores", force: :cascade do |t|
     t.datetime "created_at",                             null: false
@@ -46,6 +57,8 @@ ActiveRecord::Schema.define(version: 20180903001304) do
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.integer  "sessions_count",         default: 1
+    t.string   "token_id",               default: ""
     t.index ["email"], name: "index_stores_on_email", unique: true
     t.index ["reset_password_token"], name: "index_stores_on_reset_password_token", unique: true
   end

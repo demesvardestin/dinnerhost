@@ -1,0 +1,62 @@
+<section id="inventory">
+    <div class="modal fade" id="addNewItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add a new item</h5>
+                    <button type="button" class="close black" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="fa fa-times-circle" style="font-size: 20px;"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <form id="searchItemForm" style="margin: 0;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input class="form-control no-box-shadow height-50" id="searchItem" onkeyup="searchItem(this)" placeholder="Search an item by name or ndc" style="margin: 0;">
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-success box-shadow btn-block height-50" id="searchItemSubmit">
+                                    Search <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-info box-shadow btn-block height-50" id="filterItems" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Filter by <i class="fa fa-angle-down"></i>
+                                </button>
+                                <div class="dropdown-menu" style="width: 100%;" aria-labelledby="dropdownMenuButton">
+                                    <%= link_to 'Remove filters', inventory_path, class:"dropdown-item font-14 theme-blue", :remote => true %>
+                                    <div class="dropdown-divider"></div>
+                                    <%= link_to 'Expiring soon', inventory_path, class:"dropdown-item font-14", :remote => true %>
+                                    <div class="dropdown-divider"></div>
+                                    <%= link_to 'Low Available Amount', inventory_path, class:"dropdown-item font-14", :remote => true %>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-body inventory-items">
+                    <div class="text-center" id="no-items">
+                        <span><i class="fa fa-hourglass-o" style="font-size: 40px;"></i></span>
+                        <p class="font-16">Your inventory is empty</p>
+                        <a class="btn btn-primary" data-toggle="modal" data-target="#addNewItem">
+                           <i class="fa fa-plus-circle"></i> Add an item 
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
