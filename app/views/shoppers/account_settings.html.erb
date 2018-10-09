@@ -1,0 +1,31 @@
+<style>
+    footer {
+        display: none;
+    }
+</style>
+
+<div class="container">
+    <div class="row" style="margin-bottom: 20px;">
+        <div class="col-md-8 offset-md-2">
+            <section id="accountDetails">
+                <div class='row'>
+                    <div class="col-md-12">
+                        <h5 class="">Account details</h5>
+                        <hr style="height: 2px; background-color: #525f7f; border-color: #525f7f; margin-bottom: 15px;">
+                    </div>
+                </div>
+                <div class='row' id="accountDetailsLines"></div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+    var data = {
+        "type": "shoppers",
+        "shopperID": "<%= params[:shopper_id] %>"
+    };
+    
+    readShopperDataFromFirestore(data);
+</script>

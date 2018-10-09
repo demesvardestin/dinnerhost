@@ -1,6 +1,5 @@
-// FIREBASE
 var config = {
-    apiKey: "AIzaSyANDuiukk9oahdlYJ5i5fzvlbnJhEme0L0",
+    apiKey: "AIzaSyDtkPxyakU5Nb1YO6daAGGytItWoeNL5vM",
     authDomain: "senzzu-d2fbe.firebaseapp.com",
     databaseURL: "https://senzzu-d2fbe.firebaseio.com",
     projectId: "senzzu-d2fbe",
@@ -8,15 +7,18 @@ var config = {
     messagingSenderId: "312266021503"
 };
 
-firebase.initializeApp(config);
-const firestore = firebase.firestore();
-const settings = {timestampsInSnapshots: true};
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+}
+
+var firestore = firebase.firestore();
+var settings = {timestampsInSnapshots: true};
 firestore.settings(settings);
 
 var type = "<%= @type %>";
-
-if (type === 'new-store') {
-    // ADDING A NEW STORE
+if (type === "new-store") {
+    
     var data = {
         store_id: <%= current_store.id %>,
         store_name: "<%= current_store.name %>",
@@ -36,18 +38,94 @@ if (type === 'new-store') {
         closing_saturday: "<%= current_store.closing_saturday %>",
         opening_sunday: "<%= current_store.opening_sunday %>",
         closing_sunday: "<%= current_store.closing_sunday %>",
+        delivery_fee: "<%= current_store.delivery_fee %>"
     };
     firestore.collection('stores').add(data)
     .then((response) => {
-        console.log('pharmacy added!');
         $.get('/update_sessions_count'); // update sessions count
     }).catch((error) => {
         console.error('an error occurred!');
     });
-    // END ADDING A NEW STORE
-} else if(type === 'new-item') {
-    // ADDING A NEW ITEM
-        var storeId = <%= @store.id %>;
-        var storeTokenID = <%= @store.token_id %>;
-    // END ADDING A NEW ITEM
+    
+} else if (type === "new-item") {
+    var sizesAndPrices = {};
+    var availableSizes = "<%= @available_sizes %>";
+    var availablePrices = "<%= @available_prices %>";
+    if (availableSizes.length > 0 && availablePrices.length > 0) {
+        for (i = 0; i < availableSizes.split(',').length - 1; i++) {
+            var size = availableSizes.split(',').splice(1)[i];
+            var price = availablePrices.split(',').splice(1)[i];
+            sizesAndPrices[size] = price;
+        }
+        
+        var data = {
+            storeId: <%= @store.id %>,
+            storeTokenID: "<%= @store.token_id %>",
+            name: "<%= @name %>",
+            ndc: "<%= @ndc %>",
+            sizes_and_prices: sizesAndPrices,
+            strength: "<%= @strength %>",
+            taxable: "<%= @taxable %>",
+            description: "<%= @description %>",
+            category: "<%= @category %>"
+        };
+    } else {
+        var data = {
+            storeId: <%= @store.id %>,
+            storeTokenID: "<%= @store.token_id %>",
+            name: "<%= @name %>",
+            ndc: "<%= @ndc %>",
+            price: "<%= @price %>",
+            strength: "<%= @strength %>",
+            size: "<%= @size %>",
+            taxable: "<%= @taxable %>",
+            description: "<%= @description %>",
+            category: "<%= @category %>"
+        };
+    }
+    firestore.collection('items').add(data)
+    .then((response) => {
+        toastr.success('Item added!');
+    }).catch((error) => {
+        toastr.warning('Failed to add this item. Please try again');
+    });
+} else if (type === "order-update") {
+    var docId = "<%= @doc_id %>";
+    var status = "<%= @status %>";
+    var statusLevel = <%= @status_level %>;
+    var ref = firestore.collection('orders').doc(docId);
+    ref.set({status: status, status_level: statusLevel}, {merge: true})
+    .then((response) => {
+        toastr.success('Text update sent to customer');
+        ref.get()
+        .then(function(doc) {
+            var data = {
+                "confirmation": doc.data().confirmation,
+                "status": status
+            };
+            $.get('/update_order', { data: data });
+            if (status === "order ready") {
+                document.getElementById("body").classList.remove("modal-open");
+                $('#orderCard' + docId).remove();
+                $('.modal-backdrop').remove();
+                $('#unprocessedOrders').html((<%= @order_count %> - 1));
+            }
+            
+            var orders = document.querySelector('#orderRequests').children.length;
+            if (orders == 0) {
+                $('#orderRequests').html(`
+                    <div class="text-center col-md-12" id="loadingOrders">
+                        <span>
+                            <i class="fa fa-spinner fa-pulse fa-3x fa-fw theme-color"
+                                style="font-size: 50px;">
+                            </i>
+                        </span><br />
+                        <p>Waiting for new orders</p>
+                    </div>
+                `);
+            }
+        });
+    }).catch((error) => {
+        toastr.warning('Failed to perform this operation. Please try again');
+    });
 }

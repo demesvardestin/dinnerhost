@@ -1,0 +1,239 @@
+<style>
+    #main-body {
+        padding-left: 0;
+        padding-right: 0;
+        margin: 0;
+    }
+    #body {
+        margin-top: 0 !important;
+        padding-top: 75px;
+    }
+    footer {
+        display: none;
+    }
+</style>
+
+<div class="modal <%= store_is_closed(@store) %>" id="deliveryHours" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content box-shadow batch-list">
+        <div class="modal-header">
+            <h5 class="modal-title">Business Hours</h5>
+            <a class="close" data-dismiss="modal" aria-label="Close" onclick="$('#deliveryHours').remove();">
+              <span aria-hidden="true"><i class="fa fa-times-circle"></i></span>
+            </a>
+        </div>
+        <div class="modal-body" style="padding-top: 20px !important;">
+            <% if store_is_closed(@store) == 'show' %>
+                <div class="alert alert-danger alert-dismissible fade show font-16" role="alert">
+                    This store is currently closed
+                    <a class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true"><i class="fa fa-times-circle"></i></span>
+                    </a>
+                </div>
+            <% end %>
+            <div class="float-left" style="width: 33.3%;">
+                <% ['Monday', 'Tuesday', 'Wednesdday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].each do |day| %>
+                    <p class="font-16 add-margin-bottom <%= current_day?(day) %>"><%= day %></p>
+                <% end %>
+            </div>
+            <div class="float-left" style="width: 66.6%;">
+                <% ['Monday', 'Tuesday', 'Wednesdday', 'Thursday', 'Friday'].each do |day| %>
+                    <p class="font-16 add-margin-bottom <%= current_day?(day) %>"><%= @store.weekday_hours %></p>
+                <% end %>
+                <p class="font-16 add-margin-bottom <%= current_day?('Saturday') %>"><%= @store.saturday_hours %></p>
+                <p class="font-16 add-margin-bottom <%= current_day?('Sunday') %>"><%= @store.sunday_hours %></p>
+            </div>
+            <div class="row" style="width: 100%;">
+                <div class="col-md-12 add-padding-top">
+                    <p class="font-16 theme-yellow">Holiday hours may vary</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="contactInfo" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content box-shadow batch-list">
+        <div class="modal-header">
+            <h5 class="modal-title">Contact Info</h5>
+            <a class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true"><i class="fa fa-times-circle"></i></span>
+            </a>
+        </div>
+        <div class="modal-body text-center" style="padding-top: 20px !important;">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="font-16 bold">Pharmacist</p>
+                    <p class="font-16"><%= @store.supervisor %></p>
+                </div>
+                <div class="col-md-12">
+                    <p class="font-16 bold">Phone</p>
+                    <p class="font-16"><%= @store.phone %></p>
+                </div>
+                <div class="col-md-12">
+                    <p class="font-16 bold">Email</p>
+                    <p class="font-16"><%= @store.email %></p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<section id="storeShowHeader" class="no-border-radius no-margin-bottom" style='height: 250px; background-image: url("<%= @store.banner_image %>"); background-size: cover; filter: brightness(70%);'></section>
+<div style="">
+    <div id="store-banner-div" style="height: 275px;">
+        <div class="container store-banner mobile-container" style="margin-top: -275px; max-height: 100%;">
+            <div class="row">
+                <div class="col-md-7">
+                    <h2 class="bold white" style="margin-top: 20px;"><%= @store.name %> <span class="badge badge-primary font-16"><%= delivery_tag(@store) %></span></h2>
+                    <p class="font-17 white" style="margin-top: 30px; margin-bottom: 10px;">
+                        <i class="fa fa-map-marker"></i> <%= @store.full_address %> (<%= @distance %> mi)
+                    </p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-light font-14" data-toggle="modal" data-target="#deliveryHours">
+                                <i class="fa fa-clock-o"></i> Business Hours
+                            </button>
+                            <button class="btn btn-light font-14" data-toggle="modal" data-target="#contactInfo">
+                                <i class="fa fa-info-circle"></i> Contact Info
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section id="storeItemsSearch">
+    <div class="jumbotron no-border-radius" style="padding-top: 0px; padding-bottom: 0;">
+        <div class="container mobile-container no-horizontal-mobile-padding">
+            <div class="row">
+                <div class="col-md-4 nbrm no-horizontal-mobile-padding" style="padding-top: 15px; padding-bottom: 15px; border-right: 1px solid #e1e1e2;">
+                    <form action="/item_search" method="get" id="itemSearchForm">
+                        <div class="input-group mb-3" style="margin-bottom: 0 !important;">
+                            <input class="form-control font-16 no-box-shadow search-value background-transparent no-border" style="margin-top: 0 !important; padding-left: 0;"
+                                id="searchInPage" placeholder="Search an item" onkeyup="searchItems()">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text background-transparent prepend-box no-border no-horizontal-padding" id="basic-addon1">
+                                    <i class="fa fa-search"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                    <button type="button" style="display: none;">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="inPageSearchCount" style="display: none;">
+    <div class="container">
+        <div class="alert alert-primary" role="alert">
+            <p class="font-16" id="pageSearchTotal" style="margin-bottom: 0;"></p>
+        </div>
+    </div>
+</section>
+
+<section id="inventory" style="padding-bottom: 20px;">
+    <div class="container">
+        <div class="row" id="storeItems"></div>
+    </div>
+</section>
+
+<script>
+    var data = {
+        "type": "store-items",
+        "storeID": <%= params[:id] %>
+    };
+    
+    readShopperDataFromFirestore(data, "storeItems");
+    
+    function getItemCount(id) {
+        return $('#itemCount'+id).text();
+    }
+    
+    function increaseItemCount(elem) {
+        var id = elem.id;
+        var decreaseCount = document.getElementsByClassName('decrease-item-count'+id)[0];
+        var count = getItemCount(id);
+        $('#itemCount'+id).html(parseInt(count) + 1);
+        if (document.getElementsByClassName('decrease-item-count'+id)[0].hasAttribute('disabled')) {
+            document.getElementsByClassName('decrease-item-count'+id)[0].removeAttribute('disabled');
+            document.getElementsByClassName('add-to-cart'+id)[0].removeAttribute('disabled');
+        }
+    }
+    
+    function decreaseItemCount(elem) {
+        var id = elem.id;
+        var decreaseCount = document.getElementsByClassName('decrease-item-count'+id)[0];
+        var count = getItemCount(id);
+        $('#itemCount'+id).html(parseInt(count) - 1);
+        if (count - 1 == 0) {
+            document.getElementsByClassName('decrease-item-count'+id)[0].setAttribute('disabled', 'true');
+            document.getElementsByClassName('add-to-cart'+id)[0].setAttribute('disabled', 'true');
+        }
+    }
+    
+    function searchItems() {
+        var value = document.getElementById('searchInPage').value;
+        console.log('search triggered', value);
+        
+        $('.store-item').hide();
+        
+        var input = value.toLowerCase();
+        var itemList = document.getElementsByClassName('store-item-name');
+        
+        // var items = [];
+        for (i = 0; i < itemList.length; i++) {
+            var id = itemList[i].id;
+            console.log(id);
+            var name = $('#' + id).text().toLowerCase();
+            
+            if (input.includes(name) || name.includes(input)) {
+                $('#store-item' + id.split('_')[1]).show();
+            }
+        }
+        
+    }
+    
+    function addToCart(elem) {
+        var id = elem.id;
+        var price = $('#item-price' + id).text();
+        var size = $('#item-size' + id).text();
+        var taxable = $('#item-taxable' + id).text();
+        var name = $('#item-name' + id).text();
+        var tempId = $('#tempId').text();
+        var count = $('#itemCount' + id).text();
+        var cart = {
+            "item_id": id,
+            "item_count": count,
+            "item_price": price,
+            "item_size": size,
+            "temp_id": tempId,
+            "item_name": name,
+            "item_taxable": taxable,
+            "store_id": <%= params[:id] %>
+        }
+        var cartItemCount = $('#currentItemCount').text();
+        $('.add-to-cart' + id).css('opacity', '0.7')
+        .html('adding to cart...');
+        $.post('/add_item_to_cart', {cart: cart});
+    }
+    
+    function removeFromCart(elem) {
+        var id = elem.id;
+        var tempId = $('#tempId').text();
+        var count = $('#setForRemoval'+id).text();
+        var cart = {
+            "item_id": id,
+            "temp_id": tempId
+        }
+        var cartItemCount = $('#currentItemCount').text();
+        $('.remove-from-cart'+id).css('opacity', '0.7')
+        .html('removing from cart...');
+        $.post('/remove_item_from_cart', {cart: cart});
+    }
+    
+</script>

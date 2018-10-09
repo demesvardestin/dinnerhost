@@ -1,0 +1,302 @@
+var config = {
+    apiKey: "AIzaSyDtkPxyakU5Nb1YO6daAGGytItWoeNL5vM",
+    authDomain: "senzzu-d2fbe.firebaseapp.com",
+    databaseURL: "https://senzzu-d2fbe.firebaseio.com",
+    projectId: "senzzu-d2fbe",
+    storageBucket: "senzzu-d2fbe.appspot.com",
+    messagingSenderId: "312266021503"
+};
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+}
+
+var firestore = firebase.firestore();
+var settings = {timestampsInSnapshots: true};
+firestore.settings(settings);
+
+var type = "<%= @type %>"
+var count = 0;
+
+if (type === "checkout") {
+    firestore.collection('shoppers').get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            if (doc.id === "<%= @shopper_id %>") {
+                $('#shopperInfo').html(`
+                    <input type="text" class="form-control" placeholder="Your full address" id="address">
+                    <input type="text" class="form-control" placeholder="Your apartment number (if any)" id="apt-number">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Your name" id="contact-name">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Your phone number" id="phone-number">
+                        </div>
+                    </div>
+                    <textarea class='form-control no-box-shadow font-15' placeholder="Delivery instructions" style="height: 100px;" id="delivery-instructions"></textarea>
+                `);
+                document.getElementById('address').value = doc.data().address;
+                document.getElementById('phone-number').value = doc.data().phone;
+                document.getElementById('contact-name').value = doc.data().name;
+                document.getElementById('apt-number').value = doc.data().apartment_number;
+                $('#uid').html(doc.id);
+                $('#email').html(doc.data().email);
+            }
+        })
+    });
+} else if (type === "shopper-categories") {
+    var categories = [];
+    console.log('here');
+    firestore.collection('categories').get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            var name = doc.data().name.split(' ').join('-');
+            $('#allCategories').append(`
+                <a class="dropdown-item theme-blue cursor-pointer" id=` + name +
+                ` href=` + "#" + name.split('-').join('_') + ` >` + doc.data().name + `</a><div class="dropdown-divider"></div>
+            `);
+        })
+    });
+} else if (type === "shoppers") {
+    
+    firestore.collection("shoppers")
+    .get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            if (doc.id === "<%= @shopper_id %>") {
+                count += 1;
+                var name = doc.data().name || '';
+                var email = doc.data().email || '';
+                var phone = doc.data().phone || '';
+                var address = doc.data().address || '';
+                var aptNumber = doc.data().apartment_number || '';
+                var id = doc.id;
+                $('#accountDetailsLines').html(`
+                    <div class="col-md-12">
+                        <form id="accountDetailsForm" data-remote="true">
+                            <label class="bold add-margin-top">Name</label class="bold add-margin-top">
+                            <input type="text" class="form-control add-margin-bottom" id="accountName" value=` + name + `>
+                            <label class="bold add-margin-top">Email</label class="bold add-margin-top">
+                            <input type="email" class="form-control add-margin-bottom" id="accountEmail" value=` + email + `>
+                            <label class="bold add-margin-top">Phone number</label class="bold add-margin-top">
+                            <input type="text" class="form-control add-margin-bottom" id="accountPhone" value=` + phone + `>
+                            <label class="bold add-margin-top">Full address</label class="bold add-margin-top">
+                            <input type="text" class="form-control add-margin-bottom" id="accountAddress" value=` + "'" + address + "'" + `>
+                            <label class="bold add-margin-top">Apartment number (if any)</label class="bold add-margin-top">
+                            <input type="text" class="form-control add-margin-bottom" id="accountAptNumber" value=` + "'" + aptNumber + "'" + `>
+                            <input type="hidden" class="form-control add-margin-bottom" id="accountID" value=` + id + `>
+                            <button type="submit" class="btn btn-primary height-55 white" id="updateShopperBtn" onclick="updateShopper('<%= @shopper_id %>')">
+                                Update account details
+                            </button>
+                        </form>
+                    </div>
+                `);
+            }
+        });
+        
+        if (count == 0) {
+            $('#accountDetailsLines').html(`
+                <div class="col-md-12">
+                    <form id="accountDetailsForm" data-remote="true">
+                        <label class="bold add-margin-top">Name</label class="bold add-margin-top">
+                        <input type="text" class="form-control add-margin-bottom" id="accountEmail" placeholder="name">
+                        <label class="bold add-margin-top">Email</label class="bold add-margin-top">
+                        <input type="email" class="form-control add-margin-bottom" id="accountEmail" placeholder="email">
+                        <label class="bold add-margin-top">Phone number</label class="bold add-margin-top">
+                        <input type="text" class="form-control add-margin-bottom" id="accountPhone" placeholder="phone number">
+                        <label class="bold add-margin-top">Full address</label class="bold add-margin-top">
+                        <input type="text" class="form-control add-margin-bottom" id="accountAddress" placeholder="full address">
+                        <label class="bold add-margin-top">Apartment number (if any)</label class="bold add-margin-top">
+                        <input type="text" class="form-control add-margin-bottom" id="accountAptNumber" placeholder="apartment number">
+                        <input type="hidden" class="form-control add-margin-bottom" id="accountID" value="<%= @shopper_id %>">
+                        <button type="submit" class="btn btn-primary white height-55" id="updateShopperBtn" onclick="updateShopper('<%= @shopper_id %>')">
+                            Update account details
+                        </button>
+                    </form>
+                </div>
+            `);
+        }
+    })
+    .catch(function(error) {
+        console.error(error);
+    });
+} else if (type === "shopper-order-history") {
+    firestore.collection("orders").where("shopper_id", "==", "<%= @shopper_id %>")
+    .get().then((docs) => {
+        $('#shopper-order-history').empty();
+        docs.forEach((doc) => {
+            console.log('hey');
+            var confirmation = doc.data().confirmation;
+            var total = doc.data().total;
+            var details = doc.data().details;
+            var token = doc.data().token || '';
+            var cartId = doc.data().cart_id || '';
+            var storeId = doc.data().store_id;
+            var imageLink = 
+            `"https://firebasestorage.googleapis.com/v0/b/senzzu-d2fbe.appspot.com/o/stores%2F` + storeId + `%2Fbanner_image%2F10496048_188082491570780_555656591835617239_o.jpg?alt=media&token=3046ec04-4e75-4743-abca-710ed6da23fe"`;
+            $('#shopper-order-history').append(`
+                <div class='col-md-3'>
+                    <div class="card cursor-pointer add-margin-bottom" onclick=` + "window.location.replace('/carts/" + cartId + "/" + confirmation + "/" + token + "?confirmed=true')" + `>
+                        <div class="card-header" style=` + "'background-image: url(" + imageLink + "); background-size: cover; height: 120px;'" + `></div>
+                        <div class="card-body" style="padding: 0.75rem 1.25rem;">
+                            <h6>` + doc.data().store_name + `</h6>
+                            <hr style="margin-bottom: 15px;">
+                            <p class="bold font-15">#` + confirmation + `</p>
+                            <hr style="margin-bottom: 15px;">
+                            <div id=` + "order-history-card-items" + confirmation + `></div>
+                        </div>
+                        <div class="card-footer">
+                            <p class="bold theme-green font-15">$` + parseFloat(total).toFixed(2) + `</p>
+                        </div>
+                    </div>
+                </div>
+            `);
+            
+            for (i = 0; i < details.quantities_ordered.length; i++) {
+                var quantity = doc.data().details.quantities_ordered[i];
+                var item = doc.data().details.items_ordered[i];
+                $('#order-history-card-items' + confirmation).append(`
+                    <p class="orderItemLine font-15">
+                        <span class="quantity">` + quantity + `</span>
+                        <span class="order_line_item">` + item.slice(0, 20) + `</span>
+                    </p>
+                `);
+            }
+        });
+    });
+} else if (type === "store-items") {
+    <% if @store %>
+        console.log('hi');
+        $('#storeItems').empty();
+        var itemList = "<%= @cart.item_list %>".split(", ");
+        var itemListCount = "<%= @cart.item_list_count %>".split(", ");
+        var cartStoreID = "<%= @cart.store_id %>" || '';
+        var storeID = "<%= @store_id %>";
+        firestore.collection('categories')
+        .get().then((docs) => {
+            docs.forEach((doc) => {
+                var category = doc.data().name;
+                firestore.collection('items')
+                .where("storeId", "==", <%= @store_id %>)
+                .get().then((items) => {
+                    $('#storeItems').append(`
+                        <div id=` + "'category-" + category.split(" ").join("_") + "'" + ` class="col-md-12" style="display: none;">
+                            <h5 class="bold">` + category + `</h5> 
+                            <hr style="margin-bottom: 15px;">
+                        </div>
+                    `);
+                    items.forEach((item) => {
+                        if (item.data().category.split('-').join(' ') == category || item.data().category.split('-').join(' ') == category.split("-").join(" ")) {
+                            var index = itemList.indexOf(item.id);
+                            console.log(index);
+                            $('#category-' + category.split(" ").join("-")).show();
+                            $('#storeItems').append(`
+                                <div class="modal" id=` + "itemOrderDetails" + item.id  + ` tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog" role="document">
+                                    <div class="modal-content" id=` + "modalContent" + "'" + item.id + "'" + `>
+                                      <div class="modal-header background-transparent theme-border-bottom">
+                                        <h4 class="modal-title theme-color" id=""><span id=` + "item-name" + item.id + `>` + item.data().name + ` </span>
+                                        </h4>
+                                        <a class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true"><i class="fa fa-times-circle theme-color"></i></span>
+                                        </a>
+                                      </div>
+                                      <div class="modal-body" id=` + "modalBody" + item.id + `>
+                                            <p class="theme-green font-16 add-margin-bottom" id=` + 'chosenSizePrice' + item.id + `>` + (item.data().sizes_and_prices ? '' : '$' + item.data().price + ' - ' + item.data().size) + ` </p>
+                                            <div id=` + 'availableSizes' + item.id + ` class="row"></div>
+                                            <p style="display: none;" id=` + "item-price" + item.id + `>` + (item.data().sizes_and_prices ? '' : item.data().price) + ` </p>
+                                            <p style="display: none;" id=` + "item-size" + item.id + `>` + (item.data().sizes_and_prices ? '' : item.data().size) + ` </p>
+                                            <p style="display: none;" id=` + "item-taxable" + item.id + `>` + item.data().taxable + `</p>
+                                            <div id="itemImageContainer" style="margin-bottom: 15px;"></div>
+                                            <p class="font-16">` + item.data().description + `</p>
+                                      </div>
+                                      <div class="modal-footer" id=` + "modalFooter" + item.id + `></div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-6 store-item" id=` + "store-item" + item.id + ` style="padding-bottom: 30px;">
+                                    <div class="card">
+                                        <a class="background-transparent no-underline cursor-pointer" <% if @store.is_not_related_to(current_cart) %>disabled<% end %> data-toggle="modal" data-target=` + "#itemOrderDetails" + item.id + `>
+                                            <div class="card-body">
+                                                <p class="font-16 no-margin-bottom store-item-name" style="font-weight: 600;" id=` + "store-item-name_" + item.id + ` >`+ item.data().name + `</p>
+                                                <p class="font-15 light">` + (item.data().sizes_and_prices ? 'Pick a size' : item.data().size) + ` </p>
+                                                <p class="font-16 theme-green no-margin-bottom add-margin-top">` + (item.data().sizes_and_prices ? 'Price TBD' : '$' + item.data().price) + ` </p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            `);
+                            
+                            if (item.data().sizes_and_prices) {
+                                $('#availableSizes' + item.id).append(`
+                                    <div class="col-md-12">
+                                        <h6 id=` + "pickSize" + item.id + `>Pick a size:</h6>
+                                        <hr style="margin-bottom: 15px;">
+                                    </div>
+                                `);
+                                $('#pickSize' + item.id).show();
+                                var sNP = item.data().sizes_and_prices;
+                                var object = Object.keys(sNP);
+                                for (i = 0; i < object.length; i++) {
+                                    var size_ = object[i];
+                                    var price_ = sNP[size_];
+                                    $('#availableSizes' + item.id).append(`
+                                        <div style="padding: 0 7px 0 15px; display: block !important;" id=`+ 'sizeSample' + size_ + `>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text font-13 background-white theme-color">` + size_ + '  (' + price_ + ')' + `</span>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <span style="display: none;" id=` + "priceChosen" + item.id + '-' + i + `>` + price_ + `</span>
+                                                    <span style="display: none;" id=` + "sizeChosen" + item.id + '-' + i + `>` + size_ + `</span>
+                                                    <span class="input-group-text font-13 cursor-pointer choose-size" onclick="selectSize(this)" id=` + item.id + '-' + i + `><i class="fa fa-check-circle light"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `);
+                                }
+                            }
+                            
+                            firebase.auth().onAuthStateChanged(function(user) {
+                                if (user) {
+                                    if (itemList.includes(item.id)) {
+                                        $('#modalFooter' + item.id).html(`
+                                            <button class=` + "'" + "btn btn-danger no-box-shadow remove-from-cart" + item.id + "'" + ` id=` + item.id + ` onclick="removeFromCart(this)">
+                                                <i class="fa fa-times-circle"></i> Remove (<span id=` + "setForRemoval" + item.id + ` >` + itemListCount[index] + `</span>) from cart
+                                            </button>
+                                        `);
+                                    } else if (storeID != cartStoreID && itemList.length > 1) {
+                                        $('#modalFooter' + item.id).html(`
+                                            <a class="theme-color cursor-pointer underline" id=` + item.id + ` onclick="window.location.href='<%= checkout_link %>'">
+                                                You have an incomplete order from <%= current_cart.get_store.name if !current_cart.get_store.nil? %>
+                                            </a>
+                                        `);
+                                    } else {
+                                        $('#modalFooter' + item.id).html(`
+                                            <div class="text-left">
+                                                <button class=` + "'" + "btn btn-secondary no-box-shadow decrease-item-count" + item.id + "'" + ` id=` + item.id + ` style="padding-left: 15px; padding-right: 15px;"
+                                                    disabled="true" onclick="decreaseItemCount(this);">-</button>
+                                                <span id=` + "itemCount" + item.id + ` class="font-16 bold text-center radius-5"
+                                                    style="margin-left: 5px; margin-right: 5px; border: 1px solid #e1e1e2; padding: 11px 15px; vertical-align: middle; font-size: 14px; line-height: 1.5;">
+                                                    0</span>
+                                                <button class=` + "'" + "btn btn-secondary no-box-shadow add-item-count" + item.id + "'" + ` id=` + item.id + ` style="padding-left: 15px; padding-right: 15px;"
+                                                    onclick="increaseItemCount(this);">+</button>
+                                            </div>
+                                            <button class=` + "'" + "btn btn-primary no-box-shadow add-to-cart" + item.id + "'" + ` id=` + item.id + ` disabled onclick="addToCart(this)">
+                                                <i class="fa fa-plus-circle"></i> Add to cart
+                                            </button>
+                                        `);
+                                    }
+                                } else {
+                                    $('#modalFooter' + item.id).html(`
+                                        <button class="btn btn-primary white no-box-shadow" data-toggle="modal" data-target="#shopperAuthentication">
+                                            Login to add items to your cart
+                                        </button>
+                                    `);
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        });
+    <% end %>
+}

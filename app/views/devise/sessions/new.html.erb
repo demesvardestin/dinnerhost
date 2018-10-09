@@ -1,14 +1,17 @@
-<section id="store-login">
+<section id="store-login" class="container" style="margin-bottom: 75px;">
   <div class="row">
-    <div class="col-md-6 offset-md-6">
-      <div class="card">
+    <!--<div class="col-md-6" style="background-image: url('https://s3.us-east-2.amazonaws.com/senzzu/store_login_banner.png'); background-size: cover; height: 500px;">-->
+      
+    <!--</div>-->
+    <div class="col-md-6 offset-md-3">
+      <!--<h1 align="center" style="margin-bottom: 20px;" class="bold">Welcome back!</h1>-->
+      <div class="card box-shadow theme-border">
+        <div class="card-header theme-background">
+          <h4 align="center" class="bold white">Welcome back!</h4>
+        </div>
         <div class="card-body">
-          <div class="header">
-            <h5 class="text-center medium-gray">Store login</h5>
-            <hr style="text-align: center; width: 25%;">
-          </div>
           <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-            <div class="form-inputs">
+            <div class="form-inputs" style="vertical-align: middle !important;">
               <% if !devise_error_messages!.empty? %>
                 <div id="error_explanation">
                   <ul>
@@ -18,21 +21,21 @@
               <% end %>
               
               <div class="field">
-                <%= f.email_field :email, required: true, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"Email", input_html: { autocomplete: 'email' } %>
+                <%= f.email_field :email, required: true, class:"form-control height-55 no-box-shadow", autofocus: true, placeholder:"Email", input_html: { autocomplete: 'email' } %>
               </div>
             
               <div class="field">
-                <%= f.password_field :password, required: false, class:"form-control height-50 no-box-shadow", input_html: { autocomplete: "current-password" }, placeholder:"Password" %>
+                <%= f.password_field :password, required: false, class:"form-control height-55 no-box-shadow", input_html: { autocomplete: "current-password" }, placeholder:"Password" %>
               </div>
             
               <div class="actions" style="margin-top: 10px;">
                 <div class="row">
                   <div class="col-md-12">
-                    <%= f.submit "Log in", class:"btn btn-primary btn-block box-shadow height-50 log-in", id:"logIn" %>
+                    <%= f.submit "Log in", class:"btn btn-primary btn-block height-55 log-in no-box-shadow", id:"logIn" %>
                   </div>
                   <div class="col-md-12 add-padding-top text-center">
-                    <%= link_to "Don't have an account? Register here", register_a_store_path, class:"background-transparent theme-blue font-16 display-block" %>
-                    <%= link_to "Forgot your password?", store_retrieve_password_path, class:"background-transparent theme-blue font-16 display-block" %>
+                    <%= link_to "Don't have an account? Register here", register_a_store_path, class:"background-transparent theme-blue font-16 display-block", onclick:"window.location.replace('/register-a-store');" %>
+                    <%= link_to "Forgot your password?", store_retrieve_password_path, class:"background-transparent theme-blue font-16 display-block", onclick:"window.location.replace('/store/retrieve-password');" %>
                   </div>
                 </div>
               </div>

@@ -1,0 +1,86 @@
+<style>
+    footer {
+        display: none;
+    }
+    #body {
+        margin-top: 0;
+        padding-top: 75px;
+    }
+</style>
+
+<div class="jumbotron no-border-radius" style="padding-top: 0px; padding-bottom: 0;">
+    <div class="container no-mobile-container">
+        <div class="col-md-6 no-horizontal-padding" style="padding-top: 10px; padding-bottom: 10px;">
+            <form id="storeSearchForm" data-remote="true">
+                <div class="input-group mb-3" style="margin-bottom: 0 !important;">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text background-transparent prepend-box no-border no-horizontal-padding" id="basic-addon1">
+                        <i class="fa fa-search"></i>
+                    </span>
+                  </div>
+                  <input class="form-control no-box-shadow background-transparent no-border" required="true" style="margin-top: 0 !important;" id="new-store-search"
+                        placeholder="Enter an address..." <% if params[:q] %>value="<%= params[:q] %>"<% end %>>
+                </div>
+                <button type="submit" style="display: none;">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+<section id="allStores">
+    <% if !@stores.empty? %>
+        <div class="container">
+            <div class="row">
+                <% @stores.each do |store| %>
+                    <div class="col-md-4" style="margin-bottom: 20px;">
+                        <a class="background-transparent no-underline cursor-pointer platform-color" onclick="window.location.href='/stores/<%= store.id %>'">
+                            <div class="card" style="background-image: url('<%= store.banner_image %>'); background-size: cover; height: 160px;"></div>
+                            <h6 class="" style="margin-top: 15px; margin-bottom: 5px;"><%= store.name %> <span class="badge badge-primary"><%= store.category || "drugstore" %></span></h6>
+                            <p class="font-15">
+                                <span class="badge badge-primary">
+                                    $<%= logistics_details_for(store) %> minimum
+                                </span> &bull;
+                                <span>
+                                    45-60mns
+                                </span>
+                            </p>
+                        </a>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    <% else %>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3 text-center add-padding-top add-margin-top">
+                    <img src="/images/store-icon.jpg" height="200">
+                    <h6 class="dark">
+                        Oops, looks like we aren't in your neighborhood yet. But hang
+                        tight, we're actively working with new stores, and we should be
+                        around very shortly!
+                    </h6>
+                </div>
+            </div>
+        </div>
+    <% end %>
+</section>
+
+
+<script>
+    $('#storeSearchForm').on('submit', function() {
+        var search = document.getElementById('new-store-search').value;
+        var data = {
+            "search": search
+        };
+        $('#allStores').html(`
+            <div class="text-center col-md-12" id="loadingOrders">
+                <span>
+                    <i class="fa fa-spinner fa-pulse fa-3x fa-fw theme-color"
+                        style="font-size: 50px;">
+                    </i>
+                </span><br />
+                <p>Searching stores</p>
+            </div>
+        `);
+        $.get('/search_store', { data: data });
+    });
+</script>

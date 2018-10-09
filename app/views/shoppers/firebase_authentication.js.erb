@@ -1,0 +1,208 @@
+var config = {
+    apiKey: "AIzaSyDtkPxyakU5Nb1YO6daAGGytItWoeNL5vM",
+    authDomain: "senzzu-d2fbe.firebaseapp.com",
+    databaseURL: "https://senzzu-d2fbe.firebaseio.com",
+    projectId: "senzzu-d2fbe",
+    storageBucket: "senzzu-d2fbe.appspot.com",
+    messagingSenderId: "312266021503"
+};
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+}
+
+var firestore = firebase.firestore();
+var settings = {timestampsInSnapshots: true};
+firestore.settings(settings);
+
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+    
+        var url_string = window.location.href;
+        var url = new URL(url_string);
+        var shopper_id = url.searchParams.get("shopper_id");
+        
+        if (shopper_id && user.uid != shopper_id) {
+            window.location.replace('/');
+        }
+        
+        if (url_string.includes('checkout')) {
+            var data = {
+                "type": "checkout",
+                "shopperID": user.uid
+            };
+            
+            readShopperDataFromFirestore(data);
+        }
+        
+        if (!url_string.includes('order-history')) {
+            var data = {
+                "type": "shopper-order-history",
+                "shopperID": user.uid
+            };
+            $("#someDetails").hide();
+            $('#shopper-order-history-1').append(`
+                <div class="text-center col-md-12" id="loadingAccountDetails">
+                    <span>
+                        <i class="fa fa-spinner fa-pulse fa-3x fa-fw theme-color"
+                            style="font-size: 50px;">
+                        </i>
+                    </span><br />
+                    <p>Loading details</p>
+                </div>
+            `).show();
+            firestore.collection("orders").where("shopper_id", "==", user.uid)
+            .get().then((docs) => {
+                $("#loadingAccountDetails").remove();
+                docs.forEach((doc) => {
+                    console.log('hey');
+                    var confirmation = doc.data().confirmation;
+                    var total = doc.data().total;
+                    var details = doc.data().details;
+                    var token = doc.data().token || '';
+                    var cartId = doc.data().cart_id || '';
+                    var storeId = doc.data().store_id;
+                    var imageLink = 
+                    `"https://firebasestorage.googleapis.com/v0/b/senzzu-d2fbe.appspot.com/o/stores%2F` + storeId + `%2Fbanner_image%2F10496048_188082491570780_555656591835617239_o.jpg?alt=media&token=3046ec04-4e75-4743-abca-710ed6da23fe"`;
+                    $('#shopper-order-history-1').append(`
+                        <div class='col-md-3'>
+                            <div class="card cursor-pointer add-margin-bottom">
+                                <div class="card-header" style=` + "'background-image: url(" + imageLink + "); background-size: cover; height: 120px;'" + `></div>
+                                <div class="card-body" style="padding: 0.75rem 1.25rem;">
+                                    <h6>` + doc.data().store_name + `</h6>
+                                    <hr style="margin-bottom: 15px;">
+                                    <p class="bold font-15">#` + confirmation + `</p>
+                                    <hr style="margin-bottom: 15px;">
+                                    <div id=` + "order-history-card-items" + confirmation + `></div>
+                                </div>
+                                <div class="card-footer">
+                                    <p class="bold theme-green font-15 float-left">$` + parseFloat(total).toFixed(2) + `</p>
+                                    <a class="btn btn-primary float-right white" onclick=` + '$.get("/reorder?cart_id=' + cartId + '");' + `>
+                                        reorder
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    
+                    for (i = 0; i < details.quantities_ordered.length; i++) {
+                        var quantity = doc.data().details.quantities_ordered[i];
+                        var item = doc.data().details.items_ordered[i];
+                        $('#order-history-card-items' + confirmation).append(`
+                            <p class="orderItemLine font-15">
+                                <span class="quantity">` + quantity + `</span>
+                                <span class="order_line_item">` + item.slice(0, 20) + `</span>
+                            </p>
+                        `);
+                    }
+                });
+            });
+        }
+        
+        <!--Set important constants-->
+        const uid = user.uid;
+        const email = user.email;
+        
+        
+        <!--Remove some elements-->
+        $('#shopperAuthentication').remove();
+        $('.modal-backdrop').remove();
+        document.getElementById('body').classList.remove('modal-open');
+        $('#body').css('padding-right', '0');
+        <!--$('footer').remove();-->
+        
+        
+        <!--Set navbar buttons-->
+        $('#mobile-toggle').html(`
+            <a class="nav-link background-transparent cursor-pointer navbar-toggler cart-toggler float-right" data-toggle="modal" data-target="#cartContent" style="border-left: 1px solid; margin-left: 10px; border-radius: 0 !important; padding-left: 8px;">
+                <span class="cart-span"><i class="fa fa-shopping-cart" style="font-size: 30px;"></i></span>
+                <span id="cartItemCount1" class="badge badge-success"><%= current_cart.item_count || 0 %></span>
+            </a>
+            <span style="display: none;" class="user-uid"></span>
+            <div class="dropdown float-right">
+                <button class="navbar-toggler btn btn-primary btn-nav nav-link white" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="shopperMyAccount">
+                    <i class="fa fa-user"></i> Account <span id="shopperID" style="display: none;">` + uid + `</span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="shopperMyAccount">
+                    <a class="background-transparent dropdown-item cursor-pointer"
+                        onclick=` + "window.location.href='/shoppers/" + uid + "/<%= @token %>/account/settings?current_shopper=true&method=browser'" + `>
+                        Settings
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="background-transparent dropdown-item cursor-pointer"
+                        onclick=` + "window.location.href='/shoppers/" + uid + "/<%= @token %>/order-history?current_shopper=true&method=browser'" + `>
+                        Order history
+                    </a>
+                    <!--<div class="dropdown-divider"></div>-->
+                    <!--<a class="background-transparent dropdown-item cursor-pointer"-->
+                    <!--    onclick=` + "window.location.href='/shoppers/" + uid + "/<%= @token %>/order-history?current_shopper=true&method=browser'" + `>-->
+                    <!--    Help-->
+                    <!--</a>-->
+                    <div class="dropdown-divider"></div>
+                    <a class="background-transparent dropdown-item cursor-pointer"
+                        onclick="signOut();">
+                        Logout
+                    </a>
+                </div>
+            </div>
+        `);
+        $('.navbar-links').html(`
+            <li class="nav-item user-uid">
+                <div class="dropdown">
+                    <button class="btn btn-primary btn-nav nav-link white" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="shopperMyAccount">
+                        Account <i class="fa fa-angle-down"></i> <span id="shopperID" style="display: none;">` + uid + `</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="shopperMyAccount">
+                        <a class="background-transparent dropdown-item cursor-pointer"
+                            onclick=` + "window.location.href='/shoppers/" + uid + "/<%= @token %>/account/settings?current_shopper=true&method=browser&senzzu_token=" + uid + "'" + `>
+                            Settings
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="background-transparent dropdown-item cursor-pointer"
+                            onclick=` + "window.location.href='/shoppers/" + uid + "/<%= @token %>/order-history?current_shopper=true&method=browser&senzzu_token=" + uid + "'" + `>
+                            Order history
+                        </a>
+                        <!--<div class="dropdown-divider"></div>-->
+                        <!--<a class="background-transparent dropdown-item cursor-pointer"-->
+                        <!--    onclick=` + "window.location.href='/shoppers/" + uid + "/<%= @token %>/order-history?current_shopper=true&method=browser&senzzu_token=" + uid + "'" + `>-->
+                        <!--    Help-->
+                        <!--</a>-->
+                        <div class="dropdown-divider"></div>
+                        <a class="background-transparent dropdown-item cursor-pointer"
+                            onclick="signOut();">
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link background-transparent cursor-pointer" data-toggle="modal" data-target="#cartContent" style="border-left: 1px solid; padding-left: 15px;">
+                    <span class="cart-span"><i class="fa fa-shopping-cart" style="font-size: 20px;"></i></span>
+                    <span id="cartItemCount" class="badge badge-success"><%= current_cart.item_count || 0 %></span>
+                </a>
+            </li>
+        `);
+        
+        $('.user-uid').prepend(`<span class="uid" style="display: none;">` + uid + `</span>`);
+        
+    } else {
+    
+        var url = window.location.href;
+        if (url.includes("shoppers") || url.includes("senzzu_token")) {
+            $('#main-body').remove();
+        }
+        
+        $('.navbar-links').html(`
+            <li class="nav-item">
+                <button class="btn btn-light btn-nav nav-link btn-white" data-toggle="modal" data-target="#shopperAuthentication">
+                    Shopper Login/Signup
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="btn btn-primary btn-nav nav-link white" onclick="window.location.replace('/store/login');">
+                    Store Login/Signup
+                </button>
+            </li>
+        `);
+    }
+});

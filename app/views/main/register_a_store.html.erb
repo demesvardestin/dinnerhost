@@ -1,0 +1,42 @@
+<div class="jumbotron no-border-radius" style="height: 300px; margin-bottom: 0; margin-top: -30px; background-image: url('https://s3.us-east-2.amazonaws.com/senzzu/register_store.jpg'); background-size: cover;">
+
+</div>
+<section id="storeForm" class="row" style="margin-top: -225px; margin-bottom: 50px;">
+    <div class="col-md-4 offset-md-4">
+        <div class="card box-shadow">
+            <div class="card-body">
+                <h5 class="text-center register-store">Register your store</h5>
+                <span id="form">
+                    <%= form_for(@registration, :html => {:id => "registrationRequestForm", :multipart => true, :remote => true}) do |f| %>
+                        <% if @registration.errors.any? %>
+                            <div id="error_explanation">
+                                <h5><%= pluralize(@registration.errors.count, "error") %> found:</h5>
+                        
+                                <ul>
+                                    <% @registration.errors.full_messages.each do |message| %>
+                                        <li><%= message %></li>
+                                    <% end %>
+                                </ul>
+                            </div>
+                        <% end %>
+                        <%= f.text_field :store_name, class:"form-control height-55 no-box-shadow add-margin-top", id:"storeName", placeholder:"Store name", required: true %>
+                        <%= f.email_field :store_email, class:"form-control height-55 no-box-shadow add-margin-top", id:"storeEmail", placeholder:"Store email", required: true %>
+                        <%= f.text_field :store_address, class:"form-control height-55 no-box-shadow add-margin-top", id:"storeAddress", placeholder:"Store address", required: true %>
+                        <%= f.text_field :store_phone, class:"form-control height-55 no-box-shadow add-margin-top", id:"storePhone", placeholder:"Store phone number", required: true %>
+                        <%= f.text_field :store_manager, class:"form-control height-55 no-box-shadow add-margin-top", id:"storeManager", placeholder:"Store manager/supervisor", required: true %>
+                        <%= f.text_field :store_website, class:"form-control height-55 no-box-shadow add-margin-top", id:"storeWebsite", placeholder:"Store website", required: true %>
+                        <%= f.submit "Send registration request", class:"btn btn-primary btn-block white height-55 add-margin-top", data: { disable_with: "Please wait..." } %>
+                    <% end %>
+                </span>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <%= link_to "Log into your account", store_login_path, class:"background-transparent theme-blue font-16 display-block", onclick:"window.location.replace('/store/login');" %>
+                        <%= link_to "Forgot your password?", store_retrieve_password_path, class:"background-transparent theme-blue font-16 display-block", onclick:"window.location.replace('/store/retrieve-password');" %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

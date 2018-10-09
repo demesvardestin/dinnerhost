@@ -1,0 +1,140 @@
+<section class="container" id="earningsDashboard" style="margin-bottom: 40px;">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill"
+                    href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">
+                    Dashboard
+                </a>
+                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill"
+                    href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">
+                    Payments
+                </a>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                    <div class="card box-shadow add-margin-bottom">
+                        <div class="card-body" id="earningsGraph">
+                            <h6 class="add-margin-bottom">
+                                Daily sales (Today: <span class="bold" style="margin-left: 5px;">$<%= today_earnings.to_f.round(2) %></span>)
+                            </h6>
+                            <%= line_chart store_earnings, colors: ["#F27649", "#fff"], library: {scales: {xAxes: [{display: false}]}}, height: "200px", legend: false, messages: {empty: "No chart data available yet"}, discrete: true %>
+                        </div>
+                    </div>
+                    <div class="card box-shadow">
+                        <div class="card-body" id="earningsGraph">
+                            <h6 class="add-margin-bottom">
+                                <span class="">Analytics</span>
+                            </h6>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <button class="btn btn-link btn-block font-15 interval" id="weekly" onclick="intervalAnalytics('weekly')" style="text-decoration: underline;">
+                                        7-day interval
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-link btn-block font-15 interval" id="monthly" onclick="intervalAnalytics('monthly')">
+                                        30-day interval
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-link btn-block font-15 interval" id="annually" onclick="intervalAnalytics('annually')">
+                                        Year to date
+                                    </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-link btn-block font-15 interval" id="all-time" onclick="window.location.reload();">
+                                        Reload
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="intervalContent">
+                            <div class="card-body add-border-top">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <p class="font-15">Total orders</p>
+                                        <p class="bold"><%= week_orders.count %></p>
+                                    </div>
+                                    <div class="col-md-8 offset-md-2">
+                                        <%= line_chart week_orders_graph, colors: ["#F27649", "#fff"], height: "60px", library: {scales: {xAxes: [{display: false}]}}, messages: {empty: "No chart data available yet"}, discrete: true %>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body add-border-top">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <p class="font-15">Sales volume</p>
+                                        <p class="bold">$<%= week_volume %></p>
+                                    </div>
+                                    <div class="col-md-8 offset-md-2">
+                                        <%= line_chart week_sales_graph, colors: ["#F27649", "#fff"], height: "60px", library: {scales: {xAxes: [{display: false}]}}, messages: {empty: "No chart data available yet"}, discrete: true %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <a class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-times-circle"></i></span>
+                        </a>
+                        <p class="font-15 bold">
+                            Payouts are automatically triggered every two days. Custom payouts are not yet supported.
+                        </p>
+                    </div>
+                    <!--<div class="alert alert-primary background-transparent" role="alert">-->
+                    <!--    <span class="font-15">-->
+                    <!--        Available for payout: <span class="bold theme-green">$<%= @balance.available.first.amount %></span>-->
+                    <!--    </span>-->
+                    <!--    <span class="font-15" style="margin-left: 10px;">-->
+                    <!--        Not yet available for payout: <span class="bold theme-green">$<%= @balance.pending.first.amount %></span>-->
+                    <!--    </span>-->
+                    <!--</div>-->
+                    <div class="card box-shadow" style="max-height: 500px; overflow-y: auto;">
+                        <div class="card-header no-padding theme-background bold no-border-bottom">
+                            <div class="payment add-padding-top add-padding-bottom">
+                                <div class="row white">
+                                    <div class="col-md-1 no-padding">
+                                        <p class="font-14">Amount</p>
+                                    </div>
+                                    <div class="col-md-4 offset-md-3">
+                                        <p class="font-14">Description</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p class="font-14">Date</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body no-padding" id="payments">
+                            <% if !@payments.empty? %>
+                                <%= render partial: 'payments', locals: {payments: @payments} %>
+                            <% else %>
+                                <%= render 'no_payments' %>
+                            <% end %>
+                        </div>
+                        <div class="card-footer" id="paymentsFooter">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <p class="font-14 regular add-margin-top">Around <%= pluralize(@results, 'result') %></p>
+                                </div>
+                                <div class="col-md-3 offset-md-6">
+                                    <button class="btn btn-secondary no-box-shadow font-14 white" disabled onclick="$.get('/retrieve_earnings', {start: 0, end: 19});">Prev</button>
+                                    <% if @payments_length > 20 %>
+                                        <button class="btn btn-primary no-box-shadow font-14 white" onclick="$.get('/retrieve_earnings', {start: 20, end: 39});">Next</button>
+                                    <% else %>
+                                        <button class="btn btn-primary font-14 no-box-shadow white" disabled>Next</button>
+                                    <% end %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

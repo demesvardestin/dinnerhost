@@ -1,0 +1,29 @@
+<% payments.each do |pay| %>
+    <div class="payment add-border-bottom add-padding-top add-padding-bottom">
+        <div class="row">
+            <div class="col-md-1 no-padding">
+                <p class="font-14 dark">$<%= pay.total_cost %></p>
+            </div>
+            <div class="col-md-1">
+                <p class="font-14 light">USD</p>
+            </div>
+            <div class="col-md-2">
+                <p class="font-14 light">
+                    <span class="badge badge-success">Suceeded <i class="fa fa-check"></i></span>
+                </p>
+            </div>
+            <div class="col-md-4">
+                <p class="font-14 regular">Payment from order #<%= pay.confirmation %></p>
+            </div>
+            <div class="col-md-4">
+                <p class="font-14 regular">
+                    <% if pay.payment_type == "paid online" %>
+                        P/O on <%= (pay.created_at + 48.hours).strftime('%Y-%m-%d around %l:%M%p') %>
+                    <% else %>
+                        No P/O. In person payment
+                    <% end %>
+                </p>
+            </div>
+        </div>
+    </div>
+<% end %>

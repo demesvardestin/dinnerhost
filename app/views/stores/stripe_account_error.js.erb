@@ -1,0 +1,8 @@
+$('#order-in-process').html(`
+    The following error occurred: <%= @error %>.
+    Please
+    <a class="background-transparent cursor-pointer theme-color underline"
+        onclick="window.location.reload();">
+        reload
+    </a> and try again.
+`);

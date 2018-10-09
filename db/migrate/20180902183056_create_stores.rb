@@ -23,12 +23,12 @@ class CreateStores < ActiveRecord::Migration[5.0]
       t.float :latitude, default: 0.0
       t.float :longitude, default: 0.0
       t.boolean :on_trial, default: true
-      t.string :opening_weekday, default: ''
-      t.string :closing_weekday, default: ''
-      t.string :opening_saturday, default: ''
-      t.string :closing_saturday, default: ''
-      t.string :opening_sunday, default: ''
-      t.string :closing_sunday, default: ''
+      t.string :opening_weekday, default: '9:00AM'
+      t.string :closing_weekday, default: '9:00PM'
+      t.string :opening_saturday, default: '9:00AM'
+      t.string :closing_saturday, default: '9:00PM'
+      t.string :opening_sunday, default: '9:00AM'
+      t.string :closing_sunday, default: '9:00PM'
       
     end
   end

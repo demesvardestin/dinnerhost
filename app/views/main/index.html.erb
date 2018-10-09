@@ -1,0 +1,258 @@
+<style>
+    .navbar {
+        background-color: transparent !important;
+        border-bottom: none;
+    }
+</style>
+
+<section id="banner" style="height: 650px; margin-top: -200px; background-image: url('<%= banner_path %>'); background-size: cover; width: 100%; filter: brightness(80%);"></section>
+
+<section class="container">
+    <section id="search" class="row" style="margin-top: -360px; margin-bottom: 30px;">
+        <div class="col-md-12 add-padding-bottom">
+            <h1 class="white text-center" id="banner-text">Order from drugstores near you</h1>
+        </div>
+        <!--<div class="col-md-8 offset-md-2 add-padding-bottom">-->
+        <!--    <h1 class="theme-blue text-center" id="banner-subtext">Find a store. Skip the line.</h1>-->
+        <!--</div>-->
+        <div class="col-md-8 offset-md-2">
+            <form action="/search" method="get" id="storeSearchForm">
+                <div class="input-group mb-3" style="margin-bottom: 0 !important;">
+                    <div class="input-group-prepend">
+                        <button class="input-group-text prepend-group cursor-pointer border-white" id="basic-addon1">
+                            <i class="fa fa-search search-input-icon"></i>
+                        </button>
+                    </div>
+                    <input class="form-control no-box-shadow store-search border-white"
+                        id="store-search" name="q" placeholder="Enter your address..." autocomplete="off" onfocus="showSuggestionBox();">
+                </div>
+                <button class="btn btn-primary height-50 box-shadow btn-block" align="center" type="submit" id="submitLocationSearch" style="display: none; margin-bottom: 10px;">
+                    Search
+                </button>
+            </form>
+            <div id="suggestionBoxContainer">
+                <div id="suggestionBox">
+                    <div id="map" style="display: none;"></div>
+                    <div id="infowindow-content">
+                        <img src="" width="16" height="16" id="place-icon">
+                        <span id="place-name"  class="title font-17"></span><br>
+                        <span id="place-address"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="theWhy" style="padding-bottom: 40px;">
+        <div class="row" id="shopper-order-history-1" style="display: none;">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-2 offset-md-5 text-center" style="padding-bottom: 20px;">
+                        <h3>Past orders</h3>
+                        <hr style="height: 2px; background-color: #F27649; border-color: #F27649; width: 40%; margin: auto !important;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="someDetails">
+            <div class="row">
+                <div class="col-md-4 offset-md-4 text-center" style="padding-bottom: 20px;">
+                    <h3>How does Senzzu work</h3>
+                    <hr style="height: 2px; background-color: #F27649; border-color: #F27649; width: 40%; margin: auto !important;">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 how-to text-center">
+                    <img class="icon-image" src="https://s3.us-east-2.amazonaws.com/senzzu/how-1.jpg" height="175">
+                    <p class="font-20 bold">Find a store near you</p>
+                    <p class="font-16 add-margin-top">
+                        Choose from several stores in your neighborhood
+                        including drugstores, convenience stores, and wellness stores.
+                    </p>
+                </div>
+                <div class="col-md-4 how-to text-center">
+                    <img class="icon-image" src="https://s3.us-east-2.amazonaws.com/senzzu/how-2.jpg" height="175">
+                    <p class="font-20 bold">Browse and select items</p>
+                    <p class="font-16 add-margin-top">
+                        100s of items are available, in several different sizes.
+                        Pick your preferred size and fill your cart.
+                    </p>
+                </div>
+                <div class="col-md-4 how-to text-center">
+                    <img class="icon-image" src="https://s3.us-east-2.amazonaws.com/senzzu/how-3.jpg" height="175">
+                    <p class="font-20 bold">Pick up your order or get delivery!</p>
+                    <p class="font-16 add-margin-top">
+                        Place your order for pickup, or get it delivered
+                        directly to your door, with online or in-person payment
+                        options!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+<section id="whatStores" style="padding: 40px 0; background-image: url('/images/background_gradient.png'); background-size: cover;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 text-center" style="padding-bottom: 20px;">
+                <h3 class="white">Stores & items on Senzzu</h3>
+                <hr style="height: 2px; background-color: #525f7f; border-color: #525f7f; width: 40%; margin: auto !important;">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 text-center">
+                <div class="card box-shadow">
+                    <div class="card-body background-white">
+                        <p class="font-20 bold">Drugstores</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="card box-shadow">
+                    <div class="card-body background-white">
+                        <p class="font-20 bold">Grocery stores</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="card box-shadow">
+                    <div class="card-body background-white">
+                        <p class="font-20 bold">Convenience stores</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 text-center">
+                <div class="card box-shadow">
+                    <div class="card-body background-white">
+                        <p class="font-20 bold">Wellness stores</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center" style="margin-top: 30px;">
+                <span class="badge badge-secondary badge-arrow-circle">
+                    <i class="fa fa-angle-down"></i>
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center" style="margin-top: 30px;">
+                <% item_categories.each do |i| %>
+                    <span class="badge badge-light theme-color font-20 add-margin-bottom">
+                        <%= i %>
+                    </span>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="forStores" style="background-color: #eeeeef; padding: 40px 0;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 offset-md-4 text-center" style="padding-bottom: 20px;">
+                <h3>Senzzu for stores (FREE)</h3>
+                <hr style="height: 2px; background-color: #F27649; border-color: #F27649; width: 40%; margin: auto !important;">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img class="icon-image" src="https://s3.us-east-2.amazonaws.com/senzzu/for_stores(2).jpg" height="175">
+                <p class="font-20 bold">We help you reach more customers online</p>
+                <p class="font-16 add-margin-top">
+                    Customers are increasingly shopping online. Senzzu
+                    provides you with the technology needed to
+                    stay competitive.
+                </p>
+            </div>
+            <div class="col-md-4 text-center">
+                <img class="icon-image" src="https://s3.us-east-2.amazonaws.com/senzzu/for_stores(1).jpg" height="175">
+                <p class="font-20 bold">We help you improve your customer service</p>
+                <p class="font-16 add-margin-top">
+                    Senzzu comes with automated text and email update capabilities,
+                    which help your customers keep track of their order.
+                </p>
+            </div>
+            <div class="col-md-4 text-center">
+                <img class="icon-image" src="https://s3.us-east-2.amazonaws.com/senzzu/for_stores(analytics).png" height="175">
+                <p class="font-20 bold">We help you Keep track of payments</p>
+                <p class="font-16 add-margin-top">
+                    We partner with
+                    <a href="https://stripe.com" target="_blank" class="background-transparent theme-color">
+                        Stripe</a>,
+                    the world's leading payment provider,
+                    to make payments fast, simple and easily trackable!
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 offset-md-2" style="padding-top: 40px;">
+                <a class="btn btn-primary btn-block" style="height: 50px !important; padding-top: 13px;" href="https://calendly.com/senzzu" target="_blank">
+                    Schedule a free demo
+                </a>
+            </div>
+            <div class="col-md-4" style="padding-top: 40px;">
+                <button class="btn btn-primary btn-block" style="height: 50px !important;" onclick="window.location.replace('/store/signup')">
+                    Try Senzzu for free
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--<section id="forStores" style="padding: 40px 0;">-->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col-md-4 offset-md-2">-->
+<!--                <div class="card background-blue border-blue box-shadow">-->
+<!--                    <div class="card-header background-transparent no-border white">-->
+<!--                        <h3 class="white bold">Stores</h3>-->
+<!--                        <hr>-->
+<!--                    </div>-->
+<!--                    <div class="card-body background-transparent" style="padding-top: 0;">-->
+<!--                        <h2 class="white bold add-margin-bottom white">Free</h2>-->
+<!--                        <ul>-->
+<!--                            <li class="white">No signup fee</li>-->
+<!--                            <li class="white">No monthly fee</li>-->
+<!--                            <li class="white">No hidden fees</li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+
+<section id="newsletter" style="padding: 40px 0;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 offset-md-4 text-center" style="padding-bottom: 40px;">
+                <h3>New store alerts, deals, giveaways and more</h3>
+                <hr style="height: 2px; background-color: #F27649; border-color: #F27649; width: 40%; margin: auto !important;">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 offset-md-4 how-to text-center">
+                <form id="newsletterSubscriptionForm">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend theme-border">
+                            <span class="input-group-text prepend-group theme-background theme-border" id="basic-addon1">
+                                <i class="fa fa-envelope-o white search-input-icon"></i>
+                            </span>
+                        </div>
+                        <input class="form-control no-box-shadow newsletter-signup theme-border"
+                            id="newsletter-signup" name="email" placeholder="Sign up for our newsletter">
+                    </div>
+                    <button class="btn btn-primary height-50 box-shadow btn-block" align="center" type="submit" id="submitNewsletterSubscription" style="display: none; margin-bottom: 10px;">
+                        Search
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtkPxyakU5Nb1YO6daAGGytItWoeNL5vM&libraries=places&callback=initMap"
+    async defer>
+</script>

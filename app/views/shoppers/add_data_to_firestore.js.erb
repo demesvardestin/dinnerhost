@@ -1,0 +1,36 @@
+var config = {
+    apiKey: "AIzaSyDtkPxyakU5Nb1YO6daAGGytItWoeNL5vM",
+    authDomain: "senzzu-d2fbe.firebaseapp.com",
+    databaseURL: "https://senzzu-d2fbe.firebaseio.com",
+    projectId: "senzzu-d2fbe",
+    storageBucket: "senzzu-d2fbe.appspot.com",
+    messagingSenderId: "312266021503"
+};
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+}
+
+var firestore = firebase.firestore();
+var settings = {timestampsInSnapshots: true};
+firestore.settings(settings);
+
+var type = "<%= @type %>";
+console.log(type);
+
+if (type === "update-shopper") {
+    console.log('yes');
+    firestore.collection("shoppers").doc("<%= @shopper_uid %>").set({
+        email: "<%= @shopper_email %>",
+        phone: "<%= @shopper_phone %>",
+        address: "<%= @shopper_address %>",
+        apartment_number: "<%= @apartment_number %>",
+        name: "<%= @shopper_name %>"
+    }, {merge: true}).then(success => {
+        $('#updateShopperBtn').css('opacity', '1').html('Update account details');
+        toastr.success("Account updated!");
+    })
+    .catch(error => {
+        console.error('An error occurred');
+    });
+}

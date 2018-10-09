@@ -1,0 +1,2 @@
+class StripeAlert < ApplicationRecord
+end

@@ -1,0 +1,331 @@
+<style>
+    footer {
+        display: none;
+    }
+    input {
+        margin-bottom: 20px;
+    }
+    #main-body {
+        padding-bottom: 30px;
+    }
+</style>
+
+<div class="container">
+    <section id="checkoutContent" class="row" style="padding-bottom: 20px;">
+        <section id="customerDetails" class="col-md-6">
+            <h4 class="bold" style="margin-bottom: 20px;">Checkout</h4>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-secondary height-40 no-box-shadow active text-center" onclick="togglePickup('delivery')">
+                <input type="radio" name="options" id="option1" autocomplete="off" checked> Delivery
+              </label>
+              <label class="btn btn-secondary height-40 no-box-shadow text-center" onclick="togglePickup('pickup')">
+                <input type="radio" name="options" id="option2" autocomplete="off"> Pickup
+              </label>
+            </div>
+            <span id="delivery-option" style="display: none;">Delivery</span>
+            <div id="deliveryDetailsCard">
+                <div class="add-padding-bottom" style="padding-top: 30px;">
+                    <h6 class="bold">Delivery Details</h6>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div id="shopperInfo">
+                            <div class="text-center col-md-12" id="loadingAccountDetails">
+                                <span>
+                                    <i class="fa fa-spinner fa-pulse fa-3x fa-fw theme-color"
+                                        style="font-size: 50px;">
+                                    </i>
+                                </span><br />
+                                <p>Loading account details</p>
+                            </div>
+                        </div>
+                        <span id="email" style="display: none;"></span>
+                        <span id="uid" style="display: none;"></span>
+                        <span id="day" style="display: none;">today</span>
+                        <span id="time" style="display: none;">ASAP</span>
+                    </div>
+                </div>
+            </div>
+            <div style="display: none;" id="pickupLocation">
+                <div class="add-padding-bottom" style="padding-top: 30px;">
+                    <h6 class="bold">Pickup Address</h6>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p style="add-margin-top add-margin-bottom">
+                            <span class="float-left">
+                                <%= @cart.get_store.full_address %>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="add-padding-bottom row" style="padding-top: 30px;">
+                <div class="col-md-12">
+                    <h6 class="bold float-left">Time</h6>
+                    <h6 class="bold float-right theme-color cursor-pointer hide-times font-15" style="display: none;" onclick="hideTimes()">CANCEL</h6>
+                </div>
+            </div>
+            <div id="selectedTime" style="margin-bottom: 20px;">
+                <div class="card cursor-pointer" onclick="displayTimes()">
+                    <div class="card-body">
+                        <p style="add-margin-top add-margin-bottom">
+                            <span class="float-left">
+                                As soon as possible (~45mins)
+                            </span>
+                            <span class="float-right">
+                                <i class="fa fa-angle-down"></i>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div id="availableTimes" style="display: none; margin-bottom: 20px">
+                <%= render 'available_times' %>
+            </div>
+        </section>
+        <section id="snapshotCard" class="col-md-5 offset-md-1">
+            <div id="orderSnapshot">
+                <div class="card box-shadow">
+                    <div class="card-header" style="height: 160px; background-image: url(<%= @cart.get_store.banner_image %>); background-size: cover; overflow: hidden !important;" id="storeMap"></div>
+                    <div class="card-body">
+                        <h6><%= @cart.get_store.name %></h6>
+                        <hr style="margin-bottom: 25px; margin-top: 25px;">
+                        <% @cart.item_list.split(', ').each_with_index do |i, idx| %>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="font-16">
+                                        <span class="float-left">
+                                            <span style="margin-right: 5px;">
+                                                <span class="theme-green bold"><%= @cart.item_list_count.split(', ')[idx] %></span> x
+                                            </span>
+                                            <span>
+                                                <%= @cart.item_list_name.split(', ')[idx] %>
+                                            </span>
+                                        </span>
+                                        <span class="float-right">
+                                            <span>
+                                                $<%= @cart.cost_for(i) %>
+                                            </span>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        <% end %>
+                        <hr style="margin-bottom: 25px; margin-top: 25px;">
+                        <div class="row">
+                            <div class="col-md-12 add-margin-bottom">
+                                <h6>
+                                    <span class="float-left">
+                                        Subtotal
+                                    </span>
+                                    <span class="float-right">
+                                        $<%= @cart.total_cost.to_f.round(2) %>
+                                    </span>
+                                </h6>
+                            </div>
+                            <div class="col-md-12 add-margin-bottom">
+                                <h6 id="deliveryFee">
+                                    <span class="float-left">
+                                        Delivery
+                                    </span>
+                                    <span class="float-right">
+                                        <%= @cart.get_store.get_delivery_fee %>
+                                    </span>
+                                </h6>
+                            </div>
+                            <div class="col-md-12">
+                                <h6>
+                                    <span class="float-left">
+                                        Taxes & Fees
+                                    </span>
+                                    <span class="float-right">
+                                        $<%= load_taxes_and_fees(@cart, "delivery").round(2) %>
+                                    </span>
+                                </h6>
+                            </div>
+                        </div>
+                        <hr style="margin-bottom: 25px; margin-top: 25px;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h6>
+                                    <span class="float-left bold">
+                                        Total
+                                    </span>
+                                    <span class="float-right bold theme-green" id="withDeliveryFee">
+                                        $<%= load_final(@cart, "delivery").round(2) %>
+                                    </span>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="add-padding-bottom" style="padding-top: 30px;">
+                <h6 class="bold">Payment</h6>
+            </div>
+            <div id="checkoutPayment">
+                <% if @cart.get_store.has_a_bank_account %>
+                    <form method="get" id="payment-form">
+                        <div class="form-row row">
+                            <div class="col-md-12">
+                                <div id="card-element" class="col-md-12"></div>
+                            </div>
+                            <div id="card-errors" role="alert" class="col-md-12"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 complete-order add-margin-top">
+                                <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= guest_shopper.email %>"
+                                    data-toggle="modal" data-target="#submitConfirmation">
+                                    Submit order
+                                </button>
+                            </div>
+                            <div class="col-md-12 add-margin-top">
+                                <p class="font-15">
+                                    By placing an order, you agree to the
+                                    <a class="theme-color background-transparent" href="/terms" target="_blank">
+                                       terms and conditions 
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                <% else %>
+                    <h6 class="theme-red">*This store does not currently accept online payments</h6>
+                    <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= guest_shopper.email %>"
+                        data-toggle="modal" data-target="#submitConfirmationWithoutPayment" onclick="processOfflineOrder()">
+                        Submit order & pay in person
+                    </button>
+                <% end %>
+            </div>
+        </section>
+    </section>
+</div>
+<script>
+    
+    var stripe = Stripe("<%= ENV['STRIPE_PUBLISHABLE'] %>");
+    
+    // Create an instance of Elements
+    var elements = stripe.elements();
+    
+    // Custom styling can be passed to options when creating an Element.
+    // (Note that this demo uses a wider set of styles than the guide below.)
+    var style = {
+      base: {
+        color: '#32325d',
+        lineHeight: '18px',
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+          color: '#aab7c4'
+        }
+      },
+      invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a'
+      }
+    };
+    
+    // Create an instance of the card Element
+    var card = elements.create('card', {style: style});
+    
+    // Add an instance of the card Element into the `card-element` <div>
+    card.mount('#card-element');
+    
+    // Handle real-time validation errors from the card Element.
+    card.addEventListener('change', function(event) {
+      var displayError = document.getElementById('card-errors');
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
+      }
+    });
+    
+    $('.StripeElement').css('border', '1px solid #b4b4b4 !important');
+    
+    // Handle form submission //
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        document.getElementsByClassName('submit-btn')[0].setAttribute('disabled', 'true');
+        $('#main-body').css('opacity', '0.7');
+        $('#order-processing-modal').show();
+        $('.submit-btn').html('Submitting...');
+        stripe.createToken(card).then(function(result) {
+            if (result.error) {
+              var errorElement = document.getElementById('card-errors');
+              errorElement.textContent = result.error.message;
+            } else {
+              submitOrder(result.token);
+            }
+        });
+    });
+    
+    function submitOrder(token) {
+        var email = $('#email').text();
+        var uid = $('#uid').text();
+        var address = document.getElementById('address').value;
+        var phone = document.getElementById('phone-number').value;
+        var contactName = document.getElementById('contact-name').value;
+        var aptNum = document.getElementById('apt-number').value;
+        var deliveryOption = $('#delivery-option').text();
+        var deliveryInstructions = document.getElementById('delivery-instructions').value;
+        var day = $('#day').text();
+        var time = $('#time').text();
+        var cart = {
+            'id': "<%= params[:id]%>",
+            "token": "<%= @token %>",
+            'guest_shopper': document.getElementsByClassName('submit-btn')[0].id,
+            'stripe_token': token,
+            'address': address,
+            'phone_number': phone,
+            'apt_number': aptNum,
+            'email': email,
+            'delivery_option': deliveryOption,
+            'delivery_instructions': deliveryInstructions,
+            'contact_name': contactName,
+            'uid': uid,
+            'day': day,
+            'time': time
+        };
+        console.log(cart);
+        $.post('/submit_order', { cart: cart });
+    }
+    
+    function processOfflineOrder() {
+        $('#main-body').css('opacity', '0.7');
+        $('#order-processing-modal').show();
+        document.getElementsByClassName('submit-btn')[0].setAttribute('disabled', 'true');
+        $('.submit-btn').html('Submitting...');
+        var email = $('#email').text();
+        var uid = $('#uid').text();
+        var address = document.getElementById('address').value;
+        var phone = document.getElementById('phone-number').value;
+        var contactName = document.getElementById('contact-name').value;
+        var aptNum = document.getElementById('apt-number').value;
+        var deliveryOption = $('#delivery-option').text();
+        var deliveryInstructions = document.getElementById('delivery-instructions').value;
+        var day = $('#day').text();
+        var time = $('#time').text();
+        var cart = {
+            'id': "<%= params[:id]%>",
+            "token": "<%= @token %>",
+            'guest_shopper': document.getElementsByClassName('submit-btn')[0].id,
+            'address': address,
+            'phone_number': phone,
+            'apt_number': aptNum,
+            'email': email,
+            'delivery_option': deliveryOption,
+            'delivery_instructions': deliveryInstructions,
+            'contact_name': contactName,
+            'uid': uid,
+            'day': day,
+            'time': time
+        };
+        console.log(cart);
+        $.post('/process_offline_order', { cart: cart });
+    }
+</script>
+

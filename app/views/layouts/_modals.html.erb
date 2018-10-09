@@ -1,0 +1,97 @@
+<!-- Loader modal-->
+
+<div class="modal" id="order-processing-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 1051 !important; margin-top: 100px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content box-shadow" style="padding: 15px;">
+            <div class="modal-body" id="order-in-process">
+                <div class="text-center col-md-12" id="orderLoading">
+                    <span>
+                        <i class="fa fa-spinner fa-pulse fa-3x fa-fw theme-color"
+                            style="font-size: 50px;">
+                        </i>
+                    </span><br />
+                    <p class="add-margin-top">Processing...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Shopper authentication modal-->
+
+<div class="modal fade" id="shopperAuthentication" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 1051 !important;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="authenticationModal">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                <a class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fa fa-times-circle"></i></span>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="loginShopper()" id="shopperLoginForm" data-remote="true">
+                    <input type="email" class="form-control add-margin-bottom" placeholder="email" id="loginEmail">
+                    <input type="password" class="form-control add-margin-bottom" placeholder="password" id="loginPassword">
+                    <button type="submit" class="btn btn-primary btn-block add-margin-bottom height-55" id="loginBtn" onclick="loginShopper()">
+                        Log in
+                    </button>
+                </form>
+                <p class="theme-blue text-center">
+                   <a class="btn btn-link" onclick="toggleAuth('login')">
+                       New to Senzzu? <span class="theme-color">Signup</span>
+                   </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Cart Modal-->
+
+<div class="modal" id="cartContent" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content box-shadow batch-list" style="padding-bottom: 0; top: 50px;">
+        <div class="modal-header">
+            <h5 class="">
+                <i class="fa fa-shopping-cart"></i> Cart content
+            </h5>
+            <a class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true"><i class="fa fa-times-circle"></i></span>
+            </a>
+        </div>
+        <div class="modal-body" style="padding-top: 20px !important; min-height: 180px;">
+            <% if current_cart.is_empty? %>
+                <p class="font-16">Your cart is empty</p>
+            <% else %>
+                <h6 style="margin-bottom: 10px;">
+                    Your order from 
+                    <a href="<%= current_cart.get_store.url %>" class="background-transparent theme-color">
+                        <%= current_cart.get_store.name %>
+                    </a>
+                </h6>
+                <hr style="margin-bottom: 15px;">
+                <% if current_cart.item_list == '' %>
+                    <p class="font-18">Cart is empty</p>
+                <% else %>
+                    <% current_cart.item_list.split(', ').each_with_index do |i, idx| %>
+                        <p class="font-18">
+                            <span class="theme-green bold" style="margin-right: 5px;">
+                                <%= current_cart.item_list_count.split(', ')[idx] %>
+                            </span>
+                            <a class="btn btn-link" data-toggle="modal" data-target="#itemOrderDetails<%= i %>">
+                                <%= current_cart.item_list_name.split(', ')[idx] %>
+                            </a>
+                        </p>
+                    <% end %>
+                <% end %>
+            <% end %>
+        </div>
+        <div class="modal-footer">
+            <a class="btn btn-success btn-md white" <% unless current_cart.is_empty? || current_cart.get_total_cost == 0.0 %>onclick="window.location.replace('<%= checkout_link %>')"<% end %>>
+                Checkout ($<%= current_cart.get_total_cost %>)
+            </a>
+        </div>
+    </div>
+  </div>
+</div>

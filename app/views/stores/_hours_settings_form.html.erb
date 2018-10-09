@@ -1,4 +1,4 @@
-<%= form_for(@store, :html => {:id => "profileForm",:multipart => true, :remote => true}) do |f| %>
+<%= form_for(@store, :html => { :id => "hoursForm",:multipart => true, :remote => true }) do |f| %>
   <% if @store.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@store.errors.count, "error") %> prohibited your information from being saved:</h2>
@@ -15,7 +15,7 @@
     <div class="row">
       <div class="col-md-6">
         <h6 class="">Weekday opening time</h6>
-        <button class="btn btn-secondary box-shadow btn-block set-time-opening height-50" style="margin-top: 10px;" id="filterItems" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-secondary btn-flat box-shadow btn-block set-time-opening height-55" style="margin-top: 10px;" id="filterItems" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <% if current_store.opening_weekday.empty? %>
             Select time <i class="fa fa-angle-down"></i>
           <% else %>
@@ -28,11 +28,11 @@
               <div class="dropdown-divider"></div>
           <% end %>
         </div>
-        <%= f.hidden_field :opening_weekday, class:"form-control no-box-shadow height-50 font-16 pf", id:"openingWeekday", autofocus: true, placeholder:"9:00AM" %>
+        <%= f.hidden_field :opening_weekday, class:"form-control no-box-shadow height-55 font-15 pf", id:"openingWeekday", autofocus: true, placeholder:"9:00AM" %>
       </div>
       <div class="col-md-6">
         <h6 class="">Weekday closing time</h6>
-        <button class="btn btn-secondary box-shadow btn-block set-time-closing height-50" style="margin-top: 10px;" id="filterItems" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-secondary btn-flat box-shadow btn-block set-time-closing height-55" style="margin-top: 10px;" id="filterItems" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <% if current_store.closing_weekday.empty? %>
             Select time <i class="fa fa-angle-down"></i>
           <% else %>
@@ -45,7 +45,7 @@
               <div class="dropdown-divider"></div>
           <% end %>
         </div>
-        <%= f.hidden_field :closing_weekday, class:"form-control no-box-shadow height-50 font-16 pf", id:"closingWeekday", autofocus: true, placeholder:"5:00PM" %>
+        <%= f.hidden_field :closing_weekday, class:"form-control no-box-shadow height-55 font-15 pf", id:"closingWeekday", autofocus: true, placeholder:"5:00PM" %>
       </div>
     </div>
   </div>
@@ -53,7 +53,7 @@
     <div class="row">
       <div class="col-md-6">
         <h6 class="">Saturday opening time</h6>
-        <button class="btn btn-secondary box-shadow btn-block set-time-opening-saturday height-50" style="margin-top: 10px;" id="filterItems" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-secondary btn-flat box-shadow btn-block set-time-opening-saturday height-55" style="margin-top: 10px;" id="filterItems" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <% if current_store.opening_saturday.empty? %>
             Select time <i class="fa fa-angle-down"></i>
           <% else %>
@@ -66,11 +66,11 @@
               <div class="dropdown-divider"></div>
           <% end %>
         </div>
-        <%= f.hidden_field :opening_saturday, class:"form-control no-box-shadow height-50 font-16 pf", id:"openingSaturday", autofocus: true, placeholder:"9:00AM" %>
+        <%= f.hidden_field :opening_saturday, class:"form-control no-box-shadow height-55 font-15 pf", id:"openingSaturday", autofocus: true, placeholder:"9:00AM" %>
       </div>
       <div class="col-md-6">
         <h6 class="">Saturday closing time</h6>
-        <button class="btn btn-secondary box-shadow btn-block set-time-closing-saturday height-50" style="margin-top: 10px;" id="filterItems" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-secondary btn-flat box-shadow btn-block set-time-closing-saturday height-55" style="margin-top: 10px;" id="filterItems" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <% if current_store.closing_saturday.empty? %>
             Select time <i class="fa fa-angle-down"></i>
           <% else %>
@@ -83,7 +83,7 @@
               <div class="dropdown-divider"></div>
           <% end %>
         </div>
-        <%= f.hidden_field :closing_saturday, class:"form-control no-box-shadow height-50 font-16 pf", id:"closingSaturday", autofocus: true, placeholder:"5:00PM" %>
+        <%= f.hidden_field :closing_saturday, class:"form-control no-box-shadow height-55 font-15 pf", id:"closingSaturday", autofocus: true, placeholder:"5:00PM" %>
       </div>
     </div>
   </div>
@@ -91,7 +91,7 @@
     <div class="row">
       <div class="col-md-6">
         <h6 class="">Sunday opening time</h6>
-        <button class="btn btn-secondary box-shadow btn-block set-time-opening-sunday height-50" style="margin-top: 10px;" id="filterItems" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-secondary btn-flat box-shadow btn-block set-time-opening-sunday height-55" style="margin-top: 10px;" id="filterItems" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <% if current_store.opening_sunday.empty? %>
             Select time <i class="fa fa-angle-down"></i>
           <% else %>
@@ -104,11 +104,11 @@
               <div class="dropdown-divider"></div>
           <% end %>
         </div>
-        <%= f.hidden_field :opening_sunday, class:"form-control no-box-shadow height-50 font-16 pf", id:"openingSunday", autofocus: true, placeholder:"9:00AM" %>
+        <%= f.hidden_field :opening_sunday, class:"form-control no-box-shadow height-55 font-15 pf", id:"openingSunday", autofocus: true, placeholder:"9:00AM" %>
       </div>
       <div class="col-md-6">
         <h6 class="">Sunday closing time</h6>
-        <button class="btn btn-secondary box-shadow btn-block set-time-closing-sunday height-50" style="margin-top: 10px;" id="filterItems" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-secondary btn-flat box-shadow btn-block set-time-closing-sunday height-55" style="margin-top: 10px;" id="filterItems" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <% if current_store.closing_sunday.empty? %>
             Select time <i class="fa fa-angle-down"></i>
           <% else %>
@@ -121,28 +121,38 @@
               <div class="dropdown-divider"></div>
           <% end %>
         </div>
-        <%= f.hidden_field :closing_sunday, class:"form-control no-box-shadow height-50 font-16 pf", id:"closingSunday", autofocus: true, placeholder:"5:00PM" %>
+        <%= f.hidden_field :closing_sunday, class:"form-control no-box-shadow height-55 font-15 pf", id:"closingSunday", autofocus: true, placeholder:"5:00PM" %>
       </div>
     </div>
   </div>
-  <h6>Do you deliver during business hours?</h6>
+  <div class="field" style="margin-top: 20px;">
+    <div class="row">
+      <div class="col-md-5">
+        <label class="add-margin-top" id="orderMinimum">Delivery order minimum</label>
+        <%= f.text_field :delivery_minimum, id:"deliveryMinimum", class:"form-control no-box-shadow height-55 font-15", value:"#{@store.delivery_minimum}" %>
+      </div>
+    </div>
+  </div>
+  <h6>Do you offer free delivery?</h6>
   <div class="field">
     <div class="row">
-      <div class="col-md-12 text-center">
+      <div class="col-md-5">
         <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-          <label class="btn btn-secondary active no-box-shadow white" id="deliverYes" onclick="setDelivery(value='yes');">
+          <label class="btn btn-secondary <% if current_store.delivers_for_free %>active<% end %> no-box-shadow white" id="deliverYes" onclick="setDelivery(value='yes');">
             <input type="radio" name="yes_delivery" autocomplete="off"> <span>Yes</span>
           </label>
-          <label class="btn btn-secondary no-box-shadow white" id="deliverNo" onclick="setDelivery(value='no');">
+          <label class="btn btn-secondary no-box-shadow white <% if !current_store.delivers_for_free %>active<% end %>" id="deliverNo" onclick="setDelivery(value='no');">
             <input type="radio" name="no_pickup" autocomplete="off"> <span>No</span>
           </label>
         </div>
+        <label class="add-margin-top" <% if current_store.delivers_for_free %>style="display: none;"<% end %> id="deliveryFeeLabel">Delivery Fee</label>
+        <%= f.text_field :delivery_fee, id:"storeDelivers", class:"form-control no-box-shadow height-55 font-15 #{'no-display' if current_store.delivers_for_free}", placeholder:"Delivery fee (ex: 2.99)" %>
       </div>
     </div>
-    <%= f.hidden_field :delivers, id:"storeDelivers", value:"yes" %>
   </div>
   <div class="actions text-right">
-    <%= f.submit "Update!", class:"btn btn-primary font-14 btn-lg cursor-pointer update-profile height-50" %>
+    <%= f.submit "Update!", class:"btn btn-primary height-55", id:"update-hours", data: { "disable-with": "Saving..." } %>
+    <!--<span class="font-13 theme-red">Stores that offer free delivery</span>-->
   </div>
 <% end %>
 
@@ -151,10 +161,20 @@
     var id = elem.id;
     var time = id.split('-')[1]
     document.getElementById(inputID).value = time;
-    // var time = $('#'+id).text();
-    // console.log(time);
     $('.set-time-'+context).html(
         time + ' <i class="fa fa-angle-down"></i>'
     );
+  }
+  
+  function setDelivery(value) {
+    if (value === 'no') {
+      document.getElementById('storeDelivers').classList.remove('no-display');
+      $('#storeDelivers').show();
+      $('#deliveryFeeLabel').show();
+    } else {
+      $('#storeDelivers').hide();
+      $('#deliveryFeeLabel').hide();
+      document.getElementById('storeDelivers').value = '0.00';
+    }
   }
 </script>

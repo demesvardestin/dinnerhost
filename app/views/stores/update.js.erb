@@ -1,0 +1,61 @@
+var config = {
+    apiKey: "AIzaSyDtkPxyakU5Nb1YO6daAGGytItWoeNL5vM",
+    authDomain: "senzzu-d2fbe.firebaseapp.com",
+    databaseURL: "https://senzzu-d2fbe.firebaseio.com",
+    projectId: "senzzu-d2fbe",
+    storageBucket: "senzzu-d2fbe.appspot.com",
+    messagingSenderId: "312266021503"
+};
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+}
+
+var firestore = firebase.firestore();
+var settings = {timestampsInSnapshots: true};
+firestore.settings(settings);
+
+var data = {
+    store_id: <%= @store.id %>,
+    store_name: "<%= @store.name %>",
+    street_address: "<%= @store.street_address %>",
+    town: "<%= @store.town %>",
+    state: "<%= @store.state %>",
+    zipcode: "<%= @store.zipcode %>",
+    supervisor: "<%= @store.supervisor %>",
+    active: <%= @store.active %>,
+    live: <%= @store.live %>,
+    website: "<%= @store.website %>",
+    latitude: <%= @store.latitude %>,
+    longitude: <%= @store.longitude %>,
+    email: "<%= @store.email %>",
+    opening_weekday: "<%= @store.opening_weekday %>",
+    closing_weekday: "<%= @store.closing_weekday %>",
+    opening_saturday: "<%= @store.opening_saturday %>",
+    closing_saturday: "<%= @store.closing_saturday %>",
+    opening_sunday: "<%= @store.opening_sunday %>",
+    closing_sunday: "<%= @store.closing_sunday %>",
+    delivery_fee: "<%= @store.delivery_fee %>",
+    delivery_minimum: "<%= @store.delivery_minimum %>"
+};
+
+var firestoreDocId = "<%= @store.firestore_doc_id %>";
+console.log(firestoreDocId);
+if (firestoreDocId === "nil" || firestoreDocId === "") {
+    firestore.collection('stores').add(data)
+    .then((response) => {
+        $('#storeName').text("<%= @store.name %>");
+        $.get('/update_store', {firestore_doc_id: response.id});
+        toastr.success('Store info updated!');
+    }).catch((error) => {
+        toastr.warning('Failed to update your info. Please try again');
+    });
+} else {
+    firestore.collection('stores').doc("<%= @store.firestore_doc_id %>").set(data, { merge: true })
+    .then((response) => {
+        $('#storeName').text("<%= @store.name %>");
+        toastr.success('Store info updated!');
+    }).catch((error) => {
+        toastr.warning('Failed to update your info. Please try again');
+    });
+}

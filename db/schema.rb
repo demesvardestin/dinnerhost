@@ -10,7 +10,81 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180905141708) do
+ActiveRecord::Schema.define(version: 20181009171502) do
+
+  create_table "carts", force: :cascade do |t|
+    t.integer  "item_count",        default: 0
+    t.string   "shopper_email",     default: ""
+    t.string   "total_cost",        default: ""
+    t.boolean  "pending",           default: false
+    t.boolean  "completed",         default: false
+    t.string   "item_list",         default: ""
+    t.string   "item_list_count",   default: ""
+    t.string   "instructions_list", default: ""
+    t.integer  "order_id"
+    t.integer  "store_id"
+    t.string   "final_amount",      default: ""
+    t.boolean  "paid",              default: false
+    t.string   "current_location",  default: ""
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.string   "shopper_id",        default: ""
+    t.string   "items_price_list",  default: ""
+    t.string   "item_list_name",    default: ""
+    t.string   "item_tax_list",     default: ""
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer  "cart_id"
+    t.integer  "store_id"
+    t.string   "shopper_email",         default: ""
+    t.boolean  "guest",                 default: false
+    t.string   "item_list",             default: ""
+    t.string   "item_list_count",       default: ""
+    t.string   "total",                 default: ""
+    t.string   "stripe_charge_id",      default: ""
+    t.string   "confirmation",          default: ""
+    t.string   "address",               default: ""
+    t.string   "phone_number",          default: ""
+    t.integer  "apartment_number"
+    t.datetime "ordered_at"
+    t.boolean  "online",                default: true
+    t.boolean  "delivered",             default: false
+    t.boolean  "processed",             default: false
+    t.string   "status",                default: ""
+    t.string   "delivery_email",        default: ""
+    t.string   "delivery_option",       default: ""
+    t.string   "shopper_uid",           default: ""
+    t.string   "delivery_day",          default: ""
+    t.string   "delivery_time",         default: ""
+    t.string   "delivery_instructions", default: ""
+    t.string   "details",               default: ""
+    t.string   "order_type",            default: ""
+    t.string   "contact_name",          default: ""
+    t.string   "pickup_time",           default: ""
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.string   "payment_type",          default: "paid online"
+  end
+
+  create_table "past_orders", force: :cascade do |t|
+    t.string   "total"
+    t.string   "details"
+    t.string   "order_type"
+    t.string   "status"
+    t.string   "additional_details"
+    t.string   "confirmation"
+    t.string   "delivery_address"
+    t.string   "delivery_phone"
+    t.string   "delivery_name"
+    t.string   "pickup_contact"
+    t.string   "pickup_time"
+    t.integer  "store_id"
+    t.string   "shopper_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "customer_email"
+  end
 
   create_table "registration_requests", force: :cascade do |t|
     t.string   "store_name"
@@ -19,13 +93,29 @@ ActiveRecord::Schema.define(version: 20180905141708) do
     t.string   "store_phone"
     t.string   "store_email"
     t.string   "store_website"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "category",      default: ""
+    t.string   "token"
+    t.string   "url"
+  end
+
+  create_table "shoppers", force: :cascade do |t|
+    t.string   "email",                  default: ""
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.boolean  "guest",                  default: false
+    t.index ["email"], name: "index_shoppers_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_shoppers_on_reset_password_token", unique: true
   end
 
   create_table "stores", force: :cascade do |t|
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                                                                                          null: false
+    t.datetime "updated_at",                                                                                          null: false
     t.string   "name",                   default: ""
     t.string   "street_address",         default: ""
     t.string   "town",                   default: ""
@@ -52,15 +142,34 @@ ActiveRecord::Schema.define(version: 20180905141708) do
     t.string   "closing_saturday",       default: ""
     t.string   "opening_sunday",         default: ""
     t.string   "closing_sunday",         default: ""
-    t.string   "email",                  default: "",    null: false
-    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "email",                  default: "",                                                                 null: false
+    t.string   "encrypted_password",     default: "",                                                                 null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.integer  "sessions_count",         default: 1
     t.string   "token_id",               default: ""
+    t.string   "firestore_doc_id"
+    t.boolean  "firebase_initialized",   default: false
+    t.string   "category",               default: ""
+    t.string   "delivery_fee",           default: "0.00"
+    t.string   "banner_image",           default: "https://s3.us-east-2.amazonaws.com/senzzu/store_login_banner.png"
+    t.string   "delivery_minimum",       default: "10.00"
     t.index ["email"], name: "index_stores_on_email", unique: true
     t.index ["reset_password_token"], name: "index_stores_on_reset_password_token", unique: true
+  end
+
+  create_table "stripe_alerts", force: :cascade do |t|
+    t.string   "account"
+    t.string   "event_type"
+    t.string   "authorization"
+    t.string   "event_id"
+    t.string   "disabled_reasons"
+    t.integer  "due_by"
+    t.string   "fields_needed"
+    t.string   "destination"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
 end

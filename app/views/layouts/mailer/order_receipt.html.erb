@@ -1,0 +1,191 @@
+<style>
+    .row {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+    .col-md-12, .col-md-8, .offset-md-2, .col-md-4 {
+        position: relative;
+        width: 100%;
+        min-height: 1px;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+    .text-center {
+        text-align: center;
+    }
+    
+    .add-padding-top {
+        padding-top: 10px;
+    }
+    
+    .card {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0,0,0,.125);
+        border-radius: .25rem;
+    }
+    
+    .card-header {
+        font-size: 16px;
+        background-color: transparent;
+        color: #F27649;
+        padding: .75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: rgba(0,0,0,.03);
+        border-bottom: 1px solid rgba(0,0,0,.125);
+    }
+    
+    .card-footer {
+        border-top: 1px solid rgba(0,0,0,.125);
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12 text-center">
+        <h4>Thank you for placing your order!</h4>
+    </div>
+    <div class="col-md-12 add-padding-top text-center">
+        <h6>You will receive a confirmation email with your order details shortly.</h6>
+    </div>
+    <div class="col-md-12 add-padding-top text-center">
+        <h6>Order #: <b><%= @order.confirmation %></h6></b>
+    </div>
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header" style="height: 160px; background-image: url('<%= @cart.get_store.banner_image %>'); background-size: cover;" id="storeMap"></div>
+            <div class="card-body">
+                <h6><%= @cart.get_store.name %></h6>
+                <hr style="margin-bottom: 25px; margin-top: 25px;">
+                <% @cart.item_list.split(', ').each_with_index do |i, idx| %>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="font-18">
+                                <span class="float-left">
+                                    <span style="margin-right: 5px;">
+                                        <span class="theme-green bold"><%= @cart.item_list_count.split(', ')[idx] %></span> x
+                                    </span>
+                                    <span>
+                                        <%= @cart.item_list_name.split(', ')[idx] %>
+                                    </span>
+                                </span>
+                                <span class="float-right">
+                                    <span>
+                                        $<%= @cart.cost_for(i) %>
+                                    </span>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                <% end %>
+                <hr style="margin-bottom: 25px; margin-top: 25px;">
+                <div class="row">
+                    <div class="col-md-12 add-margin-bottom">
+                        <h6>
+                            <span class="float-left">
+                                Subtotal
+                            </span>
+                            <span class="float-right">
+                                $<%= @cart.total_cost.to_f.round(2) %>
+                            </span>
+                        </h6>
+                    </div>
+                    <% if @order.delivery_option.downcase == 'delivery' %>
+                        <div class="col-md-12 add-margin-bottom">
+                            <h6>
+                                <span class="float-left">
+                                    Delivery
+                                </span>
+                                <span class="float-right">
+                                    <%= @cart.get_store.get_delivery_fee %>
+                                </span>
+                            </h6>
+                        </div>
+                    <% end %>
+                    <div class="col-md-12">
+                        <h6>
+                            <span class="float-left">
+                                Taxes & Fees
+                            </span>
+                            <span class="float-right">
+                                $<%= @cart.calculate_fees(@order.delivery_option).round(2) %>
+                            </span>
+                        </h6>
+                    </div>
+                </div>
+                <hr style="margin-bottom: 25px; margin-top: 25px;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h6>
+                            <span class="float-left bold">
+                                Total
+                            </span>
+                            <span class="float-right bold theme-green">
+                                $<%= @cart.calculate_final(@order.delivery_option).round(2) %>
+                            </span>
+                        </h6>
+                    </div>
+                </div>
+                <hr style="margin-bottom: 25px; margin-top: 25px;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h6><%= last_mile_type_for(@order) %></h6>
+                    </div>
+                    <div class="col-md-12">
+                        <p class="bold"><%= @order.contact_name %></p>
+                        <p><%= @order.phone_number %></p>
+                        <p><%= @order.address if !@order.address.empty? %></p>
+                    </div>
+                </div>
+                <hr style="margin-bottom: 25px; margin-top: 25px;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h6>Delivery time:</h6>
+                    </div>
+                    <div class="col-md-12">
+                        <% if !@order.delivery_time.empty? && @order.delivery_time.downcase == 'asap' %>
+                            <p><b>ASAP</b></p>
+                        <% else %>
+                            <p><b><%= @order.delivery_day %></b> between <b><%= @order.delivery_time %></b></p>
+                        <% end %>
+                    </div>
+                </div>
+                <hr style="margin-bottom: 25px; margin-top: 25px;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h6>Follow us for a chance to win <b>$50</b> towards future purchases!</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer background-transparent" style="padding: 0; height: auto;">
+                <div class="row">
+                    <div class="col-md-4 social-share-inline no-right-padding">
+                        <a class="social-share instagram-share btn btn-primary no-box-shadow social-share-left btn-block" href="https://instagram.com/senzzu_hq"  class="instagram"  onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=1200');return false;">
+                            <i class="fa fa-instagram"></i> Follow
+                        </a>
+                    </div>
+                    <div class="col-md-4 social-share-inline social-share-inline-middle no-horizontal-padding">
+                        <a class="social-share facebook-share btn btn-primary no-box-shadow social-share-middle btn-block" target="_blank" href="https://facebook.com/senzzu_hq"  class="facebook"  onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=1200');return false;">
+                            <i class="fa fa-facebook"></i> Like
+                        </a>
+                    </div>
+                    <div class="col-md-4 social-share-inline no-left-padding">
+                        <a class="social-share twitter-share btn btn-primary no-box-shadow social-share-right btn-block" href="https://twitter.com/senzzu_hq"  class="twitter"  onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=1200');return false;">
+                            <i class="fa fa-twitter"></i> Follow
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

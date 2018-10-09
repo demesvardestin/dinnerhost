@@ -1,0 +1,34 @@
+var processed = "<%= processed_orders.count - 1 %>";
+var earnings = "<%= total_earnings %>";
+var new = "<%= new_orders.count - 1 %>";
+console.log(processed);
+if (processed === "true") {
+    $('#at-a-glance').html(`
+        <div class="row">
+            <div class="col-md-12">
+                <span class="theme-yellow">` + new + `</span> new orders
+                <hr style="margin-top: 15px;">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 add-padding-top">
+                <span class="theme-color">` + processed + `</span> processed orders
+                <hr style="margin-top: 15px;">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 add-padding-top">
+                <span class="theme-green">$` + earnings + `</span> in earnings
+                <hr style="margin-top: 15px;">
+            </div>
+        </div>
+        <div class="row add-padding-top">
+            <div class="col-md-6">
+                <span class="asap-badge badge badge-primary"> </span> ASAP
+            </div>
+            <div class="col-md-6">
+                <span class="later-badge badge badge-primary"> </span> Future
+            </div>
+        </div>
+    `);
+}
