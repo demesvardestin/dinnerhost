@@ -16,7 +16,7 @@
     var stripeForm = document.getElementById('stripeSetupForm');
     stripeForm.addEventListener('submit', function(event) {
         event.preventDefault();
-        var stripe = Stripe('pk_test_viqZrO7jkQXxnDNcXVjERpIK');
+        var stripe = Stripe('<%= ENV["STRIPE_PUBLISHABLE"] %>');
         var formBtn = document.getElementById('stripeSetupFormSubmit');
         var acct = document.getElementById('account-number').value;
         var routing = document.getElementById('routing-number').value;
