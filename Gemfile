@@ -22,7 +22,7 @@ gem 'sendgrid'
 gem 'mail'
 # add devise for auth
 gem 'devise'
-gem 'devise-guests'
+# gem 'devise-guests'
 # stripe for transactions
 gem 'stripe'
 # oauth2 for omniauth
