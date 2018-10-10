@@ -33,10 +33,10 @@
         stripe.createToken('bank_account', {
           country: 'US',
           currency: 'usd',
-          routing_number: '110000000',
-          account_number: '000123456789',
+          routing_number: routing,
+          account_number: acct,
           account_holder_name: firstName + ' ' + lastName,
-          account_holder_type: 'individual'
+          account_holder_type: 'company'
         }).then(function(result) {
             console.log(result.token);
             if (result.token) {
