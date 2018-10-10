@@ -36,15 +36,17 @@
     <%= favicon_link_tag '/images/logo-transparent.png', :rel => 'shortcut icon' %>
     <script>
       // Verify if store is already in firestore
-      var sessions_count = <%= current_store.sessions_count if current_store %>;
-      if (sessions_count === 1) {
-        var data = {
-          "type": 'new-store'
-        };
-        $.get('/initialize_firebase', e => {
-          addDataToFirestore(data)
-        });
-      }
+      <% if current_store  %>
+        var sessions_count = <%= current_store.sessions_count %>;
+        if (sessions_count === 1) {
+          var data = {
+            "type": 'new-store'
+          };
+          $.get('/initialize_firebase', e => {
+            addDataToFirestore(data)
+          });
+        }
+      <% end %>
     </script>
     <%= csrf_meta_tags %>
   </head>
