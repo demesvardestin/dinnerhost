@@ -13,9 +13,9 @@ module ApplicationHelper
     end
     
     def current_cart
-        @cart = Cart.where(shopper_email: guest_shopper.email, pending: true).last
+        @cart = Cart.where(shopper_email: request.remote_ip, pending: true).last
         if @cart.nil?
-            @cart = Cart.create(shopper_email: guest_shopper.email, pending: true)
+            @cart = Cart.create(shopper_email: request.remote_ip, pending: true)
         end
         return @cart
     end

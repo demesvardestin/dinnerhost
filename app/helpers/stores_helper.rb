@@ -8,7 +8,7 @@ module StoresHelper
     end
     
     def checkout_link
-        "/#{current_cart.id}/checkout?cart_id=#{@token}&shopper=true&guest=false&senzzu_token=#{guest_shopper.email}" 
+        "/#{current_cart.id}/checkout?cart_id=#{@token}&shopper=true&guest=false&senzzu_token=#{request.remote_ip}" 
     end
     
     def delivery_tag(store)
@@ -20,9 +20,9 @@ module StoresHelper
     end
     
     def current_cart
-        @cart = Cart.where(shopper_email: guest_shopper.email, pending: true).last
+        @cart = Cart.where(shopper_email: request.remote_ip, pending: true).last
         if @cart.nil?
-            @cart = Cart.create(shopper_email: guest_shopper.email, pending: true)
+            @cart = Cart.create(shopper_email: request.remote_ip, pending: true)
         end
         return @cart
     end

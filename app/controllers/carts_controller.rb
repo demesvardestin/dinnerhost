@@ -52,10 +52,10 @@ class CartsController < ApplicationController
   def reorder
     cart_id = params[:cart_id]
     @old_cart = Cart.find_by(id: cart_id)
-    @new_cart = Cart.where(shopper_email: guest_shopper.email, pending: true).last
+    @new_cart = Cart.where(shopper_email: request.remote_ip, pending: true).last
     if @new_cart.nil?
       @new_cart = Cart.create(
-        shopper_email: guest_shopper.email,
+        shopper_email: request.remote_ip,
         pending: true,
         total_cost: @old_cart.total_cost,
         item_list: @old_cart.item_list,
@@ -68,7 +68,7 @@ class CartsController < ApplicationController
       )
     else
       @new_cart.update(
-        shopper_email: guest_shopper.email,
+        shopper_email: request.remote_ip,
         pending: true,
         total_cost: @old_cart.total_cost,
         item_list: @old_cart.item_list,
@@ -86,7 +86,7 @@ class CartsController < ApplicationController
   def add_item
     cart = params[:cart]
     @item_id = cart[:item_id]
-    @cart = Cart.where(shopper_email: guest_shopper.email, pending: true).last
+    @cart = Cart.where(shopper_email: request.remote_ip, pending: true).last
     if @cart.item_list.empty?
       @cart.update(store_id: cart[:store_id], shopper_id: params[:shopper_id])
     end
@@ -94,7 +94,7 @@ class CartsController < ApplicationController
   end
   
   def change_delivery_type
-    @cart = Cart.where(shopper_email: guest_shopper.email, pending: true).last
+    @cart = Cart.where(shopper_email: request.remote_ip, pending: true).last
     @type = params[:type].downcase
     render :layout => false
   end
@@ -102,7 +102,7 @@ class CartsController < ApplicationController
   def remove_item
     cart = params[:cart]
     @item_id = cart[:item_id]
-    @cart = Cart.where(shopper_email: guest_shopper.email, pending: true).last
+    @cart = Cart.where(shopper_email: request.remote_ip, pending: true).last
     @total = @cart.total(@item_id)
     @cart.remove_item(@item_id)
   end
@@ -114,7 +114,7 @@ class CartsController < ApplicationController
   end
   
   def process_offline_order
-    guest = guest_shopper.email
+    guest = request.remote_ip
     @cart = Cart.find_by(id: params[:cart][:id])
     if guest != params[:cart][:guest_shopper] || @cart.get_store.has_a_bank_account || params[:cart][:guest_shopper].empty?
       render 'unauthorized', :layout => false
@@ -144,7 +144,7 @@ class CartsController < ApplicationController
   end
   
   def submit_order
-    guest = guest_shopper.email
+    guest = request.remote_ip
     if guest != params[:cart][:guest_shopper] || params[:cart][:stripe_token].blank? || params[:cart][:stripe_token].nil? || params[:cart][:guest_shopper].empty?
       render 'unauthorized', :layout => false
       return
@@ -180,7 +180,7 @@ class CartsController < ApplicationController
     data = params[:data]
     tip = data[:tip]
     return if tip.nil?
-    @cart = Cart.find_by(shopper_email: guest_shopper.email)
+    @cart = Cart.find_by(shopper_email: request.remote_ip)
     @cart.calculate_tip(tip)
     render :layout => false
   end
@@ -223,7 +223,7 @@ class CartsController < ApplicationController
   end
   
   def check_owner
-    if params[:senzzu_token] != guest_shopper.email
+    if params[:senzzu_token] != request.remote_ip
       redirect_to root_path
     end
   end
