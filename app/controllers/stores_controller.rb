@@ -110,6 +110,13 @@ class StoresController < ApplicationController
         render :layout => false
     end
     
+    def reload_stats
+        @new = current_store.unprocessed_orders.count
+        @processed = current_store.completed_orders.count
+        @earnings = current_store.all_orders.sum(&:total_cost).round(2)
+        render :layout => false 
+    end
+    
     def add_new_item
     end
     

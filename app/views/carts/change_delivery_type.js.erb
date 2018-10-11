@@ -3,7 +3,7 @@ var type = "<%= @type %>";
 if (type === "delivery") {
     $('#orderSnapshot').html(`
         <div class="card box-shadow">
-            <div class="card-header" style="height: 160px; background-image: url(<%= @cart.get_store.banner_image %>); background-size: cover;" id="storeMap"></div>
+            <div class="card-header" style="height: 160px; background-image: url(<%= @cart.get_store.banner_image %>); background-size: cover; background-position: center;" id="storeMap"></div>
             <div class="card-body">
                 <h6><%= @cart.get_store.name %></h6>
                 <hr style="margin-bottom: 25px; margin-top: 25px;">
@@ -80,7 +80,7 @@ if (type === "delivery") {
 } else if (type === "pickup") {
     $('#orderSnapshot').html(`
         <div class="card box-shadow">
-            <div class="card-header" style="height: 160px; background-image: url(<%= @cart.get_store.banner_image %>); background-size: cover;" id="storeMap"></div>
+            <div class="card-header" style="height: 160px; background-image: url(<%= @cart.get_store.banner_image %>); background-size: cover; background-position: center;" id="storeMap"></div>
             <div class="card-body">
                 <h6><%= @cart.get_store.name %></h6>
                 <hr style="margin-bottom: 25px; margin-top: 25px;">
@@ -161,7 +161,7 @@ if (type === "delivery") {
 <!--                </div>-->
 <!--                <div class="row">-->
 <!--                    <div class="col-md-12 complete-order add-margin-top">-->
-<!--                        <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= guest_shopper.email %>"-->
+<!--                        <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= request.remote_ip %>"-->
 <!--                            data-toggle="modal" data-target="#submitConfirmation">-->
 <!--                            Submit order-->
 <!--                        </button>-->
@@ -178,7 +178,7 @@ if (type === "delivery") {
 <!--            </form>-->
 <!--        <% else %>-->
 <!--            <h6 class="theme-red">*This store does not currently accept online payments</h6>-->
-<!--            <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= guest_shopper.email %>"-->
+<!--            <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= request.remote_ip %>"-->
 <!--                data-toggle="modal" data-target="#submitConfirmationWithoutPayment" onclick="processOfflineOrder()">-->
 <!--                Submit order & pay in person-->
 <!--            </button>-->
@@ -197,7 +197,7 @@ if (type === "delivery") {
 <!--                    </div>-->
 <!--                    <div class="row">-->
 <!--                        <div class="col-md-12 complete-order add-margin-top">-->
-<!--                            <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= guest_shopper.email %>"-->
+<!--                            <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= request.remote_ip %>"-->
 <!--                                data-toggle="modal" data-target="#submitConfirmation">-->
 <!--                                Submit order-->
 <!--                            </button>-->
@@ -214,7 +214,7 @@ if (type === "delivery") {
 <!--                </form>-->
 <!--            <% else %>-->
 <!--                <h6 class="theme-red">*This store does not currently accept online payments</h6>-->
-<!--                <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= guest_shopper.email %>"-->
+<!--                <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= request.remote_ip %>"-->
 <!--                    data-toggle="modal" data-target="#submitConfirmationWithoutPayment" onclick="processOfflineOrder()">-->
 <!--                    Submit order & pay in person-->
 <!--                </button>-->

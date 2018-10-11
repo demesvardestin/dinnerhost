@@ -63,11 +63,11 @@ firebase.auth().onAuthStateChanged(function(user) {
                     var cartId = doc.data().cart_id || '';
                     var storeId = doc.data().store_id;
                     var imageLink = 
-                    `"https://firebasestorage.googleapis.com/v0/b/senzzu-d2fbe.appspot.com/o/stores%2F` + storeId + `%2Fbanner_image%2F10496048_188082491570780_555656591835617239_o.jpg?alt=media&token=3046ec04-4e75-4743-abca-710ed6da23fe"`;
+                    `"https://firebasestorage.googleapis.com/v0/b/senzzu-d2fbe.appspot.com/o/stores%2F` + storeId + `%2Fbanner_image%2Fstores_banner_1.png?alt=media&token=3046ec04-4e75-4743-abca-710ed6da23fe"`;
                     $('#shopper-order-history-1').append(`
                         <div class='col-md-3'>
                             <div class="card cursor-pointer add-margin-bottom">
-                                <div class="card-header" style=` + "'background-image: url(" + imageLink + "); background-size: cover; height: 120px;'" + `></div>
+                                <div class="card-header" style=` + "'background-image: url(" + imageLink + "); background-size: cover; background-position: center; height: 120px;'" + `></div>
                                 <div class="card-body" style="padding: 0.75rem 1.25rem;">
                                     <h6>` + doc.data().store_name + `</h6>
                                     <hr style="margin-bottom: 15px;">
@@ -115,7 +115,7 @@ firebase.auth().onAuthStateChanged(function(user) {
         <!--Set navbar buttons-->
         $('#mobile-toggle').html(`
             <a class="nav-link background-transparent cursor-pointer navbar-toggler cart-toggler float-right" data-toggle="modal" data-target="#cartContent" style="border-left: 1px solid; margin-left: 10px; border-radius: 0 !important; padding-left: 8px;">
-                <span class="cart-span"><i class="fa fa-shopping-cart" style="font-size: 30px;"></i></span>
+                <span class="cart-span"><i class="fa fa-shopping-cart theme-color" style="font-size: 30px;"></i></span>
                 <span id="cartItemCount1" class="badge badge-success"><%= current_cart.item_count || 0 %></span>
             </a>
             <span style="display: none;" class="user-uid"></span>
@@ -177,7 +177,7 @@ firebase.auth().onAuthStateChanged(function(user) {
             </li>
             <li class="nav-item">
                 <a class="nav-link background-transparent cursor-pointer" data-toggle="modal" data-target="#cartContent" style="border-left: 1px solid; padding-left: 15px;">
-                    <span class="cart-span"><i class="fa fa-shopping-cart" style="font-size: 20px;"></i></span>
+                    <span class="cart-span"><i class="fa fa-shopping-cart theme-color" style="font-size: 20px;"></i></span>
                     <span id="cartItemCount" class="badge badge-success"><%= current_cart.item_count || 0 %></span>
                 </a>
             </li>
@@ -191,6 +191,12 @@ firebase.auth().onAuthStateChanged(function(user) {
         if (url.includes("shoppers") || url.includes("senzzu_token")) {
             $('#main-body').remove();
         }
+        
+        $('#mobile-toggle').html(`
+            <button class="navbar-toggler btn btn-primary btn-nav nav-link white" data-toggle="modal" data-target="#shopperAuthentication">
+                Login/Signup
+            </button>
+        `);
         
         $('.navbar-links').html(`
             <li class="nav-item">

@@ -7,6 +7,9 @@ class CartsController < ApplicationController
   
   def show
     @cart = Cart.find_by(id: params[:id])
+    if @cart.completed
+      redirect_to root_path
+    end
   end
   
   def confirmation
@@ -140,6 +143,8 @@ class CartsController < ApplicationController
       return
     end
     @message = "Thank you for ordering on Senzzu! Your request has been received by #{@cart.get_store.name} and will be processed soon!"
+    # MessageUpdate.alert_customer(@phone, @message)
+    ShopperMailer.order_receipt(@email, @cart, @order)
     render :layout => false
   end
   

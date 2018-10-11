@@ -581,6 +581,17 @@ function goLive() {
     $.get('/go_live');
 }
 
-function reorder() {
-    
+function refreshStats(elem) {
+    elem.setAttribute('disabled', 'true');
+    $('#' + elem.id)
+    .html(`
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw white"
+            style="font-size: 16px;"></i>
+        reloading...
+    `);
+    $.get('/reload_stats').done((e) => {
+        elem.removeAttribute('disabled');
+        $('#' + elem.id)
+        .html(`<i class="fa fa-refresh"></i> refresh`);
+    });
 }

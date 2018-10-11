@@ -32,7 +32,7 @@
                 </div>
             <% end %>
             <div class="float-left" style="width: 33.3%;">
-                <% ['Monday', 'Tuesday', 'Wednesdday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].each do |day| %>
+                <% ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].each do |day| %>
                     <p class="font-16 add-margin-bottom <%= current_day?(day) %>"><%= day %></p>
                 <% end %>
             </div>
@@ -67,20 +67,24 @@
                     <p class="font-16 bold">Pharmacist</p>
                     <p class="font-16"><%= @store.supervisor %></p>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12 add-margin-top">
                     <p class="font-16 bold">Phone</p>
                     <p class="font-16"><%= @store.phone %></p>
                 </div>
-                <div class="col-md-12">
+                <div class="col-md-12 add-margin-top">
                     <p class="font-16 bold">Email</p>
                     <p class="font-16"><%= @store.email %></p>
+                </div>
+                <div class="col-md-12 add-margin-top">
+                    <p class="font-16 bold">Website</p>
+                    <p class="font-16"><%= @store.website %></p>
                 </div>
             </div>
         </div>
     </div>
   </div>
 </div>
-<section id="storeShowHeader" class="no-border-radius no-margin-bottom" style='height: 250px; background-image: url("<%= @store.banner_image %>"); background-size: cover; filter: brightness(70%);'></section>
+<section id="storeShowHeader" class="no-border-radius no-margin-bottom" style='height: 250px; background-image: url("<%= @store.banner_image %>"); background-size: cover; background-position: center; filter: brightness(70%);'></section>
 <div style="">
     <div id="store-banner-div" style="height: 275px;">
         <div class="container store-banner mobile-container" style="margin-top: -275px; max-height: 100%;">
@@ -92,10 +96,10 @@
                     </p>
                     <div class="row">
                         <div class="col-md-12">
-                            <button class="btn btn-light font-14" data-toggle="modal" data-target="#deliveryHours">
+                            <button class="btn btn-light font-14 no-box-shadow" data-toggle="modal" data-target="#deliveryHours">
                                 <i class="fa fa-clock-o"></i> Business Hours
                             </button>
-                            <button class="btn btn-light font-14" data-toggle="modal" data-target="#contactInfo">
+                            <button class="btn btn-light font-14 no-box-shadow" data-toggle="modal" data-target="#contactInfo">
                                 <i class="fa fa-info-circle"></i> Contact Info
                             </button>
                         </div>

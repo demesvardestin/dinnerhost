@@ -38,8 +38,8 @@ firestore.collection("orders")
                 audio.play();
             } else if (!url_string.includes('dashboard') && $("#sound").text() === "sound") {
                 $('#unprocessedOrders').html(<%= @order_count %> + 1);
-                var audio = new Audio('/sounds/results.mp3');
-                audio.play();
+                <!--var audio = new Audio('/sounds/results.mp3');-->
+                <!--audio.play();-->
             }
             $('#loadingOrders').remove();
             
@@ -69,7 +69,7 @@ firestore.collection("orders")
                                 <div class="modal-body">
                                     <h6 class="bold">Order details:</h6>
                                     <h6 class="">Type: <span class="theme-blue">` + orderType + `</span></h6>
-                                    <h6 class="">Status: <span class="theme-red" id=` + "status-" + id + `>` + status + `</span></h6>
+                                    <h6 class="">Status: <span class="badge badge-primary" id=` + "status-" + id + `>` + status + `</span></h6>
                                     <h6 class="">Total: <span class="theme-green" id=` + "total-" + id + `>` + parseFloat(total).toFixed(2) + `</span></h6>
                                     <h6 class="">Payment type: <span class="theme-red" id=` + "payment_type-" + id + `>` + paymentType + `</span></h6>
                                     <hr style="margin-bottom: 15px;">
@@ -282,8 +282,8 @@ if (type === "categories") {
             $('.inventory-items').html(`
                 <div class="text-center" id="no-items">
                     <span><i class="fa fa-hourglass-o" style="font-size: 40px;"></i></span>
-                    <p class="font-16">Your inventory is empty</p>
-                    <button class="btn btn-primary box-shadow height-40" onclick="window.location.replace('/inventory/new');">
+                    <p class="font-16" style="margin-top: 15px;">Your inventory is empty</p>
+                    <button class="btn btn-primary height-55" onclick="window.location.replace('/inventory/new');">
                        <i class="fa fa-plus-circle"></i> Add an item 
                     </button>
                 </div>
@@ -349,7 +349,7 @@ else if (type === 'orders') {
                                     <div class="modal-body">
                                         <h6 class="bold">Order details:</h6>
                                         <h6 class="">Type: <span class="theme-blue">` + orderType + `</span></h6>
-                                        <h6 class="">Status: <span class="theme-red" id=` + "status-" + id + `>` + status + `</span></h6>
+                                        <h6 class="">Status: <span class="badge badge-primary" id=` + "status-" + id + `>` + status + `</span></h6>
                                         <h6 class="">Total: <span class="theme-green" id=` + "total-" + id + `>` + parseFloat(total).toFixed(2) + `</span></h6>
                                         <h6 class="">Payment type: <span class="theme-red" id=` + "payment_type-" + id + `>` + paymentType + `</span></h6>
                                         <hr style="margin-bottom: 15px;">

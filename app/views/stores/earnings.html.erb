@@ -4,9 +4,8 @@
  }
 </style>
 
-<% if current_store.is_pending %>
-    <%= render 'stripe_account_pending' %>
-<% elsif current_store.is_verified %>
+
+<% if current_store.is_verified %>
     <%= render 'analytics_data' %>
 <% else %>
     <%= render 'new_stripe_account' %>

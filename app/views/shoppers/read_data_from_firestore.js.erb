@@ -135,7 +135,7 @@ if (type === "checkout") {
             $('#shopper-order-history').append(`
                 <div class='col-md-3'>
                     <div class="card cursor-pointer add-margin-bottom" onclick=` + "window.location.replace('/carts/" + cartId + "/" + confirmation + "/" + token + "?confirmed=true')" + `>
-                        <div class="card-header" style=` + "'background-image: url(" + imageLink + "); background-size: cover; height: 120px;'" + `></div>
+                        <div class="card-header" style=` + "'background-image: url(" + imageLink + "); background-size: cover; background-position: center; height: 120px;'" + `></div>
                         <div class="card-body" style="padding: 0.75rem 1.25rem;">
                             <h6>` + doc.data().store_name + `</h6>
                             <hr style="margin-bottom: 15px;">
@@ -218,7 +218,7 @@ if (type === "checkout") {
                                             <div class="card-body">
                                                 <p class="font-16 no-margin-bottom store-item-name" style="font-weight: 600;" id=` + "store-item-name_" + item.id + ` >`+ item.data().name + `</p>
                                                 <p class="font-15 light">` + (item.data().sizes_and_prices ? 'Pick a size' : item.data().size) + ` </p>
-                                                <p class="font-16 theme-green no-margin-bottom add-margin-top">` + (item.data().sizes_and_prices ? 'Price TBD' : '$' + item.data().price) + ` </p>
+                                                <p class="font-16 theme-green no-margin-bottom add-margin-top">` + (item.data().sizes_and_prices ? 'Price based on selection' : '$' + item.data().price) + ` </p>
                                             </div>
                                         </a>
                                     </div>

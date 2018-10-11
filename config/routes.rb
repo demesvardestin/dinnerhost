@@ -61,6 +61,7 @@ Rails.application.routes.draw do
   get '/interval_analytics', to: 'stores#interval_analytics'
   get '/retrieve_earnings', to: 'stores#retrieve_earnings'
   get '/go_live', to: 'stores#go_live'
+  get '/reload_stats', to: 'stores#reload_stats'
   
   ## Callbacks
   post '/account', to: 'main#account'

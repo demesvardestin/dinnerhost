@@ -11,7 +11,7 @@
         </div>
         <div class="col-md-8 offset-md-2">
             <div class="card">
-                <div class="card-header" style="height: 160px; background-image: url('<%= @cart.get_store.banner_image %>'); background-size: cover;" id="storeMap"></div>
+                <div class="card-header" style="height: 160px; background-image: url('<%= @cart.get_store.banner_image %>'); background-size: cover; background-position: center;" id="storeMap"></div>
                 <div class="card-body">
                     <h6><%= @cart.get_store.name %></h6>
                     <hr style="margin-bottom: 25px; margin-top: 25px;">
@@ -98,7 +98,7 @@
                     <hr style="margin-bottom: 25px; margin-top: 25px;">
                     <div class="row">
                         <div class="col-md-12">
-                            <h6>Delivery time:</h6>
+                            <h6><%= @order.delivery_option.capitalize %> time:</h6>
                         </div>
                         <div class="col-md-12">
                             <% if !@order.delivery_time.empty? && @order.delivery_time.downcase == 'asap' %>

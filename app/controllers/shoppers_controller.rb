@@ -25,7 +25,7 @@ class ShoppersController < ApplicationController
         data = params["data"]
         @store = Store.find_by(id: params["data"]["storeID"])
         @store_id = @store.id if @store
-        @cart = Cart.where(shopper_email: guest_shopper.email).last
+        @cart = Cart.where(shopper_email: request.remote_ip).last
         @type = data["type"]
         @shopper_id = data["shopperID"] || ''
         @url = request.original_url

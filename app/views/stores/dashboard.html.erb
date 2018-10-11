@@ -13,7 +13,7 @@
                     <% if current_store.has_no_hours %>
                         <a class="btn btn-primary" href="/edit/hours">Set up my hours</a>
                     <% end %>
-                    <% if !current_store.has_a_bank_account %>
+                    <% if !current_store.has_a_bank_account && !current_store.is_pending %>
                         <a class="btn btn-secondary" href="/earnings">Set up my bank account</a>
                     <% end %>
                     <% if !current_store.live %>
@@ -91,6 +91,11 @@
                             <span class="later-badge badge badge-primary"> </span> Future
                         </div>
                     </div>
+                </div>
+                <div class="card-footer text-center">
+                    <button class="btn btn-primary btn-block" onclick="refreshStats(this);" id="refresh-stats">
+                        <i class="fa fa-refresh"></i> refresh
+                    </button>
                 </div>
             </div>
         </div>

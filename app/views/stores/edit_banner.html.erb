@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <div class="card">
-                <div class="card-header text-center" id="storeBannerImage" style="height: 250px; background-image: url('<%= current_store.banner_image %>'); background-size: cover;">
+                <div class="card-header text-center" id="storeBannerImage" style="height: 250px; background-image: url('<%= current_store.banner_image %>'); background-size: cover; background-position: center;">
                     <% if current_store.banner_image.empty? %>
                         <h6 id="storeBannerImageText" class="add-margin-top" style="vertical-align: middle;">
                             No image provided
