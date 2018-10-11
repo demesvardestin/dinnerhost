@@ -23,12 +23,12 @@ function initMap(store=null, lat=null, lng=null) {
     autocomplete.addListener('place_changed', function() {
       infowindow.close();
       var place = autocomplete.getPlace();
-      if (!place.geometry) {
-        // User entered the name of a Place that was not suggested and
-        // pressed the Enter key, or the Place Details request failed.
-        window.alert("Place not available");
-        return;
-      }
+      // if (!place.geometry) {
+      //   // User entered the name of a Place that was not suggested and
+      //   // pressed the Enter key, or the Place Details request failed.
+      //   window.alert("Place not available");
+      //   return;
+      // }
 
       var address = '';
       if (place.address_components) {
