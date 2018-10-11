@@ -39,6 +39,10 @@ Rails.application.routes.draw do
   get '/register-a-store', to: 'main#register_a_store'
   post '/registration_requests', to: 'main#register'
   get '/send_email', to: 'main#send_email'
+  post '/subscribe', to: 'main#subscribe'
+  get '/contact-us', to: 'main#contact'
+  get '/legal/terms', to: 'main#terms'
+  get '/legal/privacy', to: 'main#privacy'
   
   ## Stores routes
   get '/dashboard', to: 'stores#dashboard'

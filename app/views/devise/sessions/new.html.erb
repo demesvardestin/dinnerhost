@@ -5,11 +5,9 @@
     <!--</div>-->
     <div class="col-md-6 offset-md-3">
       <!--<h1 align="center" style="margin-bottom: 20px;" class="bold">Welcome back!</h1>-->
-      <div class="card box-shadow theme-border">
-        <div class="card-header theme-background">
-          <h4 align="center" class="bold white">Welcome back!</h4>
-        </div>
+      <div class="card theme-border">
         <div class="card-body">
+          <h4 align="center" class="theme-color add-margin-bottom">Welcome back!</h4>
           <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
             <div class="form-inputs" style="vertical-align: middle !important;">
               <% if !devise_error_messages!.empty? %>

@@ -35,6 +35,7 @@ firebase.auth().onAuthStateChanged(function(user) {
             readShopperDataFromFirestore(data);
         }
         
+        var count = 0;
         if (!url_string.includes('order-history')) {
             var data = {
                 "type": "shopper-order-history",
@@ -96,6 +97,13 @@ firebase.auth().onAuthStateChanged(function(user) {
                         `);
                     }
                 });
+                if (count == 0) {
+                    $('#shopper-order-history-1').append(`
+                        <div class="col-md-12" style="padding-top: 40px;">
+                            <h6 align="center">No order history available</h6>
+                        </div>
+                    `);
+                }
             });
         }
         

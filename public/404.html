@@ -1,67 +1,183 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>The page you were looking for doesn't exist (404)</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <style>
-  body {
-    background-color: #EFEFEF;
-    color: #2E2F30;
-    text-align: center;
-    font-family: arial, sans-serif;
-    margin: 0;
-  }
+  <head>
+    <title>The page you were looking for doesn't exist (404)</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:400" rel="stylesheet">
+    <style>
+    nav {
+      height: auto;
+      padding: 15px 120px;
+      background-color: #fff;
+    }
+    .nav-container {
+      height: 50px;
+    }
+    .home-btn {
+      padding: 10px 20px;
+      background-color: #F27649;
+      border: 1px solid #F27649;
+      color: #fff;
+      border-radius: 3px;
+      text-decoration: none;
+    }
+    .home-btn:hover {
+      background-color: #d96a41;
+    }
+    
+    .submit-search {
+      background-color: #007bff;
+      border: 2px solid #007bff;
+      color: #fff;
+      border-radius: 3px;
+      text-decoration: none;
+      height: 55px;
+      font-size: 16px;
+      padding-left: 15px;
+      padding-right: 15px;
+      cursor: pointer;
+    }
+    
+    .submit-search:hover {
+      background-color: #006ee5;
+      border-color: #006ee5;
+    }
+    
+    h1, h2, h3, h4, h5, h6, p, a, li, input, button {
+      font-family: 'ubuntu', sans-serif;
+    }
+    
+    .pac-container {
+      padding: 0 0.75rem 1rem 0.75rem !important;
+      width: 730px;
+      box-shadow: none !important;
+      border: 0.5px solid #e7e7e9 !important;
+      font-family: 'Montserrat', sans-serif !important;
+    }
+    
+    .pac-item {
+      border-top: none;
+      border-bottom: 0.5px solid #e7e7e9;
+      padding: 10px 0;
+      cursor: pointer !important;
+    }
+    
+    .pac-icon {
+      color: #F27649 !important;
+    }
+    
+    a {
+      background-color: transparent;
+      text-decoration: none;
+    }
+    #store-search {
+      height: 55px;
+      border-radius: 3px;
+      background-color: #fff;
+      box-shadow: none;
+      border: none;
+      font-size: 16px;
+      padding: 0 10px;
+      width: 500px;
+    }
+    body {
+      background-color: #F27649;
+      color: #fff;
+      text-align: center;
+      font-family: 'ubuntu', sans-serif;
+      margin: 0;
+    }
+    </style>
+  </head>
 
-  div.dialog {
-    width: 95%;
-    max-width: 33em;
-    margin: 4em auto 0;
-  }
-
-  div.dialog > div {
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #BBB;
-    border-top: #B00100 solid 4px;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-    background-color: white;
-    padding: 7px 12% 0;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
-
-  h1 {
-    font-size: 100%;
-    color: #730E15;
-    line-height: 1.5em;
-  }
-
-  div.dialog > p {
-    margin: 0 0 1em;
-    padding: 1em;
-    background-color: #F7F7F7;
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #999;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-top-color: #DADADA;
-    color: #666;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
-  </style>
-</head>
-
-<body>
-  <!-- This file lives in public/404.html -->
-  <div class="dialog">
-    <div>
-      <h1>The page you were looking for doesn't exist.</h1>
-      <p>You may have mistyped the address or the page may have moved.</p>
+  <body>
+    <!-- This file lives in public/404.html -->
+    <nav class="navbar navbar-expand-lg fixed-top main-navbar">
+      <div class="nav-container">
+        <a class="navbar-brand cursor-pointer" onclick="window.location.replace('/');" style="float: left;">
+          <img src="https://s3.us-east-2.amazonaws.com/senzzu/logo-transparent.png" alt="Senzzu" height="47">
+        </a>
+        <span style="float: right; font-size: 16px; padding-top: 15px;">
+          <a type="button" href="/" class="home-btn">
+            Home
+          </a>
+        </span>
+      </div>
+    </nav>
+    <div class="dialog-header">
+      <h1 style="font-size: 40px; color: #fff;">Sorry, this page doesn't exist!</h1>
     </div>
-    <p>If you are the application owner check the logs for more information.</p>
-  </div>
-</body>
+    <form action="/search" method="get" id="storeSearchForm">
+        <input class="form-control no-box-shadow store-search border-white"
+            id="store-search" name="q" placeholder="Enter your address to start shopping" autocomplete="off" onfocus="showSuggestionBox();">
+        <button class="submit-search" align="center" type="button">
+            Search
+        </button>
+    </form>
+    <div id="suggestionBoxContainer">
+        <div id="suggestionBox">
+            <div id="map" style="display: none;"></div>
+            <div id="infowindow-content">
+                <img src="" width="16" height="16" id="place-icon">
+                <span id="place-name"  class="title" style="font-size: 17px;"></span><br>
+                <span id="place-address"></span>
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 30px">
+      <p style="font-size: 15px;">
+        &copy; Senzzu |
+        <a href="/legal/privacy">
+          Privacy
+        </a> |
+        <a href="/legal/privacy">
+          Terms
+        </a> |
+        <a href="/legal/privacy">
+          Contact
+        </a>
+      </p>
+    </div>
+    
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtkPxyakU5Nb1YO6daAGGytItWoeNL5vM&libraries=places&callback=initMap"
+      async defer>
+    </script>
+    
+    <script type="text/javascript">
+      function initMap(store=null, lat=null, lng=null) {
+        if (store) {
+          var map = new google.maps.Map(document.getElementById('storeMap'), {
+              center: {lat: -lat, lng: -lng},
+              zoom: 13
+          });
+        } else {
+          var input = document.getElementById('store-search');
+          var map = new google.maps.Map(document.getElementById('map'), {
+              center: {lat: -33.8688, lng: 151.2195},
+              zoom: 13
+          });
+          var autocomplete = new google.maps.places.Autocomplete(input);
+      
+          var infowindow = new google.maps.InfoWindow();
+          var infowindowContent = document.getElementById('infowindow-content');
+          infowindow.setContent(infowindowContent);
+      
+          autocomplete.addListener('place_changed', function() {
+            infowindow.close();
+            var place = autocomplete.getPlace();
+      
+            var address = '';
+            if (place.address_components) {
+              address = [
+                (place.address_components[0] && place.address_components[0].short_name || ''),
+                (place.address_components[1] && place.address_components[1].short_name || ''),
+                (place.address_components[2] && place.address_components[2].short_name || '')
+              ].join(' ');
+              window.location.replace("/search?q=" + encodeURI(address));
+            }
+          });
+        }
+      }
+    </script>
+  </body>
 </html>

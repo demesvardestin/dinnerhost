@@ -316,12 +316,12 @@ function toggleAuth(state) {
                     <span aria-hidden="true"><i class="fa fa-times-circle"></i></span>
                 </a>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="authenticationModalBody">
                 <form onsubmit="signupShopper()" id="shopperSignupForm" data-remote="true">
-                    <input type="email" class="form-control add-margin-bottom" placeholder="email" id="signupEmail">
-                    <input type="password" class="form-control add-margin-bottom" placeholder="password" id="signupPassword">
-                    <input type="text" class="form-control add-margin-bottom" placeholder="Phone number" id="signupPhone">
-                    <input type="text" class="form-control add-margin-bottom" placeholder="Full address" id="signupAddress">
+                    <input type="email" class="form-control add-margin-bottom" placeholder="email" id="signupEmail" required="true">
+                    <input type="password" class="form-control add-margin-bottom" placeholder="password" id="signupPassword" required="true">
+                    <input type="text" class="form-control add-margin-bottom" placeholder="Phone number" id="signupPhone" required="true">
+                    <input type="text" class="form-control add-margin-bottom" placeholder="Full address" id="signupAddress" required="true">
                     <button type="submit" class="btn btn-primary btn-block add-margin-bottom height-55" id="signupBtn" onclick="signupShopper()">
                         Signup
                     </button>
@@ -341,10 +341,10 @@ function toggleAuth(state) {
                     <span aria-hidden="true"><i class="fa fa-times-circle"></i></span>
                 </a>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="authenticationModalBody">
                 <form onsubmit="loginShopper()" id="shopperLoginForm" data-remote="true">
-                    <input type="email" class="form-control add-margin-bottom" placeholder="email" id="loginEmail">
-                    <input type="password" class="form-control add-margin-bottom" placeholder="password" id="loginPassword">
+                    <input type="email" class="form-control add-margin-bottom" placeholder="email" id="loginEmail" required="true">
+                    <input type="password" class="form-control add-margin-bottom" placeholder="password" id="loginPassword" required="true">
                     <button type="submit" class="btn btn-primary btn-block add-margin-bottom height-55" id="loginBtn" onclick="loginShopper()">
                         Log in
                     </button>
@@ -371,7 +371,16 @@ function signupShopper() {
     const shopperPassword = document.querySelector('#signupPassword').value;
     const shopperAddress = document.querySelector('#signupAddress').value;
     const shopperPhone = document.querySelector('#signupPhone').value;
-    
+    if (!shopperAddress || !shopperPhone) {
+        $('.alert').remove();
+        
+        $('#authenticationModalBody').prepend(`
+            <div class="alert alert-danger" role="alert">
+                <h6 class="alert-heading">Please provide the missing information</h6>
+            </div>
+        `);
+        return;
+    }
     $('#signupBtn').css('opacity', '0.7').html('Creating your account...');
     
     firebase.auth().createUserWithEmailAndPassword(shopperEmail, shopperPassword)
@@ -387,9 +396,16 @@ function signupShopper() {
         addShopperDataToFirestore(data);
     })
     .catch(function(error) {
-      
+        $('#signupBtn').css('opacity', '1').html('Sign up');
+        $('.alert').remove();
         var errorCode = error.code;
         var errorMessage = error.message;
+        
+        $('#authenticationModalBody').prepend(`
+            <div class="alert alert-danger" role="alert">
+                <h6 class="alert-heading">` + errorMessage + `</h6>
+            </div>
+        `);
       
         console.log(errorCode, errorMessage);
       
@@ -411,11 +427,18 @@ function loginShopper() {
     
     firebase.auth().signInWithEmailAndPassword(shopperEmail, shopperPassword)
     .catch(function(error) {
+        $('#loginBtn').css('opacity', '1').html('Log in');
+        $('.alert').remove();
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        
+        $('#authenticationModalBody').prepend(`
+            <div class="alert alert-danger" role="alert">
+                <h6 class="alert-heading">` + errorMessage + `</h6>
+            </div>
+        `);
       
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      
-      console.log(errorCode, errorMessage);
+        console.log(errorCode, errorMessage);
       
     });
 }

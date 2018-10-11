@@ -22,6 +22,7 @@ if (type === "checkout") {
     firestore.collection('shoppers').get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             if (doc.id === "<%= @shopper_id %>") {
+                count += 1;
                 $('#shopperInfo').html(`
                     <input type="text" class="form-control" placeholder="Your full address" id="address">
                     <input type="text" class="form-control" placeholder="Your apartment number (if any)" id="apt-number">
@@ -44,6 +45,21 @@ if (type === "checkout") {
             }
         })
     });
+    if (count == 0) {
+        $('#shopperInfo').html(`
+            <input type="text" class="form-control" placeholder="Your full address" id="address">
+            <input type="text" class="form-control" placeholder="Your apartment number (if any)" id="apt-number">
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="Your name" id="contact-name">
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" placeholder="Your phone number" id="phone-number">
+                </div>
+            </div>
+            <textarea class='form-control no-box-shadow font-15' placeholder="Delivery instructions" style="height: 100px;" id="delivery-instructions"></textarea>
+        `);
+    }
 } else if (type === "shopper-categories") {
     var categories = [];
     console.log('here');
@@ -123,7 +139,7 @@ if (type === "checkout") {
     .get().then((docs) => {
         $('#shopper-order-history').empty();
         docs.forEach((doc) => {
-            console.log('hey');
+            count += 1;
             var confirmation = doc.data().confirmation;
             var total = doc.data().total;
             var details = doc.data().details;
@@ -161,6 +177,13 @@ if (type === "checkout") {
                 `);
             }
         });
+        if (count == 0) {
+            $('#shopper-order-history').html(`
+                <div class="col-md-12" style="padding-top: 40px;">
+                    <h6 align="center">No order history available</h6>
+                </div>
+            `);
+        }
     });
 } else if (type === "store-items") {
     <% if @store %>

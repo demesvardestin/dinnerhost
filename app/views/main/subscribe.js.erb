@@ -1,0 +1,13 @@
+$('#newsletterResponse').html(`
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <h6 class="alert-heading">Thank you for subscribing!</h6>
+        <a class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </a>
+    </div>
+`);
+
+document.querySelector('#newsletterSubscriptionForm').reset();
+$('#submitEmail').html(`
+    <i class="fa fa-paper-plane white"></i>
+`);

@@ -193,36 +193,13 @@
                 </a>
             </div>
             <div class="col-md-4" style="padding-top: 40px;">
-                <button class="btn btn-primary btn-block" style="height: 50px !important;" onclick="window.location.replace('/store/signup')">
+                <button class="btn btn-primary btn-block" style="height: 50px !important;" onclick="window.location.replace('/register-a-store')">
                     Try Senzzu for free
                 </button>
             </div>
         </div>
     </div>
 </section>
-
-<!--<section id="forStores" style="padding: 40px 0;">-->
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <div class="col-md-4 offset-md-2">-->
-<!--                <div class="card background-blue border-blue box-shadow">-->
-<!--                    <div class="card-header background-transparent no-border white">-->
-<!--                        <h3 class="white bold">Stores</h3>-->
-<!--                        <hr>-->
-<!--                    </div>-->
-<!--                    <div class="card-body background-transparent" style="padding-top: 0;">-->
-<!--                        <h2 class="white bold add-margin-bottom white">Free</h2>-->
-<!--                        <ul>-->
-<!--                            <li class="white">No signup fee</li>-->
-<!--                            <li class="white">No monthly fee</li>-->
-<!--                            <li class="white">No hidden fees</li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
 
 <section id="newsletter" style="padding: 40px 0;">
     <div class="container">
@@ -234,19 +211,22 @@
         </div>
         <div class="row">
             <div class="col-md-4 offset-md-4 how-to text-center">
-                <form id="newsletterSubscriptionForm">
+                <div id="newsletterResponse"></div>
+                <form id="newsletterSubscriptionForm" data-remote="true" action="/subscribe" method="post" onsubmit="showFormLoader();">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend theme-border">
-                            <span class="input-group-text prepend-group theme-background theme-border" id="basic-addon1">
-                                <i class="fa fa-envelope-o white search-input-icon"></i>
+                            <span class="input-group-text prepend-group background-white theme-border" id="basic-addon1">
+                                <i class="fa fa-envelope theme-color search-input-icon"></i>
                             </span>
                         </div>
                         <input class="form-control no-box-shadow newsletter-signup theme-border"
                             id="newsletter-signup" name="email" placeholder="Sign up for our newsletter">
+                        <div class="input-group-append theme-border">
+                            <button class="btn btn-primary no-box-shadow" id="submitEmail" style="padding-left: 15px; padding-right: 15px;">
+                                <i class="fa fa-paper-plane white"></i>
+                            </button>
+                        </div>
                     </div>
-                    <button class="btn btn-primary height-50 box-shadow btn-block" align="center" type="submit" id="submitNewsletterSubscription" style="display: none; margin-bottom: 10px;">
-                        Search
-                    </button>
                 </form>
             </div>
         </div>
@@ -255,4 +235,13 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtkPxyakU5Nb1YO6daAGGytItWoeNL5vM&libraries=places&callback=initMap"
     async defer>
+</script>
+
+<script type="text/javascript">
+    function showFormLoader() {
+        $('#submitEmail').html(`
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw white"
+            style="font-size: 18px;"></i>
+        `);
+    }
 </script>

@@ -95,6 +95,16 @@ class MainController < ApplicationController
         end
     end
     
+    def subscribe
+        email = params[:email]
+        unless !Newsletter.exists?(email: email)
+            render 'email_exists', :layout => false
+            return
+        end
+        Newsletter.create_recipient(email)
+        render :layout => false
+    end
+    
     def initialize_cart
         @cart = Cart.where(shopper_email: request.remote_ip, pending: true).last
         if @cart.nil?

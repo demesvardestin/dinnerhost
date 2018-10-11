@@ -11,9 +11,9 @@ class ApplicationController < ActionController::Base
   end
   
   def retrieve_registration
-    if url.include?('store/signup')
-      @registration = RegistrationRequest.find_by(token: params[:token])
-      if @registration.nil?
+    if url.ends_with?('/store/signup')
+      @registration = RegistrationRequest.last
+      if @registration.nil? || @registration.token.nil?
         redirect_to root_path
       end
     end

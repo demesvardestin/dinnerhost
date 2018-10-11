@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181009171502) do
+ActiveRecord::Schema.define(version: 20181011170353) do
 
   create_table "carts", force: :cascade do |t|
     t.integer  "item_count",        default: 0
@@ -32,6 +32,13 @@ ActiveRecord::Schema.define(version: 20181009171502) do
     t.string   "items_price_list",  default: ""
     t.string   "item_list_name",    default: ""
     t.string   "item_tax_list",     default: ""
+  end
+
+  create_table "newsletters", force: :cascade do |t|
+    t.string   "email"
+    t.boolean  "active",     default: true
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "orders", force: :cascade do |t|

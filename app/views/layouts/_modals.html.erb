@@ -28,10 +28,10 @@
                     <span aria-hidden="true"><i class="fa fa-times-circle"></i></span>
                 </a>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="authenticationModalBody">
                 <form onsubmit="loginShopper()" id="shopperLoginForm" data-remote="true">
-                    <input type="email" class="form-control add-margin-bottom" placeholder="email" id="loginEmail">
-                    <input type="password" class="form-control add-margin-bottom" placeholder="password" id="loginPassword">
+                    <input type="email" class="form-control add-margin-bottom" placeholder="email" id="loginEmail" required="true">
+                    <input type="password" class="form-control add-margin-bottom" placeholder="password" id="loginPassword" required="true">
                     <button type="submit" class="btn btn-primary btn-block add-margin-bottom height-55" id="loginBtn" onclick="loginShopper()">
                         Log in
                     </button>

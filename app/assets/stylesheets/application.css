@@ -66,6 +66,10 @@
     border-left: none !important;
 }
 
+#newsletter-signup {
+    border-bottom-left-radius: 0 !important;
+}
+
 .font-17 {
     font-size: 17px;
 }
@@ -113,10 +117,18 @@
     color: #F27649 !important;
 }
 
-.prepend-group, .prepend-group:hover {
+.prepend-group {
     height: 65px;
     border-color: #fff;
     background-color: #fff !important;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none !important;
+}
+
+.prepend-group:hover {
+    height: 65px;
+    border-color: #fff;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     border-right: none !important;
@@ -179,6 +191,12 @@ div.how-to > i {
     height: 45px;
     width: 45px;
     border-radius: 22.5px !important;
+}
+
+.badge-circle-medium {
+    height: 30px;
+    width: 30px;
+    border-radius: 15px !important;
 }
 
 .arrow-up {
