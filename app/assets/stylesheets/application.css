@@ -455,4 +455,9 @@ input.btn:hover {
     .social-share-right {
         border-bottom-left-radius: 2px !important;
     }
+    
+    #socialTags {
+        text-align: center !important;
+        margin-top: 15px;
+    }
 }
