@@ -89,7 +89,8 @@
                 <div class="card box-shadow">
                     <div class="card-header" style="height: 160px; background-image: url(<%= @cart.get_store.banner_image %>); background-size: cover; background-position: center; overflow: hidden !important;" id="storeMap"></div>
                     <div class="card-body">
-                        <h6><%= @cart.get_store.name %></h6>
+                        <h6 class="float-left"><%= @cart.get_store.name %></h6>
+                        <span class="float-right"></span>
                         <hr style="margin-bottom: 25px; margin-top: 25px;">
                         <% @cart.item_list.split(', ').each_with_index do |i, idx| %>
                             <div class="row">
@@ -175,7 +176,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 complete-order add-margin-top">
-                                <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= request.remote_ip %>"
+                                <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= guest_shopper.email %>"
                                     data-toggle="modal" data-target="#submitConfirmation">
                                     Submit order
                                 </button>
@@ -192,7 +193,7 @@
                     </form>
                 <% else %>
                     <h6 class="theme-red">*This store does not currently accept online payments</h6>
-                    <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= request.remote_ip %>"
+                    <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= guest_shopper.email %>"
                         data-toggle="modal" data-target="#submitConfirmationWithoutPayment" onclick="processOfflineOrder()">
                         Submit order & pay in person
                     </button>

@@ -52,11 +52,17 @@ firebase.auth().onAuthStateChanged(function(user) {
                     <p>Loading details</p>
                 </div>
             `).show();
+            
+            $('#shopper_id').html(user.uid);
+            firestore.collection("shoppers").doc(user.uid).get()
+            .then((doc) => {
+                $('#shopperName').html(doc.data().name);
+            });
+            
             firestore.collection("orders").where("shopper_id", "==", user.uid)
             .get().then((docs) => {
                 $("#loadingAccountDetails").remove();
                 docs.forEach((doc) => {
-                    console.log('hey');
                     var confirmation = doc.data().confirmation;
                     var total = doc.data().total;
                     var details = doc.data().details;
@@ -124,7 +130,7 @@ firebase.auth().onAuthStateChanged(function(user) {
         $('#mobile-toggle').html(`
             <a class="nav-link background-transparent cursor-pointer navbar-toggler cart-toggler float-right" data-toggle="modal" data-target="#cartContent" style="border-left: 1px solid; margin-left: 10px; border-radius: 0 !important; padding-left: 8px;">
                 <span class="cart-span"><i class="fa fa-shopping-cart theme-color" style="font-size: 30px;"></i></span>
-                <span id="cartItemCount1" class="badge badge-success"><%= current_cart.item_count || 0 %></span>
+                <span id="cartItemCount1" class="badge badge-primary"><%= current_cart.item_count || 0 %></span>
             </a>
             <span style="display: none;" class="user-uid"></span>
             <div class="dropdown float-right">
@@ -140,6 +146,11 @@ firebase.auth().onAuthStateChanged(function(user) {
                     <a class="background-transparent dropdown-item cursor-pointer"
                         onclick=` + "window.location.href='/shoppers/" + uid + "/<%= @token %>/order-history?current_shopper=true&method=browser'" + `>
                         Order history
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="background-transparent dropdown-item cursor-pointer"
+                        onclick=` + "window.location.href='/shoppers/" + uid + "/<%= @token %>/favorites?current_shopper=true&method=browser'" + `>
+                        <i class="fa fa-star theme-yellow"></i> Favorites
                     </a>
                     <!--<div class="dropdown-divider"></div>-->
                     <!--<a class="background-transparent dropdown-item cursor-pointer"-->
@@ -170,11 +181,11 @@ firebase.auth().onAuthStateChanged(function(user) {
                             onclick=` + "window.location.href='/shoppers/" + uid + "/<%= @token %>/order-history?current_shopper=true&method=browser&senzzu_token=" + uid + "'" + `>
                             Order history
                         </a>
-                        <!--<div class="dropdown-divider"></div>-->
-                        <!--<a class="background-transparent dropdown-item cursor-pointer"-->
-                        <!--    onclick=` + "window.location.href='/shoppers/" + uid + "/<%= @token %>/order-history?current_shopper=true&method=browser&senzzu_token=" + uid + "'" + `>-->
-                        <!--    Help-->
-                        <!--</a>-->
+                        <div class="dropdown-divider"></div>
+                        <a class="background-transparent dropdown-item cursor-pointer"
+                            onclick=` + "window.location.href='/shoppers/" + uid + "/<%= @token %>/favorites?current_shopper=true&method=browser'" + `>
+                            <i class="fa fa-star theme-yellow"></i> Favorites
+                        </a>
                         <div class="dropdown-divider"></div>
                         <a class="background-transparent dropdown-item cursor-pointer"
                             onclick="signOut();">
@@ -186,7 +197,7 @@ firebase.auth().onAuthStateChanged(function(user) {
             <li class="nav-item">
                 <a class="nav-link background-transparent cursor-pointer" data-toggle="modal" data-target="#cartContent" style="border-left: 1px solid; padding-left: 15px;">
                     <span class="cart-span"><i class="fa fa-shopping-cart theme-color" style="font-size: 20px;"></i></span>
-                    <span id="cartItemCount" class="badge badge-success"><%= current_cart.item_count || 0 %></span>
+                    <span id="cartItemCount" class="badge badge-primary"><%= current_cart.item_count || 0 %></span>
                 </a>
             </li>
         `);

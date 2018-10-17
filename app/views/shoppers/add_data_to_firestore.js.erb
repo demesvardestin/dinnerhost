@@ -16,10 +16,8 @@ var settings = {timestampsInSnapshots: true};
 firestore.settings(settings);
 
 var type = "<%= @type %>";
-console.log(type);
 
 if (type === "update-shopper") {
-    console.log('yes');
     firestore.collection("shoppers").doc("<%= @shopper_uid %>").set({
         email: "<%= @shopper_email %>",
         phone: "<%= @shopper_phone %>",
@@ -32,5 +30,64 @@ if (type === "update-shopper") {
     })
     .catch(error => {
         console.error('An error occurred');
+    });
+} else if (type === "unfavorite") {
+    firestore.collection("favorites").doc("<%= @doc_id %>").delete()
+    .then((success) => {
+        toastr.success("Store removed from favorites.");
+        $('#storeFavoriteCard<%= @store_id %>').remove();
+        if ($('#shopperFavorites').text().trim().length == 0) {
+            $('#shopperFavorites').html(`
+                <div class="col-md-12 text-center">
+                    <h6 class="theme-color">You currently have no favorites</h6>
+                </div>
+            `);
+        }
+    }).catch((error) => {
+        toastr.warning("Unable to remove store from favorites. Please try again.");
+    });
+} else if (type === "favorite") {
+    var data = {
+        store_id: <%= @store_id %>,
+        shopper_id: "<%= @shopper_uid %>"
+    };
+    firestore.collection("favorites").add(data)
+    .then((success) => {
+        toastr.success("Store added to favorites!");
+        $.get('/log_favorite', { store_id: <%= @store_id %>, shopper_id: "<%= @shopper_uid %>" });
+    }).catch((error) => {
+        toastr.warning("Unable to remove store from favorites. Please try again.");
+    });
+} else if (type === "review") {
+    var data = {
+        store_id: <%= @store_id %>,
+        shopper_id: "<%= @shopper_uid %>",
+        content: "<%= @content %>",
+        author: "<%= @author %>"
+    };
+    firestore.collection("reviews").add(data)
+    .then((success) => {
+        $.post('/log_firebase_reviews_data', { review: data })
+        .done((success) => {
+            toastr.success("Your review has been added!");
+            $("#all_reviews").prepend(`
+                <div class="col-md-12">
+                    <p style="font-size: 14px;">
+                        <em>"<%= @content %>"</em>
+                    </p>
+                    <p style="font-size: 14px;" class="text-right">
+                        - <%= @author %>
+                    </p>
+                </div>
+            `);
+            document.querySelector('#reviewInput').value = "";
+            $('#submitReviewBtn').html(`
+                <i class="fa fa-paper-plane"></i>
+            `);
+        }).fail((error) => {
+            toastr.warning("An error occurred while adding your review. Please try again.");
+        });
+    }).catch((error) => {
+        toastr.warning("Your review could not be added. Please try again.");
     });
 }

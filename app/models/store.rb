@@ -9,8 +9,13 @@ class Store < ApplicationRecord
     
     has_many :past_orders
     has_many :orders
+    has_many :store_reviews
     
     scope :live, -> { where('live = ? ', true) }
+    
+    def reviews
+        self.store_reviews.reverse
+    end
     
     def full_address
         [street_address, town, state, zipcode].join(', ') 
@@ -30,6 +35,10 @@ class Store < ApplicationRecord
     
     def has_no_hours
         weekday_hours.empty? || saturday_hours.empty? || sunday_hours.empty? 
+    end
+    
+    def item_requests_count
+        return SpecialOrder.all.where(store_id: self.id, denied: false, picked_up: false).count
     end
     
     def actions_required

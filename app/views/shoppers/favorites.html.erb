@@ -1,0 +1,17 @@
+<section id="favorites" class="container" style="padding-bottom: 90px;">
+    <div class="row">
+        <div class="col-md-12 add-margin-bottom">
+            <h5>Favorites</h5>
+            <hr>
+        </div>
+    </div>
+    <div class="row" id="shopperFavorites"></div>
+</section>
+
+<script type="text/javascript">
+    var data = {
+        "type": "favorites",
+        "shopperID": "<%= params[:shopper_id] %>"
+    };
+    readShopperDataFromFirestore(data, "shopperFavorites");
+</script>

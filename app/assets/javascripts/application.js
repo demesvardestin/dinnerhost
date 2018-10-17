@@ -9,9 +9,9 @@
 window.onload = e => {
     $.get('/uninitialize_firebase');
     $.get('/initialize_cart');
+    $.get('/firebase_listener');
     var url = window.location.href;
     authState();
-    $.get('/read_data_from_firestore');
 };
 
 $(function () {
@@ -164,6 +164,9 @@ function deleteItem(id) {
         "type": "items",
         "id": id
     };
+    $('#delete-' + id)
+    .css('opacity', '0.7')
+    .html('deleting...');
     removeDataFromFirestore(data);
 }
 
@@ -617,4 +620,24 @@ function refreshStats(elem) {
         $('#' + elem.id)
         .html(`<i class="fa fa-refresh"></i> refresh`);
     });
+}
+
+function unfavorite(docID, storeID) {
+    var storeID = parseInt(storeID);
+    var data = {
+        "type": "unfavorite",
+        "docID": docID,
+        "storeID": storeID
+    };
+    addShopperDataToFirestore(data);
+}
+
+function favorite(token, storeID) {
+    var storeID = parseInt(storeID);
+    var data = {
+        "type": "favorite",
+        "shopperUID": token,
+        "storeID": storeID
+    };
+    addShopperDataToFirestore(data);
 }

@@ -49,9 +49,10 @@
         var storageRef = firebase.storage().ref();
         storageRef.child(imageName).put(imageUrl).then((snapShot) => {
             storageRef.child(imageName).getDownloadURL().then((url) => {
-                console.log(url);
                 $.post('/store_banner_image', { data: {"url": url} })
                 .done((done) => {
+                    var data = {"type": "banner_image", "url": url};
+                    addDataToFirestore(data);
                     $('#storeBannerImageText').remove();
                     $('#storeBannerImage')
                     .css('background-image', "url('" + url + "')")

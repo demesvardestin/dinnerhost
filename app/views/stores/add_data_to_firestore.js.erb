@@ -44,9 +44,19 @@ if (type === "new-store") {
     .then((response) => {
         $.get('/update_sessions_count'); // update sessions count
     }).catch((error) => {
-        console.error('an error occurred!');
+        <!--console.error('an error occurred!');-->
     });
-    
+} else if (type === "banner_image") {
+    var data = {
+        banner_image: "<%= @url %>"
+    };
+    firestore.collection('stores').doc("<%= @store.firestore_doc_id %>").set(data, { merge: true })
+    .then((response) => {
+        toastr.success('Banner image updated!');
+        <!--console.log('success');-->
+    }).catch((error) => {
+        <!--console.error('an error occurred!');-->
+    });
 } else if (type === "new-item") {
     var sizesAndPrices = {};
     var availableSizes = "<%= @available_sizes %>";

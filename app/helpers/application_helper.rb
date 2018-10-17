@@ -13,9 +13,9 @@ module ApplicationHelper
     end
     
     def current_cart
-        @cart = Cart.where(shopper_email: request.remote_ip, pending: true).last
+        @cart = Cart.where(shopper_email: guest_shopper.email, pending: true).last
         if @cart.nil?
-            @cart = Cart.create(shopper_email: request.remote_ip, pending: true)
+            @cart = Cart.create(shopper_email: guest_shopper.email, pending: true)
         end
         return @cart
     end
@@ -36,6 +36,10 @@ module ApplicationHelper
     def item_categories
         ['skin-care', 'baby-care', 'hair-care', 'dental-care', 'cold-relief', 'pain-relief', 'fever-reducers', 'personal-care', 'toiletries', "women's hygiene",
         "anti-diahrreal", 'allergy-relief', 'anti-bacterial', 'household items', 'vitamins & supplements', 'and more!'] 
+    end
+    
+    def unescape(content)
+        URI.unescape(content)
     end
     
 end

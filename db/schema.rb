@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181011170353) do
+ActiveRecord::Schema.define(version: 20181017183634) do
 
   create_table "carts", force: :cascade do |t|
     t.integer  "item_count",        default: 0
@@ -32,6 +32,13 @@ ActiveRecord::Schema.define(version: 20181011170353) do
     t.string   "items_price_list",  default: ""
     t.string   "item_list_name",    default: ""
     t.string   "item_tax_list",     default: ""
+  end
+
+  create_table "favorites_logs", force: :cascade do |t|
+    t.integer  "store_id"
+    t.string   "shopper_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "newsletters", force: :cascade do |t|
@@ -118,6 +125,31 @@ ActiveRecord::Schema.define(version: 20181011170353) do
     t.boolean  "guest",                  default: false
     t.index ["email"], name: "index_shoppers_on_email", unique: true
     t.index ["reset_password_token"], name: "index_shoppers_on_reset_password_token", unique: true
+  end
+
+  create_table "special_orders", force: :cascade do |t|
+    t.string   "item_name"
+    t.string   "item_size"
+    t.string   "item_description"
+    t.string   "item_price"
+    t.string   "availability_date"
+    t.integer  "store_id"
+    t.string   "shopper_phone",     default: ""
+    t.boolean  "pending",           default: false
+    t.boolean  "denied",            default: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.boolean  "picked_up",         default: false
+  end
+
+  create_table "store_reviews", force: :cascade do |t|
+    t.string   "content"
+    t.integer  "store_id"
+    t.string   "author"
+    t.string   "shopper_id"
+    t.boolean  "active",     default: true
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "stores", force: :cascade do |t|

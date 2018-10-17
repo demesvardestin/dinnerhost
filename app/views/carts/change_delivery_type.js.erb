@@ -161,7 +161,7 @@ if (type === "delivery") {
 <!--                </div>-->
 <!--                <div class="row">-->
 <!--                    <div class="col-md-12 complete-order add-margin-top">-->
-<!--                        <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= request.remote_ip %>"-->
+<!--                        <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= guest_shopper.email %>"-->
 <!--                            data-toggle="modal" data-target="#submitConfirmation">-->
 <!--                            Submit order-->
 <!--                        </button>-->
@@ -178,7 +178,7 @@ if (type === "delivery") {
 <!--            </form>-->
 <!--        <% else %>-->
 <!--            <h6 class="theme-red">*This store does not currently accept online payments</h6>-->
-<!--            <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= request.remote_ip %>"-->
+<!--            <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= guest_shopper.email %>"-->
 <!--                data-toggle="modal" data-target="#submitConfirmationWithoutPayment" onclick="processOfflineOrder()">-->
 <!--                Submit order & pay in person-->
 <!--            </button>-->
@@ -197,7 +197,7 @@ if (type === "delivery") {
 <!--                    </div>-->
 <!--                    <div class="row">-->
 <!--                        <div class="col-md-12 complete-order add-margin-top">-->
-<!--                            <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= request.remote_ip %>"-->
+<!--                            <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= guest_shopper.email %>"-->
 <!--                                data-toggle="modal" data-target="#submitConfirmation">-->
 <!--                                Submit order-->
 <!--                            </button>-->
@@ -214,7 +214,7 @@ if (type === "delivery") {
 <!--                </form>-->
 <!--            <% else %>-->
 <!--                <h6 class="theme-red">*This store does not currently accept online payments</h6>-->
-<!--                <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= request.remote_ip %>"-->
+<!--                <button class="btn btn-primary btn-block height-55 white submit-btn" id="<%= guest_shopper.email %>"-->
 <!--                    data-toggle="modal" data-target="#submitConfirmationWithoutPayment" onclick="processOfflineOrder()">-->
 <!--                    Submit order & pay in person-->
 <!--                </button>-->

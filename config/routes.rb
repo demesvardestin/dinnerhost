@@ -21,6 +21,9 @@ Rails.application.routes.draw do
   get '/shoppers/:shopper_id/:shopper_uid/order-history', to: 'shoppers#order_history'
   post '/process_offline_order', to: 'carts#process_offline_order'
   get '/reorder', to: 'carts#reorder'
+  get '/shoppers/:shopper_id/:shopper_uid/favorites', to: 'shoppers#favorites'
+  get '/stores/:id/:slug', to: 'stores#show'
+  post '/special_orders', to: 'shoppers#create_special_order'
   
   ## Global routes
   get '/uninitialize_firebase', to: 'main#uninitialize_firebase'
@@ -43,6 +46,9 @@ Rails.application.routes.draw do
   get '/contact-us', to: 'main#contact'
   get '/legal/terms', to: 'main#terms'
   get '/legal/privacy', to: 'main#privacy'
+  get '/log_favorite', to: 'main#log_favorite'
+  get '/firebase_listener', to: 'main#firebase_listener'
+  post '/log_firebase_reviews_data', to: 'main#log_firebase_reviews_data'
   
   ## Stores routes
   get '/dashboard', to: 'stores#dashboard'
@@ -66,6 +72,14 @@ Rails.application.routes.draw do
   get '/retrieve_earnings', to: 'stores#retrieve_earnings'
   get '/go_live', to: 'stores#go_live'
   get '/reload_stats', to: 'stores#reload_stats'
+  get '/item-requests', to: 'stores#item_requests'
+  get '/deny_request', to: 'stores#deny_request'
+  get '/add_to_queue', to: 'stores#add_to_queue'
+  patch '/special_order', to: 'stores#special_order'
+  get '/alert_customer', to: 'stores#alert_customer'
+  get '/mark_fulfilled', to: 'stores#mark_fulfilled'
+  get '/update_unprocessed_orders_count', to: 'stores#update_unprocessed_orders_count'
+  get '/update_item_requests_count', to: 'stores#update_item_requests_count'
   
   ## Callbacks
   post '/account', to: 'main#account'

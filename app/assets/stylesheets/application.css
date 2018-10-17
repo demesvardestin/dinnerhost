@@ -355,15 +355,28 @@ input.btn:hover {
     color: #F27649;
 }
 
+.new-order-card-header {
+    background-color: #f4916d !important;
+}
+
 .no-display {
     display: none;
 }
 
-.modal-content, .order-card {
+.modal-content {
     border-color: #F27649 !important;
 }
 
-.modal-header, .order-card > .card-header {
+.order-card > .card-header {
+    color: #fff;
+}
+
+canvas {
+    height: 200px;
+    width: 200px;
+}
+
+.modal-header {
     border: none;
     border-radius: 0;
     font-size: 16px;
@@ -450,6 +463,9 @@ input.btn:hover {
     border-radius: 2px;
 }
 
+#socialTags {
+    text-align: right;
+}
 
 @media only screen and (max-device-width: 767.99px) {
     .social-share-right {

@@ -1,0 +1,6 @@
+<!--Notify store-->
+if (<%= @count %> > <%= @unprocessed %>) {
+    var audio = new Audio('/sounds/results.mp3');
+    audio.play();
+    $('#unprocessedOrders').html(<%= @count %>);
+}

@@ -1,0 +1,2 @@
+class SpecialOrder < ApplicationRecord
+end

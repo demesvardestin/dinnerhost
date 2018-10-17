@@ -1,7 +1,7 @@
 class StoresController < ApplicationController
     before_action :set_store, except: [:show]
     before_action :authenticate_store!, except: [:show]
-    before_action :own_store
+    before_action :own_store, except: [:add_to_queue, :mark_fulfilled, :deny_request, :alert_customer]
     
     def go_live
         @store = current_store
@@ -22,7 +22,7 @@ class StoresController < ApplicationController
                 )
             end
             acct.tos_acceptance.date = Time.now.to_i
-            acct.tos_acceptance.ip = request.remote_ip
+            acct.tos_acceptance.ip = guest_shopper.email
             acct.legal_entity.type = 'company'
             data = params[:data]
             acct.external_accounts.create(external_account: data[:token])
@@ -59,11 +59,54 @@ class StoresController < ApplicationController
         @orders = current_store.completed_orders
     end
     
+    def item_requests
+        @orders = SpecialOrder.where(store_id: current_store.id, denied: false, picked_up: false)
+    end
+    
+    def special_order
+        begin
+            @order = SpecialOrder.find(params[:special_order][:id])
+            @order.update(special_orders_params)
+        rescue
+            render 'special_order_update_error', :layout => false
+            return
+        end
+        render :layout => false
+    end
+    
+    def alert_customer
+        @order = SpecialOrder.find(params[:id])
+        @store = Store.find_by(id: @order.store_id)
+        @message = "Hi, Senzzu here! Wanted to update you on the special order request you had placed to #{@store.name} on #{@order.created_at.strftime('%m/%d/%y')}. It is now available for pickup!"
+        MessageUpdate.alert_customer(@order.shopper_phone, @message)
+    end
+    
+    def mark_fulfilled
+        @order = SpecialOrder.find(params[:id])
+        @order.update(picked_up: true)
+    end
+    
+    def deny_request
+        id = params[:id]
+        @order = SpecialOrder.find_by(id: id)
+        @order.update(denied: true)
+        @store = Store.find_by(id: @order.store_id)
+        @message = "Hi, Senzzu here! Unfortunately, the special order request you had placed to #{@store.name} on #{@order.created_at.strftime('%m/%d/%y')} cannot be fulfilled. It may be available at other stores on senzzu.com!"
+        MessageUpdate.alert_customer(@order.shopper_phone, @message)
+    end
+    
+    def add_to_queue
+        id = params[:id]
+        SpecialOrder.find_by(id: id).update(pending: true)
+        ## Text customer
+    end
+    
     def add_data_to_firestore
         @store = current_store
         data = params["data"]
         @type = data["type"]
         @doc_id = data["doc_id"]
+        @url = data["url"]
         @status = data["status"].downcase if data["status"]
         if @status == "in preparation"
             @status_level = 1
@@ -84,6 +127,18 @@ class StoresController < ApplicationController
             @category = data["category"]
         end
         render :layout => false 
+    end
+    
+    def update_unprocessed_orders_count
+        @count = current_store.unprocessed_orders.count
+        @unprocessed = params[:count]
+        render :layout => false
+    end
+    
+    def update_item_requests_count
+        @count = SpecialOrder.all.where(store_id: current_store.id, denied: false, picked_up: false).count
+        @current = params[:count]
+        render :layout => false
     end
     
     def remove_data_from_firestore
@@ -159,6 +214,7 @@ class StoresController < ApplicationController
         @store = Store.find(params[:id])
         @location = request.location.latitude.to_s + ', ' + request.location.longitude.to_s
         @distance = @store.distance_to(@location).round(1)
+        @order = SpecialOrder.new
     end
     
     def edit_profile
@@ -233,5 +289,9 @@ class StoresController < ApplicationController
     def order_params
         params.require(:order).permit(:total, :details, :order_type, :status, :additional_details, :confirmation, :delivery_address, :delivery_phone,
                                     :delivery_phone, :delivery_name, :pickup_contact, :pickup_time, :store_id, :shopper_id) 
+    end
+    
+    def special_orders_params
+        params.require(:special_order).permit(:item_name, :item_size, :item_description, :item_price, :availability_date) 
     end
 end

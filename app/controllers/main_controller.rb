@@ -105,10 +105,17 @@ class MainController < ApplicationController
         render :layout => false
     end
     
+    def log_favorite
+        store_id = params[:store_id]
+        shopper_id = params[:shopper_id]
+        FavoritesLog.add_new(store_id, shopper_id)
+        render :layout => false
+    end
+    
     def initialize_cart
-        @cart = Cart.where(shopper_email: request.remote_ip, pending: true).last
+        @cart = Cart.where(shopper_email: guest_shopper.email, pending: true).last
         if @cart.nil?
-            @cart = Cart.create(shopper_email: request.remote_ip, pending: true)
+            @cart = Cart.create(shopper_email: guest_shopper.email, pending: true)
         end
     end
     
@@ -117,10 +124,23 @@ class MainController < ApplicationController
         render :layout => false
     end
     
+    def log_firebase_reviews_data
+        @review = StoreReview.new(store_reviews_params)
+        respond_to do |format|
+            if @review.save
+                format.js { render :layout => false }
+            end
+        end
+    end
+    
     private
     
     def registration_params
-      params.require(:registration_request).permit(:store_name, :store_email, :store_address, :store_phone, :store_manager, :store_website)
+        params.require(:registration_request).permit(:store_name, :store_email, :store_address, :store_phone, :store_manager, :store_website)
+    end
+    
+    def store_reviews_params
+        params.require(:review).permit(:store_id, :content, :author, :shopper_id)
     end
     
 end

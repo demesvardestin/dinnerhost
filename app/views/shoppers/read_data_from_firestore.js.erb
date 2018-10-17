@@ -15,6 +15,7 @@ var firestore = firebase.firestore();
 var settings = {timestampsInSnapshots: true};
 firestore.settings(settings);
 
+
 var type = "<%= @type %>"
 var count = 0;
 
@@ -62,7 +63,6 @@ if (type === "checkout") {
     }
 } else if (type === "shopper-categories") {
     var categories = [];
-    console.log('here');
     firestore.collection('categories').get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             var name = doc.data().name.split(' ').join('-');
@@ -149,18 +149,25 @@ if (type === "checkout") {
             var imageLink = 
             `"https://firebasestorage.googleapis.com/v0/b/senzzu-d2fbe.appspot.com/o/stores%2F` + storeId + `%2Fbanner_image%2F10496048_188082491570780_555656591835617239_o.jpg?alt=media&token=3046ec04-4e75-4743-abca-710ed6da23fe"`;
             $('#shopper-order-history').append(`
-                <div class='col-md-3'>
-                    <div class="card cursor-pointer add-margin-bottom" onclick=` + "window.location.replace('/carts/" + cartId + "/" + confirmation + "/" + token + "?confirmed=true')" + `>
-                        <div class="card-header" style=` + "'background-image: url(" + imageLink + "); background-size: cover; background-position: center; height: 120px;'" + `></div>
+                <div class='col-md-3 add-margin-bottom'>
+                    <div class="card box-shadow">
+                        <div class="card-header background-blue no-border">
+                            <h6 class="white float-left">` + doc.data().store_name + `</h6>
+                            <span class="float-right" data-toggle="tooltip" title="Add to favorites">
+                                <i class="fa fa-star white cursor-pointer"
+                                    onclick=` + "favorite('" + "<%= @shopper_id %>" + "'," + doc.data().store_id.toString() + ");" + `></i>
+                            </span>
+                        </div>
                         <div class="card-body" style="padding: 0.75rem 1.25rem;">
-                            <h6>` + doc.data().store_name + `</h6>
-                            <hr style="margin-bottom: 15px;">
                             <p class="bold font-15">#` + confirmation + `</p>
                             <hr style="margin-bottom: 15px;">
                             <div id=` + "order-history-card-items" + confirmation + `></div>
                         </div>
                         <div class="card-footer">
-                            <p class="bold theme-green font-15">$` + parseFloat(total).toFixed(2) + `</p>
+                            <p class="bold theme-green font-15 float-left">$` + parseFloat(total).toFixed(2) + `</p>
+                            <button class="btn btn-primary float-right" onclick=` + "window.location.replace('/carts/" + cartId + "/" + confirmation + "/" + token + "?confirmed=true')" + `>
+                                View
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -185,9 +192,58 @@ if (type === "checkout") {
             `);
         }
     });
+} else if (type === "favorites") {
+    firestore.collection("favorites").where("shopper_id", "==", "<%= @shopper_id %>")
+    .get().then((docs) => {
+        docs.forEach((doc) => {
+            count += 1;
+            firestore.collection("stores").where("store_id", "==", doc.data().store_id)
+            .get().then((stores) => {
+                stores.forEach((store) => {
+                    $('#shopperFavorites').append(`
+                        <div class="col-md-3 add-margin-bottom" id=` + "storeFavoriteCard" + store.data().store_id + `>
+                            <div class="card box-shadow">
+                                <div class="card-header background-blue no-border">
+                                    <h6 class="white float-left">
+                                        ` + store.data().store_name + `
+                                    </h6>
+                                    <span class="float-right" data-toggle="tooltip" title="Remove from favorite">
+                                        <i class="fa fa-times-circle white cursor-pointer"
+                                            onclick=` + "unfavorite('" + doc.id + "'," + store.data().store_id.toString() + ");" + `></i>
+                                    </span>
+                                </div>
+                                <div class="card-body">
+                                    <p>
+                                        ` + store.data().town
+                                        + ", " + store.data().state + `
+                                    </p>
+                                </div>
+                                <div class="card-footer">
+                                    <button onclick=
+                                        ` + "window.location.href='"
+                                        + "/stores/" + store.data().store_id + "/"
+                                        + store.data().store_name.split(' ').join('-')
+                                        + store.data().town.split(' ').join('-')
+                                        + '-' + store.data().state + "'" + `
+                                        class="btn btn-primary btn-block"
+                                    >Start shopping</button>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
+            });
+        });
+        if (count == 0) {
+            $('#shopperFavorites').html(`
+                <div class="col-md-12 text-center">
+                    <h6 class="theme-color">You currently have no favorites</h6>
+                </div>
+            `);
+        }
+    });
 } else if (type === "store-items") {
     <% if @store %>
-        console.log('hi');
         $('#storeItems').empty();
         var itemList = "<%= @cart.item_list %>".split(", ");
         var itemListCount = "<%= @cart.item_list_count %>".split(", ");
@@ -209,7 +265,6 @@ if (type === "checkout") {
                     items.forEach((item) => {
                         if (item.data().category.split('-').join(' ') == category || item.data().category.split('-').join(' ') == category.split("-").join(" ")) {
                             var index = itemList.indexOf(item.id);
-                            console.log(index);
                             $('#category-' + category.split(" ").join("-")).show();
                             $('#storeItems').append(`
                                 <div class="modal" id=` + "itemOrderDetails" + item.id  + ` tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

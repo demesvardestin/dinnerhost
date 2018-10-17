@@ -1,73 +1,70 @@
 <section id="orderHistory" style="padding-bottom: 15px;">
-    <section class="table-header">
-        <div class="row">
-            <div class='col-md-1'>
-                <h6 class="bold">Order</h6>
-            </div>
-            <div class='col-md-1'>
-                <h6 class="bold">Type</h6>
-            </div>
-            <div class='col-md-1'>
-                <h6 class="bold">Total</h6>
-            </div>
-            <div class='col-md-1'>
-                <h6 class="bold">Items</h6>
-            </div>
-            <div class='col-md-2'>
-                <h6 class="bold">Customer contact</h6>
-            </div>
-            <div class='col-md-2'>
-                <h6 class="bold">Instructions</h6>
-            </div>
-            <div class='col-md-3'>
-                <h6 class="bold">Delivery for</h6>
-            </div>
-            <div class='col-md-1'>
-                <h6 class="bold">Date</h6>
-            </div>
-            <div class="col-md-12">
-                <hr style="margin-bottom: 15px; height: 2px; background-color: #525f7f; border-color: #525f7f;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="table-header card-header">
+                    <div class="row">
+                        <div class='col-md-1'>
+                            <h6 class="bold">Order</h6>
+                        </div>
+                        <div class='col-md-2'>
+                            <h6 class="bold">Type</h6>
+                        </div>
+                        <div class='col-md-1'>
+                            <h6 class="bold">Total</h6>
+                        </div>
+                        <div class='col-md-1'>
+                            <h6 class="bold">Items</h6>
+                        </div>
+                        <div class='col-md-3'>
+                            <h6 class="bold">Delivery for</h6>
+                        </div>
+                        <div class='col-md-3'>
+                            <h6 class="bold">Instructions</h6>
+                        </div>
+                        <div class='col-md-1'>
+                            <h6 class="bold">Date</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-body card-body" style="max-height: 500px; overflow-y: auto;">
+                    <div id="orderModals"></div>
+                    <% @orders.each do |order| %>
+                        <div class="row">
+                            <div class='col-md-1'>
+                                <h6><%= order.confirmation %></h6>
+                            </div>
+                            <div class='col-md-2'>
+                                <h6><%= order.delivery_option %></h6>
+                            </div>
+                            <div class='col-md-1'>
+                                <h6><%= order.total.to_f.round(2) %></h6>
+                            </div>
+                            <div class='col-md-1'>
+                                <h6>
+                                    <a class="backgrond-transparent theme-color cursor-pointer underline" data-toggle="modal" data-target="#order<%= order.confirmation %>">
+                                        <%= order.item_count %>
+                                    </a>
+                                </h6>
+                            </div>
+                            <div class='col-md-3'>
+                                <h6><%= (order.delivery_day.downcase == 'today' ? 'Same day, ' : order.delivery_day.capitalize + ', ') %><%= order.delivery_time %></h6>
+                            </div>
+                            <div class='col-md-3'>
+                                <h6><%= order.delivery_instructions %></h6>
+                            </div>
+                            <div class='col-md-1'>
+                                <h6><%= order.created_at.strftime('%m/%d/%y') %></h6>
+                            </div>
+                            <div class="col-md-12">
+                                <hr style="margin-bottom: 15px;">
+                            </div>
+                        </div>
+                    <% end %>
+                </div>
             </div>
         </div>
-    </section>
-    <section class="table-body">
-        <div id="orderModals"></div>
-        <% @orders.each do |order| %>
-            <div class="row">
-                <div class='col-md-1'>
-                    <h6><%= order.confirmation %></h6>
-                </div>
-                <div class='col-md-1'>
-                    <h6><%= order.delivery_option %></h6>
-                </div>
-                <div class='col-md-1'>
-                    <h6><%= order.total.to_f.round(2) %></h6>
-                </div>
-                <div class='col-md-1'>
-                    <h6>
-                        <a class="backgrond-transparent theme-color cursor-pointer underline" data-toggle="modal" data-target="#order<%= order.confirmation %>">
-                            <%= order.item_count %>
-                        </a>
-                    </h6>
-                </div>
-                <div class='col-md-2'>
-                    <h6><%= order.phone_number %></h6>
-                </div>
-                <div class='col-md-2'>
-                    <h6><%= order.delivery_instructions %></h6>
-                </div>
-                <div class='col-md-3'>
-                    <h6><%= (order.delivery_day.downcase == 'today' ? 'Same day, ' : order.delivery_day.capitalize + ', ') %><%= order.delivery_time %></h6>
-                </div>
-                <div class='col-md-1'>
-                    <h6><%= order.created_at.strftime('%m/%d/%y') %></h6>
-                </div>
-                <div class="col-md-12">
-                    <hr style="margin-bottom: 15px;">
-                </div>
-            </div>
-        <% end %>
-    </section>
+    </div>
 </section>
 
 <script>
