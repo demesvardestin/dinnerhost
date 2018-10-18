@@ -32,11 +32,11 @@ $('#cartContent').html(`
             </div>
             <div class="modal-body" style="padding-top: 20px !important; min-height: 180px;">
                 <% if @cart.item_list == '' %>
-                    <p class="font-16">our cart is empty</p>
+                    <p class="font-16">Your cart is empty</p>
                 <% else %>
                     <h6 style="margin-bottom: 10px;">
                         Your order from 
-                        <a href="<%= current_cart.get_store.url %>" class="background-transparent theme-color">
+                        <a onclick="window.location.href='<%= current_cart.get_store.url %>'" class="background-transparent theme-color cursor-pointer">
                             <%= current_cart.get_store.name %>
                         </a>
                     </h6>

@@ -109,7 +109,7 @@ class Store < ApplicationRecord
     end
     
     def url
-        "/stores/#{self.slug}/#{self.id}"
+        "/stores/#{self.id}/#{self.slug}"
     end
     
     def full_address_without_zip

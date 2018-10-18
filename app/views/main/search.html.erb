@@ -32,7 +32,7 @@
             <div class="row">
                 <% @stores.each do |store| %>
                     <div class="col-md-4" style="margin-bottom: 20px;">
-                        <a class="background-transparent no-underline cursor-pointer platform-color" onclick="window.location.href='/stores/<%= store.id %>'">
+                        <a class="background-transparent no-underline cursor-pointer platform-color" onclick="window.location.href='/stores/<%= store.id %>/<%= store.slug %>'">
                             <div class="card" style="background-image: url('<%= store.banner_image %>'); background-size: cover; background-position: center; height: 160px;"></div>
                             <h6 class="" style="margin-top: 15px; margin-bottom: 5px;"><%= store.name %> <span class="badge badge-primary"><%= store.category || "drugstore" %></span></h6>
                             <p class="font-15">

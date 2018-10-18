@@ -2,7 +2,7 @@ $('#allStores').html(`
     <div class="container">
         <div class="row">
             <% @stores.each do |store| %>
-                <div class="col-md-4 cursor-pointer" style="margin-bottom: 20px;" onclick="window.location.replace('/stores/<%= store.id %>')">
+                <div class="col-md-4 cursor-pointer" style="margin-bottom: 20px;" onclick="window.location.replace('/stores/<%= store.id %>/<%= store.slug %>')">
                     <div class="card" style="background-image: url('<%= store.banner_image %>'); background-size: cover; background-position: center; height: 160px;"></div>
                     <h6 class="" style="margin-top: 15px; margin-bottom: 5px;"><%= store.name %> <span class="badge badge-primary"><%= store.category || "drugstore" %></span></h6>
                     <p class="font-15">
