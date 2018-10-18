@@ -476,4 +476,12 @@ canvas {
         text-align: center !important;
         margin-top: 15px;
     }
+    
+    .try-senzzu {
+        padding-top: 0 !important;
+    }
+    
+    .schedule-demo {
+        padding-bottom: 0 !important;
+    }
 }
