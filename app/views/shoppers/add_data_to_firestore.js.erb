@@ -59,34 +59,32 @@ if (type === "update-shopper") {
         toastr.warning("Unable to remove store from favorites. Please try again.");
     });
 } else if (type === "review") {
+    console.log("<%= "#{@content}" %>");
     var data = {
         store_id: <%= @store_id %>,
         shopper_id: "<%= @shopper_uid %>",
-        content: "<%= @content %>",
-        author: "<%= @author %>"
+        content: "<%= @review.content %>",
+        author: "<%= @review.author %>"
     };
+    console.log(data);
     firestore.collection("reviews").add(data)
     .then((success) => {
-        $.post('/log_firebase_reviews_data', { review: data })
-        .done((success) => {
-            toastr.success("Your review has been added!");
-            $("#all_reviews").prepend(`
-                <div class="col-md-12">
-                    <p style="font-size: 14px;">
-                        <em>"<%= @content %>"</em>
-                    </p>
-                    <p style="font-size: 14px;" class="text-right">
-                        - <%= @author %>
-                    </p>
-                </div>
-            `);
-            document.querySelector('#reviewInput').value = "";
-            $('#submitReviewBtn').html(`
-                <i class="fa fa-paper-plane"></i>
-            `);
-        }).fail((error) => {
-            toastr.warning("An error occurred while adding your review. Please try again.");
-        });
+        toastr.success("Your review has been added!");
+        $('#firstReview').remove();
+        $("#all_reviews").prepend(`
+            <div class="col-md-12">
+                <p style="font-size: 14px;">
+                    <em>"<%= @review.content %>"</em>
+                </p>
+                <p style="font-size: 14px;" class="text-right">
+                    - <%= @review.author %>
+                </p>
+            </div>
+        `);
+        document.querySelector('#reviewInput').value = "";
+        $('#submitReviewBtn').html(`
+            <i class="fa fa-paper-plane"></i>
+        `);
     }).catch((error) => {
         toastr.warning("Your review could not be added. Please try again.");
     });

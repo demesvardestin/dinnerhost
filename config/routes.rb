@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get '/shoppers/:shopper_id/:shopper_uid/favorites', to: 'shoppers#favorites'
   get '/stores/:id/:slug', to: 'stores#show'
   post '/special_orders', to: 'shoppers#create_special_order'
+  get '/clear_cart', to: 'carts#clear_cart'
   
   ## Global routes
   get '/uninitialize_firebase', to: 'main#uninitialize_firebase'

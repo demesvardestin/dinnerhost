@@ -1,14 +1,3 @@
-var count = $('#itemCount<%= @item_id %>').text();
-var cartItemCount = $('#currentItemCount').text();
-$('.add-to-cart<%= @item_id %>').css('opacity', '1')
-.html('<i class="fa fa-plus-circle"></i> Add to cart');
-$('#itemCount<%= @item_id %>').html('0');
-document.getElementsByClassName('decrease-item-count<%= @item_id %>')[0].setAttribute('disabled', 'true');
-$('#modalFooter<%= @item_id %>').html(`
-    <button class="btn btn-danger box-shadow remove-from-cart<%= @item_id %>" id="<%= @item_id %>" onclick="removeFromCart(this)">
-        <i class="fa fa-times-circle"></i> Remove (<span id="setForRemoval<%= @item_id %>"><%= current_cart.total(@item_id) %></span>) from cart
-    </button>
-`);
 $('#cartContent').html(`
     <div class="modal-dialog" role="document">
         <div class="modal-content box-shadow batch-list" style="padding-bottom: 0; top: 50px;">
@@ -54,8 +43,15 @@ $('#cartContent').html(`
         </div>
     </div>
 `);
-var new_total = parseInt(cartItemCount) + parseInt(count);
-$('#cartItemCount').html("<%= @cart.item_count %>");
-$('#currentItemCount').html("<%= @cart.item_count %>");
-$('#cartItemCount1').html("<%= @cart.item_count %>");
-$('#currentItemCount1').html("<%= @cart.item_count %>");
+$('#cartItemCount').html("0");
+$('#currentItemCount').html("0");
+$('#cartItemCount1').html("0");
+$('#currentItemCount1').html("0");
+
+var url_string = window.location.href;
+
+if (url_string.includes('stores/')) {
+    window.location.reload();
+} else {
+    window.location.replace('/');
+}

@@ -136,7 +136,8 @@ class StoresController < ApplicationController
     end
     
     def update_item_requests_count
-        @count = SpecialOrder.all.where(store_id: current_store.id, denied: false, picked_up: false).count
+        @orders = SpecialOrder.all.where(store_id: current_store.id, denied: false, picked_up: false)
+        @count = @orders.count
         @current = params[:count]
         render :layout => false
     end

@@ -113,7 +113,7 @@ function readShopperDataFromFirestore(data, elem=null) {
 function addShopperDataToFirestore(data) {
     $.get('/add_shopper_data_to_firestore', { data: data })
     .done(resp => {
-        console.log('done');
+        // Something else
     });
 }
 
@@ -640,4 +640,13 @@ function favorite(token, storeID) {
         "storeID": storeID
     };
     addShopperDataToFirestore(data);
+}
+
+function clearCart() {
+    $.get('/clear_cart')
+    .done((success) => {
+        //
+    }).fail((error) => {
+        toastr.warning('Sorry, an error occurred while clearing your cart. Please try again.')
+    });
 }

@@ -124,23 +124,10 @@ class MainController < ApplicationController
         render :layout => false
     end
     
-    def log_firebase_reviews_data
-        @review = StoreReview.new(store_reviews_params)
-        respond_to do |format|
-            if @review.save
-                format.js { render :layout => false }
-            end
-        end
-    end
-    
     private
     
     def registration_params
         params.require(:registration_request).permit(:store_name, :store_email, :store_address, :store_phone, :store_manager, :store_website)
-    end
-    
-    def store_reviews_params
-        params.require(:review).permit(:store_id, :content, :author, :shopper_id)
     end
     
 end

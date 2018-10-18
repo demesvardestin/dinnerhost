@@ -53,7 +53,6 @@ gem 'webpush'
 gem 'serviceworker-rails'
 gem 'pusher'
 gem 'toastr-rails'
-gem 'name_of_person'
 
 # DB administration
 gem "administrate"

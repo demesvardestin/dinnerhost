@@ -96,6 +96,12 @@ class CartsController < ApplicationController
     @cart.add_item(cart[:item_id], cart[:item_count], cart[:item_price], cart[:item_size], cart[:item_name].strip!, cart[:item_taxable])
   end
   
+  def clear_cart
+    @cart = Cart.where(shopper_email: guest_shopper.email, pending: true).last
+    @cart.clear_cart
+    render :layout => false
+  end
+  
   def change_delivery_type
     @cart = Cart.where(shopper_email: guest_shopper.email, pending: true).last
     @type = params[:type].downcase
@@ -108,12 +114,6 @@ class CartsController < ApplicationController
     @cart = Cart.where(shopper_email: guest_shopper.email, pending: true).last
     @total = @cart.total(@item_id)
     @cart.remove_item(@item_id)
-  end
-  
-  def clear_cart
-    @cart = Cart.where(shopper_email: params[:cart][:shopper_email], pending: true).last
-    @cart.clear_cart
-    render :layout => false
   end
   
   def process_offline_order

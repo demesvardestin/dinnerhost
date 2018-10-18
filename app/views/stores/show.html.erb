@@ -95,23 +95,29 @@
         </div>
         <div class="modal-body text-center" style="min-height: 275px; max-height: 300px; overflow-y: auto;">
             <div class="row" id="all_reviews">
-                <% @store.reviews.each do |rev| %>
-                    <div class="col-md-12">
-                        <p style="font-size: 14px;">
-                            <em>"<%= rev.content %>"</em>
-                        </p>
-                        <p style="font-size: 14px;" class="text-right">
-                            - <%= rev.author %>
+                <% if @store.reviews.present? %>
+                    <% @store.reviews.each do |rev| %>
+                        <div class="col-md-12 add-padding-bottom">
+                            <p style="font-size: 14px;">
+                                <em>"<%= rev.content %>"</em>
+                            </p>
+                            <p style="font-size: 14px;" class="text-right">
+                                - <%= rev.author %>
+                            </p>
+                        </div>
+                    <% end %>
+                <% else %>
+                    <div class="col-md-12" id="firstReview">
+                        <p style="font-size: 15px;">
+                            Be the first to review this store!
                         </p>
                     </div>
                 <% end %>
             </div>
         </div>
-        <div class="modal-footer background-transparent" style="padding: 0;">
-            <input class="form-control height-55" style="width: 80%; box-shadow: none !important; border: none !important; font-size: 14px; height: auto !important;"
-                placeholder="Add your review..." onkeyup="watchForReviewSubmission(event)" id="reviewInput">
-            <button class="btn btn-primary" style="width: 20%; border-radius: 0 !important;" onclick="submitReview()" id="submitReviewBtn">
-                <i class="fa fa-paper-plane"></i>
+        <div class="modal-footer background-transparent" style="padding: 0;" id="storeReviewInputField">
+            <button class="btn btn-primary btn-block no-border-radius no-box-shadow" data-toggle="modal" data-target="#shopperAuthentication">
+                Log in to add a review
             </button>
         </div>
     </div>
@@ -125,7 +131,10 @@
                 <div class="col-md-7">
                     <h2 class="bold white" style="margin-top: 20px;"><%= @store.name %> <span class="badge badge-primary font-16"><%= delivery_tag(@store) %></span></h2>
                     <p class="font-17 white" style="margin-top: 30px; margin-bottom: 10px;">
-                        <i class="fa fa-map-marker"></i> <%= @store.full_address %> (<%= @distance %> mi)
+                        <i class="fa fa-map-marker"></i> <%= @store.full_address %>
+                        <a href="https://www.google.com/maps/search/?api=1&query=<%= encode(@store.full_address) %>" class="no-underline badge badge-success" target="_blank">
+                            <i class="fa fa-location-arrow white"></i> Open maps
+                        </a>
                     </p>
                     <div class="row">
                         <div class="col-md-12">
@@ -136,7 +145,7 @@
                                 <i class="fa fa-info-circle"></i> Contact
                             </button>
                             <button class="btn btn-light font-14 no-box-shadow" data-toggle="modal" data-target="#reviews">
-                                <i class="fa fa-smile-o"></i> Reviews
+                                <i class="fa fa-smile-o"></i> Reviews (<%= @store.reviews.count %>)
                             </button>
                         </div>
                     </div>
@@ -176,7 +185,7 @@
     </div>
 </section>
 
-<section id="inventory" style="padding-bottom: 20px;">
+<section id="inventory" style="padding-bottom: 50px;">
     <div class="container">
         <div class="row" id="storeItems"></div>
     </div>
@@ -326,13 +335,16 @@
     
     function submitReview() {
         var content = document.querySelector('#reviewInput').value;
+        if (content.length == 0) {
+            toastr.warning('Content cannot be empty.');
+        }
         $('#submitReviewBtn').html(`
             <i class="fa fa-spinner fa-pulse fa-3x fa-fw"
             style="font-size: 15px;"></i>
         `);
         var data = {
             "type": "review",
-            "content": encodeURI(content),
+            "content": content,
             "author": $('#shopperName').text() || "Anonymous",
             "shopperUID": $('#shopper_id').text() || "Anonymous",
             "storeID": <%= params[:id] %>

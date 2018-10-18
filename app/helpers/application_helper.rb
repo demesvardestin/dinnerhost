@@ -42,4 +42,12 @@ module ApplicationHelper
         URI.unescape(content)
     end
     
+    def encode(string)
+        URI.encode(string)
+    end
+    
+    def decode(string)
+        URI.decode(string)
+    end
+    
 end

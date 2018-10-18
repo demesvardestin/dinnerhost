@@ -32,7 +32,7 @@ $('#cartContent').html(`
             </div>
             <div class="modal-body" style="padding-top: 20px !important; min-height: 180px;">
                 <% if @cart.item_list == '' %>
-                    <p class="font-18">our cart is empty</p>
+                    <p class="font-16">our cart is empty</p>
                 <% else %>
                     <h6 style="margin-bottom: 10px;">
                         Your order from 
@@ -42,7 +42,7 @@ $('#cartContent').html(`
                     </h6>
                     <hr style="margin-bottom: 15px;">
                     <% @cart.item_list.split(', ').each_with_index do |i, idx| %>
-                        <p class="font-18">
+                        <p class="font-16">
                             <span class="theme-green bold" style="margin-right: 5px;">
                                 <%= @cart.item_list_count.split(', ')[idx] %>
                             </span>
@@ -54,7 +54,10 @@ $('#cartContent').html(`
                 <% end %>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-success btn-md white" <% unless @cart.is_empty? || @cart.get_total_cost == 0.0 %>onclick="window.location.replace('<%= checkout_link %>')"<% end %>>
+                <a class="btn btn-danger white" onclick="clearCart()">
+                    Clear cart
+                </a>
+                <a class="btn btn-primary btn-md white" <% unless @cart.is_empty? || @cart.get_total_cost == 0.0 %>onclick="window.location.replace('<%= checkout_link %>')"<% end %>>
                     Checkout ($<%= @cart.get_total_cost %>)
                 </a>
             </div>

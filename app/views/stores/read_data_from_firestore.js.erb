@@ -21,6 +21,18 @@ var type = "<%= @type %>"
 var count = 0;
 var unprocessed = <%= current_store.unprocessed_orders.count %>;
 
+
+firestore.collection("requests")
+.onSnapshot(function(querySnapshot) {
+    querySnapshot.docChanges().forEach(function(change) {
+        var doc = change.doc;
+        if (change.type === "added" && doc.data().storeID == <%= current_store.id %>) {
+            var requests = $('#item_requests').text();
+            $.get('/update_item_requests_count', { count: requests });
+        }
+    });
+});
+
 firestore.collection("orders")
 .where("store_id", "==", "<%= current_store.id %>")
 .onSnapshot(function(querySnapshot) {

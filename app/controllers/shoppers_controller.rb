@@ -20,9 +20,11 @@ class ShoppersController < ApplicationController
         @shopper_address = data["shopperAddress"]
         @apartment_number = data["shopperAptNumber"]
         @shopper_name = data["shopperName"]
-        @content = URI.decode(data["content"])
-        author_string = data["author"]
-        @author = author_string.split(' ')[0] + author_string.split(' ')[1][0]
+        @content = data["content"]
+        author_string = data[:author]
+        @author = author_string.split(' ')[0] + ' ' + author_string.split(' ')[1][0] + '.'
+        @review = StoreReview.create(store_id: @store_id, shopper_id: @shopper_uid, author: @author, content: @content)
+        @content = @content.gsub("'", "\\\\'")
         render :layout => false 
     end
     
@@ -55,7 +57,7 @@ class ShoppersController < ApplicationController
     private
     
     def special_orders_params
-        params.require(:special_order).permit(:item_name, :item_size, :item_description, :item_price, :availability_date, :store_id) 
+        params.require(:special_order).permit(:item_name, :item_size, :item_description, :item_price, :availability_date, :store_id, :shopper_phone) 
     end
     
 end

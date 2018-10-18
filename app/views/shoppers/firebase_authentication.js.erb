@@ -53,6 +53,14 @@ firebase.auth().onAuthStateChanged(function(user) {
                 </div>
             `).show();
             
+            $('#storeReviewInputField').html(`
+                <input class="form-control height-55" style="width: 80%; box-shadow: none !important; border: none !important; font-size: 14px; height: auto !important;"
+                    placeholder="Add your review..." onkeyup="watchForReviewSubmission(event)" id="reviewInput">
+                <button class="btn btn-primary" style="width: 20%; border-radius: 0 !important;" onclick="submitReview()" id="submitReviewBtn">
+                    <i class="fa fa-paper-plane"></i>
+                </button>
+            `);
+            
             $('#shopper_id').html(user.uid);
             firestore.collection("shoppers").doc(user.uid).get()
             .then((doc) => {
@@ -106,7 +114,7 @@ firebase.auth().onAuthStateChanged(function(user) {
                 if (count == 0) {
                     $('#shopper-order-history-1').append(`
                         <div class="col-md-12" style="padding-top: 40px;">
-                            <h6 align="center">No order history available</h6>
+                            <h6 align="center">No more order history available</h6>
                         </div>
                     `);
                 }
