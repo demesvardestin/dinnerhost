@@ -1,0 +1,87 @@
+<style>
+    body {
+        padding-top: 70px !important;
+        margin-top: 0 !important;
+    }
+    
+    .dropdown-menu {
+        width: 100%;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    
+    .category {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+    
+    .category:hover {
+        background-color: #b2d7ff;
+    }
+    
+    .dropdown-divider {
+        margin: 0;
+    }
+</style>
+
+<section id="blog-index" style="padding-bottom: 30px;">
+    <div class="jumbotron text-center no-border-radius"
+        style="background-image: 
+            url('https://s3.us-east-2.amazonaws.com/senzzu/stores_banner.png');
+            background-position: center; background-size: cover; height: 450px;">
+        <div class="row">
+            <div id="featured-article" style="margin-top: 50px;"class="col-md-8 offset-md-2">
+                <h2>
+                    <span class="badge badge-success" style="font-size: 20px;">
+                        <%= featured_article.category %>
+                    </span>
+                </h2>
+                <h2 class="white"
+                    style="vertical-align: middle; text-align: center;
+                            font-weight: 900; color: #fff !important;">
+                    <%= link_to featured_article.title, article_path(:id => featured_article.id, :slug => featured_article.slug), class:"white" %>
+                </h2>
+                <h5 class="white"
+                    style="vertical-align: middle; text-align: center; color: #fff !important;">
+                    By <%= link_to featured_article.author, admin_path(:id => featured_article.admin_id), class:"white" %>
+                </h5>
+                <a href="<%= featured_article.link %>" class="btn btn-primary white box-shadow" style="margin-top: 20px;">
+                    Read now
+                </a>
+            </div>
+        </div>
+    </div>
+    <section id="index-content" style="padding-bottom: 30px;">
+        <div class="container">
+            <div class="categories-selection">
+                <div class="dropdown">
+                    <a class="btn btn-primary box-shadow white height-55"
+                        id="articlesFilterButton" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false"
+                        style="padding-top: 16px;">
+                        Filter by article category <span class="fa fa-angle-down"></a>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="articlesFilterButton">
+                        <% post_categories.each do |c| %>
+                            <a class="dropdown-item category cursor-pointer" onclick="filterByCategory('<%= c %>');"><%= c %></a>
+                            <div class="dropdown-divider"></div>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+            <div class="articles_breadcrumbs row" style="padding-top: 30px;">
+                <div class="col-md-3">
+                    <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb" style="background-color: transparent !important; padding: 0 !important;">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Blog</li>
+                      </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="articles_list row" style="padding-top: 40px;">
+                <%= render partial: 'articles/articles', locals: {articles: @articles} %>
+            </div>
+        </div>
+    </section>
+</section>

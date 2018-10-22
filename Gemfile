@@ -49,10 +49,12 @@ gem 'jquery-rails'
 gem 'turbolinks'
 # font-awesome for icons
 gem 'font-awesome-rails'
+gem 'bootstrap-wysihtml5-rails'
 gem 'webpush'
 gem 'serviceworker-rails'
 gem 'pusher'
 gem 'toastr-rails'
+gem 'social-share-button'
 
 # DB administration
 gem "administrate"

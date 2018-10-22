@@ -1,0 +1,95 @@
+<%= form_for(current_admin, :html => { :id => "admin_profile", :multipart => true, :remote => true, authenticity_token: true }) do |f| %>
+  <% if current_admin.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(current_admin.errors.count, "error") %> prohibited your information from being saved:</h2>
+
+      <ul>
+      <% current_admin.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+    <div class="field">
+        <%= f.text_field :first_name, class:"form-control no-box-shadow height-55 font-15 pf", autofocus: true, placeholder:"First name" %>
+    </div>
+  
+    <div class="field">
+        <%= f.text_field :last_name, class:"form-control no-box-shadow height-55 font-15 pf", placeholder:"Last name" %>
+    </div>
+    
+    <div class="field">
+        <%= f.text_area :bio, class:"form-control no-box-shadow font-15 pf", placeholder:"Bio", style:"height: 110px;" %>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header text-center" id="adminProfileImage" style="height: 150px; background-image: url('<%= current_admin.profile_image %>'); background-size: cover; background-position: center;">
+                    <% if current_admin.profile_image.empty? %>
+                        <h6 id="adminProfileImageText" class="add-margin-top" style="vertical-align: middle;">
+                            No image provided
+                        </h6>
+                    <% end %>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h6>Upload a profile image (Ideal resolution: <b>800 x 300</b>)</h6>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input no-box-shadow cursor-pointer" id="banner_image" aria-describedby="inputGroupFileAddon01">
+                            <label class="custom-file-label" for="inputGroupFile01" id="fileUploadStatus">Choose file</label>
+                        </div>
+                        <div class="input-group-append">
+                            <span class="input-group-text cursor-pointer" id="banner-image-upload-btn">Upload</span>
+                        </div>
+                    </div>
+                    <div id="results"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="actions text-center add-margin-top">
+        <%= f.submit "Update profile", class:"btn btn-primary height-55 font-15", id:"update-profile", data: { "disable-with": "Saving..." } %>
+    </div>
+<% end %>
+
+<script>
+    $('#banner_image').on('change', e => {
+        $('#fileUploadStatus').html($('#banner_image').get(0).files[0].name);
+    });
+    
+    $('#banner-image-upload-btn').on('click', saveImage);
+    
+    function saveImage() {
+        $('#banner-image-upload-btn')
+        .html(`
+            <i class="fa fa-spinner fa-pulse fa-3x fa-fw" 
+            style="font-size: 18px;"></i> Uploading
+        `);
+        var imageUrl = $('#banner_image').get(0).files[0];
+        var imageName = ('admins/<%= current_admin.id %>/profile_picture/' + imageUrl.name);
+        var storageRef = firebase.storage().ref();
+        storageRef.child(imageName).put(imageUrl).then((snapShot) => {
+            storageRef.child(imageName).getDownloadURL().then((url) => {
+                $.post('/admin_profile_picture', { data: {"url": url} })
+                .done((done) => {
+                    $('#adminProfileImageText').remove();
+                    $('#adminProfileImage')
+                    .css('background-image', "url('" + url + "')")
+                    .css('background-size', 'cover');
+                    $('#banner-image-upload-btn').html('Upload');
+                    $('#results').html('<span class="theme-green">Image saved!</span>')
+                });
+            });
+        }).catch((error) => {
+            $('#banner-image-upload-btn').html('Upload');
+            $('#results').html('<span class="theme-red">There was an error saving this image. Please try again.</span>')
+        });
+    }
+    
+</script>

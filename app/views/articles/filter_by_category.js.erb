@@ -1,0 +1,11 @@
+<% if @articles.present? %>
+    $('.articles_list').html(`
+        <%= render partial: 'articles/articles', locals: {articles: @articles} %>
+    `);
+<% else %>
+    $('.articles_list').html(`
+        <div class="col-md-12 text-center">
+            <p>No articles found for this category</p>
+        </div>
+    `);
+<% end %>

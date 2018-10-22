@@ -1,0 +1,33 @@
+<style>
+    
+    .dropdown-menu {
+        width: 100%;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    
+    .category {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+    
+    .category:hover {
+        background-color: #b2d7ff;
+    }
+    
+    .dropdown-divider {
+        margin: 0;
+    }
+</style>
+
+<section id="admin_posts" style="padding-bottom: 30px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="bold">Your posts</h5>
+                <hr style="margin-bottom: 15px; height: 1px; background-color: #525f7f; border-color: #525f7f;">
+            </div>
+            <%= render partial: 'articles/articles', locals: {articles: @articles} %>
+        </div>
+    </div>
+</section>

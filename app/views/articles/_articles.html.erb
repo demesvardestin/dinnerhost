@@ -1,0 +1,32 @@
+<% articles.each do |a| %>
+    <div class="col-md-3">
+        <div class="card box-shadow" style="border-radius: 5px !important; min-height: 100%;">
+            <a class="theme-color" href="/blog/<%= a.id %>/<%= a.slug %>">
+                <div class="card-header"
+                    style="height: 100px;
+                        background-image: url('<%= a.banner_image %>');
+                        background-size: cover; background-position: center;">
+                    <span class="badge badge-success no-border-radius"
+                        style="bottom: 0; right: 0;">
+                        <%= a.category %>
+                    </span>
+                </div>
+            </a>
+            <div class="card-body font-14" style="padding: 15px;">
+                <p>Article</p>
+                <h6 class="add-margin-bottom add-margin-top">
+                    <a class="theme-color" href="/blog/<%= a.id %>/<%= a.slug %>">
+                        <%= a.title %>
+                    </a>
+                </h6>
+                <p class="font-14">
+                    By
+                    <span class="theme-color">
+                        <%= link_to a.author, admin_path(:id => a.admin_id), class:"theme-color" %>
+                    </span>
+                    <%= a.updated_at.strftime('%B %e, %Y') %>
+                </p>
+            </div>
+        </div>
+    </div>
+<% end %>

@@ -2,9 +2,9 @@ class ShoppersController < ApplicationController
     
     def firebase_authentication
         data = params["data"]
-        @email = data["email"]
-        @password = data["password"]
-        @phone = data["phone"]
+        @email = data["email"] if data["email"]
+        @password = data["password"] if data["password"]
+        @phone = data["phone"] if data["phone"]
         @auth_type = data["authType"]
         render :layout => false
     end

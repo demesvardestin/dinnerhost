@@ -124,6 +124,10 @@ class MainController < ApplicationController
         render :layout => false
     end
     
+    def blog
+        @articles = Article.last(6)
+    end
+    
     private
     
     def registration_params

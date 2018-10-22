@@ -1447,6 +1447,16 @@ a.btn-link.cta-signup:hover, a.btn-link.cta-login:hover {
 .tab-show{
     background: transparent !important;
 }
+$size: 40px;
+
+.social-share-button {
+  .ssb-icon {
+    background-size: $size $size;
+    height: $size;
+    width: $size;
+    border-radius: 20px;
+  }
+}
 
 /* Footer */
 .footer {

@@ -1,7 +1,16 @@
 module ApplicationHelper
     
     def navbar
-        current_store ? 'layouts/store_navbar' : 'layouts/main_navbar'
+        if current_store
+            return 'layouts/store_navbar'
+        elsif current_admin
+            return 'layouts/admin_navbar'
+        end
+        if request.original_url.include?('/blog')
+            'layouts/blog_navbar'
+        else
+            'layouts/main_navbar'
+        end
     end
     
     def body
@@ -48,6 +57,11 @@ module ApplicationHelper
     
     def decode(string)
         URI.decode(string)
+    end
+    
+    def featured_article
+        ## Placeholder until we figure out how to select a feature article
+        Article.last
     end
     
 end

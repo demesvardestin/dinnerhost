@@ -10,7 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181017183634) do
+ActiveRecord::Schema.define(version: 20181021225407) do
+
+  create_table "admins", force: :cascade do |t|
+    t.string   "first_name",             default: ""
+    t.string   "last_name",              default: ""
+    t.string   "profile_image",          default: ""
+    t.string   "email",                  default: ""
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.text     "bio"
+    t.index ["email"], name: "index_admins_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  end
+
+  create_table "articles", force: :cascade do |t|
+    t.string   "title",        default: ""
+    t.text     "content",      default: ""
+    t.string   "author",       default: ""
+    t.string   "tags",         default: ""
+    t.integer  "admin_id"
+    t.string   "banner_image", default: "https://s3.us-east-2.amazonaws.com/senzzu/stores_banner.png"
+    t.datetime "created_at",                                                                           null: false
+    t.datetime "updated_at",                                                                           null: false
+    t.string   "category"
+  end
 
   create_table "carts", force: :cascade do |t|
     t.integer  "item_count",        default: 0

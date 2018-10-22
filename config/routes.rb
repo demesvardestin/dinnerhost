@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   
+  ## Shopper Devise routes
   devise_for :shoppers
-  ## Devise routes (stores)
+  
+  ## Store Devise routes
   devise_for :stores, :controllers => {:registrations => "store/registrations"}
   devise_scope :store do
     get 'store/login', to: 'devise/sessions#new'
@@ -11,6 +13,18 @@ Rails.application.routes.draw do
   end
   authenticated :store do
     root 'stores#dashboard', as: :authenticated_store_root
+  end
+  
+  ## Admin Devise routes
+  devise_for :admins, :controllers => {:registrations => "admin/registrations"}
+  devise_scope :admin do
+    get 'blog/admin/login', to: 'devise/sessions#new'
+    get 'blog/admin/signup', to: 'devise/registrations#new'
+    get 'blog/admin/password-settings', to: 'admin/registrations#edit'
+    get 'blog/admin/retrieve-password', to: 'devise/passwords#new'
+  end
+  authenticated :admin do
+    root 'admins#dashboard', as: :authenticated_admin_root
   end
   
   ## Shopper routes
@@ -51,6 +65,19 @@ Rails.application.routes.draw do
   get '/firebase_listener', to: 'main#firebase_listener'
   post '/log_firebase_reviews_data', to: 'main#log_firebase_reviews_data'
   
+  ## Blog routes
+  get '/blog', to: 'main#blog'
+  get '/blog/:id/:article_slug', to: 'articles#show'
+  get '/blog/new', to: 'articles#new'
+  get '/filter_by_category', to: 'articles#filter_by_category'
+  
+  ## Admin routes
+  get '/admin', to: 'admins#show'
+  post '/admin_profile_picture', to: 'admins#profile_picture'
+  get '/admin/edit/profile', to: 'admins#edit'
+  get '/admin/posts', to: 'admins#dashboard'
+  patch '/admin', to: 'admins#update'
+  
   ## Stores routes
   get '/dashboard', to: 'stores#dashboard'
   get '/edit/profile', to: 'stores#edit_profile'
@@ -86,6 +113,8 @@ Rails.application.routes.draw do
   post '/account', to: 'main#account'
   
   resources :stores
+  resources :articles
+  resources :admin
   
   root 'main#index'
 end

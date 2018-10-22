@@ -131,7 +131,7 @@ firebase.auth().onAuthStateChanged(function(user) {
         $('.modal-backdrop').remove();
         document.getElementById('body').classList.remove('modal-open');
         $('#body').css('padding-right', '0');
-        <!--$('footer').remove();-->
+        $('footer').remove();
         
         
         <!--Set navbar buttons-->
@@ -160,11 +160,11 @@ firebase.auth().onAuthStateChanged(function(user) {
                         onclick=` + "window.location.href='/shoppers/" + uid + "/<%= @token %>/favorites?current_shopper=true&method=browser'" + `>
                         <i class="fa fa-star theme-yellow"></i> Favorites
                     </a>
-                    <!--<div class="dropdown-divider"></div>-->
-                    <!--<a class="background-transparent dropdown-item cursor-pointer"-->
-                    <!--    onclick=` + "window.location.href='/shoppers/" + uid + "/<%= @token %>/order-history?current_shopper=true&method=browser'" + `>-->
-                    <!--    Help-->
-                    <!--</a>-->
+                    <div class="dropdown-divider"></div>
+                    <a class="background-transparent dropdown-item cursor-pointer"
+                        onclick=` + "window.location.href='/shoppers/" + uid + "/<%= @token %>/order-history?current_shopper=true&method=browser'" + `>
+                        Help
+                    </a>
                     <div class="dropdown-divider"></div>
                     <a class="background-transparent dropdown-item cursor-pointer"
                         onclick="signOut();">
@@ -226,12 +226,17 @@ firebase.auth().onAuthStateChanged(function(user) {
         `);
         
         $('.navbar-links').html(`
-            <li class="nav-item">
-                <button class="btn btn-light btn-nav nav-link btn-white" data-toggle="modal" data-target="#shopperAuthentication">
-                    Shopper Login/Signup
-                </button>
+            <li class="nav-item main-nav-item">
+                <a class="btn btn-secondary btn-nav nav-link white" href="/blog">
+                    Blog
+                </a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item main-nav-item">
+                <a class="btn btn-primary btn-nav nav-link white" data-toggle="modal" data-target="#shopperAuthentication">
+                    Shopper Login/Signup
+                </a>
+            </li>
+            <li class="nav-item main-nav-item">
                 <button class="btn btn-primary btn-nav nav-link white" onclick="window.location.replace('/store/login');">
                     Store Login/Signup
                 </button>

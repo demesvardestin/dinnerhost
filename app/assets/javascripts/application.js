@@ -3,6 +3,8 @@
 //= require turbolinks
 //= require Chart.bundle
 //= require chartkick
+//= require bootstrap-wysihtml5
+//= require social-share-button
 //= require_tree .
 
 
@@ -10,9 +12,15 @@ window.onload = e => {
     $.get('/uninitialize_firebase');
     $.get('/initialize_cart');
     $.get('/firebase_listener');
-    var url = window.location.href;
-    authState();
+    var data = {
+        "authType": 'authState'
+    };
+    $.get('/firebase_authentication', { data: data });
 };
+
+$(document).on('page:load', function(){
+    window['rangy'].initialized = false
+});
 
 $(function () {
     $(document).scroll(function () {
@@ -650,3 +658,25 @@ function clearCart() {
         toastr.warning('Sorry, an error occurred while clearing your cart. Please try again.')
     });
 }
+
+function showFormLoader() {
+    $('#submitEmail').html(`
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw white"
+        style="font-size: 18px;"></i>
+    `);
+}
+
+function filterByCategory(category) {
+    $('.articles_list').html(`
+        <div class="text-center col-md-12" id="loadingOrders">
+            <span>
+                <i class="fa fa-spinner fa-pulse fa-3x fa-fw theme-color"
+                    style="font-size: 50px;">
+                </i>
+            </span><br />
+            <p>Loading articles</p>
+        </div>
+    `);
+    $.get('/filter_by_category', { category: category });
+}
+
