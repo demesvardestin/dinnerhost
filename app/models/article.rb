@@ -1,6 +1,10 @@
 class Article < ApplicationRecord
     
     belongs_to :admin
+    before_create :set_draft
+    
+    scope :published, -> { where(draft: false) }
+    scope :drafted, -> { where(draft: true) }
     
     validates_presence_of :title
     validates_presence_of :content
@@ -12,6 +16,12 @@ class Article < ApplicationRecord
     
     def link
         '/blog/' + self.id.to_s + '/' + self.slug
+    end
+    
+    protected
+    
+    def set_draft
+        
     end
     
 end

@@ -1,2 +1,68 @@
-<h1>Articles#edit</h1>
-<p>Find me in app/views/articles/edit.html.erb</p>
+<style>
+    .post-body {
+        height: 275px !important;
+        box-shadow: none !important;
+    }
+    
+    .post-body:focus {
+        box-shadow: none !important;
+    }
+    
+    .wysihtml5-toolbar {
+        background-color: #F27649 !important;
+        color: #fff !important;
+        border-top-left-radius: 3px !important;
+        border-top-right-radius: 3px !important;
+    }
+    
+    .glyphicon-share {
+        color: #fff !important;
+    }
+    
+    .dropdown-menu {
+        width: 100%;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    
+    .category {
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+    
+    .category:hover {
+        background-color: #b2d7ff;
+    }
+    
+    .dropdown-divider {
+        margin: 0;
+    }
+</style>
+
+
+<section id="new-post" style="padding-bottom: 30px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header background-blue white">
+                        Edit post
+                    </div>
+                    <div class="card-body">
+                        <%= render 'form' %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $('.glyphicon-quote').html('<i class="fa fa-quote-left"></i>');
+    $('.glyphicon-list').html('<i class="fa fa-list-ol"></i>');
+    $('.glyphicon-th-list').html('<i class="fa fa-list-ul"></i>');
+    $('.glyphicon-indent-right').html('<i class="fa fa-outdent"></i>');
+    $('.glyphicon-indent-left').html('<i class="fa fa-indent"></i>');
+    $('.glyphicon-share').html('<i class="fa fa-link"></i>');
+    $('.glyphicon-picture').html('<i class="fa fa-picture-o"></i>');
+</script>

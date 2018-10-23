@@ -9,4 +9,9 @@ class Admin < ApplicationRecord
   def name
     [first_name, last_name].join(' ')
   end
+  
+  def owns(article)
+    article.admin_id == self.id
+  end
+  
 end

@@ -1,5 +1,5 @@
 <% articles.each do |a| %>
-    <div class="col-md-3">
+    <div class="col-md-3" style="margin-bottom: 15px;">
         <div class="card box-shadow" style="border-radius: 5px !important; min-height: 100%;">
             <a class="theme-color" href="/blog/<%= a.id %>/<%= a.slug %>">
                 <div class="card-header"
@@ -13,7 +13,14 @@
                 </div>
             </a>
             <div class="card-body font-14" style="padding: 15px;">
-                <p>Article</p>
+                <p>
+                    Article
+                    <% if current_admin && current_admin.owns(a) %>
+                        <a class="background-transparent theme-color" href="/blog/article/<%= a.id %>/edit">
+                            edit
+                        </a>
+                    <% end %>
+                </p>
                 <h6 class="add-margin-bottom add-margin-top">
                     <a class="theme-color" href="/blog/<%= a.id %>/<%= a.slug %>">
                         <%= a.title %>

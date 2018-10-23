@@ -70,6 +70,7 @@ Rails.application.routes.draw do
   get '/blog/:id/:article_slug', to: 'articles#show'
   get '/blog/new', to: 'articles#new'
   get '/filter_by_category', to: 'articles#filter_by_category'
+  get '/blog/article/:id/edit', to: 'articles#edit'
   
   ## Admin routes
   get '/admin', to: 'admins#show'

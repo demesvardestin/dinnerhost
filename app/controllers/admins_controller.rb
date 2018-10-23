@@ -4,7 +4,7 @@ class AdminsController < ApplicationController
   before_action :set_admin
   
   def show
-    @articles = Article.where(admin_id: @admin.id)
+    @articles = Article.published.where(admin_id: @admin.id)
   end
 
   def edit
@@ -20,7 +20,8 @@ class AdminsController < ApplicationController
   end
   
   def dashboard
-    @articles = Article.where(admin_id: current_admin.id)
+    @published = Article.published.where(admin_id: current_admin.id)
+    @drafts = Article.drafted.where(admin_id: current_admin.id)
   end
   
   def profile_picture
