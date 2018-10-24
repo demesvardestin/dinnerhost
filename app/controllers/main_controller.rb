@@ -82,12 +82,22 @@ class MainController < ApplicationController
     
     def search
         search = params[:q]
-        @stores = Store.near(search, 3).live
+        search_type = params[:search_type]
+        if search_type == 'address'
+            @stores = Store.near(search, 3).live
+        else
+            @stores = Store.search(search).live
+        end
     end
     
     def search_store
         search = params["data"]["search"]
-        @stores = Store.near(search, 3).live
+        search_type = params[:data][:search_type]
+        if search_type == 'address'
+            @stores = Store.near(search, 3).live
+        else
+            @stores = Store.search(search).live
+        end
         if !@stores.empty?
             render :layout => false
         else

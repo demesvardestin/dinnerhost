@@ -23,10 +23,28 @@
                             <i class="fa fa-search search-input-icon"></i>
                         </button>
                     </div>
+                    <input type="hidden" id="search-type" name="search_type" value="address">
                     <input class="form-control no-box-shadow store-search border-white"
                         id="store-search" name="q" placeholder="Enter your address..." autocomplete="off" onfocus="showSuggestionBox();">
+                    <div class="dropdown">
+                        <a class="btn btn-primary white set-search-type"
+                            style="height: 65px; border-top-left-radius: 0; border-bottom-left-radius: 0; padding-top: 20px;"
+                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-angle-down bold"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="margin-left: -123px;">
+                            <a class="background-transparent dropdown-item cursor-pointer" onclick="setSearchType('address')">
+                                By address
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="background-transparent dropdown-item cursor-pointer" onclick="setSearchType('store')">
+                                By store name
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <button class="btn btn-primary height-50 box-shadow btn-block" align="center" type="submit" id="submitLocationSearch" style="display: none; margin-bottom: 10px;">
+                <button class="btn btn-primary height-50 box-shadow btn-block" align="center"
+                    type="submit" id="submitStoreSearch" style="">
                     Search
                 </button>
             </form>
@@ -152,7 +170,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4 offset-md-4 text-center" style="padding-bottom: 20px;">
-                <h3>Senzzu for stores (FREE)</h3>
+                <h3>Partner program</h3>
                 <hr style="height: 2px; background-color: #F27649; border-color: #F27649; width: 40%; margin: auto !important;">
             </div>
         </div>

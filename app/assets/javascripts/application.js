@@ -680,3 +680,18 @@ function filterByCategory(category) {
     $.get('/filter_by_category', { category: category });
 }
 
+function setSearchType(type) {
+    var otherType = type === "address" ? "store" : "address";
+    document.querySelector('#search-type').value = type;
+    if (type === "store") {
+        document.querySelector('#store-search')
+        .setAttribute('placeholder', 'Enter a store name...');
+    } else {
+        document.querySelector('#store-search')
+        .setAttribute('placeholder', 'Enter your address...');
+    }
+    // document.querySelector('#checkedType-' + type)
+    // .append('<i class="fa fa-check theme-green"></i>');
+    // document.querySelector('#checkedType-' + otherType).empty();
+}
+

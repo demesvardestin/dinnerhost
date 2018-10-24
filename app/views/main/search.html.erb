@@ -13,13 +13,30 @@
         <div class="col-md-6 no-horizontal-padding" style="padding-top: 10px; padding-bottom: 10px;">
             <form id="storeSearchForm" data-remote="true">
                 <div class="input-group mb-3" style="margin-bottom: 0 !important;">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text background-transparent prepend-box no-border no-horizontal-padding" id="basic-addon1">
-                        <i class="fa fa-search"></i>
-                    </span>
-                  </div>
-                  <input class="form-control no-box-shadow background-transparent no-border" required="true" style="margin-top: 0 !important;" id="new-store-search"
+                    <div class="input-group-prepend">
+                        <span class="input-group-text background-transparent prepend-box no-border no-horizontal-padding" id="basic-addon1">
+                            <i class="fa fa-search"></i>
+                        </span>
+                    </div>
+                    <input type="hidden" id="search-type" name="search_type" value="address">
+                    <input class="form-control no-box-shadow background-transparent no-border" required="true" style="margin-top: 0 !important;" id="store-search"
                         placeholder="Enter an address..." <% if params[:q] %>value="<%= params[:q] %>"<% end %>>
+                    <div class="dropdown">
+                        <a class="btn btn-primary background-transparent theme-color set-search-type"
+                            style="height: 65px; padding-left: 0 !important; padding-right: 0 !important; border: none !important; padding-top: 25px;"
+                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-angle-down bold"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="margin-left: -123px;">
+                            <a class="background-transparent dropdown-item cursor-pointer" onclick="setSearchType('address')">
+                                By address
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="background-transparent dropdown-item cursor-pointer" onclick="setSearchType('store')">
+                                By store name
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <button type="submit" style="display: none;">Submit</button>
             </form>
@@ -67,9 +84,11 @@
 
 <script>
     $('#storeSearchForm').on('submit', function() {
-        var search = document.getElementById('new-store-search').value;
+        var search = document.getElementById('store-search').value;
+        var searchType = document.getElementById('search-type').value;
         var data = {
-            "search": search
+            "search": search,
+            "search_type": searchType
         };
         $('#allStores').html(`
             <div class="text-center col-md-12" id="loadingOrders">

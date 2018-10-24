@@ -64,8 +64,19 @@
     font-size: 17px !important;
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
     border-color: #fff;
     border-left: none;
+}
+
+.set-search-type {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#submitStoreSearch {
+    display: none;
 }
 
 #newsletter-signup {
@@ -493,5 +504,26 @@ canvas {
     
     .article-author-card {
         text-align: center !important;
+    }
+    
+    #submitStoreSearch {
+        display: block !important;
+        height: 65px !important;
+        border-top-left-radius: 0 !important;
+        border-top-right-radius: 0 !important;
+    }
+    
+    #store-search {
+        font-size: 15px !important;
+    }
+    
+    .prepend-group {
+        border-bottom-right-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+    
+    .set-search-type {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
     }
 }

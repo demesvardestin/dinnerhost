@@ -116,6 +116,20 @@ class Store < ApplicationRecord
         [street, town, state].join(', ')
     end
     
+    def self.search(param)
+        param.strip!
+        param.downcase!
+        (name_matches(param)).uniq
+    end
+    
+    def self.name_matches(param)
+        matches('name', param)
+    end
+    
+    def self.matches(field_name, param)
+        where("lower(#{field_name}) like ?", "%#{param}%")
+    end
+    
     protected
     
     def update_firebase
