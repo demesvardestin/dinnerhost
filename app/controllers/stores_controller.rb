@@ -213,8 +213,6 @@ class StoresController < ApplicationController
     
     def show
         @store = Store.find(params[:id])
-        @location = request.location.latitude.to_s + ', ' + request.location.longitude.to_s
-        @distance = @store.distance_to(@location).round(1)
         @order = SpecialOrder.new
     end
     
