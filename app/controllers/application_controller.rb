@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :retrieve_registration
   before_action :random_token
+  before_action :check_https
   # before_action :initialize_cart
   
   def url
@@ -27,6 +28,13 @@ class ApplicationController < ActionController::Base
     @cart = Cart.where(shopper_email: guest_shopper.email, pending: true).last
     if @cart.nil?
       @cart = Cart.create(shopper_email: guest_shopper.email, pending: true)
+    end
+  end
+  
+  def check_https
+    url = URI.parse(request.original_url)
+    if url.scheme == 'http' && request.original_url.ends_with?('.com/')
+      redirect_to 'https://senzzu.com'
     end
   end
   

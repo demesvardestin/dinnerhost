@@ -13,6 +13,10 @@ module ApplicationHelper
         end
     end
     
+    def checkout_link
+        "/#{current_cart.id}/checkout?cart_id=#{@token}&shopper=true&guest=false&senzzu_token=#{guest_shopper.email}" 
+    end
+    
     def body
         current_store ? 'layouts/store_body' : 'layouts/main_body'
     end
