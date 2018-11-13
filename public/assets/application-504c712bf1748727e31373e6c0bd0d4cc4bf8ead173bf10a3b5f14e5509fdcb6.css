@@ -94,7 +94,7 @@ a:hover {
 }
 
 /* line 72, /home/ubuntu/workspace/app/assets/stylesheets/library.css.scss */
-.height-45 {
+.height-50 {
   height: 45px !important;
 }
 
@@ -311,7 +311,7 @@ div#searchBoxCard > div.card-body {
 /* line 224, /home/ubuntu/workspace/app/assets/stylesheets/library.css.scss */
 .form-control {
   border-radius: 2px !important;
-  height: 55px;
+  height: 50px;
 }
 
 /* line 228, /home/ubuntu/workspace/app/assets/stylesheets/library.css.scss */
@@ -2419,8 +2419,8 @@ a.btn-link.cta-signup:hover, a.btn-link.cta-login:hover {
     height: 100px !important;
 }
 
-.height-55 {
-    height: 55px !important;
+.height-50 {
+    height: 50px !important;
 }
 
 #store-search, #newsletter-signup {

@@ -1,0 +1,33 @@
+<%= simple_form_for(@meal, :html => { :class => 'meal-form', :id => "meal_form", :multipart => true, authenticity_token: true }) do |f| %>
+  <% if @meal.errors.any? %>
+    <div id="error_explanation">
+        <h2>This post could not be saved due to the following <%= pluralize(@meal.errors.count, "error") %>:</h2>
+
+        <ul>
+            <% @meal.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+        </ul>
+    </div>
+  <% end %>
+  
+  <div class="field col-md-12">
+    <%= f.input :name, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Meal name", label: false %>
+  </div>
+  
+  <div class="field col-md-12">
+    <%= f.input :description, class:"form-control no-box-shadow font-15 pf post-body", placeholder:"Meal description", label: false %>
+  </div>
+  
+  <div class="field col-md-12">
+    <%= f.input :street_address, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Street address", label: false %>
+  </div>
+  
+  <div class="field col-md-12">
+    <%= f.input :meal_type, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Meal type", label: false %>
+  </div>
+  
+  <div class="actions text-center action-button">
+    <%= f.button :submit, "Publish!", class:"btn btn-primary height-50", id:"create_meal", data: { "disable-with": "Creating..." } %>
+  </div>
+<% end %>

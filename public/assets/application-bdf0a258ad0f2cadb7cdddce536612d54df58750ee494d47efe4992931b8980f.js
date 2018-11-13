@@ -33113,7 +33113,7 @@ function toggleAuth(state) {
                     <input type="password" class="form-control add-margin-bottom" placeholder="password" id="signupPassword" required="true">
                     <input type="text" class="form-control add-margin-bottom" placeholder="Phone number" id="signupPhone" required="true">
                     <input type="text" class="form-control add-margin-bottom" placeholder="Full address" id="signupAddress" required="true">
-                    <button type="submit" class="btn btn-primary btn-block add-margin-bottom height-55" id="signupBtn" onclick="signupShopper()">
+                    <button type="submit" class="btn btn-primary btn-block add-margin-bottom height-50" id="signupBtn" onclick="signupShopper()">
                         Signup
                     </button>
                 </form>
@@ -33136,7 +33136,7 @@ function toggleAuth(state) {
                 <form onsubmit="loginShopper()" id="shopperLoginForm" data-remote="true">
                     <input type="email" class="form-control add-margin-bottom" placeholder="email" id="loginEmail" required="true">
                     <input type="password" class="form-control add-margin-bottom" placeholder="password" id="loginPassword" required="true">
-                    <button type="submit" class="btn btn-primary btn-block add-margin-bottom height-55" id="loginBtn" onclick="loginShopper()">
+                    <button type="submit" class="btn btn-primary btn-block add-margin-bottom height-50" id="loginBtn" onclick="loginShopper()">
                         Log in
                     </button>
                 </form>

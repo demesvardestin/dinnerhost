@@ -1,0 +1,10 @@
+<section id="meal-<%= @meal.id %>">
+    <div class="container">
+        <h4><%= @meal.name %></h4>
+        <p><%= @meal.description %></p>
+        <hr>
+        <p><%= @meal.full_address %></p>
+        <%= render 'host_controls' if current_chef %>
+        <%= render 'customer_controls' unless current_chef %>
+    </div>
+</section>

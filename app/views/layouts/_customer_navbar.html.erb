@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-lg fixed-top store-navbar">
+    <div class="container">
+        <a class="navbar-brand cursor-pointer" href="/">Mealshare</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="btn btn-link nav-link" href="/customer/dashboard">
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <a class="btn btn-link nav-link" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span id="storeName">Account</span> <i class="fa fa-angle-down"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="background-transparent dropdown-item cursor-pointer"
+                                href="/edit/profile">
+                                Profile settings
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="background-transparent dropdown-item cursor-pointer"
+                                href="/edit/hours">
+                                Hours & Delivery
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="background-transparent dropdown-item cursor-pointer"
+                                href="/edit/banner">
+                                Banner Image
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <%= link_to destroy_customer_session_path, class:"background-transparent dropdown-item", method: :delete do %>
+                                Sign out
+                            <% end %>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

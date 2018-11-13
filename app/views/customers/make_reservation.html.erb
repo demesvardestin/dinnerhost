@@ -1,0 +1,105 @@
+<section id="make-a-reservation">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5><%= @meal.name %></h5>
+                        <hr>
+                        <p><%= @meal.description %></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        Payment
+                        <form method="get" id="payment-form" data-disable-with="Processing request...">
+                            <div class="form-row row">
+                                <div class="col-md-12">
+                                    <div id="card-element" class="col-md-12"></div>
+                                </div>
+                                <div id="card-errors" role="alert" class="col-md-12"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 complete-order add-margin-top">
+                                    <button class="btn btn-primary btn-block height-50 white submit-btn" id="booking-btn">
+                                        Book this chef
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    var stripe = Stripe("pk_test_4rlj7z7bgOSQVv1TrZAMhrJi");
+    
+    // Create an instance of Elements
+    var elements = stripe.elements();
+    
+    // Custom styling can be passed to options when creating an Element.
+    // (Note that this demo uses a wider set of styles than the guide below.)
+    var style = {
+      base: {
+        color: '#32325d',
+        lineHeight: '18px',
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+          color: '#aab7c4'
+        }
+      },
+      invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a'
+      }
+    };
+    
+    // Create an instance of the card Element
+    var card = elements.create('card', {style: style});
+    
+    // Add an instance of the card Element into the `card-element` <div>
+    card.mount('#card-element');
+    
+    // Handle real-time validation errors from the card Element.
+    card.addEventListener('change', function(event) {
+      var displayError = document.getElementById('card-errors');
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
+      }
+    });
+    
+    $('.StripeElement').css('border', '1px solid #b4b4b4 !important');
+    
+    // Handle form submission //
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        $('#booking-btn').prop('disabled', true)
+        stripe.createToken(card).then(function(result) {
+            if (result.error) {
+              var errorElement = document.getElementById('card-errors');
+              errorElement.textContent = result.error.message;
+            } else {
+              submitOrder(result.token);
+            }
+        });
+    });
+    
+    function submitOrder(token) {
+        var data = {
+            "meal_id": "<%= params[:id] %>",
+            "card_token": token
+        };
+        $.post('/reserve', { data: data });
+    }
+    
+</script>

@@ -1,0 +1,5 @@
+<% meals.each do |meal| %>
+    <h5>
+        <%= link_to meal.name, meal_path(meal), class:"background-transparent" %>
+    </h5>
+<% end %>

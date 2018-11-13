@@ -1,11 +1,11 @@
 <section id="store-signup" class="container" style="padding-bottom: 30px;">
   <div class="row">
-    <div class="col-md-6 offset-md-3">
+    <div class="col-md-6 offset-md-3" style="padding: 0 45px !important;">
       <div class="card">
         <div class="card-body">
-          <% if request.original_url.include?('store') %>
+          <% if request.original_url.include?('chef') %>
             <div class="header">
-              <h5 class="text-center medium-gray">Store signup</h5>
+              <h5 class="text-center medium-gray">chef signup</h5>
               <hr style="height: 2px; background-color: #F27649; border-color: #F27649; width: 15%; margin: auto !important;">
             </div>
             <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
@@ -19,52 +19,29 @@
                 <% end %>
                 
                 <div class="field">
-                  <%= f.text_field :name, class:"form-control height-55 no-box-shadow", autofocus: true, placeholder:"Store name", value:"#{@registration['store_name']}" %>
+                  <%= f.text_field :first_name, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"First name" %>
                 </div>
                 <div class="field">
-                  <%= f.text_field :street_address, class:"form-control height-55 no-box-shadow", autofocus: true, placeholder:"Street address", value:"#{@registration['store_address'].split(', ')[0]}" %>
-                </div>
-                <div class="row field">
-                  <div class="col-md-4">
-                    <%= f.text_field :town, class:"form-control height-55 no-box-shadow", autofocus: true, placeholder:"Town", value:"#{@registration['store_address'].split(', ')[1]}" %>
-                  </div>
-                  <div class="col-md-4">
-                    <%= f.text_field :state, class:"form-control height-55 no-box-shadow", autofocus: true, placeholder:"State", value:"#{@registration['store_address'].split(', ')[2]}" %>
-                  </div>
-                  <div class="col-md-4">
-                    <%= f.text_field :zipcode, class:"form-control height-55 no-box-shadow", autofocus: true, placeholder:"Zipcode", value:"#{@registration['store_address'].split(', ')[3]}" %>
-                  </div>
+                  <%= f.text_field :last_name, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"Last name" %>
                 </div>
                 <div class="field">
-                  <%= f.text_field :supervisor, class:"form-control height-55 no-box-shadow", autofocus: true, placeholder:"Supervisor/manager", value:"#{@registration['store_manager']}" %>
-                </div>
-                <div class="field">
-                  <%= f.text_field :phone, class:"form-control height-55 no-box-shadow", autofocus: true, placeholder:"Store number", value:"#{@registration['store_phone']}" %>
-                </div>
-                <div class="field">
-                  <%= f.text_field :website, class:"form-control height-55 no-box-shadow", autofocus: true, placeholder:"Store website", value:"#{@registration['store_website']}" %>
-                </div>
-                <div class="field">
-                  <%= f.email_field :email, class:"form-control height-55 no-box-shadow", autofocus: true, placeholder:"Email", value:"#{@registration['store_email']}" %>
+                  <%= f.email_field :email, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"Email" %>
                 </div>
               
                 <div class="field">
-                  <%= f.password_field :password, class:"form-control height-55 no-box-shadow", autocomplete: "off", placeholder:"Password" %>
+                  <%= f.password_field :password, class:"form-control height-50 no-box-shadow", autocomplete: "off", placeholder:"Password" %>
                 </div>
                 <div class="field">
-                  <%= f.password_field :password_confirmation, class:"form-control height-55 no-box-shadow", autocomplete: "off", placeholder:"Password confirmation" %>
+                  <%= f.password_field :password_confirmation, class:"form-control height-50 no-box-shadow", autocomplete: "off", placeholder:"Password confirmation" %>
                 </div>
               
                 <div class="actions" style="margin-top: 10px;">
                   <div class="row">
                     <div class="col-md-12">
-                      <%= f.submit "Create account", class:"btn btn-primary btn-block box-shadow height-55" %>
+                      <%= f.submit "Create account", class:"btn btn-primary btn-block box-shadow height-50", data: {"disable-with": "Creating your account..."} %>
                     </div>
                   </div>
                 </div>
-                <hr style="margin-top: 15px; margin-bottom: 15px;">
-                By signing up, you agree to Senzzu's
-                <a class="background-transparent" href="/terms" target="_blank">terms of service</a>.
               </div>
             <% end %>
           <% else %>
@@ -79,25 +56,25 @@
                 <% end %>
                 
                 <div class="field">
-                  <%= f.email_field :email, class:"form-control height-55 no-box-shadow", autofocus: true, placeholder:"Email" %>
+                  <%= f.text_field :first_name, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"First name" %>
                 </div>
                 
                 <div class="field">
-                  <%= f.text_field :first_name, class:"form-control height-55 no-box-shadow", autofocus: true, placeholder:"First name" %>
+                  <%= f.text_field :last_name, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"Last name" %>
                 </div>
                 
                 <div class="field">
-                  <%= f.text_field :last_name, class:"form-control height-55 no-box-shadow", autofocus: true, placeholder:"Last name" %>
+                  <%= f.email_field :email, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"Email" %>
                 </div>
               
                 <div class="field">
-                  <%= f.password_field :password, class:"form-control height-55 no-box-shadow", autocomplete: "off", placeholder:"Password" %>
+                  <%= f.password_field :password, class:"form-control height-50 no-box-shadow", autocomplete: "off", placeholder:"Password" %>
                 </div>
               
                 <div class="actions" style="margin-top: 10px;">
                   <div class="row">
                     <div class="col-md-12">
-                      <%= f.submit "Create account", class:"btn btn-primary btn-block box-shadow height-55" %>
+                      <%= f.submit "Create an account", class:"btn btn-primary btn-block box-shadow height-50", data: { "disable-with": "Creating your account..." } %>
                     </div>
                   </div>
                 </div>
@@ -105,27 +82,7 @@
             <% end %>
           <% end %>
         </div>
-        <div class="card-footer">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <% if request.original_url.include?('store') %>
-                      <%= link_to "Log into your account", store_login_path, class:"background-transparent theme-blue font-16 display-block", onclick:"window.location.replace('/store/login');" %>
-                      <%= link_to "Forgot your password?", store_retrieve_password_path, class:"background-transparent theme-blue font-16 display-block", onclick:"window.location.replace('/store/retrieve-password');" %>
-                    <% else %>
-                      <%= link_to "Log into your account", blog_admin_login_path, class:"background-transparent theme-blue font-16 display-block", onclick:"window.location.replace('/store/login');" %>
-                      <%= link_to "Forgot your password?", blog_admin_retrieve_password_path, class:"background-transparent theme-blue font-16 display-block", onclick:"window.location.replace('/store/retrieve-password');" %>
-                    <% end %>
-                </div>
-            </div>
-        </div>
       </div>
     </div>
   </div>
 </section>
-
-<script>
-  $('#new_store').on('submit', e => {
-    $('#logIn').css('opacity', '0.7');
-    document.getElementById('logIn').value = 'Logging you in...';
-  });
-</script>

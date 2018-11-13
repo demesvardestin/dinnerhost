@@ -1,8 +1,5 @@
 <section id="store-login" class="container" style="margin-bottom: 75px; margin-top: 30px;">
   <div class="row">
-    <!--<div class="col-md-6" style="background-image: url('https://s3.us-east-2.amazonaws.com/senzzu/store_login_banner.png'); background-size: cover; background-position: center; height: 500px;">-->
-      
-    <!--</div>-->
     <div class="col-md-6 offset-md-3">
       <!--<h1 align="center" style="margin-bottom: 20px;" class="bold">Welcome back!</h1>-->
       <div class="card theme-border">
@@ -19,23 +16,23 @@
               <% end %>
               
               <div class="field">
-                <%= f.email_field :email, required: true, class:"form-control height-55 no-box-shadow", autofocus: true, placeholder:"Email", input_html: { autocomplete: 'email' } %>
+                <%= f.email_field :email, required: true, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"Email", input_html: { autocomplete: 'email' } %>
               </div>
             
               <div class="field">
-                <%= f.password_field :password, required: false, class:"form-control height-55 no-box-shadow", input_html: { autocomplete: "current-password" }, placeholder:"Password" %>
+                <%= f.password_field :password, required: false, class:"form-control height-50 no-box-shadow", input_html: { autocomplete: "current-password" }, placeholder:"Password" %>
               </div>
             
               <div class="actions" style="margin-top: 10px;">
                 <div class="row">
                   <div class="col-md-12">
-                    <%= f.submit "Log in", class:"btn btn-primary btn-block height-55 log-in no-box-shadow", id:"logIn" %>
+                    <%= f.submit "Log in", class:"btn btn-primary btn-block height-50 log-in no-box-shadow", id:"logIn", data: {"disable-with": "Logging you in..."} %>
                   </div>
                   <div class="col-md-12 add-padding-top text-center">
-                    <% if !request.original_url.include?('admin') %>
-                      <%= link_to "Don't have an account? Register here", register_a_store_path, class:"background-transparent theme-blue font-16 display-block", onclick:"window.location.replace('/register-a-store');" %>
-                    <% end %>
-                    <%= link_to "Forgot your password?", blog_admin_retrieve_password_path, class:"background-transparent theme-blue font-16 display-block", onclick:"window.location.replace('/store/retrieve-password');" %>
+                      <%= link_to "Don't have an account? Register here", chef_signup_path, class:"background-transparent theme-blue font-16 display-block" if request.original_url.include?('chef') %>
+                      <%= link_to "Don't have an account? Register here", customer_signup_path, class:"background-transparent theme-blue font-16 display-block" unless request.original_url.include?('chef') %>
+                      <%= link_to "Forgot your password?", chef_retrieve_password_path, class:"background-transparent theme-blue font-16 display-block" if request.original_url.include?('chef') %>
+                      <%= link_to "Forgot your password?", customer_retrieve_password_path, class:"background-transparent theme-blue font-16 display-block" unless request.original_url.include?('chef') %>
                   </div>
                 </div>
               </div>
@@ -47,10 +44,3 @@
     </div>
   </div>
 </section>
-
-<script>
-  $('#new_store').on('submit', e => {
-    $('#logIn').css('opacity', '0.7');
-    document.getElementById('logIn').value = 'Logging you in...';
-  });
-</script>
