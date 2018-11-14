@@ -1,0 +1,4 @@
+<h5><%= @chef.full_name %></h5>
+<%= link_to new_chat_path(:chef_id => @chef.id), class:"btn btn-primary" do %>
+    Message chef <i class="fa fa-envelope-o"></i>
+<% end %>

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get '/customers/dashboard', to: 'customers#dashboard'
   post '/reserve', to: 'customers#reserve'
   get '/booking/confirmation', to: 'customers#booking_confirmation'
+  get '/inbox', to: 'conversations#customer_inbox'
   
   ## Chef Devise routes
   devise_for :chefs, :controllers => { :registrations => "chef/registrations" }
@@ -28,15 +29,23 @@ Rails.application.routes.draw do
     root 'chefs#dashboard', as: :authenticated_chef_root
   end
   get '/chef/dashboard', to: 'chefs#dashboard'
+  get '/cook/inbox', to: 'chefs#inbox'
   
   ## Meal routes
   resources :meals
+  resources :conversations
   
   ## Global routes
   get '/meal/search', to: 'main#search_page'
   get '/search', to: 'main#search'
   get '/new-meal', to: 'meals#new'
   get '/meal/:id/make-reservation', to: 'customers#make_reservation'
+  get '/cook/:id', to: 'chefs#show'
+  get '/chat/:id', to: 'conversations#show', as: 'chat'
+  get '/new/chat', to: 'conversations#create'
+  post '/create_message', to: 'conversations#create_message'
+  get '/star/:id', to: 'conversations#star', as: "star_conversation"
+  get '/archive/:id', to: 'conversations#archive', as: "archive_conversation"
   
   ## Stores routes
   

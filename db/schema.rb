@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181113144559) do
+ActiveRecord::Schema.define(version: 20181114173651) do
 
   create_table "chefs", force: :cascade do |t|
     t.string   "first_name"
@@ -33,8 +33,18 @@ ActiveRecord::Schema.define(version: 20181113144559) do
     t.string   "state"
     t.string   "zipcode"
     t.string   "booking_rate"
+    t.float    "longitude"
+    t.float    "latitude"
     t.index ["email"], name: "index_chefs_on_email", unique: true
     t.index ["reset_password_token"], name: "index_chefs_on_reset_password_token", unique: true
+  end
+
+  create_table "conversations", force: :cascade do |t|
+    t.integer  "chef_id"
+    t.integer  "customer_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.datetime "last_accessed"
   end
 
   create_table "customers", force: :cascade do |t|
@@ -68,6 +78,16 @@ ActiveRecord::Schema.define(version: 20181113144559) do
     t.integer  "chef_id"
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "conversation_id"
+    t.integer  "chef_id"
+    t.integer  "customer_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.string   "sender_type"
+  end
+
   create_table "reservations", force: :cascade do |t|
     t.integer  "customer_id"
     t.integer  "reservation_id"
@@ -77,6 +97,14 @@ ActiveRecord::Schema.define(version: 20181113144559) do
     t.datetime "updated_at",                                     null: false
     t.integer  "meal_id"
     t.string   "charge_id"
+  end
+
+  create_table "stars", force: :cascade do |t|
+    t.integer  "conversation_id"
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
 end

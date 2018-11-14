@@ -6,5 +6,11 @@ class Customer < ApplicationRecord
          
   has_many :meals, through: :reservations
   has_many :reservations
+  has_many :messages, through: :conversations
+  has_many :conversations
+  
+  def full_name
+    [first_name, last_name].join(' ')
+  end
   
 end

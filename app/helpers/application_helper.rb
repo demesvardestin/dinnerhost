@@ -11,11 +11,17 @@ module ApplicationHelper
     end
     
     def body
-        current_chef ? 'layouts/chef_body' : 'layouts/main_body'
+        if current_chef
+            'layouts/chef_body'
+        elsif current_customer
+            'layouts/customer_body'
+        else
+            'layouts/main_body'
+        end
     end
     
     def footer
-        current_chef ? 'layouts/no_footer' : 'layouts/footer'
+        current_chef || current_customer ? 'layouts/no_footer' : 'layouts/footer'
     end
     
     def unescape(content)
@@ -28,6 +34,22 @@ module ApplicationHelper
     
     def decode(string)
         URI.decode(string)
+    end
+    
+    def user
+        current_chef || current_customer
+    end
+    
+    def inbox_status
+        messages = []
+        user.conversations.each do |c|
+            messages << c.messages.select do |m|
+                m.created_at > c.last_accessed.to_datetime && m.sender != user if !c.last_accessed.nil?
+            end
+        end
+        if messages.flatten.any?
+            "fa fa-circle theme-green"
+        end
     end
     
 end

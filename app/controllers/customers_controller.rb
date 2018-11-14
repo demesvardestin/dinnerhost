@@ -6,13 +6,13 @@ class CustomersController < ApplicationController
   end
   
   def reserve
-    # begin
+    begin
       @meal = Meal.find_by(id: params[:data][:meal_id])
       @reservation = Reservation.book_chef(@meal, params[:data][:card_token][:id], current_customer)
-    # rescue
-    #   render 'unable_to_book', :layout => false
-    #   return
-    # end
+    rescue
+      render 'unable_to_book', :layout => false
+      return
+    end
     redirect_to booking_confirmation_path(:confirmation_id => @reservation.id)
   end
   

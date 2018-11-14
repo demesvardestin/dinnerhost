@@ -1,0 +1,6 @@
+$('#all-messages')
+.html(`
+    <%= render partial: 'messages', locals: { messages: @messages } %>
+`);
+
+document.querySelector('#message-form').reset();
