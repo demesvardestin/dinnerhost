@@ -3,7 +3,7 @@
         <div class="col-md-5">
             <div class="card">
                 <div class="card-body text-center">
-                    <h5><%= @conversation.chef.full_name %></h5>
+                    <h5><%= @conversation.correspondent(user).full_name %></h5>
                     <div>
                         <img src="" alt="Sender">
                     </div>
@@ -17,8 +17,8 @@
                         <div class="card">
                             <div class="card-body" style="padding: 0;">
                                 <input type="hidden" name="conversation_id" value="<%= @conversation.id %>">
-                                <input type="hidden" name="message[sender_type]" value="<%= current_chef ? "chef" : "customer" %>">
-                                <input type="hidden" name="sender_id" value="<%= current_chef ? "#{current_chef.id}" : "#{current_customer.id}" %>">
+                                <input type="hidden" name="message[sender_type]" value="<%= user.user_type %>">
+                                <input type="hidden" name="sender_id" value="<%= user.id %>">
                                 <textarea class="form-control height-100 no-box-shadow no-border background-transparent"
                                     name="message[content]" placeholder="Type a new message..."></textarea>
                             </div>
@@ -31,7 +31,17 @@
                     </form>
                 </div>
             </div>
-            <hr>
+            
+            <div style="padding: 43px 0 15px 0;" class="text-middle-hr">
+                <div style="width: 100%;">
+                    <hr style="margin: 0;">
+                </div>
+                <div style="margin-top: -13px;" align="center">
+                  <span style="font-size: 14px; background-color: #fff; padding: 0 10px;">
+                    Reminder - Leave a review
+                  </span>
+                </div>
+            </div>
             
             <div class="row" id="all-messages">
                 <%= render partial: 'messages', locals: { messages: @messages } %>

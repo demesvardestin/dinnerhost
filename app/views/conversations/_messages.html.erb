@@ -2,30 +2,24 @@
     .sender-avatar, .sender-message {
         display: inline-block;
     }
-    .sender-message.float-right {
-        border-radius: 15px;
-    }
-    .sender-message.float-left {
-        border-radius: 15px;
-    }
 </style>
 
 <% messages.each do |m| %>
     <div class="col-md-12" style="margin-top: 20px;">
-        <% if m.sender != current_sender %>
+        <% if m.sender != user %>
             <div class="sender-avatar float-left" style="width: 20%;">
                 <p><%= m.sender.full_name %></p>
             </div>
         <% end %>
-        <% if m.sender == current_sender %>
+        <% if m.sender == user %>
             <div class="sender-avatar float-right text-right" style="width: 20%;">
                 <p><%= m.sender.full_name %></p>
             </div>
         <% end %>
         <div class="card sender-message <%= message_box_alignment(m.sender_type) %>" style="width: 80%;">
-            <div class="card-body <%= message_text_alignment(m.sender_type) %>">
-                <p class="font-16"><%= m.content %></p>
-                <p class="font-13"><%= m.created_at %></p>
+            <div class="card-body text-left">
+                <p><%= m.content %></p>
+                <p class="font-14 opaque message-timestamp"><%= m.created_at.strftime('%b %e, %Y') %></p>
             </div>
         </div>
     </div>

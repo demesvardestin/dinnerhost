@@ -60,3 +60,51 @@ p {
 .btn:focus {
     box-shadow: none;
 }
+
+.text-middle-hr {
+    text-transform: uppercase;
+}
+
+.opaque {
+    opacity: 0.8;
+}
+
+#main-body {
+    padding-bottom: 30px;
+}
+
+.message-timestamp {
+    margin-top: 15px;
+}
+
+.current-sender {
+    background-color: #edefed;
+}
+
+.sender-message {
+    border-radius: 0;
+}
+
+.sender-message.float-left:before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    left: -9px;
+    top: -1px;
+    right: auto;
+    border: 10px solid transparent;
+    border-left: 0;
+    border-right-color: #edefed;
+}
+
+.sender-message.float-right:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    right: -9px;
+    top: -1px;
+    left: auto;
+    border: 9px solid transparent;
+    border-right: 0;
+    border-left-color: #edefed;
+}

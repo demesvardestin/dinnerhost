@@ -15,13 +15,13 @@ module ConversationsHelper
     def message_box_alignment(type)
         if type == "chef"
             if current_chef
-                "float-right"
+                "float-right current-sender"
             else
                 "float-left"
             end
         else
             if current_customer
-                "float-right"
+                "float-right current-sender"
             else
                 "float-left"
             end
@@ -57,6 +57,18 @@ module ConversationsHelper
             Customer.find_by(id: customer_id)
         else
             Chef.find_by(id: chef_id)
+        end
+    end
+    
+    def new_message?(message)
+        message.conversation.last_accessed_by_user_type != user.user_type && message.created_at > message.conversation.last_accessed.to_datetime
+    end
+    
+    def message_snipet_color(message)
+        if new_message? message
+            ""
+        else
+            "text-muted"
         end
     end
     

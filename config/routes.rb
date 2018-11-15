@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   get '/customers/dashboard', to: 'customers#dashboard'
   post '/reserve', to: 'customers#reserve'
   get '/booking/confirmation', to: 'customers#booking_confirmation'
-  get '/customer/inbox', to: 'conversations#inbox'
+  get '/inbox', to: 'conversations#inbox'
   ## END CUSTOMER ROUTES ##
   
   ## Chef routes
@@ -30,7 +30,7 @@ Rails.application.routes.draw do
     root 'chefs#dashboard', as: :authenticated_chef_root
   end
   get '/chef/dashboard', to: 'chefs#dashboard'
-  get '/cook/inbox', to: 'conversations#inbox'
+  get '/inbox', to: 'conversations#inbox'
   ## END CHEF ROUTES ##
   
   ## RESOURCES

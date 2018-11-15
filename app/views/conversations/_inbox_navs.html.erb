@@ -1,0 +1,14 @@
+<button class="btn btn-primary height-50 add-margin-bottom" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span style="padding-right: 45px;">All Messages (<%= @active.count %>)</span> <i class="fa fa-angle-down"></i>
+</button>
+<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="background-transparent dropdown-item cursor-pointer"
+        onclick="loadConversationCategory('all', 'conversations-box')">
+        All Messages (<%= @active.count %>)
+    </a>
+    <div class="dropdown-divider"></div>
+    <a class="background-transparent dropdown-item cursor-pointer archived-conversations"
+        onclick="loadConversationCategory('archived', 'conversations-box')">
+        Archived (<%= @archived.count %>)
+    </a>
+</div>
