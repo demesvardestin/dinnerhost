@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  ## Customer Devise routes
+  ## Customer routes
   devise_for :customers, :controllers => { :registrations => "customer/registrations" }
   devise_scope :customer do
     get 'customer/login', to: 'devise/sessions#new'
@@ -15,9 +15,10 @@ Rails.application.routes.draw do
   get '/customers/dashboard', to: 'customers#dashboard'
   post '/reserve', to: 'customers#reserve'
   get '/booking/confirmation', to: 'customers#booking_confirmation'
-  get '/inbox', to: 'conversations#customer_inbox'
+  get '/customer/inbox', to: 'conversations#inbox'
+  ## END CUSTOMER ROUTES ##
   
-  ## Chef Devise routes
+  ## Chef routes
   devise_for :chefs, :controllers => { :registrations => "chef/registrations" }
   devise_scope :chef do
     get 'chef/login', to: 'devise/sessions#new'
@@ -29,11 +30,13 @@ Rails.application.routes.draw do
     root 'chefs#dashboard', as: :authenticated_chef_root
   end
   get '/chef/dashboard', to: 'chefs#dashboard'
-  get '/cook/inbox', to: 'chefs#inbox'
+  get '/cook/inbox', to: 'conversations#inbox'
+  ## END CHEF ROUTES ##
   
-  ## Meal routes
+  ## RESOURCES
   resources :meals
-  resources :conversations
+  resources :conversations, except: [:delete, :edit, :update]
+  resources :messages, only: :create
   
   ## Global routes
   get '/meal/search', to: 'main#search_page'
@@ -46,8 +49,10 @@ Rails.application.routes.draw do
   post '/create_message', to: 'conversations#create_message'
   get '/star/:id', to: 'conversations#star', as: "star_conversation"
   get '/archive/:id', to: 'conversations#archive', as: "archive_conversation"
+  get '/unarchive/:id', to: 'conversations#unarchive', as: "unarchive_conversation"
+  get '/inbox/archived', to: 'conversations#archived'
+  get '/inbox/all', to: 'conversations#all'
   
-  ## Stores routes
   
   
   root 'main#home'

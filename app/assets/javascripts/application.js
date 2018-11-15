@@ -29,3 +29,17 @@ toastr.options = {
     "showMethod": "fadeIn",
     "hideMethod": "fadeOut"
 };
+
+function loading(element) {
+    $('#' + element.id)
+    .css('opacity', '0.7')
+    .prepend(`
+        <div class="text-center" style="margin-top: 25%; z-index: 1049 !important;">
+            <span>
+                <i class="fa fa-spinner fa-pulse fa-3x fa-fw theme-blue"
+                    style="font-size: 20px;">
+                </i>
+            </span>
+        </div>
+    `);
+}

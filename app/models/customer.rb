@@ -13,4 +13,8 @@ class Customer < ApplicationRecord
     [first_name, last_name].join(' ')
   end
   
+  def has_archived(convo)
+    self.conversations.include?(convo) && convo.archived_by.include?(self.user_type)
+  end
+  
 end

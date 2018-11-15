@@ -19,4 +19,8 @@ class Chef < ApplicationRecord
     [street_address, town, state, zipcode].join(' ')
   end
   
+  def has_archived(convo)
+    self.conversations.include?(convo) && convo.archived_by.include?(self.user_type)
+  end
+  
 end

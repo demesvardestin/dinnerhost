@@ -56,3 +56,7 @@ p {
 .control:hover {
     text-decoration: underline;
 }
+
+.btn:focus {
+    box-shadow: none;
+}

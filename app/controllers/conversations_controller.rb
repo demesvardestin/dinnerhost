@@ -1,9 +1,38 @@
 class ConversationsController < ApplicationController
-    before_action :authenticate_customer!, only: :customer_inbox
+    before_action :authenticate_user, only: :inbox
     before_action :check_participants, only: :show
     
-    def customer_inbox
-        @conversations = current_customer.conversations
+    def inbox
+        @active = (current_chef || current_customer).conversations.not_archived(current_chef || current_customer)
+        @archived = (current_chef || current_customer).conversations.archived(current_chef || current_customer)
+    end
+    
+    def archive
+        @conversation = Conversation.find_by(id: params[:id])
+        archiver = current_customer ? "customer" : "chef"
+        @conversation.update(archived_by: @conversation.archived_by << archiver)
+        @active = (current_chef || current_customer).conversations.not_archived(current_chef || current_customer)
+        @archived = (current_chef || current_customer).conversations.archived(current_chef || current_customer)
+        render 'archive', :layout => false
+    end
+    
+    def unarchive
+        @conversation = Conversation.find_by(id: params[:id])
+        archiver = current_customer ? "customer" : "chef"
+        @conversation.update(archived_by: @conversation.archived_by.split(archiver).join(''))
+        @active = (current_chef || current_customer).conversations.not_archived(current_chef || current_customer)
+        @archived = (current_chef || current_customer).conversations.archived(current_chef || current_customer)
+        render 'unarchive', :layout => false
+    end
+    
+    def archived
+        @archived = (current_chef || current_customer).conversations.archived(current_chef || current_customer)
+        render :layout => false
+    end
+    
+    def all
+        @active = (current_chef || current_customer).conversations.not_archived(current_chef || current_customer)
+        render :layout => false
     end
     
     def show
@@ -40,5 +69,9 @@ class ConversationsController < ApplicationController
     def check_participants
         @conversation = Conversation.find_by(id: params[:id])
         redirect_to root_path if !@conversation.participants.include?(current_chef || current_customer)
+    end
+    
+    def authenticate_user
+        current_customer ? authenticate_customer! : authenticate_chef!
     end
 end

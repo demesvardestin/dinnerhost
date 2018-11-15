@@ -1,2 +1,0 @@
-class Star < ApplicationRecord
-end

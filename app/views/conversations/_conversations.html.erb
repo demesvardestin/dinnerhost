@@ -1,12 +1,12 @@
 <% conversations.each do |c| %>
-    <div class="col-md-12">
+    <div class="col-md-12" id="conversation-block-<%= c.id %>">
         <div class="row" onmouseover="showControls(<%= c.id %>)", onmouseout="hideControls(<%= c.id %>)">
             <div class="col-md-2">
                 <img src="" alt="chef">
             </div>
             <div class="col-md-2">
                 <p style="font-size: 14px;" ><%= messagee(c.chef_id, c.customer_id).first_name %></p>
-                <p style="font-size: 14px;"><%= c.messages.last.created_at.strftime('%m %l') %></p>
+                <p style="font-size: 14px;"><%= c.messages.last.created_at.strftime('%b %e') %></p>
             </div>
             <div class="col-md-6" style="padding-bottom: 10px;">
                 <%= link_to chat_path(:id => c.id), class:"background-transparent no-underline", style:"width: 100%;" do %>
@@ -15,14 +15,15 @@
                 <% end %>
             </div>
             <div class="col-md-2">
-                <p>
-                    <%= link_to star_conversation_path(c), class:"btn btn-link theme-blue control control#{c.id}", style:"display: none; padding: 0; font-size: 13px !important;" do %>
-                        <i class="fa fa-star-o"></i> Star
-                    <% end %>
-                </p>
-                <p>
-                    <%= link_to archive_conversation_path(c), class:"btn btn-link theme-blue control control#{c.id}", style:"display: none; padding: 0; font-size: 13px !important" do %>
-                        <i class="fa fa-archive"></i> Archive
+                <p id="archive-<%= c.id %>">
+                    <% if (current_chef || current_customer).has_archived c %>
+                        <%= link_to unarchive_conversation_path(c), class:"btn btn-link theme-green", style:"padding: 0; font-size: 13px !important", remote: true do %>
+                            <i class="fa fa-archive"></i> Unarchive
+                        <% end %>
+                    <% else %>
+                        <%= link_to archive_conversation_path(c), class:"btn btn-link theme-blue control control#{c.id}", style:"display: none; padding: 0; font-size: 13px !important", remote: true do %>
+                            <i class="fa fa-archive"></i> Archive
+                        <% end %>
                     <% end %>
                 </p>
             </div>

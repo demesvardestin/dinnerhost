@@ -1,0 +1,8 @@
+$('#conversations-box')
+.html(`
+    <div class="card-body">
+        <div class="row">
+            <%= render partial: 'conversations', locals: { conversations: @archived } %>
+        </div>
+    </div>
+`);
