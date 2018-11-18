@@ -55,6 +55,7 @@ gem 'serviceworker-rails'
 gem 'pusher'
 gem 'toastr-rails'
 gem 'social-share-button'
+gem 'bootstrap-datepicker-rails'
 
 # DB administration
 gem "administrate"

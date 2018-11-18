@@ -1,10 +1,86 @@
-<section id="meal-<%= @meal.id %>">
-    <div class="container">
-        <h4><%= @meal.name %></h4>
-        <p><%= @meal.description %></p>
-        <hr>
-        <p><%= @meal.full_address %></p>
-        <%= render 'host_controls' if current_chef %>
-        <%= render 'customer_controls' unless current_chef %>
+<section class="meal-page">
+    <span id='meal-id' class="no-display"><%= @meal.id %></span>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-2">
+                    <img src="" alt="cook">
+                </div>
+                <div class="col-md-10">
+                    <h4><%= @meal.name %></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p><%= @meal.description %></p>
+                    <p><%= @meal.full_address %></p>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <p>
+                        <span class="bold font-22">$<%= @meal.chef.booking_rate %></span>
+                        <span class="font-13">per day</span>
+                    </p>
+                    <p class="font-14">
+                        <em>rating</em>
+                    </p>
+                    
+                    <hr>
+                    
+                    <p class="font-13">Dates</p>
+                    <%= render 'common/datetime_picker' %>
+                    
+                    <p class="font-13" style="margin-top: 15px;">People</p>
+                    <div style="position: relative !important;"><%= render 'common/guest_count' %></div>
+                    
+                    <form action="/reserve" method="post" data-remote="true" data-disable-with="Booking...">
+                        <input type="hidden" value="" id="start-date" name="reservation[start_date]">
+                        <input type="hidden" value="" id="end-date" name="reservation[end_date]">
+                        <input type="hidden" value="" id="adult-count" name="reservation[adult_count]">
+                        <input type="hidden" value="" id="children-count" name="reservation[children_count]">
+                        <input type="hidden" value="" id="reservation-id" name="reservation[meal_id]">
+                        <button class="btn btn-primary btn-block height-50 white" id="booking-btn">
+                            Book <%= @meal.chef.first_name %>
+                        </button>
+                    </form>
+                    
+                    <p class="text-center font-13 add-margin-top">You won't be charged yet</p>
+                    
+                    <hr>
+                    
+                    <p class="text-center font-13">
+                        <a class="btn btn-link">
+                            <i class="fa fa-flag-o"></i> Report this listing
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
+
+<script type="text/javascript">
+    
+    function updateReservationParams() {
+        var startDate = document.querySelector('.start-date-input').value;
+        var endDate = document.querySelector('.end-date-input').value;
+        var adultCount = $('.adult-count').text();
+        var childrenCount = $('.children-count').text();
+        
+        document.querySelector('#start-date').value = startDate;
+        document.querySelector('#end-date').value = endDate;
+        document.querySelector('#adult-count').value = adultCount;
+        document.querySelector('#children-count').value = childrenCount;
+        document.querySelector('#meal-id').value = $('#meal-id').text();
+        
+        history
+        .replaceState(null, '', "?start_date=" +
+                startDate + "&end_date=" + endDate + "&adult_count=" +
+                adultCount + "&children_count=" + childrenCount);
+    }
+    
+</script>

@@ -16,11 +16,13 @@
  *= require toastr
  *= require bootstrap-wysihtml5
  *= require social-share-button
+ *= require bootstrap-datepicker
  */
 .navbar {
     border-bottom: 1px solid #eee;
     background: #fff !important;
-    padding: 16px;
+    padding: 0 16px;
+    height: 60px !important;
 }
 
 .navbar-brand {
@@ -107,4 +109,127 @@ p {
     border: 9px solid transparent;
     border-right: 0;
     border-left-color: #edefed;
+}
+
+.narbar-search {
+    height: 30px !important;
+    padding: 0 !important;
+}
+
+.dropdown-menu {
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.dropdown-item {
+    font-size: 15px;
+    color: #4c4c4c !important;
+    padding: 20px 15px !important;
+}
+
+.dropdown-divider {
+    margin: 0;
+}
+
+.navbar-nav  > .nav-item {
+    height: 100%;
+}
+
+.nav-link-child {
+    vertical-align: middle !important;
+}
+
+.datetime-picker-div, .guest_count_picker {
+    border: 0.5px solid #e7e7e9;
+    border-radius: 2px;
+}
+
+.guest_count_picker {
+    padding: 14px 10px;
+}
+
+.start-date:hover, .end-date:hover {
+    background-color: #e7e7e9;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+#booking-btn {
+    margin-top: 15px;
+}
+
+.guest_count_picker {
+    cursor: pointer;
+}
+
+.guest-count-options {
+    padding: 17.5px 10px;
+    border: 0.5px solid #e7e7e9;
+    border-radius: 2px;
+    height: auto;
+    z-index: 1050;
+    position: absolute;
+    margin: auto;
+    width: 100%;
+    background-color: #fff;
+}
+
+.decrease-guest-count, .increase-guest-count {
+    padding: 0;
+    height: 25px;
+    width: 25px;
+    border-radius: 12.5px;
+    margin: 0 15px;
+    cursor: pointer;
+    background-color: transparent !important;
+    color: #007bff !important;
+}
+
+.ui-datepicker td {
+    padding: 0;
+}
+
+.ui-datepicker-calendar, .ui-widget-content {
+    background: #fff;
+}
+
+#ui-datepicker-div {
+    border: 0.5px solid #e7e7e9;
+    border-radius: 2px;
+}
+
+.ui-datepicker td a {
+    padding: 0;
+    text-align: center;
+}
+
+.ui-state-default {
+    background: transparent !important;
+    padding: 10px !important;
+    border: 0.5px solid #e7e7e9;
+}
+
+.ui-widget-content .ui-state-default {
+    color: #8a8a8b;
+}
+
+.ui-datepicker th {
+    font-weight: normal;
+}
+
+.ui-widget-header {
+    border: none;
+    border-radius: 2px;
+    background: #007bff !important;
+    color: #fff;
+}
+
+.ui-datepicker-next {
+    color: #8a8a8b !important;
+}
+
+.ui-widget-content .ui-state-highlight {
+    color: #007bff;
+    border-color: #e7e7e9;
 }

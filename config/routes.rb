@@ -13,8 +13,6 @@ Rails.application.routes.draw do
   end
   get 'customers/make_reservation', to: 'customers#make_reservation'
   get '/customers/dashboard', to: 'customers#dashboard'
-  post '/reserve', to: 'customers#reserve'
-  get '/booking/confirmation', to: 'customers#booking_confirmation'
   get '/inbox', to: 'conversations#inbox'
   ## END CUSTOMER ROUTES ##
   
@@ -37,12 +35,13 @@ Rails.application.routes.draw do
   resources :meals
   resources :conversations, except: [:delete, :edit, :update]
   resources :messages, only: :create
+  resources :chefs
   
   ## Global routes
   get '/meal/search', to: 'main#search_page'
   get '/search', to: 'main#search'
   get '/new-meal', to: 'meals#new'
-  get '/meal/:id/make-reservation', to: 'customers#make_reservation'
+  get '/meal/:id/booking-confirmation', to: 'meals#booking_confirmation'
   get '/cook/:id', to: 'chefs#show'
   get '/chat/:id', to: 'conversations#show', as: 'chat'
   get '/new/chat', to: 'conversations#create'
@@ -52,6 +51,10 @@ Rails.application.routes.draw do
   get '/unarchive/:id', to: 'conversations#unarchive', as: "unarchive_conversation"
   get '/inbox/archived', to: 'conversations#archived'
   get '/inbox/all', to: 'conversations#all'
+  get 'user_type', to: 'main#user_type'
+  get '/c/:username', to: 'chefs#show'
+  post '/reserve', to: 'meals#reserve'
+  get '/booking/confirmation', to: 'meals#booking_confirmation'
   
   
   

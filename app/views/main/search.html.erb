@@ -1,9 +1,11 @@
 <section id="meal-search-results">
-    <div class="container">
-        <% if @meals.present? %>
-            <%= render partial: 'meals/meals', locals: { meals: @meals } %>
-        <% else %>
-            <%= render 'meals/no_meal' %>
-        <% end %>
+    <div class="row">
+        <div class="col-md-8">
+            <% if @meals.present? %>
+                <%= render partial: 'meals/meals', locals: { meals: @meals } %>
+            <% else %>
+                <%= render 'meals/no_meal' %>
+            <% end %>
+        </div>
     </div>
 </section>

@@ -5,6 +5,7 @@
 //= require chartkick
 //= require bootstrap-wysihtml5
 //= require social-share-button
+//= require bootstrap-datepicker
 //= require_tree .
 
 $(function () {

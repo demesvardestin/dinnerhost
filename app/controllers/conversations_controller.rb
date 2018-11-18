@@ -63,17 +63,20 @@ class ConversationsController < ApplicationController
         params.require(:message).permit(:content, :sender_type)
     end
     
+    def user
+        @user = (current_customer || current_chef)
+    end
+    
     def check_participants
         @conversation = Conversation.find_by(id: params[:id])
         redirect_to root_path if !@conversation.participants.include? @user
     end
     
     def authenticate_user
-        current_customer ? authenticate_customer! : authenticate_chef!
-    end
-    
-    def user
-        @user = (current_customer || current_chef)
+        # current_customer ? authenticate_customer! : authenticate_chef!
+        if !user
+            redirect_to user_type_path
+        end
     end
     
     def check_archives
