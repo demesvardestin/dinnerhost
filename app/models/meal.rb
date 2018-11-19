@@ -3,6 +3,7 @@ class Meal < ApplicationRecord
     belongs_to :chef
     has_many :reservations
     has_many :customers, through: :reservations
+    has_many :meal_reports
     
     geocoded_by :full_address
     after_validation :geocode

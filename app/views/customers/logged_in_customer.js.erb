@@ -1,4 +1,6 @@
-<nav class="navbar navbar-expand-lg fixed-top">
+fadeModal('customerAuthentication');
+
+$('.main-navbar').html(`
     <div class="container">
         <a class="navbar-brand cursor-pointer" href="/">Mealshare</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,4 +43,17 @@
             </ul>
         </div>
     </div>
-</nav>
+`);
+
+$('#booking-btn-div').html(`
+    <form action="/reserve" method="post" data-remote="true">
+        <input type="hidden" value="" id="start-date" name="reservation[start_date]">
+        <input type="hidden" value="" id="end-date" name="reservation[end_date]">
+        <input type="hidden" value="" id="adult-count" name="reservation[adult_count]">
+        <input type="hidden" value="" id="children-count" name="reservation[children_count]">
+        <input type="hidden" value="" id="reservation-id" name="reservation[meal_id]">
+        <button class="btn btn-primary btn-block height-50 white" id="booking-btn" data-disable-with="Booking...">
+            Book
+        </button>
+    </form>
+`);

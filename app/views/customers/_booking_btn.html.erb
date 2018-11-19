@@ -1,0 +1,16 @@
+<% if current_customer %>
+    <form action="/reserve" method="post" data-remote="true">
+        <input type="hidden" value="" id="start-date" name="reservation[start_date]">
+        <input type="hidden" value="" id="end-date" name="reservation[end_date]">
+        <input type="hidden" value="" id="adult-count" name="reservation[adult_count]">
+        <input type="hidden" value="" id="children-count" name="reservation[children_count]">
+        <input type="hidden" value="" id="reservation-id" name="reservation[meal_id]">
+        <button class="btn btn-primary btn-block height-50 white" id="booking-btn" data-disable-with="Booking...">
+            Book
+        </button>
+    </form>
+<% else %>
+    <button class="btn btn-primary btn-block height-50 white add-margin-top" data-toggle="modal" data-target="#customerAuthentication">
+        Log in to book <%= @meal.chef.first_name %>
+    </button>
+<% end %>

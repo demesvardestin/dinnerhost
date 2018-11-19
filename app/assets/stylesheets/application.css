@@ -233,3 +233,11 @@ p {
     color: #007bff;
     border-color: #e7e7e9;
 }
+
+.btn {
+    font-size: 17px !important;
+}
+
+.btn-link {
+    color: #007bff !important;
+}

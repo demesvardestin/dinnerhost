@@ -44,3 +44,84 @@ function loading(element) {
         </div>
     `);
 }
+
+function fadeModal(modal) {
+    $('.modal-backdrop').remove();
+    $('#' + modal).remove();
+    document.querySelector('#body').classList.remove('modal-open');
+    $('.footer').remove();
+}
+
+function updateReservationParams() {
+    var startDate = document.querySelector('.start-date-input').value;
+    var endDate = document.querySelector('.end-date-input').value;
+    var adultCount = $('.adult-count').text();
+    var childrenCount = $('.children-count').text();
+    var reportTypeValue = document.querySelector('#report-type').value;
+    
+    document.querySelector('#start-date').value = startDate;
+    document.querySelector('#end-date').value = endDate;
+    document.querySelector('#adult-count').value = adultCount;
+    document.querySelector('#children-count').value = childrenCount;
+    document.querySelector('#meal-id').value = $('#meal-id').text();
+    
+    history
+    .replaceState(null, '', "?start_date=" +
+            startDate + "&end_date=" + endDate + "&adult_count=" +
+            adultCount + "&children_count=" + childrenCount +
+            (reportTypeValue ? "&customer_report=" + reportTypeValue : ""));
+}
+
+function selectReportCategory(elem) {
+    $('.selection').html('<i class="fa fa-circle-thin text-muted"></i>');
+    var id = elem.id;
+    $('.selection-' + id).html('<i class="fa fa-circle theme-cyan"></i>');
+    
+    var reportType = document.querySelector('#report-type');
+    var reportTypeValue = $('#category-value-' + id).text();
+    reportType.value = reportTypeValue;
+    document.querySelector('.step-1-btn').removeAttribute('disabled');
+    
+    updateReservationParams();
+}
+
+function mealReportHeader(step, reportType=null) {
+    switch(step) {
+        case "intro":
+            return "Why are you reporting this listing?";
+        default:
+            switch(reportType.toLowerCase()) {
+                case "it's a scam":
+                    return "Why do you think this listing is a scam?";
+                case "it's innacurate":
+                    return "What makes this listing innacurate?";
+                case "it's offensive":
+                    return "What makes this listing offensive?";
+                default:
+                    return "Please provide more details for your report";
+            }
+    }
+}
+
+function reportingStepOne() {
+    $('.report-type-div').show();
+    $('.meal-report-form').hide();
+    
+    var header = mealReportHeader("intro");
+    
+    $('.modal-body-header-headline').html(header);
+    $('.modal-body-subheader').show();
+}
+
+function reportingStepTwo() {
+    $('.report-type-div').hide();
+    $('.meal-report-form').show();
+    
+    var url = new URL(window.location.href);
+    var customerReport = url.searchParams.get("customer_report");
+    
+    var header = mealReportHeader("step-2", customerReport);
+    
+    $('.modal-body-header-headline').html(header);
+    $('.modal-body-subheader').hide();
+}

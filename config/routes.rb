@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
 
   ## Customer routes
-  devise_for :customers, :controllers => { :registrations => "customer/registrations" }
+  devise_for :customers, :controllers => { :registrations => "customers/registrations", :sessions => "customers/sessions" }
   devise_scope :customer do
     get 'customer/login', to: 'devise/sessions#new'
     get 'customer/signup', to: 'devise/registrations#new'
-    get 'customer/password-settings', to: 'customer/registrations#edit'
+    get 'customer/password-settings', to: 'customers/registrations#edit'
     get 'customer/retrieve-password', to: 'devise/passwords#new'
   end
   authenticated :customer do
@@ -54,7 +54,7 @@ Rails.application.routes.draw do
   get 'user_type', to: 'main#user_type'
   get '/c/:username', to: 'chefs#show'
   post '/reserve', to: 'meals#reserve'
-  get '/booking/confirmation', to: 'meals#booking_confirmation'
+  get '/booking/confirmation/:id', to: 'meals#booking_confirmation'
   
   
   

@@ -17,30 +17,37 @@
     </div>
 </div>
 
-<!-- Shopper authentication modal-->
+<!-- Customer authentication modal-->
 
-<div class="modal fade" id="shopperAuthentication" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 1051 !important;">
+<div class="modal fade" id="customerAuthentication" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 1051 !important;">
     <div class="modal-dialog" role="document">
         <div class="modal-content" id="authenticationModal">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Login</h5>
-                <a class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true"><i class="fa fa-times-circle"></i></span>
-                </a>
-            </div>
             <div class="modal-body" id="authenticationModalBody">
-                <form onsubmit="loginShopper()" id="shopperLoginForm" data-remote="true">
-                    <input type="email" class="form-control add-margin-bottom" placeholder="email" id="loginEmail" required="true">
-                    <input type="password" class="form-control add-margin-bottom" placeholder="password" id="loginPassword" required="true">
-                    <button type="submit" class="btn btn-primary btn-block add-margin-bottom height-50" id="loginBtn" onclick="loginShopper()">
-                        Log in
-                    </button>
-                </form>
-                <p class="theme-blue text-center">
-                   <a class="btn btn-link" onclick="toggleAuth('login')">
-                       New to Senzzu? <span class="theme-color">Signup</span>
-                   </a>
-                </p>
+                <%= form_for @customer, url: "/customers/sign_in", id: "new_customer", method: :post, remote: true do |f| %>
+                    <div class="form-inputs" style="vertical-align: middle !important;">
+                      
+                      <div class="field">
+                        <%= f.email_field :email, required: true, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"Email", input_html: { autocomplete: 'email' } %>
+                      </div>
+                    
+                      <div class="field">
+                        <%= f.password_field :password, required: false, class:"form-control height-50 no-box-shadow", input_html: { autocomplete: "current-password" }, placeholder:"Password" %>
+                      </div>
+                    
+                      <div class="actions" style="margin-top: 10px;">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <%= f.submit "Log in", class:"btn btn-primary btn-block height-50 log-in no-box-shadow", id:"logIn", data: {"disable-with": "Logging you in..."} %>
+                          </div>
+                          <div class="col-md-12 add-padding-top text-center">
+                              <%= link_to "Don't have an account? Register here", customer_signup_path, class:"background-transparent theme-blue font-16 display-block" unless request.original_url.include?('chef') %>
+                              <%= link_to "Forgot your password?", customer_retrieve_password_path, class:"background-transparent theme-blue font-16 display-block" unless request.original_url.include?('chef') %>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                <% end %>
             </div>
         </div>
     </div>

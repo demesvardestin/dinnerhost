@@ -35,10 +35,9 @@ class MealsController < ApplicationController
     @reservation = Reservation.new(reservation_params)
     respond_to do |format|
       if @reservation.save
-        format.html { redirect_to booking_confirmation_path(:confirmation_id => @reservation.id) }
+        format.html { redirect_to "/booking/confirmation/#{@reservation.id}" }
       end
     end
-    redirect_to booking_confirmation_path(:confirmation_id => @reservation.id)
   end
   
   def book
@@ -52,12 +51,7 @@ class MealsController < ApplicationController
   end
   
   def booking_confirmation
-    @reservation = Reservation.find_by(id: params[:confirmation_id])
-    @meal = Meal.find_by(id: @reservation.meal_id)
-  end
-  
-  def booking_confirmation
-    
+    @reservation = Reservation.find_by(id: params[:id])
   end
 
   def edit

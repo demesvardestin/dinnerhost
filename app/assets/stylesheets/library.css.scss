@@ -134,7 +134,8 @@ a:hover {
 }
 
 .modal-content {
-    top: 50px !important;
+    top: 40px !important;
+    border: none;
 }
 
 .border-radius {
@@ -681,7 +682,7 @@ input {
     box-shadow: none !important;
 }
 
-.card, input, textarea {
+.card, input, textarea, .modal-content {
     border-color: #e7e7e9 !important;
 }
 
@@ -797,10 +798,6 @@ button, .btn {
     display: none;
 }
 
-.modal-content {
-    border-color: #F27649 !important;
-}
-
 .order-card > .card-header {
     color: #fff;
 }
@@ -812,10 +809,7 @@ canvas {
 
 .modal-header {
     border: none;
-    border-radius: 0;
     font-size: 16px;
-    background-color: #F27649;
-    color: #fff;
 }
 
 .btn-flat {
