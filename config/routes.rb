@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-
+  
   ## Customer routes
   devise_for :customers, :controllers => { :registrations => "customers/registrations", :sessions => "customers/sessions" }
   devise_scope :customer do
@@ -32,10 +32,13 @@ Rails.application.routes.draw do
   ## END CHEF ROUTES ##
   
   ## RESOURCES
-  resources :meals
   resources :conversations, except: [:delete, :edit, :update]
   resources :messages, only: :create
-  resources :chefs
+  resources :chefs do
+    resources :meals, only: [:index, :new, :create]
+  end
+  resources :meals, only: [:show, :edit, :update, :destroy]
+  ## END RESOURCES ##
   
   ## Global routes
   get '/meal/search', to: 'main#search_page'
@@ -55,6 +58,9 @@ Rails.application.routes.draw do
   get '/c/:username', to: 'chefs#show'
   post '/reserve', to: 'meals#reserve'
   get '/booking/confirmation/:id', to: 'meals#booking_confirmation'
+  post '/report-cook', to: 'chefs#report'
+  post '/rate', to: 'chefs#rate'
+  ## END GLOBAL ROUTES ##
   
   
   

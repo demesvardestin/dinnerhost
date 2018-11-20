@@ -53,6 +53,15 @@ class MealsController < ApplicationController
   def booking_confirmation
     @reservation = Reservation.find_by(id: params[:id])
   end
+  
+  def report_meal
+    @report = MealReport.new(meal_report_params)
+    respond_to do |params|
+      if @report.save
+        format.js { render 'report_sent', :layout => false }
+      end
+    end
+  end
 
   def edit
   end
@@ -77,7 +86,11 @@ class MealsController < ApplicationController
   end
   
   def meal_params
-    params.require(:meal).permit(:name, :description, :street_address, :town, :state, :zipcode)
+    params.require(:meal).permit(:name, :description, :street_address, :town, :state, :zipcode, :image)
+  end
+  
+  def meal_report_params
+    params.require(:meal_report).permit(:report_type, :details, :meal_id, :customer_id)
   end
   
   def reservation_params

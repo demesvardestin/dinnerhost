@@ -5,7 +5,7 @@ module MealsHelper
     end
     
     def meal_report_categories
-        ["It's a scam", "It's offensive", "It's innacurate", "It's something else"]
+        ["This is not a real cook", "This cook has fradulent listings", "This cook has offensive listings", "It's something else"]
     end
     
     def meal_report_header(step, text=nil)

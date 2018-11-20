@@ -40,6 +40,10 @@ module ApplicationHelper
         current_chef || current_customer
     end
     
+    def current_user
+        user
+    end
+    
     def inbox_status
         messages = []
         user.conversations.each do |c|
@@ -50,6 +54,10 @@ module ApplicationHelper
         if messages.flatten.any?
             "fa fa-circle theme-green"
         end
+    end
+    
+    def star_rating(star, chef)
+        star.to_i <= chef.average_rating.to_i ? 'fa fa-star theme-cyan' : 'fa fa-star-o theme-cyan'
     end
     
 end

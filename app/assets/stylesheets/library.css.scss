@@ -686,9 +686,8 @@ input {
     border-color: #e7e7e9 !important;
 }
 
-#liveOrders {
-    /*margin-top: 20px;*/
-    /* Above will be commented out for now */
+.modal-body {
+    padding-top: 0;
 }
 
 button, input, .btn {
@@ -708,10 +707,6 @@ button, input, .btn {
 .twitter-share {
     background-color: #55acee !important;
     color: #fff !important;
-}
-
-.social-share-inline {
-    /*display: inline !important;*/
 }
 
 .social-share-left {
@@ -892,6 +887,10 @@ canvas {
 
 #socialTags {
     text-align: right;
+}
+
+.full-width {
+    width: 100%;
 }
 
 @media only screen and (min-device-width: 1366px) {

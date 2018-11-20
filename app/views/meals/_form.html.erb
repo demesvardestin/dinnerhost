@@ -1,4 +1,4 @@
-<%= simple_form_for(@meal, :html => { :class => 'meal-form', :id => "meal_form", :multipart => true, authenticity_token: true }) do |f| %>
+<%= simple_form_for(@meal, :html => { :class => 'meal-form', :id => "meal_form" }) do |f| %>
   <% if @meal.errors.any? %>
     <div id="error_explanation">
         <h2>This post could not be saved due to the following <%= pluralize(@meal.errors.count, "error") %>:</h2>
@@ -25,6 +25,10 @@
   
   <div class="field col-md-12">
     <%= f.input :meal_type, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Meal type", label: false %>
+  </div>
+  
+  <div class="field col-md-12">
+    <%= f.file_field :image, class:"form-control no-box-shadow height-50 font-15 pf" %>
   </div>
   
   <div class="actions text-center action-button">

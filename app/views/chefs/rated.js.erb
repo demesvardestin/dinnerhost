@@ -1,0 +1,25 @@
+$('.cook-rating-modal-body').html(`
+    <div class="modal-body-header">
+        <h4 class="bold modal-body-header-headline text-center">Thank you for your feedback!</h4>
+    </div>
+    
+    <div class="cook-profile-image add-margin-top" align="center">
+        <img src="" alt="cook">
+    </div>
+    
+    <div class="star-rating" align="center" style="margin-top: 20px;">
+        <%= render 'rated' %>
+    </div>
+`);
+
+$('.cook-rating').html(`
+    <% 5.times.each_with_index do |s, idx| %>
+        <span class="star">
+            <i class="<%= star_rating(idx + 1, @cook) %> theme-cyan"
+                style="font-size: 11px;"></i>
+        </span>
+    <% end %>
+    <span class="rating-count" style="font-size: 12px;">
+        <%= @cook.rating_count %>
+    </span>
+`);

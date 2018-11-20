@@ -1,4 +1,239 @@
-<h5><%= @chef.full_name %></h5>
-<%= link_to new_chat_path(:chef_id => @chef.id), class:"btn btn-primary" do %>
-    Message chef <i class="fa fa-envelope-o"></i>
-<% end %>
+<section id="cook-profile">
+    <% if current_user.has_not_reported @cook %>
+        <div class="modal fade" id="reportcook" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content box-shadow">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="font-size: 30px;">
+                                &times;
+                            </span>
+                        </button>
+                    </div>
+                    <div class="modal-body cook-report-modal-body" style="padding-bottom: 30px;">
+                        <div class="modal-body-header">
+                            <h4 class="bold modal-body-header-headline">Why are you reporting this cook?</h4>
+                            <p style="margin-top: 20px;" class="font-17 modal-body-subheader">
+                                This won't be shared with the cook
+                            </p>
+                        </div>
+                        
+                        <div class="report-type-div">
+                            <div class="cook-report-categories" style="margin: 30px 0;">
+                                <% cook_report_categories.each_with_index do |mr, idx| %>
+                                    <div class="cook-report-category cursor-pointer"
+                                        id="<%= idx %>"
+                                        style="margin-top: 1.25rem;" onclick="selectReportCategory(this)">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p class="font-17 float-left" id="category-value-<%= idx %>"><%= mr %></p>
+                                                <span class="float-right selection selection-<%= idx %>" align="right">
+                                                    <i class="fa fa-circle-thin text-muted"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <hr style="margin-bottom: 0; margin-top: 1.25rem;">
+                                    </div>
+                                <% end %>
+                            </div>
+                            
+                            <div class="modal-body-footer" align="right">
+                                <button class="btn btn-primary height-50 step-1-btn" onclick="reportingStepTwo()" disabled>
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="cook-report-form" style="margin: 30px 0; display: none;">
+                            <form action="/report-cook" method="post" data-remote="true">
+                                <input type="hidden" id="report-type" value="" name="cook_report[report_type]">
+                                <input type="hidden" value="<%= current_customer.id %>" name="cook_report[customer_id]">
+                                <input type="hidden" value="<%= @cook.id %>" name="cook_report[chef_id]">
+                                <textarea class="form-control no-box-shadow" name="cook_report[details]"
+                                    style="margin-bottom: 20px; margin-top: 30px; height: 130px;"
+                                    placeholder="Ex: The listing description does not match the title."></textarea>
+                                <div>
+                                    <span class="float-left">
+                                        <a class="btn btn-link height-50 theme-cyan add-padding-top"
+                                            align="right" onclick="reportingStepOne()">
+                                            <i class="fa fa-angle-left"></i> Back
+                                        </a>
+                                    </span>
+                                    <span class="float-right">
+                                        <button class="btn btn-primary height-50"
+                                            type="submit" data-disable-with="Submitting...">
+                                            Submit report
+                                        </button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% end %>
+    
+    <% if current_user.has_not_rated @cook %>
+        <div class="modal fade" id="rateCook" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content box-shadow">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="font-size: 30px;">
+                                &times;
+                            </span>
+                        </button>
+                    </div>
+                    <div class="modal-body cook-rating-modal-body" style="padding-bottom: 30px;">
+                        <div class="modal-body-header">
+                            <h4 class="bold modal-body-header-headline text-center">Rate <%= @cook.first_name %></h4>
+                        </div>
+                        
+                        <div class="cook-profile-image add-margin-top" align="center">
+                            <img src="" alt="cook">
+                        </div>
+                        
+                        <div class="star-rating" align="center" style="margin-top: 20px;">
+                            <% 5.times.each_with_index do |s, idx| %>
+                                <span class="star cursor-pointer unrated-star" id="star-<%= idx + 1 %>"
+                                    onclick="showStars(this)">
+                                    <i class="fa fa-star-o theme-cyan"
+                                        style="font-size: 28px;"></i>
+                                </span>
+                            <% end %>
+                        </div>
+                        
+                        <div class="cook-rating-form" style="margin: 30px 0; display: none;">
+                            <form action="/rate" method="post" id="chef-rating-form"
+                                data-remote="true" class="full-width"
+                                style="padding: 0 25px;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input type="hidden" name="chef_rating[value]" value="" id="cook-rating-value">
+                                        <input type="hidden" name="chef_rating[chef_id]" value="<%= @cook.id %>">
+                                        <input type="hidden" name="chef_rating[customer_id]" value="<%= current_customer.id %>">
+                                        <textarea class="form-control no-box-shadow"
+                                            name="chef_rating[details]" style="height: 80px;"
+                                            placeholder="Please provide any additional details"></textarea>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 20px;">
+                                    <span class="float-left">
+                                        <a class="btn btn-link add-padding-top no-horizontal-padding" onclick="cancelRating()">
+                                            <i class="fa fa-angle-left"></i> Cancel
+                                        </a>
+                                    </span>
+                                    
+                                    <span class="float-right">
+                                        <button class="btn btn-primary height-50" type="submit" data-disable-with="Submitting...">
+                                            Submit rating
+                                        </button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% end %>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-2">
+                    <img src="" alt="cook">
+                </div>
+                <div class="col-md-10">
+                    <h5><%= @cook.full_name %></h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p><%= @cook.bio %></p>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <p>
+                        <span class="bold font-22">$<%= @cook.booking_rate %></span>
+                        <span class="font-13">per day</span>
+                    </p>
+                    
+                    <div class="cook-rating cursor-pointer"
+                        <% if current_user.has_not_rated @cook %>
+                            data-toggle="modal" data-target="#rateCook"
+                        <% end %>>
+                        <% 5.times.each_with_index do |s, idx| %>
+                            <span class="star">
+                                <i class="<%= star_rating(idx + 1, @cook) %> theme-cyan"
+                                    style="font-size: 11px;"></i>
+                            </span>
+                        <% end %>
+                        <span class="rating-count" style="font-size: 12px;">
+                            <%= @cook.rating_count %>
+                        </span>
+                    </div>
+                    
+                    <hr>
+                    
+                    <p class="font-13">
+                        How long are you booking <%= @cook.first_name %> for?
+                        <!--<span class="bold">(To book for one day, select same start and end day)</span>-->
+                    </p>
+                    <%= render 'common/datetime_picker' %>
+                    
+                    <p class="font-13" style="margin-top: 15px;">How many people will be eating?</p>
+                    <div style="position: relative !important;"><%= render 'common/guest_count' %></div>
+                    
+                    <div id="booking-btn-div">
+                        <%= render 'customers/booking_btn' %>
+                    </div>
+                    
+                    <p class="text-center font-13 add-margin-top">You won't be charged yet</p>
+                    
+                    <hr>
+                    
+                    <% if current_user.has_not_reported @cook %>
+                    <p class="text-center font-13">
+                        <a class="btn btn-link" data-toggle="modal"
+                            data-target="#reportcook" style="font-size: 15px !important;">
+                            <i class="fa fa-flag-o"></i> Report this cook
+                        </a>
+                    </p>
+                    <% else %>
+                        <p class="text-center font-13">
+                            You have reported this cook
+                        </p>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    function showStars(elem) {
+        var id = elem.id.split('star-').join('');
+        for (i = 0; i <= parseInt(id); i++) {
+            $('#star-' + i.toString())
+            .html(`<i class="fa fa-star theme-cyan"
+                style="font-size: 28px;"></i>`);
+        }
+        
+        document.querySelector('#cook-rating-value').value = parseInt(id);
+        
+        $('.cook-rating-form').show();
+    }
+    
+    function cancelRating() {
+        $('.cook-rating-form').hide();
+        
+        $('.unrated-star')
+        .html(`<i class="fa fa-star-o theme-cyan"
+                        style="font-size: 28px;"></i>`);
+    }
+</script>

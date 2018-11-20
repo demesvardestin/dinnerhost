@@ -7,6 +7,8 @@ class Chef < ApplicationRecord
   has_many :meals, dependent: :destroy
   has_many :messages, through: :conversations
   has_many :conversations
+  has_many :cook_reports
+  has_many :chef_ratings
   
   geocoded_by :full_address
   after_validation :geocode
@@ -21,6 +23,14 @@ class Chef < ApplicationRecord
   
   def has_archived(convo)
     self.conversations.include?(convo) && convo.archived_by.include?(self.user_type)
+  end
+  
+  def average_rating
+    (self.chef_ratings.map(&:value).sum/self.rating_count).to_f
+  end
+  
+  def rating_count
+    self.chef_ratings.count
   end
   
 end

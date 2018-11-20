@@ -8,6 +8,8 @@ class Meal < ApplicationRecord
     geocoded_by :full_address
     after_validation :geocode
     
+    mount_uploader :image, ImageUploader
+    
     def full_address
         [street_address, town, state, zipcode].join(' ')
     end

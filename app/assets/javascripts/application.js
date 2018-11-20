@@ -63,7 +63,7 @@ function updateReservationParams() {
     document.querySelector('#end-date').value = endDate;
     document.querySelector('#adult-count').value = adultCount;
     document.querySelector('#children-count').value = childrenCount;
-    document.querySelector('#meal-id').value = $('#meal-id').text();
+    // document.querySelector('#meal-id').value = $('#meal-id').text();
     
     history
     .replaceState(null, '', "?start_date=" +
@@ -85,18 +85,18 @@ function selectReportCategory(elem) {
     updateReservationParams();
 }
 
-function mealReportHeader(step, reportType=null) {
+function cookReportHeader(step, reportType=null) {
     switch(step) {
         case "intro":
-            return "Why are you reporting this listing?";
+            return "Why are you reporting this cook?";
         default:
             switch(reportType.toLowerCase()) {
-                case "it's a scam":
-                    return "Why do you think this listing is a scam?";
-                case "it's innacurate":
-                    return "What makes this listing innacurate?";
-                case "it's offensive":
-                    return "What makes this listing offensive?";
+                case "this is not a real cook":
+                    return "Why do you think this user isn't real?";
+                case "this cook has fradulent listings":
+                    return "Please provide links to the fraudulent listings";
+                case "this cook has offensive listings":
+                    return "Please provide links to the offensive listings";
                 default:
                     return "Please provide more details for your report";
             }
@@ -105,9 +105,9 @@ function mealReportHeader(step, reportType=null) {
 
 function reportingStepOne() {
     $('.report-type-div').show();
-    $('.meal-report-form').hide();
+    $('.cook-report-form').hide();
     
-    var header = mealReportHeader("intro");
+    var header = cookReportHeader("intro");
     
     $('.modal-body-header-headline').html(header);
     $('.modal-body-subheader').show();
@@ -115,12 +115,12 @@ function reportingStepOne() {
 
 function reportingStepTwo() {
     $('.report-type-div').hide();
-    $('.meal-report-form').show();
+    $('.cook-report-form').show();
     
     var url = new URL(window.location.href);
     var customerReport = url.searchParams.get("customer_report");
     
-    var header = mealReportHeader("step-2", customerReport);
+    var header = cookReportHeader("step-2", customerReport);
     
     $('.modal-body-header-headline').html(header);
     $('.modal-body-subheader').hide();
