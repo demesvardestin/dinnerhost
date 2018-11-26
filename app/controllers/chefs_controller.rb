@@ -1,47 +1,65 @@
 class ChefsController < ApplicationController
-  before_action :authenticate_chef!, except: [:show, :rate, :report]
+  before_action :set_cook
+  before_action :authenticate_chef!, only: [:dashboard, :edit, :reservations]
+  before_action :load_booking_estimate, only: [:booking_estimate, :reserve]
   
   def dashboard
   end
   
   def show
-    @cook = Chef.find_by(id: params[:id]) || Chef.find_by(username: params[:username])
   end
   
-  def rate
-    @rating = ChefRating.create(rating_params)
+  def edit
+  end
+  
+  def update
+    @cook.update(chef_params)
     respond_to do |format|
-      if @rating.save
-        @cook = Chef.find_by(id: @rating.chef_id)
-        format.js { render 'rated', :layout => false }
+      if @cook.save
+        format.html { redirect_to "/meals/2" }
       end
     end
   end
   
-  def report
-    @report = CookReport.new(cook_report_params)
-    respond_to do |format|
-      if @report.save
-        format.js { render 'report_sent', :layout => false }
-      end
-    end
+  def reservations
+    @reservations = Reservation.where(chef_id: current_chef.id)
+  end
+  
+  def accept_reservation
+    @reservation = Reservation.find(params[:id])
+    @cook.accept_reservation @reservation
+    render :layout => false
+  end
+  
+  def deny_reservation
+    @reservation = Reservation.find(params[:id])
+    @cook.deny_reservation @reservation
+    render :layout => false
+  end
+  
+  def all_accepted
+    @accepted = Reservation.where(chef_id: current_chef.id).accepted
+  end
+  
+  def denied
+    @denied = Reservation.where(chef_id: current_chef.id).denied
+  end
+  
+  def pending
+    @pending = Reservation.where(chef_id: current_chef.id).pending
   end
   
   private
+  
+  def set_cook
+    @cook = current_chef
+  end
   
   def chef_params
     params.require(:chef)
     .permit(:first_name, :last_name, :phone_number, :twitter, :facebook, :instagram,
             :pinterest, :bio, :street_address, :town, :state, :zipcode, :booking_rate,
-            :username)
-  end
-  
-  def rating_params
-    params.require(:chef_rating).permit(:value, :chef_id, :customer_id, :details)
-  end
-  
-  def cook_report_params
-    params.require(:cook_report).permit(:report_type, :details, :chef_id, :customer_id)
+            :username, :image)
   end
   
 end

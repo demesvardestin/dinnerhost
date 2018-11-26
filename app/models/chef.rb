@@ -9,9 +9,12 @@ class Chef < ApplicationRecord
   has_many :conversations
   has_many :cook_reports
   has_many :chef_ratings
+  has_many :reservations
   
   geocoded_by :full_address
   after_validation :geocode
+  
+  mount_uploader :image, ImageUploader
   
   def full_name
     [first_name, last_name].join(' ')
@@ -19,6 +22,10 @@ class Chef < ApplicationRecord
   
   def full_address
     [street_address, town, state, zipcode].join(' ')
+  end
+  
+  def abridged_address
+    [town, state].join(' ')
   end
   
   def has_archived(convo)
@@ -31,6 +38,14 @@ class Chef < ApplicationRecord
   
   def rating_count
     self.chef_ratings.count
+  end
+  
+  def accept_reservation(reservation)
+    reservation.update(accepted: true, accepted_on: Time.zone.now)
+  end
+  
+  def deny_reservation(reservation)
+    reservation.update(accepted: false, denied_on: Time.zone.now)
   end
   
 end

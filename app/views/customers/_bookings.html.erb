@@ -1,0 +1,58 @@
+<% bookings.each do |b| %>
+    <div class="col-md-4 add-margin-bottom">
+        <div class="card reservation-card">
+            <div class="card-header"
+                style="background-image: url('<%= b.meals.last.image %>');
+                    background-size: cover; background-position: center; height: 160px;">
+            </div>
+            <div class="card-body" align="center">
+                <div class="cook-avi-div">
+                    <img src="" alt="cook">
+                    <h5><%= b.chef.first_name %></h5>
+                </div>
+                
+                <div class="cook-rating cursor-pointer"
+                    <% if current_user && current_user.has_not_rated(b.chef) %>
+                        data-toggle="modal" data-target="#rateCook"
+                    <% end %>>
+                    <% 5.times.each_with_index do |s, idx| %>
+                        <span class="star">
+                            <i class="<%= star_rating(idx + 1, b.chef) %> theme-cyan"
+                                style="font-size: 11px;"></i>
+                        </span>
+                    <% end %>
+                    <span class="rating-count" style="font-size: 12px;">
+                        <%= b.chef.rating_count %>
+                    </span>
+                </div>
+                
+                <div class="add-margin-top">
+                    <p>
+                        <%= b.request_date.to_datetime.strftime('%b %e, %Y') %>
+                        &bull; <%= pluralize(b.people_count, 'person') %>
+                    </p>
+                </div>
+                
+                <hr>
+                
+                <div class="add-margin-top">
+                    <p align="center">
+                        <a href="/reservation/<%= b.id %>/meals"
+                            class="background-transparent theme-cyan">
+                            View meals
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+<% end %>
+
+<script type="text/javascript">
+    $reservationCard = $('.reservation-card');
+    $reservationCard.hover(shadowCard);
+    
+    function shadowCard() {
+        $(this).toggleClass('box-shadow-amp');
+    };
+</script>

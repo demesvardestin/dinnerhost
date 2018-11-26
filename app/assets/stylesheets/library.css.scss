@@ -125,12 +125,18 @@ a:hover {
 }
 
 .form-control {
-    border-radius: 2px !important;
+    border-radius: 5px !important;
     height: 50px;
 }
 
-.btn, .card, .modal-content, .alert {
-    border-radius: 2px;
+input.btn, .btn, .card, .modal-content, .alert {
+    border-radius: 5px;
+}
+
+input.btn {
+    border: none;
+    padding-left: 45px;
+    padding-right: 45px;
 }
 
 .modal-content {
@@ -736,7 +742,7 @@ button, input, .btn {
 
 button, .btn {
     color: #fff;
-    border-radius: 2px;
+    border-radius: 5px;
 }
 
 .theme-color {
@@ -780,9 +786,9 @@ button, .btn {
 }
 
 .card-header {
-    font-size: 16px;
-    background-color: transparent;
-    color: #F27649;
+    font-size: 18px;
+    color: #fff;
+    font-weight: bold;
 }
 
 .new-order-card-header {

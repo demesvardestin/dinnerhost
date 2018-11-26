@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181120204515) do
+ActiveRecord::Schema.define(version: 20181125154526) do
 
   create_table "chef_ratings", force: :cascade do |t|
     t.integer  "value"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20181120204515) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "username",               default: ""
+    t.string   "image",                  default: ""
     t.index ["email"], name: "index_chefs_on_email", unique: true
     t.index ["reset_password_token"], name: "index_chefs_on_reset_password_token", unique: true
   end
@@ -92,6 +93,13 @@ ActiveRecord::Schema.define(version: 20181120204515) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "image",                  default: ""
+    t.string   "street_address",         default: ""
+    t.string   "town",                   default: ""
+    t.string   "state",                  default: ""
+    t.string   "zipcode",                default: ""
+    t.float    "latitude"
+    t.float    "longitude"
     t.index ["email"], name: "index_customers_on_email", unique: true
     t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
   end
@@ -109,8 +117,8 @@ ActiveRecord::Schema.define(version: 20181120204515) do
     t.string   "name"
     t.text     "description"
     t.integer  "host_id"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.string   "street_address"
     t.string   "town"
     t.string   "state"
@@ -119,8 +127,12 @@ ActiveRecord::Schema.define(version: 20181120204515) do
     t.float    "longitude"
     t.string   "meal_type"
     t.integer  "chef_id"
-    t.string   "prep_fee",       default: "0.00"
-    t.string   "image",          default: ""
+    t.string   "prep_fee",            default: "0.00"
+    t.string   "image",               default: ""
+    t.string   "serving_temperature", default: ""
+    t.string   "allergens",           default: ""
+    t.string   "dish_order",          default: ""
+    t.string   "tags",                default: ""
   end
 
   create_table "messages", force: :cascade do |t|
@@ -136,16 +148,26 @@ ActiveRecord::Schema.define(version: 20181120204515) do
   create_table "reservations", force: :cascade do |t|
     t.integer  "customer_id"
     t.integer  "reservation_id"
-    t.string   "fee",            default: "0.00"
-    t.datetime "made_on",        default: '2018-11-13 03:51:55'
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
+    t.string   "fee",                default: "0.00"
+    t.datetime "made_on",            default: '2018-11-13 03:51:55'
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
     t.integer  "meal_id"
     t.string   "charge_id"
-    t.string   "start_date",     default: ""
-    t.string   "end_date",       default: ""
-    t.integer  "adult_count",    default: 0
-    t.integer  "children_count", default: 0
+    t.string   "start_date",         default: ""
+    t.string   "end_date",           default: ""
+    t.integer  "adult_count",        default: 0
+    t.integer  "children_count",     default: 0
+    t.string   "allergies"
+    t.string   "meal_ids"
+    t.string   "request_date"
+    t.integer  "chef_id"
+    t.text     "additional_message"
+    t.boolean  "active",             default: false
+    t.boolean  "accepted"
+    t.datetime "accepted_on"
+    t.datetime "denied_on"
+    t.string   "request_time",       default: ""
   end
 
   create_table "stars", force: :cascade do |t|

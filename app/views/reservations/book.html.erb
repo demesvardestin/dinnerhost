@@ -1,0 +1,95 @@
+<section id="cook-profile">
+    <div class="row">
+        <div class="col-md-12"><h5 class="bold">Select the meals you want prepared</h5></div>
+        <div class="col-md-8">
+            <div class="row" style="margin: 0 -5px;">
+                <span class="meal-ids no-display"></span>
+                <%= render partial: 'cook_listings', locals: { meals: @cook.meals } %>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <p>
+                        <span class="bold font-22 booking-estimate">$<%= @cook.booking_rate %></span>
+                    </p>
+                    
+                    <div class="cook-rating cursor-pointer"
+                        <% if current_customer && current_customer.has_not_rated(@cook) %>
+                            data-toggle="modal" data-target="#rateCook"
+                        <% end %>>
+                        <% 5.times.each_with_index do |s, idx| %>
+                            <span class="star">
+                                <i class="<%= star_rating(idx + 1, @cook) %> theme-cyan"
+                                    style="font-size: 11px;"></i>
+                            </span>
+                        <% end %>
+                        <span class="rating-count" style="font-size: 12px;">
+                            <%= @cook.rating_count %>
+                        </span>
+                    </div>
+                    
+                    <hr>
+                    
+                    <p class="font-13">
+                        When would you like to book <%= @cook.first_name %>?
+                    </p>
+                    <%= render 'common/datetime_picker' %>
+                    
+                    <p class="font-13" style="margin-top: 15px;">How many people will be eating?</p>
+                    <div style="position: relative !important;"><%= render 'common/guest_count' %></div>
+                    
+                    <p class="font-13" style="margin-top: 15px;">Allergic to:</p>
+                    <p class="allergy-labels font-13 add-margin-top"></p>
+                    <%= render 'common/allergies' %>
+                    
+                    <div id="booking-btn-div">
+                        <%= render 'customers/booking_btn' %>
+                    </div>
+                    
+                    <p class="text-center font-13 add-margin-top">You won't be charged yet</p>
+                    
+                    <hr>
+                    
+                    <div>
+                        <% if current_customer && current_customer.has_not_reported(@cook) %>
+                            <p class="text-center font-13">
+                                <a class="btn btn-link" data-toggle="modal"
+                                    data-target="#reportcook" style="font-size: 15px !important;">
+                                    <i class="fa fa-flag-o"></i> Report this cook
+                                </a>
+                            </p>
+                        <% else %>
+                            <p class="text-center font-13">
+                                You have reported this cook
+                            </p>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    function showStars(elem) {
+        var id = elem.id.split('star-').join('');
+        for (i = 0; i <= parseInt(id); i++) {
+            $('#star-' + i.toString())
+            .html(`<i class="fa fa-star theme-cyan"
+                style="font-size: 28px;"></i>`);
+        }
+        
+        document.querySelector('#cook-rating-value').value = parseInt(id);
+        
+        $('.cook-rating-form').show();
+    }
+    
+    function cancelRating() {
+        $('.cook-rating-form').hide();
+        
+        $('.unrated-star')
+        .html(`<i class="fa fa-star-o theme-cyan"
+                        style="font-size: 28px;"></i>`);
+    }
+</script>

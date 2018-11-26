@@ -1,0 +1,22 @@
+<input class="form-control add-margin-top" id="allergies"
+    placeholder="Comma separated (Ex: peanuts, shellfish, soya, etc,)">
+
+<script type="text/javascript">
+    var allergyValue = document.querySelector('#allergies');
+    allergyValue
+    .addEventListener('keyup', function(event) {
+        document.querySelector('#customer-allergies').value = allergyValue.value;
+        if (event.key === "," || event.key === "Backspace") {
+            var allergies = document.querySelector('#allergies').value.replace(/\s/g,'');
+            var allergiesArray = allergies.split(',');
+            
+            $('.allergy-labels').html(
+                allergiesArray
+                .map( (a) => '<span class="badge badge-primary" style="margin-left: 3px; margin-bottom: 3px;">' + a + '</span>' )
+                .join('')
+            );
+            
+            updateReservationParams();
+        }
+    });
+</script>

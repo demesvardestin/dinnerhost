@@ -1,5 +1,29 @@
-<% meals.each do |meal| %>
-    <h5>
-        <%= link_to meal.name, meal_path(meal), class:"background-transparent" %>
-    </h5>
+<% meals.each do |m| %>
+    <div class="col-md-4 add-margin-bottom">
+        <a href="/meals/<%= m.id %>" class="background-transparent theme-blue no-underline">
+            <div class="card cursor-pointer meal-card">
+                <div class="card-body"
+                    style="background-image: url('<%= m.image %>'); background-size: cover;
+                        background-position: center; height: 130px; border-top-left-radius: 5px;
+                        border-top-right-radius: 5px;">
+                    <span class="badge badge-primary"><%= m.meal_type %></span>
+                </div>
+                
+                <div class="card-footer background-transparent">
+                    <span class="bold font-13 theme-blue">
+                        <%= m.name %>
+                    </span>
+                </div>
+            </div>
+        </a>
+    </div>
 <% end %>
+
+<script type="text/javascript">
+    $mealCard = $('.meal-card');
+    $mealCard.hover(shadowCard);
+    
+    function shadowCard() {
+        $(this).toggleClass('box-shadow-amp');
+    };
+</script>

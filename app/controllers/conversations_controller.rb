@@ -1,3 +1,4 @@
+
 class ConversationsController < ApplicationController
     before_action :authenticate_user, only: :inbox
     before_action :user
@@ -40,6 +41,11 @@ class ConversationsController < ApplicationController
     
     def create
         @conversation = Conversation.create(chef_id: params[:chef_id], customer_id: current_customer.id)
+        redirect_to chat_path(:id => @conversation.id)
+    end
+    
+    def contact_customer
+        @conversation = Conversation.create(chef_id: current_chef.id, customer_id: params[:customer_id])
         redirect_to chat_path(:id => @conversation.id)
     end
     

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+
   ## Customer routes
   devise_for :customers, :controllers => { :registrations => "customers/registrations", :sessions => "customers/sessions" }
   devise_scope :customer do
@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   get 'customers/make_reservation', to: 'customers#make_reservation'
   get '/customers/dashboard', to: 'customers#dashboard'
   get '/inbox', to: 'conversations#inbox'
+  get '/bookings', to: 'customers#bookings'
+  get '/reservation/:id/meals', to: 'customers#reservation_meals'
   ## END CUSTOMER ROUTES ##
   
   ## Chef routes
@@ -29,25 +31,33 @@ Rails.application.routes.draw do
   end
   get '/chef/dashboard', to: 'chefs#dashboard'
   get '/inbox', to: 'conversations#inbox'
+  get '/chef/edit/profile', to: 'chefs#edit'
+  get '/reservations', to: 'chefs#reservations'
+  get '/accept_reservation', to: 'chefs#accept_reservation'
+  get '/deny_reservation', to: 'chefs#deny_reservation'
+  get '/reservation/:id/accepted', to: 'chefs#accepted'
+  get '/reservations/pending', to: 'chefs#pending'
+  get '/reservations/accepted', to: 'chefs#all_accepted'
+  get '/reservations/denied', to: 'chefs#denied'
   ## END CHEF ROUTES ##
   
   ## RESOURCES
   resources :conversations, except: [:delete, :edit, :update]
   resources :messages, only: :create
-  resources :chefs do
-    resources :meals, only: [:index, :new, :create]
-  end
-  resources :meals, only: [:show, :edit, :update, :destroy]
+  resources :chefs
+  resources :meals
+  resources :reservations
   ## END RESOURCES ##
   
   ## Global routes
   get '/meal/search', to: 'main#search_page'
   get '/search', to: 'main#search'
-  get '/new-meal', to: 'meals#new'
+  get '/new-dish', to: 'meals#new'
   get '/meal/:id/booking-confirmation', to: 'meals#booking_confirmation'
   get '/cook/:id', to: 'chefs#show'
   get '/chat/:id', to: 'conversations#show', as: 'chat'
   get '/new/chat', to: 'conversations#create'
+  get '/new/customer/chat', to: 'conversations#contact_customer'
   post '/create_message', to: 'conversations#create_message'
   get '/star/:id', to: 'conversations#star', as: "star_conversation"
   get '/archive/:id', to: 'conversations#archive', as: "archive_conversation"
@@ -56,10 +66,14 @@ Rails.application.routes.draw do
   get '/inbox/all', to: 'conversations#all'
   get 'user_type', to: 'main#user_type'
   get '/c/:username', to: 'chefs#show'
-  post '/reserve', to: 'meals#reserve'
-  get '/booking/confirmation/:id', to: 'meals#booking_confirmation'
-  post '/report-cook', to: 'chefs#report'
-  post '/rate', to: 'chefs#rate'
+  get '/book/:username', to: 'reservations#book', as: 'book'
+  post '/reserve', to: 'reservations#reserve'
+  post '/complete-reservation', to: 'reservations#complete_reservation'
+  get '/booking_complete/:id', to: 'reservations#booking_complete'
+  get '/booking/confirmation/:id', to: 'reservations#booking_confirmation'
+  post '/report-cook', to: 'main#report'
+  post '/rate', to: 'main#rate'
+  get '/booking-estimate', to: 'reservations#booking_estimate'
   ## END GLOBAL ROUTES ##
   
   

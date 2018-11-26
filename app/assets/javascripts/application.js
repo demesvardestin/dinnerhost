@@ -53,23 +53,37 @@ function fadeModal(modal) {
 }
 
 function updateReservationParams() {
-    var startDate = document.querySelector('.start-date-input').value;
-    var endDate = document.querySelector('.end-date-input').value;
+    var requestDate = document.querySelector('.start-date-input').value;
     var adultCount = $('.adult-count').text();
     var childrenCount = $('.children-count').text();
-    var reportTypeValue = document.querySelector('#report-type').value;
+    var reportType = document.querySelector('#report-type');
+    var reportTypeValue = reportType ? reportType.value : "";
+    var mealIDS = $('.meal-ids').text();
+    var allergies = document
+                    .querySelector('#allergies')
+                    .value.replace(/\s/g,'');
+    var bookingBtn = document.querySelector('#booking-btn');
     
-    document.querySelector('#start-date').value = startDate;
-    document.querySelector('#end-date').value = endDate;
-    document.querySelector('#adult-count').value = adultCount;
-    document.querySelector('#children-count').value = childrenCount;
-    // document.querySelector('#meal-id').value = $('#meal-id').text();
+    var $requestDate = document.querySelector('#request-date');
+    var $adultCount = document.querySelector('#adult-count');
+    var $childrenCount = document.querySelector('#children-count');
+    var $customerAllergies = document.querySelector('#customer-allergies');
+    var $mealIDS = document.querySelector('#meal-ids');
+    
+    $requestDate.value = requestDate;
+    $adultCount.value = adultCount;
+    $childrenCount.value = childrenCount;
+    $customerAllergies.value = allergies;
+    $mealIDS.value = mealIDS;
+    
+    if ($mealIDS.value && $requestDate.value) {
+        bookingBtn.removeAttribute('disabled');
+    }
     
     history
-    .replaceState(null, '', "?start_date=" +
-            startDate + "&end_date=" + endDate + "&adult_count=" +
-            adultCount + "&children_count=" + childrenCount +
-            (reportTypeValue ? "&customer_report=" + reportTypeValue : ""));
+    .replaceState(null, '', "?meal_ids=" + mealIDS + "&request_date=" + requestDate + "&adult_count=" +
+            adultCount + "&children_count=" + childrenCount + "&allergies=" + allergies
+            + (reportTypeValue ? "&customer_report=" + reportTypeValue : ""));
 }
 
 function selectReportCategory(elem) {
@@ -124,4 +138,8 @@ function reportingStepTwo() {
     
     $('.modal-body-header-headline').html(header);
     $('.modal-body-subheader').hide();
+}
+
+function testToastr() {
+    toastr.success('A certain test');
 }

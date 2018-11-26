@@ -7,7 +7,14 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent" style="height: 100%;">
             <ul class="navbar-nav" style="height: 100%;">
                 <li class="nav-item">
-                    <button class="btn btn-link nav-link" href="/inbox" style="height: 100%;">
+                    <button class="btn btn-link nav-link" onclick="window.location.href= '/bookings'" style="height: 100%;">
+                        <span class="nav-link-child">
+                            Bookings
+                        </span>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="btn btn-link nav-link" onclick="window.location.href= '/inbox'" style="height: 100%;">
                         <span class="nav-link-child">
                             Messages <i class="<%= inbox_status %>" style="font-size: 8px; vertical-align: super !important;"></i>
                         </span>

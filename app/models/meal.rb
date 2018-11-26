@@ -28,4 +28,16 @@ class Meal < ApplicationRecord
         where("lower(#{field_name}) like ?", "%#{type}%")
     end
     
+    def prep_fee_float
+        prep_fee.to_f
+    end
+    
+    def allergen_list
+        !self.allergens.empty? ? "the following allergens: #{self.allergens}" : "no allergens"
+    end
+    
+    def tags_list
+        !self.allergens.empty? ? self.tags.split(',').map { |t| '#' + t } : []
+    end
+    
 end

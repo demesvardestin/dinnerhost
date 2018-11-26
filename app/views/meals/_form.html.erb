@@ -1,4 +1,10 @@
-<%= simple_form_for(@meal, :html => { :class => 'meal-form', :id => "meal_form" }) do |f| %>
+<style>
+  .field {
+    text-align: right !important;
+  }
+</style>
+
+<%= form_for(@meal, :html => { :multipart => true, :class => 'meal-form', :id => "meal_form" }) do |f| %>
   <% if @meal.errors.any? %>
     <div id="error_explanation">
         <h2>This post could not be saved due to the following <%= pluralize(@meal.errors.count, "error") %>:</h2>
@@ -10,28 +16,194 @@
         </ul>
     </div>
   <% end %>
-  
-  <div class="field col-md-12">
-    <%= f.input :name, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Meal name", label: false %>
+  <span id="meal-id" class="no-display"><%= @meal.id %></span>
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Dish name</label>
+    </div>
+    <div class="col-md-10">
+      <%= f.text_field :name, class:"form-control no-box-shadow height-50 font-15 pf", label: false %>
+    </div>
   </div>
   
-  <div class="field col-md-12">
-    <%= f.input :description, class:"form-control no-box-shadow font-15 pf post-body", placeholder:"Meal description", label: false %>
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Dish description</label>
+    </div>
+    <div class="col-md-10">
+      <%= f.text_area :description, class:"form-control no-box-shadow font-15 pf", style: "height: 200px !important;", label: false %>
+    </div>
   </div>
   
-  <div class="field col-md-12">
-    <%= f.input :street_address, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Street address", label: false %>
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Cuisine type</label>
+    </div>
+    <div class="col-md-10">
+      <%= f.text_field :meal_type, class:"form-control no-box-shadow height-50 font-15 pf", label: false, placeholder: "Ex: Cambodian" %>
+    </div>
   </div>
   
-  <div class="field col-md-12">
-    <%= f.input :meal_type, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Meal type", label: false %>
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Prep fee</label>
+    </div>
+    <div class="col-md-2">
+      <%= f.text_field :prep_fee, class:"form-control no-box-shadow height-50 font-15 pf", label: false %>
+    </div>
+    
+    <div class="col-md-2">
+      <label>Dish order</label>
+    </div>
+    <div class="col-md-3">
+      <%= f.text_field :dish_order, class:"form-control no-box-shadow height-50 font-15 pf", label: false, placeholder: "Ex: Entree" %>
+    </div>
+    <div class="col-md-3" style="width: 100%;">
+      <!--<div style="border: 0.5px solid #e7e7e9; border-radius: 5px;"-->
+      <!--  onclick="showServingTemp(this)" class="cursor-pointer">-->
+      <!--  <div class="row">-->
+      <!--    <div class="col-md-12" style="padding: 15px;">-->
+      <!--      <p class="font-15 text-left" style="padding: 0 15px;">-->
+      <!--        <span class="float-left">Serving temp</span>-->
+      <!--        <span class="float-right">-->
+      <!--          <i class="fa fa-angle-down"></i>-->
+      <!--        </span>-->
+      <!--      </p>-->
+      <!--    </div>-->
+      <!--  </div>-->
+      <!--</div>-->
+      <div class="dropdown">
+        <div style="border: 0.5px solid #e7e7e9; border-radius: 5px;"
+          id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false" class="cursor-pointer">
+          <div class="row">
+            <div class="col-md-12" style="padding: 15px;">
+              <p class="font-15 text-left" style="padding: 0 15px;">
+                <span class="float-left" id='served'>
+                  <%= @meal.serving_temperature.present? ? "served " + @meal.serving_temperature : "served hot" %>
+                </span>
+                <span class="float-right">
+                  <i class="fa fa-angle-down"></i>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+          style="padding-top: 0; padding-bottom: 0;">
+          <a class="dropdown-item cursor-pointer"
+            onclick="changeTemp('hot');">
+            Hot
+          </a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item cursor-pointer"
+            onclick="changeTemp('cold');">
+            Cold
+          </a>
+        </div>
+      </div>
+      <%= f.text_field :serving_temperature, class:"form-control no-box-shadow height-50 font-15 pf no-display", id: "serving-temp", label: false %>
+    </div>
   </div>
   
-  <div class="field col-md-12">
-    <%= f.file_field :image, class:"form-control no-box-shadow height-50 font-15 pf" %>
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Allergens</label>
+    </div>
+    <div class="col-md-10">
+      <%= f.text_field :allergens, class:"form-control no-box-shadow height-50 font-15 pf", label: false, placeholder: "Comma separated (Ex: peanuts, soya, shellfish, dairy...)" %>
+    </div>
   </div>
+  
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Add tags</label>
+    </div>
+    <div class="col-md-10">
+      <%= f.text_field :tags, class:"form-control no-box-shadow height-50 font-15 pf", label: false, placeholder: "Comma separated (Ex: chicken, paprika, portabello mushroom...)" %>
+    </div>
+  </div>
+  
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Add an image</label>
+    </div>
+    <div class="col-md-10">
+      <div class="card cursor-pointer meal-image-card">
+        <div class="card-body" align="center"
+          style="height: 80px; background-image: url('<%= @meal.image.url if @meal.image.present? %>');
+                background-position: center; background-size: cover;">
+          <a class="btn btn-secondary box-shadow white">
+            <span style="font-size; 20px;">
+              <i class="fa fa-camera"></i> Browse
+            </span>
+          </a>
+        </div>
+        <div class="card-footer meal-image-name text-center">File name: </div>
+      </div>
+      <%= f.file_field :image, class:"form-control no-box-shadow height-50 font-15 pf no-display", id: "meal-image-input", label: false %>
+    </div>
+  </div>
+  
+  <!--<div class="field">-->
+  <!--  <div class="input-group mb-3">-->
+  <!--    <div class="custom-file">-->
+  <!--      <input type="file" class="custom-file-input cursor-pointer"-->
+  <!--        id="file-name" aria-describedby="inputGroupFileAddon01">-->
+  <!--      <label class="custom-file-label upload-text" for="inputGroupFile01">Choose file</label>-->
+  <!--    </div>-->
+  <!--  </div>-->
+  <!--  <input type="hidden" name="meal[image]" value="" id="banner-image">-->
+  <!--</div>-->
   
   <div class="actions text-center action-button">
-    <%= f.button :submit, "Publish!", class:"btn btn-primary height-50", id:"create_meal", data: { "disable-with": "Creating..." } %>
+    <%= f.submit "Publish", class:"btn btn-primary height-50", id:"create_meal", data: { "disable-with": "Publishing your meal..." } %>
   </div>
 <% end %>
+
+<script type="text/javascript">
+  
+  $('.meal-image-card').on('click', e => {
+    $('#meal-image-input').click();
+  });
+  
+  $('#meal-image-input').on('change', e => {
+    $('.meal-image-name').append($('#meal-image-input').get(0).files[0].name);
+  });
+  
+  function showServingTemp() {
+    $('.serving-temps').show();
+  }
+  
+  function changeTemp(temp=null) {
+    document.querySelector('#serving-temp').value = temp;
+    $('#served').text('served ' + temp);
+  }
+  
+    
+// <!--    var bannerImage = document.querySelector('#banner-image');-->
+// <!--    var form = document.querySelector('#meal_form');-->
+// <!--    var mealId = $('.meal-id').text();-->
+    
+// <!--    $('#file-name').on('change', e => {-->
+// <!--      $('.upload-text').text($('#file-name').get(0).files[0].name);-->
+// <!--    });-->
+    
+// <!--    form.addEventListener('submit', function(event) {-->
+// <!--      event.preventDefault();-->
+        
+// <!--      var imageUrl = $('#file-name').get(0).files[0];-->
+// <!--      var imageName = ('meals/' + mealId + '/banner_image/' + imageUrl.name);-->
+// <!--      var storageRef = firebase.storage().ref();-->
+// <!--      storageRef.child(imageName).put(imageUrl).then((snapShot) => {-->
+// <!--          storageRef.child(imageName).getDownloadURL().then((url) => {-->
+// <!--            bannerImage.value = url;-->
+// <!--            form.submit();-->
+// <!--          });-->
+// <!--      }).catch((error) => {-->
+// <!--          toastr.warning("An error occurred, please try again.");-->
+// <!--          console.warn(error);-->
+// <!--      });-->
+// <!--    });-->
+    
+</script>

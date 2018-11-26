@@ -18,6 +18,10 @@ class MealsController < ApplicationController
   
   def update
     @meal.update(meal_params)
+    @meal.street_address = current_chef.street_address
+    @meal.town = current_chef.town
+    @meal.state = current_chef.state
+    @meal.zipcode = current_chef.zipcode
     respond_to do |format|
       if @meal.save
         format.html { redirect_to @meal, notice: "Event updated!" }
@@ -28,7 +32,7 @@ class MealsController < ApplicationController
   end
 
   def show
-    
+    @cook = Chef.find_by(id: @meal.chef_id)
   end
   
   def reserve
@@ -86,7 +90,9 @@ class MealsController < ApplicationController
   end
   
   def meal_params
-    params.require(:meal).permit(:name, :description, :street_address, :town, :state, :zipcode, :image)
+    params.require(:meal).permit(:name, :description, :street_address, :town, :state,
+                                :zipcode, :image, :dish_order, :serving_temperature,
+                                :allergens, :tags)
   end
   
   def meal_report_params

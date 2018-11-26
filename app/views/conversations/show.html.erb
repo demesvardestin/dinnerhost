@@ -1,16 +1,68 @@
 <section id="conversation">
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-body text-center">
-                    <h5><%= @conversation.correspondent(user).full_name %></h5>
-                    <div>
-                        <img src="" alt="Sender">
+                    <div id="cook-avi" class="cursor-pointer" align="center"
+                        style="height: 130px; width: 130px; margin: auto;
+                                overflow: hidden; border-radius: 65px;
+                                border: 0.5px solid #e7e7e9;"
+                        id="dropdownMenuButton" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <img src="<%= @conversation.correspondent(user).image %>" alt="cook"
+                            style="height: auto; width: inherit;">
+                    </div>
+                    
+                    <div class="add-margin-top">
+                        <h5 style="font-weight: 700;">
+                            <%= @conversation.correspondent(user).full_name %>
+                        </h5>
+                    </div>
+                    
+                    <div class="add-margin-top">
+                        <h5 style="font-weight: 700;">
+                            <%= @conversation.correspondent(user).abridged_address %>
+                        </h5>
+                    </div>
+                    
+                    <div class="cook-rating cursor-pointer add-margin-top" align="center"
+                        <% if current_customer && current_customer.has_not_rated(current_chef) %>
+                            data-toggle="modal" data-target="#rateCook"
+                        <% end %>>
+                        <% 5.times.each_with_index do |s, idx| %>
+                            <span class="star">
+                                <i class="<%= star_rating(idx + 1, current_chef) %> theme-cyan"
+                                    style="font-size: 15px;"></i>
+                            </span>
+                        <% end %>
+                        <span class="rating-count" style="font-size: 14px;">
+                            <%= current_chef.rating_count %>
+                        </span>&bull;
+                        <span class="badge badge-success" style="font-size: 12px;">
+                            <%= pluralize(current_chef.meals.count, 'meal') %>
+                        </span>
+                    </div>
+                    
+                    <div class="add-margin-top">
+                        <% if current_customer %>
+                            <% if current_customer.has_not_reported(@conversation.correspondent(user)) %>
+                                <p class="text-center font-13">
+                                    <a class="btn btn-link" data-toggle="modal"
+                                        data-target="#reportcook" style="font-size: 15px !important;">
+                                        <i class="fa fa-flag-o"></i> Report this cook
+                                    </a>
+                                </p>
+                            <% else %>
+                                <p class="text-center font-13">
+                                    You have reported this cook
+                                </p>
+                            <% end %>
+                        <% end %>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-7">
+        <div class="col-md-7 offset-md-1">
             <div class="row">
                 <div class="col-md-12">
                     <form id="message-form" data-remote="true" action="/create_message" method="post">

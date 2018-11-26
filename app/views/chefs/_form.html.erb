@@ -1,0 +1,33 @@
+<%= simple_form_for(@cook, :html => { :multipart => true, :class => 'cook-form', :id => "cook_form" }) do |f| %>
+  <% if @cook.errors.any? %>
+    <div id="error_explanation">
+        <h2>This post could not be saved due to the following <%= pluralize(@cook.errors.count, "error") %>:</h2>
+
+        <ul>
+            <% @cook.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+        </ul>
+    </div>
+  <% end %>
+  
+  <div class="field col-md-12">
+    <%= f.input :first_name, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"First name", label: false %>
+  </div>
+  
+  <div class="field col-md-12">
+    <%= f.input :last_name, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Last name", label: false %>
+  </div>
+  
+  <div class="field col-md-12">
+    <%= f.input :bio, class:"form-control no-box-shadow font-15 pf post-body", placeholder:"Bio", label: false %>
+  </div>
+  
+  <div class="field col-md-12">
+    <%= f.file_field :image, class:"form-control no-box-shadow height-50 font-15 pf", label: false %>
+  </div>
+  
+  <div class="actions text-center action-button">
+    <%= f.button :submit, "Update", class:"btn btn-primary height-50", id:"update-profile", data: { "disable-with": "Updating..." } %>
+  </div>
+<% end %>

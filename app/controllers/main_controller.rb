@@ -1,6 +1,7 @@
 class MainController < ApplicationController
     
     skip_before_action :verify_authenticity_token, only: [:account]
+    before_action :authenticate_customer!, only: [:rate, :report]
     
     def index
     end
@@ -11,18 +12,22 @@ class MainController < ApplicationController
         @meals = Meal.near(location, 5).filter_type(meal_type)
     end
     
-    def search_store
-        search = params["data"]["search"]
-        search_type = params[:data][:search_type]
-        if search_type == 'address'
-            @stores = Store.near(search, 3).live
-        else
-            @stores = Store.search(search).live
+    def rate
+        @rating = ChefRating.create(rating_params)
+        respond_to do |format|
+          if @rating.save
+            @cook = Chef.find_by(id: @rating.chef_id)
+            format.js { render 'rated', :layout => false }
+          end
         end
-        if !@stores.empty?
-            render :layout => false
-        else
-            render 'no_stores', :layout => false
+    end
+  
+    def report
+        @report = CookReport.new(cook_report_params)
+        respond_to do |format|
+          if @report.save
+            format.js { render 'report_sent', :layout => false }
+          end
         end
     end
     
@@ -37,5 +42,13 @@ class MainController < ApplicationController
     end
     
     private
+    
+    def rating_params
+        params.require(:chef_rating).permit(:value, :chef_id, :customer_id, :details)
+    end
+    
+    def cook_report_params
+        params.require(:cook_report).permit(:report_type, :details, :chef_id, :customer_id)
+    end
     
 end

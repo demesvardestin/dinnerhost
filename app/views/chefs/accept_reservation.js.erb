@@ -1,0 +1,8 @@
+$('#main-body').html(`
+    <%= render partial: "reservations/accepted", locals: { reservation: @reservation } %>
+`);
+
+history
+.replaceState(null, '', "/reservation/<%= @reservation.id %>/accepted");
+
+toastr.success("You have accepted <%= @reservation.customer.first_name %>'s reservation!");

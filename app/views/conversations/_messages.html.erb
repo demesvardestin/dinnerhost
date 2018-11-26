@@ -8,12 +8,28 @@
     <div class="col-md-12" style="margin-top: 20px;">
         <% if m.sender != user %>
             <div class="sender-avatar float-left" style="width: 20%;">
-                <p><%= m.sender.full_name %></p>
+                <div id="cook-avi" class="cursor-pointer"
+                    style="height: 60px; width: 60px;
+                            overflow: hidden; border-radius: 30px;
+                            border: 0.5px solid #e7e7e9;"
+                    id="dropdownMenuButton" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <img src="<%= m.sender.image %>" alt="cook"
+                        style="height: auto; width: inherit;">
+                </div>
             </div>
         <% end %>
         <% if m.sender == user %>
-            <div class="sender-avatar float-right text-right" style="width: 20%;">
-                <p><%= m.sender.full_name %></p>
+            <div class="sender-avatar float-right text-right" style="width: 11%; margin-left: 9%;">
+                <div id="cook-avi" class="cursor-pointer"
+                    style="height: 60px; width: 60px;
+                            overflow: hidden; border-radius: 30px;
+                            border: 0.5px solid #e7e7e9;"
+                    id="dropdownMenuButton" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <img src="<%= m.sender.image %>" alt="cook"
+                        style="height: auto; width: inherit;">
+                </div>
             </div>
         <% end %>
         <div class="card sender-message <%= message_box_alignment(m.sender_type) %>" style="width: 80%;">

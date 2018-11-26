@@ -1,0 +1,70 @@
+<section id="booking-confirmation-step-2">
+    <div class="row">
+        <div class="col-md-12">
+            <form action="/complete-reservation?id=<%= @reservation.id %>" method="post" data-remote="true" id="finish-reservation-form">
+                <div class="row">
+                    <div class="col-md-12" style="margin-bottom: 10px;">
+                        <h4 class="bold">Additional memo</h4>
+                    </div>
+                    <div class="col-md-8 add-margin-bottom">
+                        <textarea class="form-control no-box-shadow" name="reservation[additional_message]"
+                            style="height: 140px;"
+                            placeholder="Hi <%= @cook.first_name%>! We're really looking forward to meeting you!"></textarea>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body" align="center">
+                                <div class="cook-avi-div">
+                                    <img src="" alt="cook">
+                                    <h5><%= @cook.first_name %></h5>
+                                </div>
+                                
+                                <div class="cook-rating cursor-pointer"
+                                    <% if current_user && current_user.has_not_rated(@cook) %>
+                                        data-toggle="modal" data-target="#rateCook"
+                                    <% end %>>
+                                    <% 5.times.each_with_index do |s, idx| %>
+                                        <span class="star">
+                                            <i class="<%= star_rating(idx + 1, @cook) %> theme-cyan"
+                                                style="font-size: 11px;"></i>
+                                        </span>
+                                    <% end %>
+                                    <span class="rating-count" style="font-size: 12px;">
+                                        <%= @cook.rating_count %>
+                                    </span>
+                                </div>
+                                
+                                <p class="add-margin-top">
+                                    <span class="bold font-22 booking-estimate">
+                                        $<%= @reservation.fee %>
+                                    </span>
+                                </p>
+                                
+                                <hr>
+                                
+                                <div class="reservation-details" align="left">
+                                    <%= render partial: 'customers/reservation_details', locals: { reservation: @reservation } %>
+                                </div>
+                                
+                                <hr>
+                                
+                                <div id="finish-booking-div">
+                                    <button class="btn btn-primary btn-block height-50" type="submit" data-disable-with="Finishing up...">
+                                        Complete reservation
+                                    </button>
+                                </div>
+                                
+                                <p class="text-center font-13 add-margin-top">
+                                    By requesting a cook, you agree to the DinnerHost
+                                    <a href="/terms" class="background-transparent theme-cyan">
+                                        terms of use</a>.
+                                </p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

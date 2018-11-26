@@ -1,0 +1,21 @@
+<section id="cook-reservations">
+    <div id="reservation-controls">
+        <%= render 'reservation_controls' %>
+    </div>
+    <div class="row" id="reservations-box">
+        <%= render partial: 'reservations', locals: { reservations: @reservations.pending } %>
+    </div>
+</section>
+
+<script type="text/javascript">
+    function loadReservationCategory(category, element) {
+        loading(element);
+        var pending = <%= @reservations.pending.count %>;
+        $.get('/reservations/' + category);
+        $('.reservation-control-button').html(`
+            <span style="padding-right: 45px;">
+                ` + category + `
+            </span> <i class="fa fa-angle-down"></i>
+        `);
+    }
+</script>
