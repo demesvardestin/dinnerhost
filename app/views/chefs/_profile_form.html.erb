@@ -1,0 +1,92 @@
+<%= form_for(@cook, :html => { :multipart => true, :class => 'cook-form', :id => "cook_form" }) do |f| %>
+  <% if @cook.errors.any? %>
+    <div id="error_explanation">
+        <h2>This post could not be saved due to the following <%= pluralize(@cook.errors.count, "error") %>:</h2>
+
+        <ul>
+            <% @cook.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+        </ul>
+    </div>
+  <% end %>
+  
+  <div class="field row">
+    <div class="col-md-2">
+      <label>First name</label>
+    </div>
+    <div class="col-md-10">
+      <%= f.text_field :first_name, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"First name" %>
+    </div>
+  </div>
+  
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Last name</label>
+    </div>
+    <div class="col-md-10">
+      <%= f.text_field :last_name, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Last name" %>
+    </div>
+  </div>
+  
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Phone number</label>
+    </div>
+    <div class="col-md-10">
+      <%= f.text_field :phone_number, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Phone number" %>
+    </div>
+  </div>
+  
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Where do you live?</label>
+    </div>
+    <div class="col-md-5">
+      <%= f.text_field :town, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Town (Ex: Brooklyn)" %>
+    </div>
+    <div class="col-md-2">
+      <%= f.text_field :state, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"State (Ex: NY)" %>
+    </div>
+    <div class="col-md-3">
+      <%= f.text_field :zipcode, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Zipcode (Ex: 10031)" %>
+    </div>
+  </div>
+  
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Profile picture</label>
+    </div>
+    <div class="col-md-10">
+      <div class="card cursor-pointer customer-image-card">
+        <div class="card-body" align="center"
+          style="height: 80px; background-image: url('<%= @customer.image.url if @customer.image.present? %>');
+                background-position: center; background-size: cover;">
+          <a class="btn btn-secondary box-shadow white">
+            <span style="font-size; 20px;">
+              <i class="fa fa-camera"></i> Browse
+            </span>
+          </a>
+        </div>
+        <div class="card-footer customer-image-name text-center">File name: </div>
+      </div>
+      <%= f.file_field :image, class:"form-control no-box-shadow height-50 font-15 pf no-display", id: "customer-image-input" %>
+    </div>
+  </div>
+  
+  <div class="actions text-right action-button">
+    <%= f.submit "Update", class:"btn btn-primary height-50", id:"update-profile", data: { "disable-with": "Updating..." } %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  
+  $('.customer-image-card').on('click', e => {
+    $('#customer-image-input').click();
+  });
+  
+  $('#customer-image-input').on('change', e => {
+    $('.customer-image-name').append($('#customer-image-input').get(0).files[0].name);
+  });
+    
+</script>

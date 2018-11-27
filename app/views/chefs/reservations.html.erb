@@ -14,7 +14,7 @@
         $.get('/reservations/' + category);
         $('.reservation-control-button').html(`
             <span style="padding-right: 45px;">
-                ` + category + `
+                ` + category.slice(0, 1).toUpperCase() + category.slice(1) + `
             </span> <i class="fa fa-angle-down"></i>
         `);
     }

@@ -33,6 +33,7 @@ class ChefsController < ApplicationController
   
   def deny_reservation
     @reservation = Reservation.find(params[:id])
+    @pending = Reservation.where(chef_id: current_chef.id).pending
     @cook.deny_reservation @reservation
     render :layout => false
   end
@@ -53,6 +54,12 @@ class ChefsController < ApplicationController
   
   def set_cook
     @cook = current_chef
+  end
+  
+  def load_reservations
+    @accepted = Reservation.where(chef_id: current_chef.id).accepted
+    @denied = Reservation.where(chef_id: current_chef.id).denied
+    @pending = Reservation.where(chef_id: current_chef.id).pending
   end
   
   def chef_params

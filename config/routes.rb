@@ -35,7 +35,7 @@ Rails.application.routes.draw do
   get '/reservations', to: 'chefs#reservations'
   get '/accept_reservation', to: 'chefs#accept_reservation'
   get '/deny_reservation', to: 'chefs#deny_reservation'
-  get '/reservation/:id/accepted', to: 'chefs#accepted'
+  get '/reservation/:id/accepted', to: 'reservations#accepted'
   get '/reservations/pending', to: 'chefs#pending'
   get '/reservations/accepted', to: 'chefs#all_accepted'
   get '/reservations/denied', to: 'chefs#denied'

@@ -1,5 +1,10 @@
 <section id="reservation-meals">
     <div class="row">
+        <div class="col-md-12">
+            <h2 style="color: #000;">Meals requested</h2>
+        </div>
+    </div>
+    <div class="row">
         <% @meals.each do |m| %>
             <div class="col-md-3 add-margin-bottom">
                 <a class="background-transparent" href="/meals/<%= m.id %>">

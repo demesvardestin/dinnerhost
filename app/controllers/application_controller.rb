@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :check_https
   before_action :redirect_uri?
-  before_action :load_customer
+  before_action :load_customer, :load_cook
   # before_action :initialize_cart
   
   def url
@@ -24,6 +24,10 @@ class ApplicationController < ActionController::Base
   
   def load_customer
     @customer = Customer.new
+  end
+  
+  def load_cook
+    @cook = Chef.new
   end
   
 end

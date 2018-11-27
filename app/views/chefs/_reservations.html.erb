@@ -6,61 +6,91 @@
     }
 </style>
 
-<% reservations.each do |r| %>
-    <div id="reservation-<%= r.id %>" class="col-md-4 add-margin-bottom">
-        <div class="modal" id="reservation-details-modal-<%= r.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" style="font-size: 30px;">
-                                &times;
-                            </span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        
-                        <div>
-                            <h4 style="color: #000;">
-                                $<%= r.fee %>
-                                <span class="badge badge-primary" style="margin-left: 10px;">
-                                    <%= pluralize(r.people_count, 'person') %>
+<% if reservations.present? %>
+    <% reservations.each do |r| %>
+        <div id="reservation-<%= r.id %>" class="col-md-4 add-margin-bottom">
+            <div class="modal" id="reservation-details-modal-<%= r.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true" style="font-size: 30px;">
+                                    &times;
                                 </span>
-                            </h4>
+                            </button>
                         </div>
-                        
-                        <div class="add-margin-top">
-                            <h5 class="text-muted">Requested for: <%= r.requested_for %></h5>
-                        </div>
-                        
-                        <hr>
-                        
-                        <div class="add-margin-top">
-                            <p>
-                                The following dish(es) have been requested:
-                            </p>
+                        <div class="modal-body">
                             
-                            <ul>
-                                <% r.meals.each do |m| %>
-                                    <li><%= m.name %></li>
-                                <% end %>
-                            </ul>
-                        </div>
-                        
-                        <div class="add-margin-top">
-                            <p>
-                                The following allergens have been listed:
-                            </p>
+                            <div>
+                                <h4 style="color: #000;">
+                                    $<%= r.fee %>
+                                    <span class="badge badge-primary" style="margin-left: 10px;">
+                                        <%= pluralize(r.people_count, 'person') %>
+                                    </span>
+                                </h4>
+                            </div>
                             
-                            <ul>
-                                <% r.allergen_list.each do |a| %>
-                                    <li><%= a %></li>
-                                <% end %>
-                            </ul>
+                            <div class="add-margin-top">
+                                <h5 class="text-muted">Requested for: <%= r.requested_for %></h5>
+                            </div>
+                            
+                            <hr>
+                            
+                            <div class="add-margin-top">
+                                <p>
+                                    The following dish(es) have been requested:
+                                </p>
+                                
+                                <ul>
+                                    <% r.meals.each do |m| %>
+                                        <li><%= m.name %></li>
+                                    <% end %>
+                                </ul>
+                            </div>
+                            
+                            <div class="add-margin-top">
+                                <p>
+                                    The following allergens have been listed:
+                                </p>
+                                
+                                <ul>
+                                    <% r.allergen_list.each do |a| %>
+                                        <li><%= a %></li>
+                                    <% end %>
+                                </ul>
+                            </div>
+                            
+                            <hr>
+                            
+                            <div id="cook-avi" align="center" class="cursor-pointer"
+                                style="height: 64px; width: 64px; margin: auto;
+                                        overflow: hidden; border-radius: 32px;
+                                        border: 0.5px solid #e7e7e9;">
+                                <img src="<%= r.customer.image %>" alt="cook"
+                                    style="height: auto; width: inherit;">
+                            </div>
+                            
+                            <div class="add-margin-top text-center">
+                                <h5 style="color: #000;"><%= r.customer.first_name %></h5>
+                            </div>
+                            
+                            <div class="add-margin-top text-center">
+                                <a class="btn btn-primary" href="/new/customer/chat?customer_id=<%= r.customer.id %>">
+                                    Message
+                                </a>
+                            </div>
+                            
                         </div>
-                        
-                        <hr>
-                        
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="card reservation-card">
+                    <div class="card-header"
+                        style="background-image: url('<%= r.meals.last.image %>');
+                            background-size: cover; background-position: center; height: 160px;">
+                    </div>
+                    <div class="card-body" align="center">
                         <div id="cook-avi" align="center" class="cursor-pointer"
                             style="height: 64px; width: 64px; margin: auto;
                                     overflow: hidden; border-radius: 32px;
@@ -69,71 +99,47 @@
                                 style="height: auto; width: inherit;">
                         </div>
                         
-                        <div class="add-margin-top text-center">
-                            <h5 style="color: #000;"><%= r.customer.first_name %></h5>
+                        <div class="add-margin-top">
+                            <h5><%= r.customer.first_name %></h5>
                         </div>
                         
-                        <div class="add-margin-top text-center">
-                            <a class="btn btn-primary" href="/new/customer/chat?customer_id=<%= r.customer.id %>">
-                                Message
+                        <div>
+                            <span class="badge badge-success font-18">
+                                <%= "$#{r.fee}" %>
+                            </span>
+                        </div>
+                        
+                        <div class="add-margin-top">
+                            <p>
+                                <%= r.requested_for %>
+                                &bull; <%= pluralize(r.people_count, 'person') %>
+                            </p>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="add-margin-top">
+                            <a class="background-transparent reservation-card-controls
+                                        theme-cyan float-left cursor-pointer"
+                                data-toggle="modal" data-target="#reservation-details-modal-<%= r.id %>">
+                                View
                             </a>
+                            <% if r.accepted.nil? %>
+                                <%= link_to accept_reservation_path(:id => r.id), class:"background-transparent reservation-card-controls theme-green float-right", remote: true do %>
+                                    Accept
+                                <% end %>
+                                <%= link_to deny_reservation_path(:id => r.id), class:"background-transparent reservation-card-controls theme-red float-right", style:"margin-right: 5px;", remote: true do %>
+                                    Deny
+                                <% end %>
+                            <% end %>
                         </div>
-                        
                     </div>
                 </div>
             </div>
         </div>
-        <div>
-            <div class="card reservation-card">
-                <div class="card-header"
-                    style="background-image: url('<%= r.meals.last.image %>');
-                        background-size: cover; background-position: center; height: 160px;">
-                </div>
-                <div class="card-body" align="center">
-                    <div id="cook-avi" align="center" class="cursor-pointer"
-                        style="height: 64px; width: 64px; margin: auto;
-                                overflow: hidden; border-radius: 32px;
-                                border: 0.5px solid #e7e7e9;">
-                        <img src="<%= r.customer.image %>" alt="cook"
-                            style="height: auto; width: inherit;">
-                    </div>
-                    
-                    <div class="add-margin-top">
-                        <h5><%= r.customer.first_name %></h5>
-                    </div>
-                    
-                    <div>
-                        <span class="badge badge-success font-18">
-                            <%= "$#{r.fee}" %>
-                        </span>
-                    </div>
-                    
-                    <div class="add-margin-top">
-                        <p>
-                            <%= r.requested_for %>
-                            &bull; <%= pluralize(r.people_count, 'person') %>
-                        </p>
-                    </div>
-                    
-                    <hr>
-                    
-                    <div class="add-margin-top">
-                        <a class="background-transparent reservation-card-controls
-                                    theme-cyan float-left cursor-pointer"
-                            data-toggle="modal" data-target="#reservation-details-modal-<%= r.id %>">
-                            View
-                        </a>
-                        <% if !r.accepted %>
-                            <%= link_to accept_reservation_path(:id => r.id), class:"background-transparent reservation-card-controls theme-green float-right", remote: true do %>
-                                Accept
-                            <% end %>
-                            <%= link_to deny_reservation_path(:id => r.id), class:"background-transparent reservation-card-controls theme-red float-right", style:"margin-right: 5px;", remote: true do %>
-                                Deny
-                            <% end %>
-                        <% end %>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <% end %>
+<% else %>
+    <div class="col-md-12 text-center">
+        <h5> No results
     </div>
 <% end %>

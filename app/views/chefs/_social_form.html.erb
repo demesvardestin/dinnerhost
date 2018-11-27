@@ -1,0 +1,62 @@
+<%= form_for(@cook, :html => { :multipart => true, :class => 'cook-form', :id => "cook_form" }) do |f| %>
+  <% if @cook.errors.any? %>
+    <div id="error_explanation">
+        <h2>This post could not be saved due to the following <%= pluralize(@cook.errors.count, "error") %>:</h2>
+
+        <ul>
+            <% @cook.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+        </ul>
+    </div>
+  <% end %>
+  
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Username</label>
+    </div>
+    <div class="col-md-10">
+      <%= f.text_field :username, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Username" %>
+    </div>
+  </div>
+  
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Facebook link</label>
+    </div>
+    <div class="col-md-10">
+      <%= f.text_field :facebook, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Facebook profile url" %>
+    </div>
+  </div>
+  
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Instagram username</label>
+    </div>
+    <div class="col-md-10">
+      <%= f.text_field :instagram, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Instagram username" %>
+    </div>
+  </div>
+  
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Twitter username</label>
+    </div>
+    <div class="col-md-10">
+      <%= f.text_field :twitter, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Twitter username" %>
+    </div>
+  </div>
+  
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Bio</label>
+    </div>
+    <div class="col-md-10">
+      <%= f.text_area :bio, class:"form-control no-box-shadow font-15 pf", style: "height: 130px !important;", placeholder:"Bio" %>
+    </div>
+  </div>
+  
+  <div class="actions text-right action-button">
+    <%= f.submit "Update", class:"btn btn-primary height-50", id:"update-profile", data: { "disable-with": "Updating..." } %>
+  </div>
+<% end %>

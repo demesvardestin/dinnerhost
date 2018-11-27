@@ -145,17 +145,6 @@
     </div>
   </div>
   
-  <!--<div class="field">-->
-  <!--  <div class="input-group mb-3">-->
-  <!--    <div class="custom-file">-->
-  <!--      <input type="file" class="custom-file-input cursor-pointer"-->
-  <!--        id="file-name" aria-describedby="inputGroupFileAddon01">-->
-  <!--      <label class="custom-file-label upload-text" for="inputGroupFile01">Choose file</label>-->
-  <!--    </div>-->
-  <!--  </div>-->
-  <!--  <input type="hidden" name="meal[image]" value="" id="banner-image">-->
-  <!--</div>-->
-  
   <div class="actions text-center action-button">
     <%= f.submit "Publish", class:"btn btn-primary height-50", id:"create_meal", data: { "disable-with": "Publishing your meal..." } %>
   </div>
@@ -179,31 +168,5 @@
     document.querySelector('#serving-temp').value = temp;
     $('#served').text('served ' + temp);
   }
-  
-    
-// <!--    var bannerImage = document.querySelector('#banner-image');-->
-// <!--    var form = document.querySelector('#meal_form');-->
-// <!--    var mealId = $('.meal-id').text();-->
-    
-// <!--    $('#file-name').on('change', e => {-->
-// <!--      $('.upload-text').text($('#file-name').get(0).files[0].name);-->
-// <!--    });-->
-    
-// <!--    form.addEventListener('submit', function(event) {-->
-// <!--      event.preventDefault();-->
-        
-// <!--      var imageUrl = $('#file-name').get(0).files[0];-->
-// <!--      var imageName = ('meals/' + mealId + '/banner_image/' + imageUrl.name);-->
-// <!--      var storageRef = firebase.storage().ref();-->
-// <!--      storageRef.child(imageName).put(imageUrl).then((snapShot) => {-->
-// <!--          storageRef.child(imageName).getDownloadURL().then((url) => {-->
-// <!--            bannerImage.value = url;-->
-// <!--            form.submit();-->
-// <!--          });-->
-// <!--      }).catch((error) => {-->
-// <!--          toastr.warning("An error occurred, please try again.");-->
-// <!--          console.warn(error);-->
-// <!--      });-->
-// <!--    });-->
     
 </script>

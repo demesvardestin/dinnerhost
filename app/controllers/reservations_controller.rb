@@ -2,6 +2,7 @@ class ReservationsController < ApplicationController
   before_action :set_reservation
   before_action :authorized_to_view, except: [:reserve, :book, :booking_estimate]
   before_action :load_booking_estimate, only: [:booking_estimate, :reserve]
+  before_action :unauthorized, only: :accepted
   
   def show
   end
@@ -57,10 +58,9 @@ class ReservationsController < ApplicationController
   def booking_complete
   end
   
-  def reservation_accepted
+  def accepted
     @cook = current_chef
     @reservation = Reservation.find(params[:id])
-    redirect_to root_path if @cook != @reservation.chef
   end
   
   private
@@ -69,14 +69,22 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.find_by(id: params[:id])
   end
   
+  def unauthorized
+    redirect_to root_path if (@cook != @reservation.chef || current_chef.nil?)
+  end
+  
   def user
     current_customer || current_chef
   end
   
   def authorized_to_view
     @reservation = set_reservation
-    if !(@reservation.user == user)
-      redirect_to root_path
+    if current_customer
+      if !(@reservation.customer == current_customer)
+        redirect_to "/404"
+      end
+    else
+      authenticate_customer!
     end
   end
   

@@ -7,29 +7,33 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent" style="height: 100%;">
             <ul class="navbar-nav" style="height: 100%;">
                 <li class="nav-item">
-                    <button class="btn btn-link nav-link" onclick="window.location.href= '/bookings'" style="height: 100%;">
-                        <span class="nav-link-child">
+                    <button class="btn btn-link nav-link" style="height: 100%;">
+                        <a class="nav-link-child background-transparent no-underline" href="/bookings">
                             Bookings
-                        </span>
+                        </a>
                     </button>
                 </li>
                 <li class="nav-item">
-                    <button class="btn btn-link nav-link" onclick="window.location.href= '/inbox'" style="height: 100%;">
-                        <span class="nav-link-child">
+                    <button class="btn btn-link nav-link" style="height: 100%;">
+                        <a class="nav-link-child background-transparent no-underline" href="/inbox">
                             Messages <i class="<%= inbox_status %>" style="font-size: 8px; vertical-align: super !important;"></i>
-                        </span>
+                        </a>
                     </button>
                 </li>
                 <li class="nav-item" style="height: 100%;">
                     <div class="dropdown" style="height: 100%;">
-                        <button class="btn btn-link nav-link" id="dropdownMenuButton" 
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                            style="height: 100%;">
-                            <span class="nav-link-child">Account <i class="fa fa-angle-down"></i></span>
-                        </button>
+                        <div id="customer-avi" align="center" class="cursor-pointer"
+                            style="height: 40px; width: 40px; margin: auto;
+                                    overflow: hidden; border-radius: 20px;
+                                    border: 0.5px solid #e7e7e9; margin-top: 17.5px;"
+                            id="dropdownMenuButton" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <img src="<%= current_customer.image %>" alt="cook"
+                                style="height: auto; width: inherit;">
+                        </div>
                         <div class="dropdown-menu box-shadow no-border-radius dropdown-menu-right"
                             aria-labelledby="dropdownMenuButton"
-                            style="border-color: #eee; padding: 0;">
+                            style="border-color: #eee; padding: 0; margin-top: -18px;">
                             <a class="background-transparent dropdown-item cursor-pointer"
                                 href="/edit/profile">
                                 Profile settings

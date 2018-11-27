@@ -28,7 +28,7 @@ class Customer < ApplicationRecord
   end
   
   def has_rated cook
-    self.chef_ratings.map(&:chef_id).include? cook.id
+    self.chef_ratings.map(&:chef_id).include? cook.id if cook
   end
   
   def has_not_rated cook
@@ -36,7 +36,7 @@ class Customer < ApplicationRecord
   end
   
   def has_reported cook
-    self.cook_reports.map(&:chef_id).include? cook.id
+    self.cook_reports.map(&:chef_id).include? cook.id if cook
   end
   
   def has_not_reported cook

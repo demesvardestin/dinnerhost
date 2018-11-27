@@ -6,8 +6,17 @@
                     background-size: cover; background-position: center; height: 160px;">
             </div>
             <div class="card-body" align="center">
-                <div class="cook-avi-div">
-                    <img src="" alt="cook">
+                
+                <div id="cook-avi" align="center" class="cursor-pointer"
+                    onclick="window.location.href='/c/<%= b.chef.username %>'"
+                    style="height: 60px; width: 60px; margin: auto;
+                            overflow: hidden; border-radius: 30px;
+                            border: 0.5px solid #e7e7e9;">
+                    <img src="<%= b.chef.image.url %>" alt="cook"
+                        style="height: auto; width: inherit;">
+                </div>
+                
+                <div class="add-margin-top">
                     <h5><%= b.chef.first_name %></h5>
                 </div>
                 

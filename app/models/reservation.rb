@@ -42,4 +42,14 @@ class Reservation < ApplicationRecord
     def allergen_list
         allergies.split(',')
     end
+    
+    def status
+        if accepted.nil?
+            "pending"
+        elsif accepted == false
+            "denied"
+        else
+            "accepted"
+        end
+    end
 end

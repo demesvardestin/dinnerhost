@@ -1,0 +1,45 @@
+<%= form_for(@cook, :html => { :multipart => true, :class => 'cook-form', :id => "cook_form" }) do |f| %>
+  <% if @cook.errors.any? %>
+    <div id="error_explanation">
+        <h2>This post could not be saved due to the following <%= pluralize(@cook.errors.count, "error") %>:</h2>
+
+        <ul>
+            <% @cook.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+            <% end %>
+        </ul>
+    </div>
+  <% end %>
+  
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Account number</label>
+    </div>
+    <div class="col-md-10">
+      <input type="text" class="form-control" name="account_number" id="account-number" placeholder="Account number">
+    </div>
+  </div>
+  
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Routing number</label>
+    </div>
+    <div class="col-md-10">
+      <input type="text" class="form-control" name="routing_number" id="routing-number" placeholder="Routing number">
+    </div>
+  </div>
+  
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Booking rate</label>
+    </div>
+    <div class="col-md-10">
+      <%= f.text_field :booking_rate, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"How much will you charge per hour?" %>
+    </div>
+  </div>
+  
+  <div class="actions text-right action-button">
+    <%= f.submit "Update", class:"btn btn-primary height-50", id:"update-profile", data: { "disable-with": "Updating..." } %>
+  </div>
+  
+<% end %>

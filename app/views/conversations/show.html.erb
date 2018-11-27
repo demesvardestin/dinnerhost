@@ -15,33 +15,35 @@
                     
                     <div class="add-margin-top">
                         <h5 style="font-weight: 700;">
-                            <%= @conversation.correspondent(user).full_name %>
+                            <%= @conversation.correspondent(user).first_name %>
                         </h5>
                     </div>
                     
                     <div class="add-margin-top">
-                        <h5 style="font-weight: 700;">
+                        <h5>
                             <%= @conversation.correspondent(user).abridged_address %>
                         </h5>
                     </div>
                     
-                    <div class="cook-rating cursor-pointer add-margin-top" align="center"
-                        <% if current_customer && current_customer.has_not_rated(current_chef) %>
-                            data-toggle="modal" data-target="#rateCook"
-                        <% end %>>
-                        <% 5.times.each_with_index do |s, idx| %>
-                            <span class="star">
-                                <i class="<%= star_rating(idx + 1, current_chef) %> theme-cyan"
-                                    style="font-size: 15px;"></i>
+                    <% if current_customer %>
+                        <div class="cook-rating cursor-pointer add-margin-top" align="center"
+                            <% if current_customer.has_not_rated(@conversation.correspondent(user)) %>
+                                data-toggle="modal" data-target="#rateCook"
+                            <% end %>>
+                            <% 5.times.each_with_index do |s, idx| %>
+                                <span class="star">
+                                    <i class="<%= star_rating(idx + 1, @conversation.correspondent(user)) %> theme-cyan"
+                                        style="font-size: 15px;"></i>
+                                </span>
+                            <% end %>
+                            <span class="rating-count" style="font-size: 14px;">
+                                <%= @conversation.correspondent(user).rating_count %>
+                            </span>&bull;
+                            <span class="badge badge-success" style="font-size: 12px;">
+                                <%= pluralize(@conversation.correspondent(user).meals.count, 'meal') %>
                             </span>
-                        <% end %>
-                        <span class="rating-count" style="font-size: 14px;">
-                            <%= current_chef.rating_count %>
-                        </span>&bull;
-                        <span class="badge badge-success" style="font-size: 12px;">
-                            <%= pluralize(current_chef.meals.count, 'meal') %>
-                        </span>
-                    </div>
+                        </div>
+                    <% end %>
                     
                     <div class="add-margin-top">
                         <% if current_customer %>
