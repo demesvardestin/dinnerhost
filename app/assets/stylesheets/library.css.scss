@@ -125,7 +125,7 @@ a:hover {
 }
 
 .form-control {
-    border-radius: 5px !important;
+    border-radius: 5px;
     height: 50px;
 }
 
@@ -197,8 +197,8 @@ input.btn {
     background: #fff !important;
 }
 
-.background-lightred {
-    background-color: #ffd6d6 !important;
+.background-red {
+    background-color: #dc3545 !important;
 }
 
 .no-border-radius {
@@ -685,7 +685,7 @@ div.how-to > i {
 }
 
 input {
-    box-shadow: none !important;
+    box-shadow: none;
 }
 
 .card, input, textarea, .modal-content {
@@ -697,7 +697,7 @@ input {
 }
 
 button, input, .btn {
-    font-size: 15px !important;
+    font-size: 15px;
 }
 
 .instagram-share {
@@ -788,7 +788,6 @@ button, .btn {
 .card-header {
     font-size: 18px;
     color: #fff;
-    font-weight: bold;
 }
 
 .new-order-card-header {
@@ -938,6 +937,11 @@ canvas {
 }
 
 @media only screen and (max-device-width: 767.98px) {
+    #main-body {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+    
     #mobile-toggle {
         display: block !important;
     }
@@ -1026,5 +1030,13 @@ canvas {
     .set-search-type {
         padding-left: 10px !important;
         padding-right: 10px !important;
+    }
+    
+    .filters-box {
+        left: 0 !important;
+        top: -40px !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
     }
 }

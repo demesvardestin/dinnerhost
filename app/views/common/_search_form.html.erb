@@ -1,0 +1,66 @@
+<form action="/search" method="get" style="margin-top: 15px;" id="main-search-form">
+    <div class="input-group mb-3 box-shadow"
+        style="margin-bottom: 0 !important; border-radius: 5px;">
+        <div class="input-group-prepend main-search-input-prepend">
+            <span class="input-group-text background-transparent" id="basic-addon1"
+                style="padding-left: 10px; padding-right: 10px;
+                        border-color: #e7e7e9 !important;">
+                <i class="fa fa-search text-muted" style="font-size: 16px;"></i>
+            </span>
+        </div>
+        <input class="form-control" name="request_location"
+            id="request-location" autocomplete="off"
+            placeholder="Where are you located?"
+            style="height: 45px; font-size: 14px;
+                width: 300px; transition: width 0.5s; border-radius: 5px;
+                border-top-left-radius: 0 !important;
+                border-bottom-left-radius: 0 !important;
+                border-left: none;" required="true">
+        <input type="hidden" name="meal_type"
+            id="meal-type">
+    </div>
+    <div id="search-box" style="display: none;">
+        <div class="input-group mb-3"
+        style="margin-bottom: 0 !important; border-radius: 5px;">
+            <input type="text" class="form-control no-box-shadow"
+                id="cuisine" onchange="setCuisine()"
+                placeholder="What type of cuisine are you in the mood for?"
+                style="height: 45px; font-size: 14px;" required="true">
+            <div class="input-group-append">
+                <span class="input-group-text background-transparent" id="basic-addon1">
+                    <i class="fa fa-long-arrow-right" style="font-size: 16px;"></i>
+                </span>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <div class="add-margin-top">
+            <h6>Popular categories</h6>
+            
+            <% popular_categories.each_with_index do |c, idx| %>
+                <p class="add-margin-top">
+                    <span id="pop_cat<%= idx %>"
+                        class="cursor-pointer theme-cyan"
+                        onclick="setMealType(this)"><%= c %></span>
+                </p>
+            <% end %>
+        </div>
+        
+        <div class="add-margin-top text-right">
+            <a class="btn btn-link theme-cyan"
+                onclick="hideSearchBox()">
+                Close
+            </a>
+        </div>
+    </div>
+    <button class="no-display">Submit</button>
+</form>
+
+<script type="text/javascript">
+    document.querySelector('#main-search-form').addEventListener("submit", function(event) {
+        event.preventDefault();
+        
+        submitSearchForm();
+    })
+</script>

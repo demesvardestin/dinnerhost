@@ -1,0 +1,18 @@
+<% if reviews.count > 5 %>
+    <div class="row" style="margin-top: 30px;">
+        <div class="col-md-12 text-center">
+            <hr>
+            
+            <div>
+                <button class="btn btn-primary review-browsing" disabled
+                    id="previous" onclick="browseReviews('')">
+                    <i class="fa fa-angle-left"></i> Prev
+                </buton>
+                <button class="btn btn-primary review-browsing"
+                    style="margin-left: 5px;" id="next" onclick="browseReviews('2')">
+                    Next <i class="fa fa-angle-right"></i>
+                </buton>
+            </div>
+        </div>
+    </div>
+<% end %>

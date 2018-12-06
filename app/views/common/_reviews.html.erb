@@ -1,0 +1,23 @@
+<% reviews.each do |r| %>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="customer-avi" align="center" class="cursor-pointer float-left"
+                style="height: 50px; width: 50px; margin: auto;
+                        overflow: hidden; border-radius: 27.5px;
+                        border: 0.5px solid #e7e7e9;">
+                <img src="<%= r.customer.image %>" alt="cus"
+                    style="height: auto; width: inherit;">
+            </div>
+            <div class="float-left" style="margin-left: 10px;">
+                <p class="bold"><%= r.customer.first_name %></p>
+                <p class="text-muted"><%= r.created_at.strftime('%B %Y') %></p>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="add-margin-top">
+                <p><%= r.details %></p>
+            </div>
+            <% if !r.last_of reviews %><hr class="text-muted"><% end %>
+        </div>
+    </div>
+<% end %>

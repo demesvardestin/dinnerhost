@@ -22,16 +22,16 @@
       <label>Dish name</label>
     </div>
     <div class="col-md-10">
-      <%= f.text_field :name, class:"form-control no-box-shadow height-50 font-15 pf", label: false %>
+      <%= f.text_field :name, class:"form-control no-box-shadow height-50 font-15 pf", label: false, placeholder: "Provide a short but descriptive name for this dish", required: true %>
     </div>
   </div>
   
   <div class="field row">
     <div class="col-md-2">
-      <label>Dish description</label>
+      <label>Dish description<br /><span class="text-muted">(Max: 100 words)</span></label>
     </div>
     <div class="col-md-10">
-      <%= f.text_area :description, class:"form-control no-box-shadow font-15 pf", style: "height: 200px !important;", label: false %>
+      <%= f.text_area :description, class:"form-control no-box-shadow font-15 pf", style: "height: 200px !important;", label: false, placeholder: "Provide a brief description for this dish", required: true %>
     </div>
   </div>
   
@@ -40,7 +40,7 @@
       <label>Cuisine type</label>
     </div>
     <div class="col-md-10">
-      <%= f.text_field :meal_type, class:"form-control no-box-shadow height-50 font-15 pf", label: false, placeholder: "Ex: Cambodian" %>
+      <%= f.text_field :meal_type, class:"form-control no-box-shadow height-50 font-15 pf", label: false, placeholder: "Ex: Cambodian", required: true %>
     </div>
   </div>
   
@@ -49,29 +49,49 @@
       <label>Prep fee</label>
     </div>
     <div class="col-md-2">
-      <%= f.text_field :prep_fee, class:"form-control no-box-shadow height-50 font-15 pf", label: false %>
+      <%= f.text_field :prep_fee, class:"form-control no-box-shadow height-50 font-15 pf", label: false, required: true %>
     </div>
     
-    <div class="col-md-2">
-      <label>Dish order</label>
-    </div>
-    <div class="col-md-3">
-      <%= f.text_field :dish_order, class:"form-control no-box-shadow height-50 font-15 pf", label: false, placeholder: "Ex: Entree" %>
-    </div>
     <div class="col-md-3" style="width: 100%;">
-      <!--<div style="border: 0.5px solid #e7e7e9; border-radius: 5px;"-->
-      <!--  onclick="showServingTemp(this)" class="cursor-pointer">-->
-      <!--  <div class="row">-->
-      <!--    <div class="col-md-12" style="padding: 15px;">-->
-      <!--      <p class="font-15 text-left" style="padding: 0 15px;">-->
-      <!--        <span class="float-left">Serving temp</span>-->
-      <!--        <span class="float-right">-->
-      <!--          <i class="fa fa-angle-down"></i>-->
-      <!--        </span>-->
-      <!--      </p>-->
-      <!--    </div>-->
-      <!--  </div>-->
-      <!--</div>-->
+      <div class="dropdown">
+        <div style="border: 0.5px solid #e7e7e9; border-radius: 5px;"
+          id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false" class="cursor-pointer">
+          <div class="row">
+            <div class="col-md-12" style="padding: 15px;">
+              <p class="font-15 text-left" style="padding: 0 15px;">
+                <span class="float-left" id='course-value'>
+                  <%= @meal.course.present? ? @meal.course : "choose course" %>
+                </span>
+                <span class="float-right">
+                  <i class="fa fa-angle-down"></i>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+          style="padding-top: 0; padding-bottom: 0;">
+          <a class="dropdown-item cursor-pointer"
+            onclick="changeCourse('appetizer');">
+            Appetizer
+          </a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item cursor-pointer"
+            onclick="changeCourse('Entree');">
+            Entree
+          </a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item cursor-pointer"
+            onclick="changeCourse('Dessert');">
+            Dessert
+          </a>
+        </div>
+      </div>
+      <%= f.text_field :course, class:"no-display", id: "course", label: false, value:"", required: true %>
+    </div>
+    
+    <div class="col-md-2" style="width: 100%;">
       <div class="dropdown">
         <div style="border: 0.5px solid #e7e7e9; border-radius: 5px;"
           id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
@@ -102,7 +122,46 @@
           </a>
         </div>
       </div>
-      <%= f.text_field :serving_temperature, class:"form-control no-box-shadow height-50 font-15 pf no-display", id: "serving-temp", label: false %>
+      <%= f.text_field :serving_temperature, class:"form-control no-box-shadow height-50 font-15 pf no-display", id: "serving-temp", label: false, value:"hot", required: true %>
+    </div>
+    
+    <div class="col-md-3" style="width: 100%;">
+      <div class="dropdown">
+        <div style="border: 0.5px solid #e7e7e9; border-radius: 5px;"
+          id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false" class="cursor-pointer">
+          <div class="row">
+            <div class="col-md-12" style="padding: 15px;">
+              <p class="font-15 text-left" style="padding: 0 15px;">
+                <span class="float-left" id='flavor-value'>
+                  <%= @meal.flavor.present? ? @meal.flavor : "choose flavor" %>
+                </span>
+                <span class="float-right">
+                  <i class="fa fa-angle-down"></i>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+          style="padding-top: 0; padding-bottom: 0;">
+          <a class="dropdown-item cursor-pointer"
+            onclick="changeFlavor('Nonspicy');">
+            Nonspicy
+          </a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item cursor-pointer"
+            onclick="changeFlavor('Mild');">
+            Mild
+          </a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item cursor-pointer"
+            onclick="changeFlavor('Spicy');">
+            Spicy
+          </a>
+        </div>
+      </div>
+      <%= f.text_field :flavor, class:"no-display", id: "flavor", label: false, value:"", required: true %>
     </div>
   </div>
   
@@ -111,7 +170,7 @@
       <label>Allergens</label>
     </div>
     <div class="col-md-10">
-      <%= f.text_field :allergens, class:"form-control no-box-shadow height-50 font-15 pf", label: false, placeholder: "Comma separated (Ex: peanuts, soya, shellfish, dairy...)" %>
+      <%= f.text_field :allergens, class:"form-control no-box-shadow height-50 font-15 pf", label: false, placeholder: "Comma separated (Ex: peanuts, soya, shellfish, dairy...)", required: true %>
     </div>
   </div>
   
@@ -120,7 +179,7 @@
       <label>Add tags</label>
     </div>
     <div class="col-md-10">
-      <%= f.text_field :tags, class:"form-control no-box-shadow height-50 font-15 pf", label: false, placeholder: "Comma separated (Ex: chicken, paprika, portabello mushroom...)" %>
+      <%= f.text_field :tags, class:"form-control no-box-shadow height-50 font-15 pf", label: false, placeholder: "Comma separated (Ex: chicken, paprika, portabello mushroom...)", required: true %>
     </div>
   </div>
   
@@ -165,8 +224,18 @@
   }
   
   function changeTemp(temp=null) {
-    document.querySelector('#serving-temp').value = temp;
+    document.querySelector('#serving-temp').value = temp.toLowerCase();
     $('#served').text('served ' + temp);
+  }
+  
+  function changeCourse(course=null) {
+    document.querySelector('#course').value = course.toLowerCase();
+    $('#course-value').text(course);
+  }
+  
+  function changeFlavor(flavor=null) {
+    document.querySelector('#flavor').value = flavor.toLowerCase();
+    $('#flavor-value').text(flavor);
   }
     
 </script>

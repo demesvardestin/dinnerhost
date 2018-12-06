@@ -1,0 +1,17 @@
+<section id="location-based-listings">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="bold">
+                <a href="/<%= "#{current_customer.town},#{current_customer.state}/listings" %>"
+                    class="theme-cyan">
+                    <%= current_customer.town.capitalize %>
+                </a>
+                listings
+            </h3>
+        </div>
+    </div>
+    
+    <div class="row">
+        <%= render partial: "meals/meals", locals: { meals: @meals } %>
+    </div>
+</section>

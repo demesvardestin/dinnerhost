@@ -35,6 +35,7 @@ gem 'aws-sdk', '~> 2.3'
 gem 'aws-sdk-rails'
 # simple form for ...simplified form
 gem 'simple_form'
+gem 'remotipart', '~> 1.2'
 # carrierwave, minimagick, fog for image upload
 gem 'carrierwave'
 gem 'mini_magick'

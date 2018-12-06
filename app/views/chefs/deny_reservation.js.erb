@@ -1,5 +1,9 @@
-toastr.warning("You have denied <%= @reservation.customer.first_name %>'s reservation!");
+toastr.success("You have denied <%= @reservation.customer.first_name %>'s reservation!");
 
 $('#reservations-box').html(`
     <%= render partial: 'reservations', locals: { reservations: @pending } %>
+`);
+
+$('#reservation-controls').html(`
+    <%= render 'reservation_controls' %>
 `);

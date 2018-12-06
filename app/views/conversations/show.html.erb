@@ -26,10 +26,7 @@
                     </div>
                     
                     <% if current_customer %>
-                        <div class="cook-rating cursor-pointer add-margin-top" align="center"
-                            <% if current_customer.has_not_rated(@conversation.correspondent(user)) %>
-                                data-toggle="modal" data-target="#rateCook"
-                            <% end %>>
+                        <div class="cook-rating add-margin-top" align="center">
                             <% 5.times.each_with_index do |s, idx| %>
                                 <span class="star">
                                     <i class="<%= star_rating(idx + 1, @conversation.correspondent(user)) %> theme-cyan"
@@ -38,9 +35,6 @@
                             <% end %>
                             <span class="rating-count" style="font-size: 14px;">
                                 <%= @conversation.correspondent(user).rating_count %>
-                            </span>&bull;
-                            <span class="badge badge-success" style="font-size: 12px;">
-                                <%= pluralize(@conversation.correspondent(user).meals.count, 'meal') %>
                             </span>
                         </div>
                     <% end %>
@@ -48,9 +42,9 @@
                     <div class="add-margin-top">
                         <% if current_customer %>
                             <% if current_customer.has_not_reported(@conversation.correspondent(user)) %>
-                                <p class="text-center font-13">
-                                    <a class="btn btn-link" data-toggle="modal"
-                                        data-target="#reportcook" style="font-size: 15px !important;">
+                                <p class="text-center">
+                                    <a class="background-transparent text-muted font-15 cursor-pointer" data-toggle="modal"
+                                        data-target="#reportcook">
                                         <i class="fa fa-flag-o"></i> Report this cook
                                     </a>
                                 </p>
@@ -86,16 +80,22 @@
                 </div>
             </div>
             
-            <div style="padding: 43px 0 15px 0;" class="text-middle-hr">
-                <div style="width: 100%;">
-                    <hr style="margin: 0;">
+            <% if current_customer %>
+                <div style="padding: 43px 0 15px 0;" class="text-middle-hr">
+                    <div style="width: 100%;">
+                        <hr style="margin: 0;">
+                    </div>
+                    <div style="margin-top: -13px;" align="center">
+                      <span style="font-size: 14px; background-color: #fff; padding: 0 10px;">
+                        Reminder -
+                        <a href="/c/<%= @conversation.correspondent(user).username %>"
+                            class="background-transparent theme-cyan">
+                            Review This cook
+                        </a>
+                      </span>
+                    </div>
                 </div>
-                <div style="margin-top: -13px;" align="center">
-                  <span style="font-size: 14px; background-color: #fff; padding: 0 10px;">
-                    Reminder - Leave a review
-                  </span>
-                </div>
-            </div>
+            <% end %>
             
             <div class="row" id="all-messages">
                 <%= render partial: 'messages', locals: { messages: @messages } %>

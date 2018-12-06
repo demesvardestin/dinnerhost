@@ -1,6 +1,14 @@
 <section id="store-signup" class="container" style="padding-bottom: 30px;">
   <div class="row">
     <div class="col-md-6 offset-md-3" style="padding: 0 45px !important;">
+      <% flash.each do |name, msg| %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <% end %>
       <div class="card">
         <div class="card-body">
           <% if request.original_url.include?('chef') %>

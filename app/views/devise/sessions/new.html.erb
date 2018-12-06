@@ -1,6 +1,14 @@
 <section id="store-login" class="container" style="margin-bottom: 75px; margin-top: 30px;">
   <div class="row">
     <div class="col-md-6 offset-md-3">
+      <% flash.each do |name, msg| %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <% end %>
       <div class="card theme-border">
         <div class="card-body">
           <h5 align="center" class="theme-color add-margin-bottom">Log in</h5>
@@ -28,7 +36,7 @@
                     <%= f.submit "Log in", class:"btn btn-primary btn-block height-50 log-in no-box-shadow", id:"logIn", data: {"disable-with": "Logging you in..."} %>
                   </div>
                   <div class="col-md-12 add-padding-top text-center">
-                      <%= link_to "Don't have an account? Register here", chef_signup_path, class:"background-transparent theme-blue font-16 display-block" if request.original_url.include?('chef') %>
+                      <%= link_to "Don't have an account? Register here", new_chef_registration_path, class:"background-transparent theme-blue font-16 display-block" if request.original_url.include?('chef') %>
                       <%= link_to "Don't have an account? Register here", customer_signup_path, class:"background-transparent theme-blue font-16 display-block" unless request.original_url.include?('chef') %>
                       <%= link_to "Forgot your password?", chef_retrieve_password_path, class:"background-transparent theme-blue font-16 display-block" if request.original_url.include?('chef') %>
                       <%= link_to "Forgot your password?", customer_retrieve_password_path, class:"background-transparent theme-blue font-16 display-block" unless request.original_url.include?('chef') %>

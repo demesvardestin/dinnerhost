@@ -14,7 +14,7 @@ class MessageUpdate
     def self.twilio
         twilio = self.initialize_twilio
         # twilio_phone = ENV["TWILIO_PHONE"]
-        twilio_phone = "12018491397"
+        twilio_phone = "14758975257"
         return twilio, twilio_phone
     end
     
@@ -24,10 +24,32 @@ class MessageUpdate
     
     def self.initialize_twilio
         # account_sid = ENV["TWILIO_SID"]
-        account_sid = "AC372a0064c4d35fd5aaeea6c791fb8663"
+        account_sid = "AC2cda4ab0af4f648febfc6a78c7cffbff"
         # auth_token = ENV["TWILIO_TOKEN"]
-        auth_token = "d08b231a3e1026c359dcc6b2f916c851"
+        auth_token = "a2025ab98a508c234bf9f2511b583074"
         return Twilio::REST::Client.new account_sid, auth_token
+    end
+    
+    def self.invite_chef(number, referrer)
+        twilio, twilio_phone = self.twilio
+        link = "http://senzzu-rx-demo07.c9users.io/referral?ref#{referrer.referral_code}"
+        message = "#{referrer.first_name} has invited you to join DinnerHost! As a DinnerHost cook, you can get booked and paid to prepare your best dishes for customers near you. To get started, go to #{link}."
+        twilio.messages.create(
+            body: message,
+            to: number,
+            from: twilio_phone
+        )
+    end
+    
+    def self.credit_applied(referrer)
+        twilio, twilio_phone = self.twilio
+        name = referrer.first_name
+        message = "Hi #{name}, a $20 credit has been applied to your DinnerHost account for future reservations! Explore more delicious listings at dinnerhost.co"
+        twilio.messages.create(
+            body: message,
+            to: referrer.phone_number,
+            from: twilio_phone
+        )
     end
     
 end

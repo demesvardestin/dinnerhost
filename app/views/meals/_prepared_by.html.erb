@@ -1,0 +1,49 @@
+<div class="card">
+    <div class="card-header background-cyan">
+        Prepared by
+    </div>
+    <div class="card-body">
+        
+        <div id="cook-avi" align="center" class="cursor-pointer"
+            onclick="window.location.href='/c/<%= @cook.username %>'"
+            style="height: 64px; width: 64px; margin: auto;
+                    overflow: hidden; border-radius: 32px;
+                    border: 0.5px solid #e7e7e9;">
+            <img src="<%= @cook.image.url %>" alt="cook"
+                style="height: auto; width: inherit;">
+        </div>
+        
+        <div class="add-margin-top text-center">
+            <h5><%= @cook.first_name %></h5>
+        </div>
+        
+        <div class="cook-rating cursor-pointer" align="center"
+            <% if current_customer && current_customer.has_not_rated(@cook) %>
+                data-toggle="modal" data-target="#rateCook"
+            <% end %>>
+            <% 5.times.each_with_index do |s, idx| %>
+                <span class="star">
+                    <i class="<%= star_rating(idx + 1, @cook) %> theme-cyan"
+                        style="font-size: 15px;"></i>
+                </span>
+            <% end %>
+            <span class="rating-count" style="font-size: 14px;">
+                <%= @cook.rating_count %>
+            </span>&bull;
+            <span class="badge badge-success" style="font-size: 12px;">
+                <%= pluralize(@cook.meals.count, 'meal') %>
+            </span>
+        </div>
+        
+        <hr>
+        
+        <div id="view-cook-profile-btn-div" align="center" style="margin-top: 15px;">
+            <%= link_to book_path(:username => @cook.username), class:"btn btn-primary" do %>
+                Book <%= @cook.first_name %>
+            <% end %>
+            <%= link_to "/chef/#{@cook.username}", class:"btn btn-secondary" do %>
+                View profile
+            <% end %>
+        </div>
+    </div>
+</div>

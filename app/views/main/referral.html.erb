@@ -1,0 +1,36 @@
+<section id="authenticate-chef">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <%= form_for @cook, action: "/chefs/sign_up", id: "new_chef", remote: true, method: :post do |f| %>
+                <div class="form-inputs" style="vertical-align: middle !important;">
+                  
+                    <div class="field">
+                          <%= f.text_field :first_name, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"First name" %>
+                    </div>
+                    <div class="field">
+                          <%= f.text_field :last_name, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"Last name" %>
+                    </div>
+                    <div class="field">
+                          <%= f.email_field :email, class:"form-control height-50 no-box-shadow", autofocus: true, placeholder:"Email" %>
+                    </div>
+                  
+                    <div class="field">
+                          <%= f.password_field :password, class:"form-control height-50 no-box-shadow", autocomplete: "off", placeholder:"Password" %>
+                    </div>
+                    <div class="field">
+                          <%= f.password_field :password_confirmation, class:"form-control height-50 no-box-shadow", autocomplete: "off", placeholder:"Password confirmation" %>
+                    </div>
+                
+                  <div class="actions" style="margin-top: 10px;">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <%= f.submit "Log in", class:"btn btn-primary btn-block height-50 log-in no-box-shadow", id:"logIn", data: {"disable-with": "Creating your account..."} %>
+                      </div>
+                    </div>
+                  </div>
+                  
+                </div>
+            <% end %>
+        </div>
+    </div>
+</section>

@@ -14,15 +14,18 @@
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-body" align="center">
-                                <div class="cook-avi-div">
-                                    <img src="" alt="cook">
-                                    <h5><%= @cook.first_name %></h5>
+                                <div id="cook-avi" class="cursor-pointer"
+                                onclick="window.location.href='/c/<%= @cook.username %>'"
+                                style="height: 60px; width: 60px; margin: auto;
+                                        overflow: hidden; border-radius: 30px;
+                                        border: 0.5px solid #e7e7e9;">
+                                    <img src="<%= @cook.image.url %>" alt="cook"
+                                        style="height: auto; width: inherit;">
                                 </div>
                                 
-                                <div class="cook-rating cursor-pointer"
-                                    <% if current_user && current_user.has_not_rated(@cook) %>
-                                        data-toggle="modal" data-target="#rateCook"
-                                    <% end %>>
+                                <h5><%= @cook.first_name %></h5>
+                                
+                                <div class="cook-rating">
                                     <% 5.times.each_with_index do |s, idx| %>
                                         <span class="star">
                                             <i class="<%= star_rating(idx + 1, @cook) %> theme-cyan"
@@ -34,21 +37,19 @@
                                     </span>
                                 </div>
                                 
-                                <p class="add-margin-top">
-                                    <span class="bold font-22 booking-estimate">
-                                        $<%= @reservation.fee %>
-                                    </span>
-                                </p>
-                                
                                 <hr>
                                 
-                                <div class="reservation-details" align="left">
+                                <div class="reservation-details" align="center">
                                     <%= render partial: 'customers/reservation_details', locals: { reservation: @reservation } %>
                                 </div>
                                 
                                 <hr>
                                 
-                                <div id="finish-booking-div">
+                                <p class="add-margin-top">
+                                    <span class="bold">Total</span>: $<%= @reservation.fee %>
+                                </p>
+                                
+                                <div id="finish-booking-div" style="margin-top: 20px;">
                                     <button class="btn btn-primary btn-block height-50" type="submit" data-disable-with="Finishing up...">
                                         Complete reservation
                                     </button>

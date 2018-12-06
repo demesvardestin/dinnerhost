@@ -5,7 +5,10 @@ class ApplicationController < ActionController::Base
   before_action :check_https
   before_action :redirect_uri?
   before_action :load_customer, :load_cook
-  # before_action :initialize_cart
+  before_action :store_customer_location!, if: :storable_location?
+  before_action :find_reservation
+  
+  private
   
   def url
     request.original_url
@@ -27,7 +30,19 @@ class ApplicationController < ActionController::Base
   end
   
   def load_cook
-    @cook = Chef.new
+    @cook = Chef.find_by(id: params[:id]) || Chef.find_by(username: params[:username]) || Chef.find_by(shortened_url: params[:shortened_url]) || Chef.find_by(id: params[:correspondent_id])
+  end
+  
+  def storable_location?
+    request.get? && is_navigational_format? && !devise_controller? && !request.xhr? 
+  end
+
+  def store_customer_location!
+    store_location_for(:customer, request.fullpath)
+  end
+  
+  def find_reservation
+    @reservation = Reservation.find_by(id: params[:reservation])
   end
   
 end

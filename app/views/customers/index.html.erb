@@ -1,0 +1,30 @@
+<section id="featured-meals">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="bold">Featured dishes</h3>
+        </div>
+    </div>
+    
+    <div class="row">
+        <%= render partial: "meals/meals", locals: { meals: @meals.first(9) } %>
+    </div>
+    
+    <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+        <div class="col-md-4 offset-md-4" align="center">
+            <a class="background-transparent no-underline white" href="/featured-listings">
+                <button class="btn btn-primary height-50 box-shadow btn-block">
+                    More featured listings
+                </button>
+            </a>
+        </div>
+    </div>
+    
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-12">
+            <h3 class="bold">Featured chefs</h3>
+        </div>
+    </div>
+    <div class="row add-margin-top">
+        <%= render partial: "chefs/chefs", locals: { chefs: @chefs.first(9) } %>
+    </div>
+</section>

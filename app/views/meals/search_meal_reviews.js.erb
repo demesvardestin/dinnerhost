@@ -1,0 +1,15 @@
+$('#reviews').html(`
+    <%= render partial: "meal_reviewers", locals: { reviews: @reviews } %>
+`);
+
+$('#reviews-section').html(`
+    <div id="reviews">
+        <%= render partial: "meal_reviewers", locals: { reviews: @reviews.first(5) } %>
+    </div>
+    
+    <div id="reviewButtons">
+        <%= render partial: "review_buttons", locals: { reviews: @reviews } %>
+    </div>
+    
+    <hr>
+`);

@@ -1,0 +1,27 @@
+document.querySelector('.review-browsing#next').removeAttribute('disabled');
+
+$('#reviews').html(`
+    <%= render partial: "meal_reviewers", locals: { reviews: @reviews } %>
+`);
+
+if (<%= @page %> > 1) {
+    document.querySelector('.review-browsing#previous').removeAttribute('disabled');
+}
+
+if (<%= @reviews.last.id %> == <%= @all_reviews.last.id %>) {
+    document.querySelector('.review-browsing#next').setAttribute('disabled', 'true');
+}
+
+if (<%= @page %> > 0) {
+    history
+    .replaceState(null, '', "?page=<%= @page %>");
+    
+    $("button#previous").attr("onclick", "browseReviews('<%= @page - 1 %>')");
+    $("button#next").attr("onclick", "browseReviews('<%= @page + 1 %>')");
+    
+    if (<%= @page %> == 1) {
+        document.querySelector('.review-browsing#previous').setAttribute('disabled', 'true');
+        $("button#previous").attr("onclick", "browseReviews('')");
+        $("button#next").attr("onclick", "browseReviews('2')");
+    }
+}

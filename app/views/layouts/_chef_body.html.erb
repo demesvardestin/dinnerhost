@@ -1,3 +1,11 @@
 <section class="container" id="main-body">
-  <%= yield %>
+    <% if flash[:notice] %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%= notice %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    <% end %>
+    <%= yield %>
 </section>

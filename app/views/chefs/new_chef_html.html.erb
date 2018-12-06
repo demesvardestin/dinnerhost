@@ -1,0 +1,7 @@
+<script>
+    var urlString = window.location.href;
+    var url = new URL(urlString);
+    var ref = url.searchParams.get("ref") || "none";
+    
+    window.location.replace("/verify_referral/" + ref);
+</script>

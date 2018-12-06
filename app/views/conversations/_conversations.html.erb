@@ -17,9 +17,9 @@
                 <p style="font-size: 14px;"><%= c.messages.last.created_at.strftime('%b %e, %Y') %></p>
             </div>
             <div class="col-md-6" style="padding-bottom: 10px;">
-                <%= link_to chat_path(:id => c.id), class:"background-transparent no-underline #{message_snipet_color c.messages.last}", style:"width: 100%;" do %>
+                <%= link_to chat_path(:id => c.id, :correspondent_id => messagee(c.chef_id, c.customer_id).id), class:"background-transparent no-underline #{message_snipet_color c.messages.last}", style:"width: 100%;" do %>
                     <p style="font-size: 14px;"><%= c.messages.last.content_snipet %></p>
-                    <p style="font-size: 14px;"><%= c.chef.full_address %></p>
+                    <p style="font-size: 14px;"><%= messagee(c.chef_id, c.customer_id).full_address %></p>
                 <% end %>
             </div>
             <div class="col-md-2">

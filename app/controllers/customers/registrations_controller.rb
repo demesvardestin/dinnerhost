@@ -1,4 +1,4 @@
-class Customer::RegistrationsController < Devise::RegistrationsController
+class Customers::RegistrationsController < Devise::RegistrationsController
     
     # include Accessible
     # skip_before_action :check_user, only: :destroy
@@ -16,8 +16,8 @@ class Customer::RegistrationsController < Devise::RegistrationsController
         customers_dashboard_path
     end
     
-    def after_sign_in_path_for(resource)
-        customers_dashboard_path
+    def after_sign_in_path_for(resource_or_scope)
+      stored_location_for(resource_or_scope) || super
     end
 
 end

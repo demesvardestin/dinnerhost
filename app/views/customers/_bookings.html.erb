@@ -20,10 +20,7 @@
                     <h5><%= b.chef.first_name %></h5>
                 </div>
                 
-                <div class="cook-rating cursor-pointer"
-                    <% if current_user && current_user.has_not_rated(b.chef) %>
-                        data-toggle="modal" data-target="#rateCook"
-                    <% end %>>
+                <div class="cook-rating">
                     <% 5.times.each_with_index do |s, idx| %>
                         <span class="star">
                             <i class="<%= star_rating(idx + 1, b.chef) %> theme-cyan"

@@ -1,0 +1,45 @@
+$('.filters-box').hide();
+
+$('#meal-search-results').html(`
+    <div class="row">
+        <div class="col-md-12" style="width: 100%;">
+            <h4>
+                <a class="background-transparent theme-cyan"
+                    href="/category/<%= @meal_type %>">
+                    <%= @meal_type.empty? ? 'All' : @meal_type.capitalize %></a>
+                    dishes near <%= @request_location.capitalize %>
+            </h4>
+            
+            <button class="btn btn-primary" onclick="showFiltersBox()">
+                <i class="fa fa-filter"></i> Add filters
+            </button>
+            
+            <% if @filter_data %>
+                <button class="btn btn-secondary" id="clear-filters-btn"
+                    onclick="clearFilters(this)">
+                    <i class="fa fa-times-circle-o"></i> Clear filters
+                </button>
+            <% end %>
+            
+            <%= render 'common/filters_box' %>
+            
+            <hr>
+        </div>
+    </div>
+    
+    <div class="row add-margin-top">
+        <div class="col-md-12">
+            <p>Showing <%= pluralize(@meals.size, 'result') %></p>
+        </div>
+    </div>
+    
+    <div class="add-margin-top">
+        <% if @meals.present? %>
+            <div class="row">
+                <%= render partial: 'meals/meals', locals: { meals: @meals } %>
+            </div>
+        <% else %>
+            <%= render 'meals/no_meal' %>
+        <% end %>
+    </div>
+`);

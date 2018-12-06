@@ -10,15 +10,16 @@ class Customers::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-    resource = Customer.find_for_database_authentication(email: params[:customer][:email])
-    return invalid_login_attempt unless resource
+    # resource = Customer.find_for_database_authentication(email: params[:customer][:email])
+    # return invalid_login_attempt unless resource
   
-    if resource.valid_password?(params[:customer][:password])
-      sign_in :customer, resource
-      return render '/customers/logged_in_customer', :layout => false
-    end
+    # if resource.valid_password?(params[:customer][:password])
+    #   sign_in :customer, resource
+    #   return render '/customers/logged_in_customer', :layout => false
+    # end
     
-    invalid_login_attempt
+    # invalid_login_attempt
+    super
   end
 
   # DELETE /resource/sign_out

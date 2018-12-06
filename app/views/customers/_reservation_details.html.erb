@@ -1,15 +1,15 @@
 <p>
-    <i class="fa fa-cutlery"></i> Meals: <span class="theme-cyan"><%= reservation.meal_ids.split('').length %></span>
+    Meals: <span class="theme-cyan"><%= reservation.meal_ids.split(',').length %></span>
 </p>
 
-<p class="add-margin-top">
-    <i class="fa fa-calendar-o"></i> Booked for: <span class="theme-cyan"><%= reservation.request_date %></span>
+<p style="margin-top: 20px;">
+    Booked for: <span class="theme-cyan"><%= reservation.request_date %></span>
 </p>
 
-<p class="add-margin-top">
-    <i class="fa fa-users"></i> People: <span class="theme-cyan"><%= reservation.people_count %></span>
+<p style="margin-top: 20px;">
+    People: <span class="theme-cyan"><%= reservation.people_count %></span>
 </p>
 
-<p class="add-margin-top">
-    <i class="fa fa-medkit"></i> Allergies: <%= render partial: 'customers/allergies', locals: { allergies: reservation.allergies } || "None" %>
+<p style="margin-top: 20px;">
+    Allergies: <%= render partial: 'customers/allergies', locals: { allergies: reservation.allergens } %>
 </p>

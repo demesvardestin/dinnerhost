@@ -8,7 +8,7 @@ class ReservationsController < ApplicationController
   end
   
   def book
-    @cook = Chef.find_by(id: params[:id]) || Chef.find_by(username: params[:username])
+    @cook = Chef.find_by(id: params[:id]) || Chef.find_by(username: params[:username]) || Chef.find_by(shortened_url: params[:shortened_url])
   end
   
   def booking_estimate
@@ -32,8 +32,9 @@ class ReservationsController < ApplicationController
     @reservation.active = true
     respond_to do |format|
       if @reservation.save
+        Referral.check_referrals @reservation.chef
         @conversation = create_initial_message(@reservation.chef, @reservation.additional_message)
-        format.html { redirect_to "/chat/#{@conversation.id}" }
+        format.html { redirect_to "/chat/#{@conversation.id}?correspondent_id=#{@reservation.chef.id}&origin=reservation&reservation=#{@reservation.id}" }
       end
     end
   end

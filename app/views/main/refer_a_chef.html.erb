@@ -1,0 +1,58 @@
+<section id="refer-a-chef">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header background-cyan text-center">
+                    Booking credits
+                </div>
+                
+                <div class="card-body text-center">
+                    <h1>$<%= @user.credit_value %></h1>
+                </div>
+            </div>
+            
+            <!--<div class="card add-margin-top">-->
+            <!--    <div class="card-header background-cyan">-->
+            <!--        Referral link-->
+            <!--    </div>-->
+                
+            <!--    <div class="card-body text-center">-->
+            <!--        <div class="input-group mb-3">-->
+            <!--            <input class="form-control" value="dnrho.st/8452"-->
+            <!--                id="referral-id" disabled="true">-->
+            <!--            <div class="input-group-append">-->
+            <!--                <span class="input-group-text" id="basic-addon2">-->
+            <!--                    <i class="fa fa-">-->
+            <!--                </span>-->
+            <!--            </div>-->
+            <!--        </div>-->
+                    
+            <!--        <button class="btn btn-secondary">-->
+            <!--            Click to copy-->
+            <!--        </button>-->
+            <!--    </div>-->
+            <!--</div>-->
+        </div>
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header background-cyan">
+                    Invite cooks by email or phone number
+                </div>
+                
+                <div class="card-body">
+                    <form action="/submit-chef-referral" method="post"
+                        id="chef-referral-form" data-remote="true">
+                        <textarea class="form-control no-box-shadow" name="chef_referral[list]"
+                            placeholder="Emails or phone numbers, separated by a comma"
+                            id="email_referral_list"></textarea>
+                        
+                        <button class="btn btn-primary add-margin-top" type="submit"
+                            data-disable-with="Sending referrals...">
+                            Submit
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

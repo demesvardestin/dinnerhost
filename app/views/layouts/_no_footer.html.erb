@@ -1,0 +1,89 @@
+<button id="footer-button" class="btn btn-secondary box-shadow">
+    <i class="fa fa-globe"></i> Terms, Privacy, Help & More
+</button>
+
+<footer id="authenticated-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <p class="bold" style="margin-bottom: 10px !important;">DinnerHost</p>
+                
+                <p class="text-muted">
+                    <a href="/about-us">About</a>
+                </p>
+                <p class="text-muted">
+                    <a href="/press">Press</a>
+                </p>
+                <p class="text-muted">
+                    <a href="/blog">Blog</a>
+                </p>
+                <p class="text-muted">
+                    <a href="/about-us">Help</a>
+                </p>
+            </div>
+            
+            <div class="col-md-3">
+                <p class="bold" style="margin-bottom: 10px !important;">Engage</p>
+                
+                <p class="text-muted">
+                    <a href="/refer-a-chef">Refer Chefs</a>
+                </p>
+                <p class="text-muted">
+                    <a href="/invite-friends">Invite Friends</a>
+                </p>
+            </div>
+            
+            <div class="col-md-3">
+                <p class="bold" style="margin-bottom: 10px !important;">Chefs</p>
+                
+                <p class="text-muted">
+                    <a href="/why-join">Why Join DinnerHost</a>
+                </p>
+                <p class="text-muted">
+                    <a href="/chef-guidelines">Guidelines</a>
+                </p>
+            </div>
+            
+            <div class="col-md-3">
+                <p class="text-muted">
+                    <a href="/terms">Terms</a>
+                </p>
+                <p class="text-muted">
+                    <a href="/privacy">Privacy</a>
+                </p>
+            </div>
+            
+            <div class="col-md-12">
+                <hr>
+            </div>
+            
+            <div class="col-md-12">
+                <img src="/images/logo-transparent.png"
+                    height="20" style="vertical-align: middle !important;">
+                <span class="font-15 text-muted"
+                    style="height: 100%; vertical-align: middle !important;
+                            margin-left: 5px;">
+                    &copy; DinnerHost
+                </span>
+            </div>
+            
+            <div class="col-md-12" align="right">
+                <button id="close-footer-button" class="btn btn-secondary box-shadow">
+                    <i class="fa fa-times"></i> Close
+                </button>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script type="text/javascript">
+    $('#footer-button').on('click', function() {
+        $(this).hide();
+        $('#authenticated-footer').show();
+    });
+    
+    $('#close-footer-button').on('click', function() {
+        $('#footer-button').show();
+        $('#authenticated-footer').hide();
+    });
+</script>

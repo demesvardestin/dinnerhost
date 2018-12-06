@@ -1,5 +1,5 @@
 class MealsController < ApplicationController
-  before_action :authenticate_chef!, except: [:show, :reserve, :booking_confirmation]
+  before_action :authenticate_chef!, only: [:create, :update, :edit, :destroy]
   before_action :authenticate_customer!, only: [:reserve, :booking_confirmation]
   before_action :set_meal, only: [:create, :update, :show, :edit, :destroy]
   before_action :set_meal_attributes, only: :new
@@ -24,7 +24,7 @@ class MealsController < ApplicationController
     @meal.zipcode = current_chef.zipcode
     respond_to do |format|
       if @meal.save
-        format.html { redirect_to @meal, notice: "Event updated!" }
+        format.html { redirect_to "/dish/#{@meal.id}/#{@meal.slug}", notice: "Event updated!" }
       else
         render :edit
       end
@@ -33,6 +33,56 @@ class MealsController < ApplicationController
 
   def show
     @cook = Chef.find_by(id: @meal.chef_id)
+    @reviews = @meal.meal_ratings.reverse
+  end
+  
+  def search_meal_reviews
+    @meal = Meal.not_deleted.find(params[:meal_id])
+    @reviews = @meal.meal_ratings.search(params[:search])
+    render :layout => false
+  end
+  
+  def browse_reviews
+    page = params[:page]
+    @meal = Meal.not_deleted.find(params[:meal_id])
+    @all_reviews = @meal.meal_ratings.reverse
+    if page.present?
+      @page = page.to_i
+      if @page > 1
+        idx = @page - 2
+        @page_start = (@page * 2) + 1 + (3*idx)
+        @page_end = @page_start + 4
+        @reviews = @meal.meal_ratings.reverse[@page_start..@page_end]
+      elsif page.to_i == 1
+        @reviews = @meal.meal_ratings.reverse[0..4]
+      end
+    else
+      @reviews = @meal.meal_ratings.reverse[0..4]
+    end
+    render :layout => false
+  end
+  
+  def search_by_tag
+    @meals = Meal.search(params[:tag])
+  end
+  
+  def search_by_category
+    @meals = Meal.not_deleted.filter_type(params[:category])
+  end
+  
+  def filtered_search
+    data = params["data"]
+    @meal_type = data["meal_type"]
+    @request_location = data["request_location"]
+    @filter_data = JSON.parse(data["filters"]) if data["filters"]
+    
+    filtered_by_type_and_location = Meal.not_deleted.filter_type(@meal_type).near(@request_location, 20)
+    @meals = Meal.process_filters(@filter_data, filtered_by_type_and_location)
+    render :layout => false
+  end
+  
+  def location_based_listings
+    @meals = Meal.not_deleted.near(params[:location], 15)
   end
   
   def reserve
@@ -46,7 +96,7 @@ class MealsController < ApplicationController
   
   def book
     begin
-      @meal = Meal.find_by(id: params[:data][:meal_id])
+      @meal = Meal.not_deleted.find_by(id: params[:data][:meal_id])
       @reservation = Reservation.book_chef(@meal, params[:data][:card_token][:id], current_customer)
     rescue
       render 'unable_to_book', :layout => false
@@ -71,14 +121,14 @@ class MealsController < ApplicationController
   end
   
   def destroy
-    @meal.delete
-    redirect_to chef_dashboard_path
+    @meal.update(deleted: true)
+    redirect_to "/chef/edit/listings", notice: "Listing successfully removed!"
   end
   
   private
   
   def set_meal
-    @meal = Meal.find_by(id: params[:id])
+    @meal = Meal.not_deleted.find_by(id: params[:id])
   end
   
   def set_meal_attributes
@@ -90,9 +140,11 @@ class MealsController < ApplicationController
   end
   
   def meal_params
-    params.require(:meal).permit(:name, :description, :street_address, :town, :state,
-                                :zipcode, :image, :dish_order, :serving_temperature,
-                                :allergens, :tags)
+    params
+    .require(:meal)
+    .permit(:name, :description, :street_address, :town, :state,
+            :zipcode, :image, :dish_order, :serving_temperature,
+            :allergens, :tags, :meal_type, :prep_fee, :course, :flavor)
   end
   
   def meal_report_params

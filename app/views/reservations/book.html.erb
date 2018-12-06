@@ -1,23 +1,23 @@
 <section id="cook-profile">
     <div class="row">
-        <div class="col-md-12"><h5 class="bold">Select the meals you want prepared</h5></div>
+        <div class="col-md-12"><h5 class="bold">Select the meal(s) you want prepared</h5></div>
         <div class="col-md-8">
             <div class="row" style="margin: 0 -5px;">
                 <span class="meal-ids no-display"></span>
-                <%= render partial: 'cook_listings', locals: { meals: @cook.meals } %>
+                <%= render partial: 'chefs/cook_listings', locals: { meals: @cook.meals } %>
             </div>
         </div>
         <div class="col-md-4">
             <div class="card">
+                <div class="card-header background-cyan">
+                    Book <%= @cook.first_name %>
+                </div>
                 <div class="card-body">
                     <p>
                         <span class="bold font-22 booking-estimate">$<%= @cook.booking_rate %></span>
                     </p>
                     
-                    <div class="cook-rating cursor-pointer"
-                        <% if current_customer && current_customer.has_not_rated(@cook) %>
-                            data-toggle="modal" data-target="#rateCook"
-                        <% end %>>
+                    <div class="cook-rating">
                         <% 5.times.each_with_index do |s, idx| %>
                             <span class="star">
                                 <i class="<%= star_rating(idx + 1, @cook) %> theme-cyan"

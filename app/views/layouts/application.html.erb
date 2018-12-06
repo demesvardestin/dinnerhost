@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Book-a-Chef</title>
+    <title>DinnerHost</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,15 +36,9 @@
     <%= favicon_link_tag '/images/logo-transparent.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '72x72' %>
     <%= favicon_link_tag '/images/logo-transparent.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png' %>
     <%= favicon_link_tag '/images/logo-transparent.png', :rel => 'shortcut icon' %>
-    <script>
-      function showNotice() {
-        toastr.success("<%= notice %>");
-      }
-    </script>
     <%= csrf_meta_tags %>
   </head>
-  <body id="body">
-    <%= render 'layouts/modals' %>
+  <body id="body"> 
     <%= render navbar %>
     <%= render body %>
     <%= render footer %>

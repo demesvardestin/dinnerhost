@@ -28,7 +28,13 @@ class Reservation < ApplicationRecord
     end
     
     def meals
-        Meal.find(self.meal_ids.split(',').map { |m| m.to_i })
+        meals = begin
+            Meal.find(self.meal_ids.split(',').map { |m| m.to_i })
+        rescue
+            meal_ids.split(',').map do |i|
+                Meal.find_by(id: i.to_i)
+            end.compact
+        end
     end
     
     def user
@@ -41,6 +47,10 @@ class Reservation < ApplicationRecord
     
     def allergen_list
         allergies.split(',')
+    end
+    
+    def allergens
+        allergies.empty? ? nil : allergies
     end
     
     def status

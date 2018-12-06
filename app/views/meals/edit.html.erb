@@ -7,3 +7,24 @@
         </div>
     </div>
 </div>
+
+<div class="row" style="margin-top: 20px;">
+    <div class="col-md-10 offset-md-1">
+        <div class="card">
+            <div class="card-header background-cyan">
+                Danger Zone
+            </div>
+            <div class="card-body">
+                <%= link_to meal_path(@meal), class: "btn btn-danger white",
+                    title: "Delete this listing (irreversible action)",
+                    style:"text-transform: uppercase;", data: {"disable-with": "Deleting..."},
+                    method: :delete do %>
+                    Delete This Listing
+                <% end %>
+            </div>
+            <div class="card-footer">
+                This action is irreversible!
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,3 +1,7 @@
-<% allergies.split(',').each do |a| %>
-    <span class="badge badge-primary" style="margin-left: 3px; margin-bottom: 3px;"><%= a %></span>
+<% if allergies %>
+    <% allergies.split(',').each do |a| %>
+        <span class="badge badge-primary" style="margin-left: 3px; margin-bottom: 3px;"><%= a %></span>
+    <% end %>
+<% else %>
+    None
 <% end %>

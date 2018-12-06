@@ -1,0 +1,190 @@
+<div class="filters-box add-margin-top">
+    <div class="row">
+        <div class="col-md-12 cursor-pointer" align="right" style="font-size: 30px;"
+            onclick="$('.filters-box').hide();">
+            &times;
+        </div>
+        
+        <div class="col-md-2" style="margin-bottom: 20px;">
+            <h6 class="bold">Price</h6>
+            
+            <div style="margin-top: 20px;">
+                <span class="cursor-pointer filter" id="price_lowest">
+                    <i class="<%= param_selected "price", "lowest", (@filter_data if @filter_data) %>"></i> Price (lowest)
+                </span>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <span class="cursor-pointer filter" id="price_highest">
+                    <i class="<%= param_selected "price", "highest", (@filter_data if @filter_data) %>"></i> Price (highest)
+                </span>
+            </div>
+            
+            <h6 class="bold" style="margin-top: 25px;">Flavor</h6>
+            
+            <div style="margin-top: 20px;">
+                <span class="cursor-pointer filter" id="flavor_non-spicy">
+                    <i class="<%= param_selected "flavor", "non-spicy", (@filter_data if @filter_data) %>"></i> Non-spicy
+                </span>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <span class="cursor-pointer filter" id="flavor_mild">
+                    <i class="<%= param_selected "flavor", "mild", (@filter_data if @filter_data) %>"></i> Mild
+                </span>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <span class="cursor-pointer filter" id="flavor_spicy">
+                    <i class="<%= param_selected "flavor", "spicy", (@filter_data if @filter_data) %>"></i> Spicy
+                </span>
+            </div>
+        </div>
+        
+        <div class="col-md-2" style="margin-bottom: 20px;">
+            <h6 class="bold">Allergens</h6>
+            
+            <div style="margin-top: 20px;">
+                <span class="cursor-pointer filter" id="allergen_gluten">
+                    <i class="<%= param_selected "allergen", "gluten", (@filter_data if @filter_data) %>"></i> Gluten
+                </span>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <span class="cursor-pointer filter" id="allergen_lactose">
+                    <i class="<%= param_selected "allergen", "lactose", (@filter_data if @filter_data) %>"></i> Lactose
+                </span>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <span class="cursor-pointer filter" id="allergen_dairy">
+                    <i class="<%= param_selected "allergen", "dairy", (@filter_data if @filter_data) %>"></i> Dairy
+                </span>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <span class="cursor-pointer filter" id="allergen_nuts">
+                    <i class="<%= param_selected "allergen", "nuts", (@filter_data if @filter_data) %>"></i> Nuts
+                </span>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <span class="cursor-pointer filter" id="allergen_soya">
+                    <i class="<%= param_selected "allergen", "soya", (@filter_data if @filter_data) %>"></i> Soya
+                </span>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <span class="cursor-pointer filter" id="allergen_fish">
+                    <i class="<%= param_selected "allergen", "fish", (@filter_data if @filter_data) %>"></i> Fish
+                </span>
+            </div>
+        </div>
+        <div class="col-md-2" style="margin-bottom: 20px;">
+            <h6 class="bold">Serving temp</h6>
+            
+            <div style="margin-top: 20px;">
+                <span class="cursor-pointer filter" id="temp_hot">
+                    <i class="<%= param_selected "temp", "hot", (@filter_data if @filter_data) %>"></i> Hot
+                </span>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <span class="cursor-pointer filter" id="temp_cold">
+                    <i class="<%= param_selected "temp", "cold", (@filter_data if @filter_data) %>"></i> Cold
+                </span>
+            </div>
+            
+            <h6 class="bold" style="margin-top: 25px;">Courses</h6>
+            
+            <div style="margin-top: 20px;">
+                <span class="cursor-pointer filter" id="course_appetizer">
+                    <i class="<%= param_selected "course", "appetizer", (@filter_data if @filter_data) %>"></i> Appetizer
+                </span>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <span class="cursor-pointer filter" id="course_entree">
+                    <i class="<%= param_selected "course", "entree", (@filter_data if @filter_data) %>"></i> Entree
+                </span>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <span class="cursor-pointer filter" id="course_dessert">
+                    <i class="<%= param_selected "course", "dessert", (@filter_data if @filter_data) %>"></i> Dessert
+                </span>
+            </div>
+        </div>
+        
+        <div class="col-md-2" style="margin-bottom: 20px;">
+            <h6 class="bold">Timeline</h6>
+            
+            <div style="margin-top: 20px;">
+                <span class="cursor-pointer filter" id="timeline_most-recent">
+                    <i class="<%= param_selected "timeline", "most-recent", (@filter_data if @filter_data) %>"></i> Most recent first
+                </span>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <h6 class="bold">Add a keyword</h6>
+            
+            <div style="margin-top: 20px;">
+                <input class="form-control no-box-shadow" id="filter-by-tags"
+                    placeholder="Ex: chicken" value="<%= @filter_data["tags"] if @filter_data %>"
+                    onkeyup="setNewUrl()">
+            </div>
+            
+            <h6 class="bold" style="margin-top: 20px;">Specific cuisine</h6>
+            
+            <div style="margin-top: 20px;">
+                <input class="form-control no-box-shadow" id="filter-by-meal-type"
+                    placeholder="Ex: korean" value="<%= @meal_type if @meal_type %>"
+                    onkeyup="setNewUrl()">
+            </div>
+        </div>
+        
+        <div class="col-md-12" align="right" style="margin-top: 20px;">
+            <button class="btn btn-success" id="apply-filters-btn"
+                onclick="applyFilters(this)">
+                <i class="fa fa-check-circle-o"></i> Apply filters
+            </button>
+            
+            <button class="btn btn-secondary" id="clear-filters-btn"
+                onclick="clearFilters(this)">
+                <i class="fa fa-times-circle-o"></i> Clear filters
+            </button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('div > span.cursor-pointer').on('click', function() {
+        var parent = $(this).prop('id').split('_')[0];
+        var filters = document.getElementsByClassName('filter');
+        
+        for (i = 0; i < filters.length; i++) {
+            var _text = filters[i].innerHTML
+                .split('<i class="fa fa-circle theme-cyan"></i> ')
+                .join('').trim();
+            if (filters[i].id.includes(parent) && $("#" + filters[i].id).html().trim().includes('<i class="fa fa-circle theme-cyan"></i> ')) {
+                $("#" + filters[i].id).empty()
+                .html('<i class="fa fa-circle-thin"></i> ' + _text);
+            }
+        }
+        
+        if ($(this).html().trim().includes('<i class="fa fa-circle theme-cyan"></i> ')) {
+            var text = $(this).html()
+                .split('<i class="fa fa-circle theme-cyan"></i> ')
+                .join('').trim();
+            $(this).empty().html('<i class="fa fa-circle-thin"></i> ' + text);
+        } else {
+            var text = $(this).html()
+                .split('<i class="fa fa-circle-thin"></i> ')
+                .join('').trim();
+            $(this).empty().html('<i class="fa fa-circle theme-cyan"></i> ' + text);
+        }
+        
+        setNewUrl();
+    });
+</script>

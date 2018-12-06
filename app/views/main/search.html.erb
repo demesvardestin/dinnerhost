@@ -1,27 +1,41 @@
 <section id="meal-search-results">
     <div class="row">
-        <div class="col-md-8">
-            <form action="/search" mehtod="get">
-                <div class="input-group mb-3" style="margin-bottom: 0 !important;">
-                    <input class="form-control no-box-shadow" name="meal_type" id="meal-type"
-                        placeholder="What type of meal are you in the mood for?"
-                        autocomplete="off">
-                    <input class="form-control no-box-shadow" name="request_location" id="request-location"
-                        placeholder="Where are you located?"
-                        autocomplete="off">
-                    <button class="btn btn-primary white">
-                        Search
-                    </button>
-                </div>
-            </form>
+        <div class="col-md-12" style="width: 100%;">
+            <h4>
+                <a class="background-transparent theme-cyan"
+                    href="/category/<%= params[:meal_type] %>">
+                    <%= params[:meal_type] ? 'All' : params[:meal_type].capitalize %></a>
+                    dishes near <%= params[:request_location].capitalize %>
+            </h4>
+            
+            <button class="btn btn-primary" onclick="showFiltersBox()">
+                <i class="fa fa-filter"></i> Add filters
+            </button>
+            
+            <% if @filter_data %>
+                <button class="btn btn-secondary" id="clear-filters-btn"
+                    onclick="clearFilters(this)">
+                    <i class="fa fa-times-circle-o"></i> Clear filters
+                </button>
+            <% end %>
+            
+            <%= render 'common/filters_box' %>
             
             <hr>
-            
         </div>
     </div>
-    <div class="row">
+    
+    <div class="row add-margin-top">
+        <div class="col-md-12">
+            <p>Showing <%= pluralize(@meals.size, 'result') %></p>
+        </div>
+    </div>
+    
+    <div class="add-margin-top">
         <% if @meals.present? %>
-            <%= render partial: 'meals/meals', locals: { meals: @meals } %>
+            <div class="row">
+                <%= render partial: 'meals/meals', locals: { meals: @meals } %>
+            </div>
         <% else %>
             <%= render 'meals/no_meal' %>
         <% end %>

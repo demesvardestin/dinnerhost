@@ -1,0 +1,17 @@
+$('#payment-card').html(`<%= render 'payment' %>`);
+
+$('#booking-btn-div').html(`
+    <form action="/reserve" method="post" data-remote="true">
+        <input type="hidden" value="" id="request-date" name="reservation[request_date]">
+        <input type="hidden" value="" id="adult-count" name="reservation[adult_count]">
+        <input type="hidden" value="" id="children-count" name="reservation[children_count]">
+        <input type="hidden" value="" id="meal-ids" name="reservation[meal_ids]">
+        <input type="hidden" value="" id="customer-allergies" name="reservation[allergies]">
+        <button class="btn btn-primary btn-block height-50 white" disabled
+                id="booking-btn" data-disable-with="Booking...">
+            Book
+        </button>
+    </form>
+`);
+
+showNotice("<%= @notice %>");

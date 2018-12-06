@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181125154526) do
+ActiveRecord::Schema.define(version: 20181206012558) do
 
   create_table "chef_ratings", force: :cascade do |t|
     t.integer  "value"
@@ -30,10 +30,10 @@ ActiveRecord::Schema.define(version: 20181125154526) do
     t.string   "instagram"
     t.string   "pinterest"
     t.text     "bio"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.string   "email",                  default: "",     null: false
-    t.string   "encrypted_password",     default: "",     null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.string   "email",                  default: "",        null: false
+    t.string   "encrypted_password",     default: "",        null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -45,13 +45,23 @@ ActiveRecord::Schema.define(version: 20181125154526) do
     t.float    "longitude"
     t.float    "latitude"
     t.string   "user_type",              default: "chef"
-    t.integer  "sign_in_count",          default: 0,      null: false
+    t.integer  "sign_in_count",          default: 0,         null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.string   "username",               default: ""
-    t.string   "image",                  default: ""
+    t.string   "username"
+    t.string   "image"
+    t.boolean  "verified",               default: false
+    t.string   "education",              default: "N/A"
+    t.string   "languages",              default: "English"
+    t.string   "government_id",          default: ""
+    t.integer  "referral_id"
+    t.boolean  "live",                   default: false
+    t.string   "shortened_url"
+    t.boolean  "has_stripe_account",     default: false
+    t.string   "stripe_token"
+    t.boolean  "deleted",                default: false
     t.index ["email"], name: "index_chefs_on_email", unique: true
     t.index ["reset_password_token"], name: "index_chefs_on_reset_password_token", unique: true
   end
@@ -80,28 +90,49 @@ ActiveRecord::Schema.define(version: 20181125154526) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "phone_number"
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
-    t.string   "email",                  default: "",         null: false
-    t.string   "encrypted_password",     default: "",         null: false
+    t.datetime "created_at",                                               null: false
+    t.datetime "updated_at",                                               null: false
+    t.string   "email",                  default: "",                      null: false
+    t.string   "encrypted_password",     default: "",                      null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.string   "user_type",              default: "customer"
-    t.integer  "sign_in_count",          default: 0,          null: false
+    t.integer  "sign_in_count",          default: 0,                       null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.string   "image",                  default: ""
+    t.string   "image",                  default: "/images/no_avatar.png"
     t.string   "street_address",         default: ""
     t.string   "town",                   default: ""
     t.string   "state",                  default: ""
     t.string   "zipcode",                default: ""
     t.float    "latitude"
     t.float    "longitude"
+    t.string   "government_id",          default: ""
+    t.string   "facebook",               default: ""
+    t.string   "instagram",              default: ""
+    t.string   "twitter",                default: ""
+    t.text     "bio",                    default: ""
+    t.float    "credit_value",           default: 0.0
+    t.string   "referral_code"
+    t.boolean  "has_stripe_account",     default: false
+    t.string   "stripe_token"
+    t.string   "stripe_last_4"
+    t.string   "card_brand"
+    t.boolean  "deleted",                default: false
     t.index ["email"], name: "index_customers_on_email", unique: true
     t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
+  end
+
+  create_table "meal_ratings", force: :cascade do |t|
+    t.integer  "value"
+    t.integer  "meal_id"
+    t.integer  "customer_id"
+    t.text     "details"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "meal_reports", force: :cascade do |t|
@@ -133,6 +164,9 @@ ActiveRecord::Schema.define(version: 20181125154526) do
     t.string   "allergens",           default: ""
     t.string   "dish_order",          default: ""
     t.string   "tags",                default: ""
+    t.string   "course",              default: ""
+    t.string   "flavor",              default: ""
+    t.boolean  "deleted",             default: false
   end
 
   create_table "messages", force: :cascade do |t|
@@ -143,6 +177,15 @@ ActiveRecord::Schema.define(version: 20181125154526) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.string   "sender_type"
+  end
+
+  create_table "referrals", force: :cascade do |t|
+    t.integer  "referrer_id"
+    t.string   "referrer_type"
+    t.string   "code_value",    default: ""
+    t.boolean  "applied",       default: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   create_table "reservations", force: :cascade do |t|
@@ -168,6 +211,7 @@ ActiveRecord::Schema.define(version: 20181125154526) do
     t.datetime "accepted_on"
     t.datetime "denied_on"
     t.string   "request_time",       default: ""
+    t.boolean  "deleted",            default: false
   end
 
   create_table "stars", force: :cascade do |t|

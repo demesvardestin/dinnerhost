@@ -1,0 +1,34 @@
+<div id="payment">
+    <% if !current_customer.has_stripe_account %>
+        <%= render 'customers/payment_form' %>
+    <% else %>
+        <form method="get" id="payment-form" style="display: none;">
+            <div class="form-row row">
+                <div class="col-md-12">
+                    <div id="card-element" class="col-md-12"></div>
+                </div>
+                <div id="card-errors" role="alert" class="col-md-12"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 add-margin-top" align="right">
+                    <a class="btn btn-secondary height-50 white"
+                        style="padding-top: 12px;"
+                        onclick="$('#payment-form').hide();$('.card-saved').show();">
+                        Cancel
+                    </a>
+                    <button class="btn btn-primary height-50 payment-form">
+                        Update Payment
+                    </button>
+                </div>
+            </div>
+        </form>
+        <p class="card-saved">
+            <%= "#{current_customer.card_brand} ending in #{current_customer.stripe_last_4}" %>
+            <a class="background-transparent theme-cyan cursor-pointer"
+                onclick="$('.card-saved').hide();$('#payment-form').show();"
+                style="margin-left: 5px;">
+                change
+            </a>
+        </p>
+    <% end %>
+</div>

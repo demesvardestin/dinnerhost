@@ -1,76 +1,152 @@
 <section id="cook-profile">
     <div class="row">
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-2">
-                    <img src="" alt="cook">
-                </div>
-                <div class="col-md-10">
-                    <h5><%= @cook.full_name %></h5>
-                </div>
+        <div class="col-md-3">
+            <div id="cook-avi"
+                style="height: 230px; overflow: hidden;
+                        border-radius: 5px;">
+                <img src="<%= @cook.image.url %>" alt="cook"
+                    style="height: auto; width: 100%;">
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <p><%= @cook.bio %></p>
+            
+            <% if current_chef && @cook == current_chef %>
+                <div class="card add-margin-top">
+                    <div class="card-header background-cyan">
+                        Booking link
+                    </div>
+                    <div class="card-body">
+                        <p class="font-16">
+                            <a class="background-transparent theme-cyan" href="/<%= @cook.shortened_url %>">
+                                dinnerhost.co/b/<%= @cook.shortened_url %>
+                            </a>
+                        </p>
+                        
+                        <p class="add-margin-top font-14">
+                            Add this to your social media bio
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <hr>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
+            <% end %>
+            
+            <div class="card add-margin-top">
+                <div class="card-header background-cyan">
+                    Verified info
+                </div>
                 <div class="card-body">
-                    <p>
-                        <span class="bold font-22">$<%= @cook.booking_rate %></span>
-                        <span class="font-13">per day</span>
-                    </p>
+                    <%= render partial: 'chefs/verified_info', locals: { cook: @cook } %>
                     
-                    <div class="cook-rating cursor-pointer"
-                        <% if current_customer && current_customer.has_not_rated(@cook) %>
-                            data-toggle="modal" data-target="#rateCook"
-                        <% end %>>
-                        <% 5.times.each_with_index do |s, idx| %>
-                            <span class="star">
-                                <i class="<%= star_rating(idx + 1, @cook) %> theme-cyan"
-                                    style="font-size: 11px;"></i>
-                            </span>
-                        <% end %>
-                        <span class="rating-count" style="font-size: 12px;">
-                            <%= @cook.rating_count %>
-                        </span>
-                    </div>
-                    
-                    <hr>
-                    
-                    <p class="font-13">
-                        How long are you booking <%= @cook.first_name %> for?
-                        <!--<span class="bold">(To book for one day, select same start and end day)</span>-->
-                    </p>
-                    <%= render 'common/datetime_picker' %>
-                    
-                    <p class="font-13" style="margin-top: 15px;">How many people will be eating?</p>
-                    <div style="position: relative !important;"><%= render 'common/guest_count' %></div>
-                    
-                    <div id="booking-btn-div">
-                        <%= render 'customers/booking_btn' %>
-                    </div>
-                    
-                    <p class="text-center font-13 add-margin-top">You won't be charged yet</p>
-                    
-                    <hr>
-                    
-                    <% if current_customer && current_customer.has_not_reported(@cook) %>
-                    <p class="text-center font-13">
-                        <a class="btn btn-link" data-toggle="modal"
-                            data-target="#reportcook" style="font-size: 15px !important;">
-                            <i class="fa fa-flag-o"></i> Report this cook
+                    <p class="add-margin-top">
+                        <a class="background-transparent theme-cyan" href="/chef-verification">
+                            How we verify <i class="fa fa-angle-double-right"></i>
                         </a>
                     </p>
+                </div>
+            </div>
+            
+            <div class="card add-margin-top">
+                <div class="card-header background-cyan">
+                    About me
+                </div>
+                <div class="card-body">
+                    <%= render partial: 'chefs/about', locals: { cook: @cook } %>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div id="chef-salutation">
+                <h1>Hey, I'm <%= @cook.first_name %>!</h1>
+            </div>
+            
+            <div class="add-margin-top" id="chef-location">
+                <p class="bold font-15"><%= @cook.abridged_address %> &bull; <%= @cook.join_date %></p>
+            </div>
+            
+            <div class="add-margin-top" id="report-chef">
+                <% if current_customer %>
+                    <% if current_customer.has_not_reported(@cook) %>
+                        <p>
+                            <a class="background-transparent text-muted cursor-pointer" data-toggle="modal"
+                                data-target="#reportcook" style="font-size: 15px !important;">
+                                <i class="fa fa-flag-o"></i> Report this cook
+                            </a>
+                        </p>
                     <% else %>
-                        <p class="text-center font-13">
+                        <p>
                             You have reported this cook
                         </p>
                     <% end %>
+                <% else %>
+                    <a class="background-transparent text-muted cursor-pointer" data-toggle="modal"
+                        data-target="#customerAuthentication" style="font-size: 15px !important;">
+                        <i class="fa fa-flag-o"></i> Report this cook
+                    </a>
+                <% end %>
+            </div>
+            
+            <div class="add-margin-top" id="chef-bio">
+                <p><%= @cook.bio %></p>
+            </div>
+            
+            <div class="add-margin-top" id="chef-reviews">
+                <p>
+                    <% if @cook.verified %>
+                        <span style="margin-right: 10px;" class="font-16 badge badge-success">
+                            Verified <i class="fa fa-check-circle"></i>
+                        </span>
+                    <% end %>
+                </p>
+            </div>
+            
+            <div id="chef-reviews" style="margin-top: 20px;">
+                <a class="background-transparent no-underline"
+                    href="/book/<%= @cook.username || @cook.id %>">
+                    <button class="btn btn-success">
+                        Book <%= @cook.first_name %>
+                    </button>
+                </a>
+            </div>
+            
+            <div class="row" id="chef-meals" style="margin-top: 30px;">
+                <div class="col-md-12"><h4>Listings <span class="text-muted font-20">(<%= @cook.meals.count %>)</span></h4></div>
+                <%= render partial: "chef_meals", locals: { meals: @cook.meals } %>
+            </div>
+            
+            <div id="chef-reviews" style="margin-top: 30px;">
+                <div class="row add-margin-bottom">
+                    <div class="col-md-12">
+                        <h4>
+                            Reviews
+                            <span class="text-muted font-20">(<%= @cook.chef_ratings.count %>)</span>
+                            <% if current_customer && current_customer.has_not_rated(@cook) %>
+                                <span class="cook-rating" align="center"
+                                    style="margin-left: 10px;">
+                                    <% 5.times.each_with_index do |s, idx| %>
+                                        <span class="star">
+                                            <i class="<%= star_rating(idx + 1, @cook) %> theme-cyan"
+                                                style="font-size: 23px;"></i>
+                                        </span>
+                                    <% end %>
+                                </span>
+                                
+                                <span style="margin-left: 5px;"
+                                    class="badge badge-primary cursor-pointer"
+                                    data-toggle="modal" data-target="#rateCook">
+                                    Rate <%= @cook.first_name %>
+                                </span>
+                            <% else %>
+                                <span class="cook-rating" align="center"
+                                    style="margin-left: 10px;">
+                                    <% 5.times.each_with_index do |s, idx| %>
+                                        <span class="star">
+                                            <i class="<%= star_rating(idx + 1, @cook) %> theme-cyan"
+                                                style="font-size: 23px;"></i>
+                                        </span>
+                                    <% end %>
+                                </span>
+                            <% end %>
+                        </h4>
+                    </div>
                 </div>
+                <%= render partial: "common/reviews", locals: { reviews: @cook.chef_ratings } %>
             </div>
         </div>
     </div>

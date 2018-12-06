@@ -1,0 +1,21 @@
+<% if cook.verified %>
+    <% cook.is_verified.each do |v| %>
+        <div class="add-margin-top row">
+            <div class="col-md-12">
+                <span class="float-left">
+                    <%= v[1] %>
+                </span>
+                
+                <span class="float-right">
+                    <% if v[0].present? %>
+                        <i class="fa fa-check-circle-o" style="font-size: 22px;"></i>
+                    <% else %>
+                        <i class="fa fa-circle-thin" style="font-size: 22px;"></i>
+                    <% end %>
+                </span>
+            </div>
+        </div>
+    <% end %>
+<% else %>
+    Not yet verified
+<% end %>

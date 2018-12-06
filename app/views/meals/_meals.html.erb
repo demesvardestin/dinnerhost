@@ -1,21 +1,43 @@
-<% meals.each do |m| %>
-    <div class="col-md-4 add-margin-bottom">
-        <a href="/meals/<%= m.id %>" class="background-transparent theme-blue no-underline">
-            <div class="card cursor-pointer meal-card">
-                <div class="card-body"
-                    style="background-image: url('<%= m.image %>'); background-size: cover;
-                        background-position: center; height: 130px; border-top-left-radius: 5px;
-                        border-top-right-radius: 5px;">
-                    <span class="badge badge-primary"><%= m.meal_type %></span>
+<% if meals.present? %>
+    <% meals.each do |m| %>
+        <div class="col-md-4 add-margin-bottom">
+            <a href="/dish/<%= m.id %>/<%= m.slug %>" class="background-transparent theme-blue no-underline">
+                <div class="card cursor-pointer meal-card">
+                    <div class="card-body"
+                        style="background-image: url('<%= m.image %>'); background-size: cover;
+                            background-position: center; height: 130px; border-top-left-radius: 5px;
+                            border-top-right-radius: 5px;">
+                        <span class="badge badge-primary"><%= m.meal_type %></span>
+                    </div>
+                    
+                    <div class="card-footer background-transparent">
+                        <span class="bold font-13 theme-blue float-left">
+                            <%= m.name %>
+                        </span>
+                        
+                        <span class="bold font-13 theme-blue float-right">
+                            <div id="chef-avi" align="center" class="cursor-pointer"
+                                style="height: 25px; width: 25px;
+                                        overflow: hidden; border-radius: 12.5px;
+                                        border: 0.5px solid #e7e7e9;">
+                                <img src="<%= m.chef.image %>" alt="chef"
+                                    style="height: auto; width: inherit;">
+                            </div>
+                        </span>
+                    </div>
                 </div>
-                
-                <div class="card-footer background-transparent">
-                    <span class="bold font-13 theme-blue">
-                        <%= m.name %>
-                    </span>
-                </div>
-            </div>
-        </a>
+            </a>
+        </div>
+    <% end %>
+<% else %>
+    <div class="col-md-12">
+        <p>No results found. Our chefs are actively adding new listings, so check back soon!</p>
+    </div>
+    
+    <div class="col-md-12" align="center" style="margin-top: 20px;">
+        <button class="btn btn-primary box-shadow height-50" style="text-transform: uppercase;">
+            Refer a chef. Earn $20
+        </button>
     </div>
 <% end %>
 

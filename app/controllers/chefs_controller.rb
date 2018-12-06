@@ -1,12 +1,14 @@
 class ChefsController < ApplicationController
-  before_action :set_cook
+  before_action :set_cook, except: :show
   before_action :authenticate_chef!, only: [:dashboard, :edit, :reservations]
   before_action :load_booking_estimate, only: [:booking_estimate, :reserve]
+  before_action :load_reservations, except: [:show]
   
   def dashboard
   end
   
   def show
+    @cook = Chef.find_by(id: params[:id]) || Chef.find_by(username: params[:username])
   end
   
   def edit
@@ -16,13 +18,15 @@ class ChefsController < ApplicationController
     @cook.update(chef_params)
     respond_to do |format|
       if @cook.save
-        format.html { redirect_to "/meals/2" }
+        format.js { render 'update_confirmation', :layout => false }
+      else
+        format.js { render 'update_failed', :layout => false }
       end
     end
   end
   
   def reservations
-    @reservations = Reservation.where(chef_id: current_chef.id)
+    @status = "pending"
   end
   
   def accept_reservation
@@ -39,14 +43,17 @@ class ChefsController < ApplicationController
   end
   
   def all_accepted
+    @status = "accepted"
     @accepted = Reservation.where(chef_id: current_chef.id).accepted
   end
   
   def denied
+    @status = "denied"
     @denied = Reservation.where(chef_id: current_chef.id).denied
   end
   
   def pending
+    @status = "pending"
     @pending = Reservation.where(chef_id: current_chef.id).pending
   end
   
@@ -57,13 +64,15 @@ class ChefsController < ApplicationController
   end
   
   def load_reservations
-    @accepted = Reservation.where(chef_id: current_chef.id).accepted
-    @denied = Reservation.where(chef_id: current_chef.id).denied
-    @pending = Reservation.where(chef_id: current_chef.id).pending
+    @reservations = Reservation.where(chef_id: current_chef.id)
+    @accepted = @reservations.accepted.reverse
+    @denied = @reservations.denied.reverse
+    @pending = @reservations.pending.reverse
   end
   
   def chef_params
-    params.require(:chef)
+    params
+    .require(:chef)
     .permit(:first_name, :last_name, :phone_number, :twitter, :facebook, :instagram,
             :pinterest, :bio, :street_address, :town, :state, :zipcode, :booking_rate,
             :username, :image)

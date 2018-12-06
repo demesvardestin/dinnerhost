@@ -10,11 +10,16 @@ class Chef < ApplicationRecord
   has_many :cook_reports
   has_many :chef_ratings
   has_many :reservations
+  belongs_to :referral
   
   geocoded_by :full_address
   after_validation :geocode
   
   mount_uploader :image, ImageUploader
+  
+  after_create :create_rating, :create_shortened_url
+  
+  scope :live, -> { where(live: true) }
   
   def full_name
     [first_name, last_name].join(' ')
@@ -28,12 +33,20 @@ class Chef < ApplicationRecord
     [town, state].join(' ')
   end
   
+  def join_date
+    "Joined " + created_at.strftime('%B %Y')
+  end
+  
   def has_archived(convo)
     self.conversations.include?(convo) && convo.archived_by.include?(self.user_type)
   end
   
   def average_rating
-    (self.chef_ratings.map(&:value).sum/self.rating_count).to_f
+    begin
+      (self.chef_ratings.map(&:value).sum/self.rating_count).to_f
+    rescue
+      1
+    end
   end
   
   def rating_count
@@ -46,6 +59,34 @@ class Chef < ApplicationRecord
   
   def deny_reservation(reservation)
     reservation.update(accepted: false, denied_on: Time.zone.now)
+  end
+  
+  def is_verified
+    [[instagram, "Instagram"], [facebook, "Facebook"],
+      [twitter, "Twitter"], [email, "Email"], [phone_number, "Phone number"]]
+  end
+  
+  def has_about_info
+    education.present? && languages.present?
+  end
+  
+  def verify
+    update(verified: true)
+  end
+  
+  def self.find_near(address)
+    self.near(address, 15)
+  end
+  
+  protected
+  
+  def create_rating
+    ChefRating
+    .create(value: 5, chef_id: self.id, customer_id: 1, details: "This is an automated DinnerHost bot review.")
+  end
+  
+  def create_shortened_url
+    self.update(shortened_url: RandomToken.random(8))
   end
   
 end

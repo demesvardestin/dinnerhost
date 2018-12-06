@@ -1,0 +1,7 @@
+<section id="tag-search-results">
+    <h4 class="bold">Tagged: <%= params[:tag] %></h4>
+    
+    <div class="row" style="margin-top: 20px;">
+        <%= render partial: "meals", locals: { meals: @meals } %>
+    </div>
+</section>
