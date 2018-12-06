@@ -1,5 +1,9 @@
 module ApplicationHelper
     
+    def url
+        request.original_url
+    end
+    
     def navbar
         if current_chef
             'layouts/chef_navbar'
