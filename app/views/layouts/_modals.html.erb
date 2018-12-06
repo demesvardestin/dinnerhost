@@ -91,7 +91,7 @@
                             <form action="/report-cook" method="post" data-remote="true">
                                 <input type="hidden" id="report-type" value="" name="cook_report[report_type]">
                                 <input type="hidden" value="<%= current_customer.id %>" name="cook_report[customer_id]">
-                                <input type="hidden" value="<%= @cook.id %>" name="cook_report[chef_id]">
+                                <input type="hidden" value="<%= @cook.id if @cook %>" name="cook_report[chef_id]">
                                 <textarea class="form-control no-box-shadow" name="cook_report[details]"
                                     style="margin-bottom: 20px; margin-top: 30px; height: 130px;"
                                     placeholder="Ex: The listing description does not match the title."></textarea>
@@ -130,7 +130,7 @@
                     </div>
                     <div class="modal-body cook-rating-modal-body" style="padding-bottom: 30px;">
                         <div class="modal-body-header">
-                            <h4 class="bold modal-body-header-headline text-center">Rate <%= @cook.first_name %></h4>
+                            <h4 class="bold modal-body-header-headline text-center">Rate <%= @cook.first_name if @cook %></h4>
                         </div>
                         
                         <div class="cook-profile-image add-margin-top" align="center">
@@ -154,7 +154,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <input type="hidden" name="chef_rating[value]" value="" id="cook-rating-value">
-                                        <input type="hidden" name="chef_rating[chef_id]" value="<%= @cook.id %>">
+                                        <input type="hidden" name="chef_rating[chef_id]" value="<%= @cook.id if @cook %>">
                                         <input type="hidden" name="chef_rating[customer_id]" value="<%= current_customer.id %>">
                                         <textarea class="form-control no-box-shadow"
                                             name="chef_rating[details]" style="height: 80px;"
