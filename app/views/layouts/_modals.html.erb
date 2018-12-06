@@ -42,7 +42,7 @@
 </div>
 
 <% if current_customer %>
-    <% if current_customer.has_not_reported @cook %>
+    <% if @cook && current_customer.has_not_reported @cook %>
         <div class="modal fade" id="reportcook" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content box-shadow">
@@ -117,7 +117,7 @@
         </div>
     <% end %>
     
-    <% if current_customer.has_not_rated @cook %>
+    <% if @cook && current_customer.has_not_rated @cook %>
         <div class="modal fade" id="rateCook" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content box-shadow">
