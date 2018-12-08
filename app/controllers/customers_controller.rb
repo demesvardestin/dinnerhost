@@ -40,14 +40,16 @@ class CustomersController < ApplicationController
     
     def update
         @customer.update(customer_params)
-        @notice = "Profile updated!"
         respond_to do |format|
             if @customer.save
                 if request.xhr?
+                    @notice = "Profile updated!"
                     format.js { render :layout => false }
                 else
                     format.html { redirect_to :back, notice: "Your profile has been updated!" }
                 end
+            else
+                render :edit, notice: "Unable to update profile. Please try again"
             end
         end
     end

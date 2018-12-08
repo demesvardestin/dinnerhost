@@ -189,10 +189,13 @@
     </div>
     <div class="col-md-10">
       <div class="card cursor-pointer meal-image-card">
+        <div class="card-header background-cyan text-center">
+          Ideal shape/resolution: rectangular/1000 x 400
+        </div>
         <div class="card-body" align="center"
-          style="height: 80px; background-image: url('<%= @meal.image.url if @meal.image.present? %>');
+          style="height: 140px; background-image: url('<%= @meal.image.url if @meal.image.present? %>');
                 background-position: center; background-size: cover;">
-          <a class="btn btn-secondary box-shadow white">
+          <a class="btn btn-secondary box-shadow white" style="margin-top: 30px;">
             <span style="font-size; 20px;">
               <i class="fa fa-camera"></i> Browse
             </span>

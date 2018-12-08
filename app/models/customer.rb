@@ -15,6 +15,8 @@ class Customer < ApplicationRecord
   
   after_create :set_referral_code
   
+  mount_uploader :image, ImageUploader
+  
   def full_name
     [first_name, last_name].join(' ')
   end

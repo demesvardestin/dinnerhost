@@ -2,6 +2,9 @@
     <% current_chef.meals.not_deleted.each do |m| %>
         <p>
             <%= m.name %>
+            <%= link_to "/dish/#{m.id}/#{m.slug}", class:"background-transparent theme-green", style:"margin-left: 10px;" do %>
+                View
+            <% end %> |
             <%= link_to "/dish/#{m.id}/#{m.slug}/edit", class:"background-transparent theme-cyan" do %>
                 Edit
             <% end %>
