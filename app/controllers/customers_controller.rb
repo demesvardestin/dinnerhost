@@ -43,7 +43,11 @@ class CustomersController < ApplicationController
         @notice = "Profile updated!"
         respond_to do |format|
             if @customer.save
-                format.js { render :layout => false }
+                if request.xhr?
+                    format.js { render :layout => false }
+                else
+                    format.html { redirect_to :back, notice: "Your profile has been updated!" }
+                end
             end
         end
     end
