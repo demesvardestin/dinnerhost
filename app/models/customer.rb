@@ -16,7 +16,7 @@ class Customer < ApplicationRecord
   has_many :reservation_cancellations
   has_many :wishlists
   
-  after_create :set_referral_code, :create_rating
+  after_create :set_referral_code, :create_rating, :send_welcome_email
   
   mount_uploader :image, ImageUploader
   
@@ -110,6 +110,10 @@ class Customer < ApplicationRecord
   def create_rating
     DinerRating
     .create(value: 5, chef_id: 1, customer_id: self.id, details: "This is an automated DinnerHost bot review.")
+  end
+  
+  def send_welcome_email
+    UserMailer.with(user: self).welcome_email.deliver_now
   end
   
 end
