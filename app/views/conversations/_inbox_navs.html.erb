@@ -1,7 +1,8 @@
-<button class="btn btn-primary height-50 add-margin-bottom" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <span style="padding-right: 45px;">All Messages (<%= @active.count %>)</span> <i class="fa fa-angle-down"></i>
+<button class="btn btn-primary btn-block height-50 add-margin-bottom" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <span>All Messages (<%= @active.count %>)</span> <i class="fa fa-angle-down"></i>
 </button>
-<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 200px;">
+<div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+    style="padding-top: 0; padding-bottom: 0;">
     <a class="background-transparent dropdown-item cursor-pointer"
         onclick="loadConversationCategory('all', 'conversations-box')"
         style="width: inherit;">

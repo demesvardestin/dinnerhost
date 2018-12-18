@@ -3,13 +3,47 @@
         <div class="col-md-12">
             <form action="/complete-reservation?id=<%= @reservation.id %>" method="post" data-remote="true" id="finish-reservation-form">
                 <div class="row">
-                    <div class="col-md-12" style="margin-bottom: 10px;">
-                        <h4 class="bold">Additional memo</h4>
-                    </div>
                     <div class="col-md-8 add-margin-bottom">
-                        <textarea class="form-control no-box-shadow" name="reservation[additional_message]"
-                            style="height: 140px;"
-                            placeholder="Hi <%= @cook.first_name%>! We're really looking forward to meeting you!"></textarea>
+                        <div class="card">
+                            <div class="card-header background-cyan">
+                                Additional memo
+                            </div>
+                            <div class="card-body" style="padding: 0;">
+                                <textarea class="form-control no-box-shadow
+                                    no-border background-transparent"
+                                    name="reservation[additional_message]"
+                                    style="height: 140px;"
+                                    placeholder="Hi <%= @cook.first_name%>! We're really looking forward to enjoying your cooking!"
+                                    style="padding: 15px !important;"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="card" style="margin-top: 20px;">
+                            <div class="card-header background-cyan">
+                                Reservation Tips & Disclaimers
+                            </div>
+                            
+                            <div class="card-body">
+                                <p>For an enjoyable booking process & experience, please follow these tips:</p>
+                                
+                                <ul class="add-margin-top">
+                                    <% reservation_tips.each do |rt| %>
+                                        <li class="font-15">
+                                            <%= rt %>
+                                        </li>
+                                    <% end %>
+                                </ul>
+                                
+                                <p class="add-margin-top">
+                                    For any question and/or concern, please contact us
+                                    at
+                                    <a href="mailto:help@dinnerhost.co"
+                                        class="background-transparent theme-cyan">
+                                        help@dinnerhost.co
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card">

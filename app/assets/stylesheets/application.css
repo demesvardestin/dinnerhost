@@ -149,12 +149,12 @@ p {
     font-weight: 500;
 }
 
-.datetime-picker-div, .guest_count_picker {
+.datetime-picker-div, .guest_count_picker, .time_picker {
     border: 0.5px solid #e7e7e9;
     border-radius: 2px;
 }
 
-.guest_count_picker {
+.guest_count_picker, .time_picker {
     padding: 14px 10px;
 }
 
@@ -168,7 +168,7 @@ p {
     margin-top: 15px;
 }
 
-.guest_count_picker {
+.guest_count_picker, .time_picker {
     cursor: pointer;
 }
 
@@ -342,4 +342,40 @@ p {
     padding: 30px;
     z-index: 1049;
     width: 100%;
+}
+
+#times {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 0.5px solid #e7e7e9;
+    z-index: 1049;
+    width: 100%;
+    display: none;
+    height: 200px;
+    overflow-y: auto;
+    margin: auto;
+}
+
+.hour {
+    padding: 15px;
+    cursor: pointer;
+    border-bottom: 0.5px solid #e7e7e9;
+}
+
+.hour:hover {
+    background-color: #e7e7e9;
+}
+
+#we-use-stripe {
+    background-image: url('/images/fast_secure_payouts.png');
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+}
+
+.reservation-row {
+    padding: 15px 0;
+    border-bottom: 0.5px solid #e7e7e9;
+    font-size: 14px !important;
 }

@@ -4,7 +4,7 @@
             <h4>
                 <a class="background-transparent theme-cyan"
                     href="/category/<%= params[:meal_type] %>">
-                    <%= params[:meal_type] ? 'All' : params[:meal_type].capitalize %></a>
+                    <%= !params[:meal_type] ? 'All' : params[:meal_type].capitalize %></a>
                     dishes near <%= params[:request_location].capitalize %>
             </h4>
             

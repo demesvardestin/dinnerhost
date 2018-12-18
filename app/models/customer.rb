@@ -11,9 +11,12 @@ class Customer < ApplicationRecord
   has_many :cook_reports
   has_many :chef_ratings
   has_many :meal_ratings
+  has_many :diner_ratings
   has_many :referrals
+  has_many :reservation_cancellations
+  has_many :wishlists
   
-  after_create :set_referral_code
+  after_create :set_referral_code, :create_rating
   
   mount_uploader :image, ImageUploader
   
@@ -21,16 +24,29 @@ class Customer < ApplicationRecord
     [first_name, last_name].join(' ')
   end
   
-  def full_address
-    [street_address, town, state, zipcode].join(' ')
+  def full_address(location=nil)
+    address = [street_address, town, state, zipcode].join(' ')
+    address = if address.strip.empty?
+      location
+    else
+      address
+    end
   end
   
   def abridged_address
-    [town, state].join(' ')
+    [town.capitalize, state.upcase].join(' ')
   end
   
   def has_archived(convo)
     self.conversations.include?(convo) && convo.archived_by.include?(self.user_type)
+  end
+  
+  def has_saved meal
+    wishlists.map(&:meal_id).include? meal.id
+  end
+  
+  def can_rate meal
+    reservations.map(&:meals).flatten.include?(meal) && has_not_rated_meal(meal)
   end
   
   def has_hosted cook
@@ -43,6 +59,18 @@ class Customer < ApplicationRecord
   
   def has_not_rated cook
     has_hosted(cook) && !has_rated(cook)
+  end
+  
+  def average_rating
+    begin
+      (diner_ratings.map(&:value).sum/rating_count).to_f
+    rescue
+      1
+    end
+  end
+  
+  def rating_count
+    diner_ratings.count
   end
   
   def has_reported cook
@@ -66,7 +94,7 @@ class Customer < ApplicationRecord
   end
   
   def credit_amount
-    referrals.unapplied.count * 20.00
+    referrals.unapplied.count * 5.00
   end
   
   private
@@ -77,6 +105,11 @@ class Customer < ApplicationRecord
       set_referral_code
     end
     self.update(referral_code: ref)
+  end
+  
+  def create_rating
+    DinerRating
+    .create(value: 5, chef_id: 1, customer_id: self.id, details: "This is an automated DinnerHost bot review.")
   end
   
 end

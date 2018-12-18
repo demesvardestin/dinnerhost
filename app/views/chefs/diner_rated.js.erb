@@ -1,0 +1,32 @@
+showNotice("<%= @notice %>");
+
+$('.diner-rating-modal-body').html(`
+    <div class="modal-body-header">
+        <h4 class="bold modal-body-header-headline text-center">Thank you for your feedback!</h4>
+    </div>
+    
+    <div id="customer-avi" align="center" class="cursor-pointer"
+        style="height: 64px; width: 64px; margin: auto;
+                overflow: hidden; border-radius: 32px;
+                border: 0.5px solid #e7e7e9;">
+        <img src="<%= @customer.image %>" alt="cus"
+            style="height: auto; width: inherit;">
+    </div>
+    
+    <div class="star-rating" align="center" style="margin-top: 20px;">
+        <%= render 'customers/rated' %>
+    </div>
+`);
+
+$('.diner-rating').html(`
+    <% 5.times.each_with_index do |s, idx| %>
+        <span class="star">
+            <i class="<%= diner_star_rating(idx + 1, @customer) %> theme-cyan"
+                style="font-size: 20px;"></i>
+        </span>
+    <% end %>
+    
+    <span class="rating-count" style="font-size: 18px;">
+        (<%= @customer.rating_count %>)
+    </span>
+`);

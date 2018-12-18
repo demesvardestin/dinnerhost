@@ -59,9 +59,22 @@ class ReservationsController < ApplicationController
   def booking_complete
   end
   
-  def accepted
-    @cook = current_chef
-    @reservation = Reservation.find(params[:id])
+  def cancel_reservation
+    @reservation = Reservation.find_by(id: params[:id])
+    if !@reservation || @reservation.customer != current_customer
+      return
+    end
+    
+    @cancel = ReservationCancellation.new(cancel_params)
+    @cancel.customer = current_customer
+    @cancel.reservation = @reservation
+    respond_to do |format|
+      if @cancel.save
+        @reservation.update(cancelled: true, cancelled_on: Time.zone.now)
+        @notice = "Reservation cancelled!"
+        format.js { render "reservation_cancelled", :layout => false }
+      end
+    end
   end
   
   private
@@ -91,7 +104,12 @@ class ReservationsController < ApplicationController
   
   def reservation_params
     params.require(:reservation).permit(:request_date, :meal_ids, :adult_count,
-                                :children_count, :allergies, :additional_message)
+                                :children_count, :allergies, :additional_message,
+                                :request_time)
+  end
+  
+  def cancel_params
+    params.require(:reservation_cancellation).permit(:reason)
   end
   
   def load_booking_estimate

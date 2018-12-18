@@ -1,0 +1,10 @@
+<section id="wishlist">
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="bold">Saved Listings</h4>
+        </div>
+    </div>
+    <div class='row'>
+        <%= render partial: "meals/meals", locals: { meals: @saved }%>
+    </div>
+</section>

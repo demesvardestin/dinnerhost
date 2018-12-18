@@ -1,0 +1,15 @@
+showNotice("<%= @notice %>");
+
+$('#cancel-reservation-btn-span-<%= @reservation.id %>').remove();
+$('#status-<%= @reservation.id %>').html(`
+    <p align="center" class="<%= @reservation.status_color %>">
+        <%= @reservation.status %>
+    </p>
+`);
+
+$('#cancel-reservation-form-<%= @reservation.id %>').html(`
+    <h6>
+        Your cancellation request has been submitted. You will be notified as soon
+        as it has been processed!
+    </h6>
+`);

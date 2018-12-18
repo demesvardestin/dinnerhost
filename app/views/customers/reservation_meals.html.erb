@@ -1,29 +1,82 @@
 <section id="reservation-meals">
-    <div class="row">
-        <div class="col-md-12">
-            <h2 style="color: #000;">Meals requested</h2>
-        </div>
-    </div>
-    <div class="row">
-        <% @meals.each do |m| %>
-            <div class="col-md-4 add-margin-bottom">
-                <a class="background-transparent" href="/meals/<%= m.id %>">
-                    <div class="card cursor-pointer meal-card">
-                        <div class="card-body"
-                            style="background-image: url('<%= m.image %>'); background-size: cover;
-                                background-position: center; height: 130px; border-top-left-radius: 5px;
-                                border-top-right-radius: 5px;">
-                            <span class="badge badge-primary"><%= m.meal_type %></span>
-                        </div>
-                        <div class="card-footer background-transparent" style="padding: 10px 10px;">
-                            <span class="bold font-13 float-left theme-blue">
-                                <%= m.name %>
-                            </span>
-                        </div>
-                    </div>
-                </a>
+    <div class="col-md-4 offset-md-4">
+        <a href="/bookings" class="btn btn-primary white add-margin-bottom">
+            <i class="fa fa-angle-left"></i> Go Back
+        </a>
+        <div class="card">
+            <div class="card-header background-cyan">
+                Reservation details
             </div>
-        <% end %>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 style="color: #000;">Meals requested</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <% @meals.each do |m| %>
+                        <div class="col-md-12 add-margin-bottom">
+                            <%= link_to "/dish/#{m.id}/#{m.slug}", class:"theme-cyan" do %>
+                                <%= m.name %>
+                            <% end %>
+                        </div>
+                    <% end %>
+                </div>
+                
+                <hr>
+                
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-md-12">
+                        <h5 style="color: #000;">Date & Time</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <%= @reservation.request_period_stringified %>
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-md-12">
+                        <h5 style="color: #000;">People</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <%= (@reservation.adult_count.to_s + " adults") if @reservation.adult_count > 0 %>
+                        <%= (" and " + @reservation.children_count.to_s + " children") if @reservation.children_count > 0 %>
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-md-12">
+                        <h5 style="color: #000;">Allergens</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <%= @reservation.allergens %>
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-md-12">
+                        <h5 style="color: #000;">Total</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        $<%= @reservation.fee %>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 

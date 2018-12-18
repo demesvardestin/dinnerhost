@@ -1,0 +1,114 @@
+<div class="row">
+    <div class="col-md-3">
+        <div class="dropdown">
+            <button class="btn btn-secondary background-transparent text-muted btn-block
+                load-reservations-dropdown"
+                type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <span class="float-left">
+                    All Requests
+                </span>
+                <span class="float-right">
+                    <i class="fa fa-angle-down"></i>
+                </span>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+                style="padding-top: 0; padding-bottom: 0;">
+                <a class="dropdown-item cursor-pointer"
+                    onclick="$.get('/load_reservations', { category: 'pending' });">
+                    Pending (<%= @reservations.pending.count %>)
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item cursor-pointer"
+                    onclick="$.get('/load_reservations', { category: 'upcoming' });">
+                    Upcoming (<%= @reservations.upcoming.count %>)
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item cursor-pointer"
+                    onclick="$.get('/load_reservations', { category: 'denied' });">
+                    Rejected (<%= @reservations.denied.count %>)
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item cursor-pointer"
+                    onclick="$.get('/load_reservations', { category: 'completed' });">
+                    Completed (<%= @reservations.completed.count %>)
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item cursor-pointer"
+                    onclick="$.get('/load_reservations', { category: 'cancelled' });">
+                    Cancelled (<%= @reservations.cancelled.count %>)
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-2 offset-md-7">
+        <div class="dropdown">
+            <button class="btn btn-secondary background-transparent text-muted btn-block
+                sort-reservations-dropdown"
+                type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <span class="float-left">
+                    Sort By
+                </span>
+                <span class="float-right">
+                    <i class="fa fa-angle-down"></i>
+                </span>
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+                style="padding-top: 0; padding-bottom: 0;">
+                <a class="dropdown-item sort-by-date cursor-pointer"
+                    onclick="$.get('/sort_reservations', { sort_by: 'request_period', load: 'all' });">
+                    Date Requested
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item sort-by-total cursor-pointer"
+                    onclick="$.get('/sort_reservations', { sort_by: 'price', load: 'all' });">
+                    Total
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!--<div class="col-md-2 offset-md-5">-->
+    <!--    <button class="btn btn-secondary background-transparent text-muted btn-block">-->
+    <!--        <span class="float-left">-->
+    <!--            Download CSV-->
+    <!--        </span>-->
+    <!--        <span class="float-right">-->
+    <!--            <i class="fa fa-download"></i>-->
+    <!--        </span>-->
+    <!--    </button>-->
+    <!--</div>-->
+</div>
+
+<div class="row" style="margin-top: 15px;">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header" style="background-color: #f2f2f2;">
+                <div class="row bold" style="font-size: 14px; color: #7f7f7f;">
+                    <div class="col-md-3 offset-md-3">
+                        Date Requested
+                    </div>
+                    <div class="col-md-1">
+                        Dishes
+                    </div>
+                    <div class="col-md-1">
+                        People
+                    </div>
+                    <div class="col-md-1">
+                        Status
+                    </div>
+                    <div class="col-md-1">
+                        Total
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-body" style="padding-top: 0; padding-bottom: 0;"
+                id="reservation-payouts">
+                <%= render partial: 'payout_reservations', locals: { reservations: current_chef.reservations } %>
+            </div>
+        </div>
+    </div>
+</div>

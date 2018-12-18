@@ -5,6 +5,7 @@ class Meal < ApplicationRecord
     has_many :customers, through: :reservations
     has_many :meal_reports
     has_many :meal_ratings
+    has_many :wishlists
     
     scope :not_deleted, -> { where(deleted: false) }
     
@@ -115,6 +116,10 @@ class Meal < ApplicationRecord
     
     def floated_fee
         prep_fee.to_i
+    end
+    
+    def link
+        "https://dinnerhost.co/dish/#{self.id}/#{self.slug}"
     end
     
     protected

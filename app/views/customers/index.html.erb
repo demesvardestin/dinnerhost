@@ -9,15 +9,17 @@
         <%= render partial: "meals/meals", locals: { meals: @meals.first(9) } %>
     </div>
     
-    <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
-        <div class="col-md-4 offset-md-4" align="center">
-            <a class="background-transparent no-underline white" href="/featured-listings">
-                <button class="btn btn-primary height-50 box-shadow btn-block">
-                    More featured listings
-                </button>
-            </a>
+    <% if @meals.first(9).count > 9 %>
+        <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+            <div class="col-md-4 offset-md-4" align="center">
+                <a class="background-transparent no-underline white" href="/featured-listings">
+                    <button class="btn btn-primary height-50 box-shadow btn-block">
+                        More featured listings
+                    </button>
+                </a>
+            </div>
         </div>
-    </div>
+    <% end %>
     
     <div class="row" style="margin-top: 20px;">
         <div class="col-md-12">

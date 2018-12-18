@@ -1,0 +1,17 @@
+var category = "<%= @category %>";
+
+$('.load-reservations-dropdown').html(`
+    <span class="float-left">
+        ` + "<%= @category.capitalize %>" + `
+    </span>
+    <span class="float-right">
+        <i class="fa fa-angle-down"></i>
+    </span>
+`);
+
+$('#reservation-payouts').html(`
+    <%= render partial: 'payout_reservations', locals: { reservations: @reservations } %>
+`);
+
+$('.sort-by-date').attr('onclick', `$.get('/sort_reservations', { sort_by: 'request_period', load: '<%= @category %>' });`);
+$('.sort-by-total').attr('onclick', `$.get('/sort_reservations', { sort_by: 'price', load: '<%= @category %>' });`);

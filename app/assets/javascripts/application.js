@@ -14,6 +14,10 @@ $(function () {
       var $nav = $(".fixed-top");
       $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
     });
+    
+    $('.example-popover').popover({
+        container: 'body'
+    });
 });
 
 toastr.options = {
@@ -55,6 +59,7 @@ function fadeModal(modal) {
 
 function updateReservationParams() {
     var requestDate = document.querySelector('.start-date-input').value;
+    var requestTime = $('#chosen-time').text();
     var adultCount = $('.adult-count').text();
     var childrenCount = $('.children-count').text();
     var reportType = document.querySelector('#report-type');
@@ -66,12 +71,14 @@ function updateReservationParams() {
     var bookingBtn = document.querySelector('#booking-btn');
     
     var $requestDate = document.querySelector('#request-date');
+    var $requestTime = document.querySelector('#request-time');
     var $adultCount = document.querySelector('#adult-count');
     var $childrenCount = document.querySelector('#children-count');
     var $customerAllergies = document.querySelector('#customer-allergies');
     var $mealIDS = document.querySelector('#meal-ids');
     
     $requestDate.value = requestDate;
+    $requestTime.value = requestTime;
     $adultCount.value = adultCount;
     $childrenCount.value = childrenCount;
     $customerAllergies.value = allergies;
@@ -82,9 +89,10 @@ function updateReservationParams() {
     }
     
     history
-    .replaceState(null, '', "?meal_ids=" + mealIDS + "&request_date=" + requestDate + "&adult_count=" +
-            adultCount + "&children_count=" + childrenCount + "&allergies=" + allergies
-            + (reportTypeValue ? "&customer_report=" + reportTypeValue : ""));
+    .replaceState(null, '', "?meal_ids=" + mealIDS + "&request_date=" + requestDate +
+            "&request_time=" + requestTime + "&adult_count=" + adultCount +
+            "&children_count=" + childrenCount + "&allergies=" + allergies +
+            (reportTypeValue ? "&customer_report=" + reportTypeValue : ""));
 }
 
 function selectReportCategory(elem) {
@@ -318,6 +326,7 @@ function showStars(elem) {
     document.querySelector('#cook-rating-value').value = parseInt(id);
     
     $('.cook-rating-form').show();
+    $('.diner-rating-form').show();
 }
 
 function cancelRating() {
@@ -331,4 +340,37 @@ function cancelRating() {
 function resetHistory() {
     history
     .replaceState(null, '', "?" + '');
+}
+
+function displayTimes() {
+    $('#times').show();
+}
+
+function hideTimes() {
+    $('#times').hide();
+}
+
+function chooseTime(elem) {
+    var hour = elem.id.split("-")[1];
+    $('#chosen-time').text(hour);
+    updateReservationParams();
+    
+    hideTimes();
+}
+
+function saveListing(elem,id) {
+    $('#save-listing').html("saving...");
+    $.get('/save_listing/'+id);
+}
+
+function copyListingLink(elem) {
+    var link = document.querySelector("#meal-link");
+    link.select();
+    document.execCommand("copy");
+    $("#"+elem.id).html('Copied!');
+}
+
+function resetLink(elem) {
+    $("#"+elem.id)
+    .html('<i class="fa fa-file-text-o theme-blue" style="margin-right: 5px;"></i>Copy');
 }

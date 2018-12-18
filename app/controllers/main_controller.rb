@@ -1,7 +1,7 @@
 class MainController < ApplicationController
     
     skip_before_action :verify_authenticity_token, only: [:account]
-    before_action :authenticate_customer!, only: [:rate, :report]
+    before_action :authenticate_customer!, only: [:rate, :rate_meal, :report]
     before_action :authenticate_user, only: :refer_a_chef
     
     def index
@@ -32,6 +32,24 @@ class MainController < ApplicationController
               if @rating.save
                 format.js { render 'rated', :layout => false }
               end
+            end
+        else
+            @notice = "Can't perform this action at this time"
+            render 'common/unauthorized', :layout => false
+        end
+    end
+    
+    def rate_meal
+        customer = Customer.find_by(id: params[:meal_rating][:customer_id])
+        @meal =  Meal.find_by(id: params[:meal_rating][:meal_id])
+        
+        if customer.has_not_rated_meal @meal
+            @rating = MealRating.create(meal_rating_params)
+            respond_to do |format|
+                if @rating.save
+                    @reviews = @meal.meal_ratings.reverse
+                    format.js { render 'meal_rated', :layout => false }
+                end
             end
         else
             @notice = "Can't perform this action at this time"
@@ -105,6 +123,10 @@ class MainController < ApplicationController
     
     def rating_params
         params.require(:chef_rating).permit(:value, :chef_id, :customer_id, :details)
+    end
+    
+    def meal_rating_params
+        params.require(:meal_rating).permit(:value, :meal_id, :customer_id, :details)
     end
     
     def cook_report_params

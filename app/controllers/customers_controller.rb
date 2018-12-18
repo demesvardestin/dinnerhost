@@ -32,10 +32,24 @@ class CustomersController < ApplicationController
     end
     
     def index
-        @chefs = Chef.near(current_customer.full_address, 15).live
+        @chefs = Chef
+        .near(current_customer
+        .full_address("#{request.location.city}, #{request.location.state}"), 15)
+        .live
     end
     
     def featured_listings
+    end
+    
+    def save_listing
+        @meal = Meal.find_by(id: params[:id])
+        return if @meal.nil? or current_customer.has_saved(@meal)
+        Wishlist.create(customer_id: current_customer.id, meal_id: @meal.id)
+        render "listing_saved", :layout => false
+    end
+    
+    def wishlist
+        @saved = current_customer.wishlists.map(&:meal)
     end
     
     def update
@@ -55,7 +69,7 @@ class CustomersController < ApplicationController
     end
     
     def bookings
-        @bookings = current_customer.reservations
+        @bookings = current_customer.reservations.order("created_at DESC")
     end
     
     def reservation_meals
@@ -81,6 +95,9 @@ class CustomersController < ApplicationController
     end
     
     def load_featured_meals
-        @meals = Meal.filter_by_customer_location(current_customer.full_address)
+        @meals = Meal
+        .filter_by_customer_location(current_customer
+        .full_address("#{request.location.city}, #{request.location.state}"))
+        .not_deleted
     end
 end

@@ -1,0 +1,199 @@
+<section id="reservation-meals">
+    <div class="row">
+        <div class="col-md-4 offset-md-2">
+            <a href="/chef/edit/payout" class="btn btn-primary white add-margin-bottom">
+                <i class="fa fa-angle-left"></i> Return To Payout Dashboard
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 offset-md-2">
+            <div class="card">
+                <div class="card-header background-cyan">
+                    Request details
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5 style="color: #000;">Meals requested</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <% @meals.each do |m| %>
+                            <div class="col-md-12 add-margin-bottom">
+                                <%= link_to "/dish/#{m.id}/#{m.slug}", class:"theme-cyan" do %>
+                                    <%= m.name %>
+                                <% end %>
+                            </div>
+                        <% end %>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <h5 style="color: #000;">Date & Time</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <%= @reservation.request_period_stringified %>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <h5 style="color: #000;">People</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <%= (@reservation.adult_count.to_s + " adults") if @reservation.adult_count > 0 %>
+                            <%= (" and " + @reservation.children_count.to_s + " children") if @reservation.children_count > 0 %>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <h5 style="color: #000;">Allergens</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 theme-red">
+                            <%= @reservation.allergens_present? %>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <h5 style="color: #000;">Total</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 bold theme-green">
+                            $<%= @reservation.fee %>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="row">
+                        <% if @reservation.acceptable %>
+                            <div class="col-md-6">
+                                <%= link_to accept_reservation_path(:id => @reservation.id),
+                                    class:"background-transparent btn btn-success theme-green btn-block",
+                                    remote: true do %>
+                                    Accept
+                                <% end %>
+                            </div>
+                            <div class="col-md-6">
+                                <%= link_to deny_reservation_path(:id => @reservation.id),
+                                    class:"background-transparent btn btn-danger theme-red btn-block",
+                                    style:"margin-right: 5px;", remote: true do %>
+                                    Deny
+                                <% end %>
+                            </div>
+                        <% else %>
+                            <div class="col-md-12" align="center">
+                                <p class="add-margin-top">Status: <%= @reservation.status %></p>
+                            </div>
+                            
+                            <div class="col-md-12" align="center">
+                                <p class="add-margin-top">
+                                    <a href="/reservation/<%= @reservation.id %>/<%= @reservation.customer.id %>/accepted"
+                                        class="background-transparent theme-cyan">
+                                        What You Need To Know <i class="fa fa-exclamation-circle"></i> 
+                                    </a>
+                                </p>
+                            </div>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header background-cyan text-center">
+                    Diner
+                </div>
+                <div class="card-body text-center">
+                    <div id="customer-avi" align="center" class="cursor-pointer"
+                        style="height: 64px; width: 64px; margin: auto;
+                                overflow: hidden; border-radius: 32px;
+                                border: 0.5px solid #e7e7e9;">
+                        <img src="<%= @reservation.customer.image %>" alt="cus"
+                            style="height: auto; width: inherit;">
+                    </div>
+                    
+                    <div class="add-margin-top">
+                        <h5 class="bold"><%= @reservation.customer.first_name %></h5>
+                    </div>
+                    
+                    <div class="add-margin-top">
+                        <h6><%= @reservation.customer.abridged_address %></h6>
+                    </div>
+                    
+                    <div class="add-margin-top">
+                        <% if current_chef && current_chef.has_not_rated(@customer) %>
+                            <span class="diner-rating" align="center">
+                                <% 5.times.each_with_index do |s, idx| %>
+                                    <span class="star">
+                                        <i class="<%= diner_star_rating(idx + 1, @customer) %> theme-cyan"
+                                            style="font-size: 20px;"></i>
+                                    </span>
+                                <% end %>
+                                
+                                <span class="rating-count" style="font-size: 18px;">
+                                    (<%= @customer.rating_count %>)
+                                </span>
+                                
+                                <span style="margin-left: 5px;"
+                                    class="badge badge-primary cursor-pointer"
+                                    data-toggle="modal" data-target="#rateDiner">
+                                    Rate
+                                </span>
+                            </span>
+                        <% else %>
+                            <span class="diner-rating" align="center"
+                                style="margin-left: 10px;">
+                                <% 5.times.each_with_index do |s, idx| %>
+                                    <span class="star">
+                                        <i class="<%= diner_star_rating(idx + 1, @customer) %> theme-cyan"
+                                            style="font-size: 20px;"></i>
+                                    </span>
+                                <% end %>
+                                
+                                <span class="rating-count" style="font-size: 18px;">
+                                    (<%= @customer.rating_count %>)
+                                </span>
+                            </span>
+                        <% end %>
+                    </div>
+                    
+                    <div style="margin-top: 15px;">
+                        <a href="/message_diner/<%= @reservation.customer.id %>"
+                            class="btn btn-primary white">
+                           <i class="fa fa-envelope-o"></i> Message 
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    $mealCard = $('.meal-card');
+    $mealCard.hover(shadowCard);
+    
+    function shadowCard() {
+        $(this).toggleClass('box-shadow-amp');
+    };
+</script>

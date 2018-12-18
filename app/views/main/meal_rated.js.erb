@@ -1,0 +1,33 @@
+$('.meal-rating-modal-body').html(`
+    <div class="modal-body-header">
+        <h4 class="bold modal-body-header-headline text-center">Thank you for your feedback!</h4>
+    </div>
+`);
+
+$('.meal-rating').html(`
+    <h4 class="bold add-margin-top">
+        <%= pluralize(@meal.rating_count, 'Review') %>
+        <span class="cursor-pointer" align="center"
+            data-toggle="modal" data-target="#rateMeal"
+            style="margin-left: 10px;">
+            <% 5.times.each_with_index do |s, idx| %>
+                <span class="star">
+                    <i class="<%= meal_star_rating(idx + 1, @meal) %> theme-cyan"
+                        style="font-size: 23px;"></i>
+                </span>
+            <% end %>
+        </span>
+    </h4>
+`);
+
+$('#reviews-section').html(`
+    <div id="reviews">
+        <%= render partial: "common/reviews", locals: { reviews: @reviews.first(5) } %>
+    </div>
+    
+    <div id="reviewButtons">
+        <%= render partial: "meals/review_buttons", locals: { reviews: @reviews } %>
+    </div>
+    
+    <hr>
+`);

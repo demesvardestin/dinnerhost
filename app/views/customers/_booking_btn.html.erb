@@ -2,6 +2,7 @@
     <% if current_customer.has_stripe_account %>
         <form action="/reserve" method="post" data-remote="true">
             <input type="hidden" value="" id="request-date" name="reservation[request_date]">
+            <input type="hidden" value="" id="request-time" name="reservation[request_time]">
             <input type="hidden" value="" id="adult-count" name="reservation[adult_count]">
             <input type="hidden" value="" id="children-count" name="reservation[children_count]">
             <input type="hidden" value="" id="meal-ids" name="reservation[meal_ids]">

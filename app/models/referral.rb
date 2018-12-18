@@ -5,9 +5,9 @@ class Referral < ApplicationRecord
     
     def self.check_referrals(chef)
         referral = chef.referral
-        return if referral.applied
+        return if !referral || (referral && referral.applied)
         customer = Customer.find_by(referral_code: referral.code_value)
-        customer.update(credit_value: customer.credit_value + 20.0)
+        customer.update(credit_value: customer.credit_value + 5.0)
         referral.update(applied: true)
         
         ## Email referrer to alert that credit has been applied

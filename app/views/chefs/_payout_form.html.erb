@@ -1,45 +1,49 @@
-<%= form_for(@cook, :html => { :multipart => true, :class => 'cook-payout-form', :id => "cook_payout_form", :remote => true }) do |f| %>
-  <% if @cook.errors.any? %>
-    <div id="error_explanation">
-        <h2>This post could not be saved due to the following <%= pluralize(@cook.errors.count, "error") %>:</h2>
-
-        <ul>
-            <% @cook.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-            <% end %>
-        </ul>
-    </div>
-  <% end %>
+<form id="cook-payout-form" data-remote="true">
+  <span id="first_name" class="no-display"><%= current_chef.first_name %></span>
+  <span id="last_name" class="no-display"><%= current_chef.last_name %></span>
   
   <div class="field row">
     <div class="col-md-2">
-      <label>Account number</label>
+      <label>Account</label>
     </div>
     <div class="col-md-10">
-      <input type="text" class="form-control" name="account_number" id="account-number" placeholder="Account number">
+      <input type="text" class="form-control no-box-shadow" name="account_number"
+        id="account-number" placeholder="Account number" required="true">
     </div>
   </div>
   
   <div class="field row">
     <div class="col-md-2">
-      <label>Routing number</label>
+      <label>Routing</label>
     </div>
     <div class="col-md-10">
-      <input type="text" class="form-control" name="routing_number" id="routing-number" placeholder="Routing number">
+      <input type="text" class="form-control no-box-shadow" name="routing_number"
+        id="routing-number" placeholder="Routing number" required="true">
     </div>
   </div>
   
   <div class="field row">
     <div class="col-md-2">
-      <label>Booking rate</label>
+      <label>DOB</label>
     </div>
-    <div class="col-md-10">
-      <%= f.text_field :booking_rate, class:"form-control no-box-shadow height-50 font-15 pf", placeholder:"What is your booking fee?" %>
+    <div class="col-md-4">
+      <input type="text" class="form-control no-box-shadow" name="dob" id="dob"
+        placeholder="mm/dd/yyyy" required="true">
+    </div>
+    
+    <div class="col-md-2">
+      <label>SSN Last 4</label>
+    </div>
+    <div class="col-md-4">
+      <input type="text" class="form-control no-box-shadow" name="last_4"
+        id="last_4" placeholder="0000" required="true">
     </div>
   </div>
   
-  <div class="actions text-right action-button">
-    <%= f.submit "Update", class:"btn btn-primary height-50", id:"update-payout", data: { "disable-with": "Updating..." } %>
+  <div class="actions text-center action-button">
+    <button class="btn btn-primary height-50" id="update-payout">
+      Update
+    </button>
   </div>
   
-<% end %>
+</form>

@@ -1,0 +1,45 @@
+<% if reservations.present? %>
+    <% reservations.each do |r| %>
+        <div class="row reservation-row text-muted" onclick="console.log('yo');">
+            <div class="col-md-1">
+                <div id="customer-avi" class="cursor-pointer"
+                    style="height: 40px; width: 40px;
+                            overflow: hidden; border-radius: 20px;
+                            border: 0.5px solid #e7e7e9;">
+                    <img src="<%= r.customer.image %>" alt="cus"
+                        style="height: auto; width: inherit;">
+                </div>
+            </div>
+            <div class="col-md-2" style="margin-top: 10px;">
+                <%= r.customer.first_name %>
+            </div>
+            <div class="col-md-3" style="margin-top: 10px;">
+                <%= r.requested_for %>
+            </div>
+            <div class="col-md-1" style="margin-top: 10px;">
+                <%= r.meals.count %>
+            </div>
+            <div class="col-md-1" style="margin-top: 10px;">
+                <%= r.people_count %>
+            </div>
+            <div class="col-md-1" style="margin-top: 10px;">
+                <%= r.status %>
+            </div>
+            <div class="col-md-1 theme-green bold" style="margin-top: 10px;">
+                $<%= r.fee %>
+            </div>           
+            <div class="col-md-2">
+                <a class="btn btn-primary background-transparent float-left
+                    theme-cyan" href="/view_request/<%= r.id %>">
+                    <i class="fa fa-search"></i> View Details
+                </a>
+            </div>
+        </div>
+    <% end %>
+<% else %>
+    <div class="row">
+        <div class="col-md-12 add-padding-top add-padding-bottom" align="center">
+            <em>No Matching Reservations</em>
+        </div>
+    </div>
+<% end %>

@@ -1,4 +1,167 @@
 <section class="meal-page">
+    <div class="modal fade" id="why-this-price" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content box-shadow">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="font-size: 30px;">
+                            &times;
+                        </span>
+                    </button>
+                </div>
+                <div class="modal-body cook-rating-modal-body" style="padding-bottom: 30px;">
+                    <div class="modal-body-header">
+                        <h4 class="bold modal-body-header-headline">What is this fee?</h4>
+                    </div>
+                    
+                    <div style="margin-top: 20px;" id="add-payment-modal" class="font-18">
+                        <p>
+                            Cooks always have a flat booking rate, but may also charge additional fees
+                            per meal, for things such as ingredients. Since every meal
+                            is different, some meals may require more ingredients than
+                            others, and may therefore have a higher fee.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <% if current_customer && current_customer.can_rate(@meal) %>
+        <div class="modal fade" id="rateMeal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content box-shadow">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="font-size: 30px;">
+                                &times;
+                            </span>
+                        </button>
+                    </div>
+                    <div class="modal-body meal-rating-modal-body" style="padding-bottom: 30px;">
+                        <div class="modal-body-header">
+                            <h4 class="bold modal-body-header-headline text-center">Rate</h4>
+                        </div>
+                        
+                        <div class="star-rating" align="center" style="margin-top: 20px;">
+                            <% 5.times.each_with_index do |s, idx| %>
+                                <span class="star cursor-pointer unrated-star" id="star-<%= idx + 1 %>"
+                                    onclick="showStars(this)">
+                                    <i class="fa fa-star-o theme-cyan"
+                                        style="font-size: 28px;"></i>
+                                </span>
+                            <% end %>
+                        </div>
+                        
+                        <div class="cook-rating-form" style="margin: 30px 0; display: none;">
+                            <form action="/rate_meal" method="post" id="meal-rating-form"
+                                data-remote="true" class="full-width"
+                                style="padding: 0 25px;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input type="hidden" name="meal_rating[value]" value="" id="cook-rating-value">
+                                        <input type="hidden" name="meal_rating[meal_id]" value="<%= @meal.id if @meal %>">
+                                        <input type="hidden" name="meal_rating[customer_id]" value="<%= current_customer.id %>">
+                                        <textarea class="form-control no-box-shadow"
+                                            name="meal_rating[details]" style="height: 80px;"
+                                            placeholder="Please provide any additional details"></textarea>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 20px;">
+                                    <span class="float-left">
+                                        <a class="btn btn-link add-padding-top no-horizontal-padding" onclick="cancelRating()">
+                                            <i class="fa fa-angle-left"></i> Cancel
+                                        </a>
+                                    </span>
+                                    
+                                    <span class="float-right">
+                                        <button class="btn btn-primary height-50" type="submit" data-disable-with="Submitting...">
+                                            Submit rating
+                                        </button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% end %>
+    
+    <div class="modal fade" id="share-listing" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content box-shadow">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="font-size: 30px;">
+                            &times;
+                        </span>
+                    </button>
+                </div>
+                <div class="modal-body cook-rating-modal-body" style="padding-bottom: 30px;">
+                    <div class="modal-body-header">
+                        <h4 class="bold modal-body-header-headline">Share This Listing</h4>
+                    </div>
+                    
+                    <div style="margin-top: 20px;" id="share-listing" class="font-18">
+                        <hr>
+                        
+                        <p class="font-18">
+                            <a rel="nofollow " data-site="facebook"
+                                class="background-transparent theme-cyan"
+                                onclick="return SocialShareButton.share(this);"
+                                title="Share to Facebook" href="#"
+                                data-facebook-title="<%= social_share_text(@meal) %>">
+                                <i class="fa fa-facebook theme-blue"></i>
+                                <span style="margin-left: 5px;">Facebook</span>
+                            </a>
+                        </p>
+                        
+                        <hr>
+                        
+                        <p class="font-18">
+                            <a rel="nofollow " data-site="twitter"
+                                class="background-transparent theme-cyan"
+                                onclick="return SocialShareButton.share(this);"
+                                title="Share to Twitter" href="#"
+                                data-twitter-title="<%= social_share_text(@meal, "trydinnerhost") %>">
+                                <i class="fa fa-twitter theme-blue"></i>
+                                <span style="margin-left: 5px;">Twitter</span>
+                            </a>
+                        </p>
+                        
+                        <hr>
+                        
+                        <p class="font-18">
+                            <a href="mailto:?subject=Check%20out%20this%20delicious%20listing!&body=https://dinnerhost.co/dish/<%= @meal.id %>"
+                                target="_top" class="background-transparent theme-cyan">
+                                <i class="fa fa-envelope-o theme-blue"></i>
+                                <span style="margin-left: 5px;">Email</span>
+                            </a>
+                        </p>
+                        
+                        <hr>
+                        
+                            
+                        <div class="input-group mb-3">
+                            <input type="text" value="<%= @meal.link %>" id="meal-link"
+                                class="form-control no-box-shadow">
+                            <div class="input-group-append">
+                                <span class="input-group-text cursor-pointer background-cyan white"
+                                    onclick="copyListingLink(this)" onmouseout="resetLink(this)"
+                                    id="basic-addon2">
+                                    <i class="fa fa-file-text-o white" style="margin-right: 5px;"></i>
+                                    Copy
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <section id="meal-banner-image" style="background-image: url('<%= @meal.image.url %>');
         background-position: center; background-size: cover; height: 300px;
         "></section>
@@ -9,7 +172,17 @@
             <div class="col-md-7">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3 class="bold"><%= @meal.name %></h3>
+                        <h3 class="bold">
+                            <%= @meal.name %>
+                            <span class="badge badge-light theme-green cursor-pointer"
+                                style="font-size: 20px;"
+                                data-toggle="modal" data-target="#why-this-price">
+                                + $<%= @meal.prep_fee %>
+                                <i class="fa fa-question-circle"
+                                    style="font-size: 18px;"
+                                    title="The cook's booking rate, plus this fee, is the total booking fee."></i>
+                            </span>
+                        </h3>
                         <h5>
                             <a href="/category/<%= @meal.meal_type.downcase %>"
                                 class="background-transparent no-underline theme-cyan">
@@ -21,12 +194,24 @@
                 <div class="row add-margin-top">
                     <div class="col-md-12">
                         <div class="card">
+                            <div class="card-header background-yellow">
+                                Highlights
+                            </div>
                             <div class="card-body">
                                 <p>
-                                    This dish is generally considered a(n)
-                                    <%= @meal.dish_order.downcase %>, is served
-                                    <%= @meal.serving_temperature %>, and has
-                                    <%= @meal.allergen_list %>.
+                                    <b>Course</b>: <%= @meal.course %>
+                                </p>
+                                <p>
+                                    <b>Served</b>: <%= @meal.serving_temperature %>
+                                </p>
+                                <p>
+                                    <b>Flavor</b>: <%= @meal.flavor %>
+                                </p>
+                                <p>
+                                    <b>Notable Ingredients</b>: <%= @meal.notable_ingredients %>
+                                </p>
+                                <p>
+                                    <b>Allergens</b>: <%= @meal.allergens %>
                                 </p>
                             </div>
                         </div>
@@ -56,14 +241,44 @@
                 
                 <hr>
                 
+                <div style="margin-top: 15px;" align="center">
+                    <a class="btn btn-link border-blue" data-toggle="modal"
+                        data-target="#share-listing">
+                        <i class="fa fa-share-square-o"></i> Share Listing
+                    </a>
+                    <span class="save-listing">
+                        <% if current_customer %>
+                            <% if !current_customer.has_saved @meal %>
+                                <a class="btn btn-link border-blue" id="save-listing"
+                                    onclick='saveListing(this, <%= @meal.id %>)'
+                                    title="Add listing to wishlist">
+                                    <i class="fa fa-heart-o"></i> Save Listing
+                                </a>
+                            <% else %>
+                                <button class="btn btn-primary" disabled
+                                    title="Listing added to wishlist">
+                                    <i class="fa fa-heart"></i> Listing saved
+                                </button>
+                            <% end %>
+                        <% else %>
+                            <a class="btn btn-link border-blue"
+                                data-toggle="modal" data-target="#customerAuthentication"
+                                title="Log in to add listing to wishlist">
+                                <i class="fa fa-heart-o"></i> Save Listing
+                            </a>
+                        <% end %>
+                    </span>
+                </div>
+                
+                <hr>
+                
                 <div class="add-margin-top">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6 meal-rating">
                             <h4 class="bold add-margin-top">
                                 <%= pluralize(@meal.rating_count, 'Review') %>
-                                <span class="cook-rating cursor-pointer" align="center"
-                                    <% if current_customer && current_customer.has_not_rated(@meal) %>
-                                    data-toggle="modal" data-target="#rateMeal"<% end %>
+                                <span class="cursor-pointer" align="center"
+                                    data-toggle="modal" data-target="#rateMeal"
                                     style="margin-left: 10px;">
                                     <% 5.times.each_with_index do |s, idx| %>
                                         <span class="star">
@@ -103,6 +318,37 @@
                 <% else %>
                     <%= render 'prepared_by' %>
                 <% end %>
+                
+                <div class="card" style="margin-top: 15px;">
+                    <div class="card-body" align="center">
+                        <a class="btn btn-link border-blue" data-toggle="modal"
+                            data-target="#share-listing">
+                            <i class="fa fa-share-square-o"></i> Share Listing
+                        </a>
+                        <span class="save-listing">
+                            <% if current_customer %>
+                                <% if !current_customer.has_saved @meal %>
+                                    <a class="btn btn-link border-blue" id="save-listing"
+                                        onclick='saveListing(this, <%= @meal.id %>)'
+                                        title="Add listing to wishlist">
+                                        <i class="fa fa-heart-o"></i> Save Listing
+                                    </a>
+                                <% else %>
+                                    <button class="btn btn-primary" disabled
+                                        title="Listing added to wishlist">
+                                        <i class="fa fa-heart"></i> Listing saved
+                                    </button>
+                                <% end %>
+                            <% else %>
+                                <a class="btn btn-link border-blue"
+                                    data-toggle="modal" data-target="#customerAuthentication"
+                                    title="Log in to add listing to wishlist">
+                                    <i class="fa fa-heart-o"></i> Save Listing
+                                </a>
+                            <% end %>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
         

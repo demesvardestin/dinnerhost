@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181206012558) do
+ActiveRecord::Schema.define(version: 20181218002358) do
 
   create_table "chef_ratings", force: :cascade do |t|
     t.integer  "value"
@@ -126,6 +126,15 @@ ActiveRecord::Schema.define(version: 20181206012558) do
     t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
   end
 
+  create_table "diner_ratings", force: :cascade do |t|
+    t.float    "value"
+    t.integer  "customer_id"
+    t.integer  "chef_id"
+    t.text     "details"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "meal_ratings", force: :cascade do |t|
     t.integer  "value"
     t.integer  "meal_id"
@@ -167,6 +176,7 @@ ActiveRecord::Schema.define(version: 20181206012558) do
     t.string   "course",              default: ""
     t.string   "flavor",              default: ""
     t.boolean  "deleted",             default: false
+    t.text     "notable_ingredients"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -186,6 +196,17 @@ ActiveRecord::Schema.define(version: 20181206012558) do
     t.boolean  "applied",       default: false
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
+  end
+
+  create_table "reservation_cancellations", force: :cascade do |t|
+    t.text     "reason"
+    t.boolean  "approved",       default: false
+    t.datetime "approved_on"
+    t.datetime "denied_on"
+    t.integer  "customer_id"
+    t.integer  "reservation_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   create_table "reservations", force: :cascade do |t|
@@ -212,6 +233,9 @@ ActiveRecord::Schema.define(version: 20181206012558) do
     t.datetime "denied_on"
     t.string   "request_time",       default: ""
     t.boolean  "deleted",            default: false
+    t.boolean  "cancelled",          default: false
+    t.datetime "cancelled_on"
+    t.boolean  "completed",          default: false
   end
 
   create_table "stars", force: :cascade do |t|
@@ -220,6 +244,13 @@ ActiveRecord::Schema.define(version: 20181206012558) do
     t.string   "owner_type"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+  end
+
+  create_table "wishlists", force: :cascade do |t|
+    t.integer  "meal_id"
+    t.integer  "customer_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
 end

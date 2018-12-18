@@ -3,6 +3,6 @@ $('#main-body').html(`
 `);
 
 history
-.replaceState(null, '', "/reservation/<%= @reservation.id %>/accepted");
+.replaceState(null, '', "/reservation/<%= @reservation.id %>/<%= @reservation.customer.id %>/accepted");
 
 toastr.success("You have accepted <%= @reservation.customer.first_name %>'s reservation!");

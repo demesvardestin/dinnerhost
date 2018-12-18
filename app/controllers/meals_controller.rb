@@ -144,7 +144,8 @@ class MealsController < ApplicationController
     .require(:meal)
     .permit(:name, :description, :street_address, :town, :state,
             :zipcode, :image, :dish_order, :serving_temperature,
-            :allergens, :tags, :meal_type, :prep_fee, :course, :flavor)
+            :allergens, :tags, :meal_type, :prep_fee, :course, :flavor,
+            :notable_ingredients)
   end
   
   def meal_report_params

@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   get '/:location/listings', to: 'meals#location_based_listings'
   get '/edit/verification', to: 'customers#edit_verification'
   get '/submit_token', to: 'customers#submit_token'
+  get '/save_listing/:id', to: 'customers#save_listing'
+  get '/wishlist', to: 'customers#wishlist'
   ## END CUSTOMER ROUTES ##
   
   ## Chef routes
@@ -32,7 +34,7 @@ Rails.application.routes.draw do
     get 'chef/retrieve-password', to: 'devise/passwords#new'
   end
   authenticated :chef do
-    root 'chefs#reservations', as: :authenticated_chef_root
+    root 'chefs#payout_form', as: :authenticated_chef_root
   end
   get '/chef/dashboard', to: 'chefs#dashboard'
   get '/inbox', to: 'conversations#inbox'
@@ -40,7 +42,7 @@ Rails.application.routes.draw do
   get '/reservations', to: 'chefs#reservations'
   get '/accept_reservation', to: 'chefs#accept_reservation'
   get '/deny_reservation', to: 'chefs#deny_reservation'
-  get '/reservation/:id/accepted', to: 'reservations#accepted'
+  get '/reservation/:id/:customer_id/accepted', to: 'chefs#accepted'
   get '/reservations/pending', to: 'chefs#pending'
   get '/reservations/accepted', to: 'chefs#all_accepted'
   get '/reservations/denied', to: 'chefs#denied'
@@ -48,6 +50,13 @@ Rails.application.routes.draw do
   get '/chef/edit/social', to: 'chefs#social_form'
   get '/chef/edit/payout', to: 'chefs#payout_form'
   get '/chef/edit/listings', to: 'chefs#my_listings'
+  get '/verify_bank', to: 'chefs#verify_bank'
+  get '/chef/account-created', to: 'chefs#account_created'
+  get '/load_reservations', to: 'chefs#load_reservations_category'
+  get '/sort_reservations', to: 'chefs#sort_reservations'
+  get '/view_request/:id', to: 'chefs#view_request'
+  get '/message_diner/:id', to: 'chefs#message_diner'
+  post '/rate_diner', to: 'chefs#rate_diner'
   ## END CHEF ROUTES ##
   
   ## RESOURCES
@@ -82,8 +91,10 @@ Rails.application.routes.draw do
   post '/complete-reservation', to: 'reservations#complete_reservation'
   get '/booking_complete/:id', to: 'reservations#booking_complete'
   get '/booking/confirmation/:id', to: 'reservations#booking_confirmation'
+  post '/submit_cancellation_request', to: 'reservations#cancel_reservation'
   post '/report-cook', to: 'main#report'
   post '/rate', to: 'main#rate'
+  post '/rate_meal', to: 'main#rate_meal'
   get '/booking-estimate', to: 'reservations#booking_estimate'
   get '/search_meal_reviews', to: 'meals#search_meal_reviews'
   get '/browse_reviews', to: 'meals#browse_reviews'

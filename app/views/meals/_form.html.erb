@@ -88,7 +88,7 @@
           </a>
         </div>
       </div>
-      <%= f.text_field :course, class:"no-display", id: "course", label: false, value:"", required: true %>
+      <%= f.text_field :course, class:"no-display", id: "course", label: false, value:"" %>
     </div>
     
     <div class="col-md-2" style="width: 100%;">
@@ -161,7 +161,16 @@
           </a>
         </div>
       </div>
-      <%= f.text_field :flavor, class:"no-display", id: "flavor", label: false, value:"", required: true %>
+      <%= f.text_field :flavor, class:"no-display", id: "flavor", label: false, value:"" %>
+    </div>
+  </div>
+  
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Notable Ingredients</label>
+    </div>
+    <div class="col-md-10">
+      <%= f.text_field :notable_ingredients, class:"form-control no-box-shadow height-50 font-15 pf", label: false, placeholder: "Comma separated (Ex: Anchovies, brown butter, cane syrup...)", required: true %>
     </div>
   </div>
   

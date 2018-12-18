@@ -49,22 +49,6 @@
                     
                     <p class="text-center font-13 add-margin-top">You won't be charged yet</p>
                     
-                    <hr>
-                    
-                    <div>
-                        <% if current_customer && current_customer.has_not_reported(@cook) %>
-                            <p class="text-center font-13">
-                                <a class="btn btn-link" data-toggle="modal"
-                                    data-target="#reportcook" style="font-size: 15px !important;">
-                                    <i class="fa fa-flag-o"></i> Report this cook
-                                </a>
-                            </p>
-                        <% else %>
-                            <p class="text-center font-13">
-                                You have reported this cook
-                            </p>
-                        <% end %>
-                    </div>
                 </div>
             </div>
         </div>

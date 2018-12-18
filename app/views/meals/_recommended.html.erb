@@ -1,0 +1,7 @@
+<% if recommended_dishes(@meal).nil? %>
+    <p>No similar listings found at this time</p>
+<% else %>
+    <div class="row" id="recommended-dishes" style="margin-top: 15px;">
+        <%= render partial: "meals/meals", locals: { meals: recommended_dishes(@meal) } %>
+    </div>
+<% end %>

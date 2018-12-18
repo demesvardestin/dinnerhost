@@ -1,13 +1,26 @@
 <p>
-    Meals: <span class="theme-cyan"><%= reservation.meal_ids.split(',').length %></span>
+    Meals:
+    <span class="theme-cyan">
+        <%= reservation.meal_ids.split(',').length %>
+    </span>
+    <span class="text-muted">
+        (<%= reservation.meals.map(&:name).join(", ") %>)
+    </span>
 </p>
 
 <p style="margin-top: 20px;">
-    Booked for: <span class="theme-cyan"><%= reservation.request_date %></span>
+    Booked for:
+    <span class="theme-cyan">
+        <%= reservation.request_date.to_datetime.strftime("%b %e at ") + reservation.request_time %>
+    </span>
 </p>
 
 <p style="margin-top: 20px;">
     People: <span class="theme-cyan"><%= reservation.people_count %></span>
+    <span class="text-muted">
+        (<%= (reservation.adult_count.to_s + " adults") if reservation.adult_count > 0 %>
+        <%= (", " + reservation.children_count.to_s + " children") if reservation.children_count > 0 %>)
+    </span>
 </p>
 
 <p style="margin-top: 20px;">

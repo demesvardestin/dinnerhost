@@ -9,6 +9,7 @@ class Chef < ApplicationRecord
   has_many :conversations
   has_many :cook_reports
   has_many :chef_ratings
+  has_many :diner_ratings
   has_many :reservations
   belongs_to :referral
   
@@ -30,7 +31,7 @@ class Chef < ApplicationRecord
   end
   
   def abridged_address
-    [town, state].join(' ')
+    [town.capitalize, state.upcase].join(' ')
   end
   
   def join_date
@@ -38,19 +39,27 @@ class Chef < ApplicationRecord
   end
   
   def has_archived(convo)
-    self.conversations.include?(convo) && convo.archived_by.include?(self.user_type)
+    conversations.include?(convo) && convo.archived_by.include?(user_type)
+  end
+  
+  def has_rated customer
+    diner_ratings.map(&:customer_id).include? customer.id if customer
+  end
+  
+  def has_not_rated customer
+    !has_rated(customer)
   end
   
   def average_rating
     begin
-      (self.chef_ratings.map(&:value).sum/self.rating_count).to_f
+      (chef_ratings.map(&:value).sum/rating_count).to_f
     rescue
       1
     end
   end
   
   def rating_count
-    self.chef_ratings.count
+    chef_ratings.count
   end
   
   def accept_reservation(reservation)
@@ -76,6 +85,22 @@ class Chef < ApplicationRecord
   
   def self.find_near(address)
     self.near(address, 15)
+  end
+  
+  def earnings
+    reservations.accepted.map {|r| r.fee.to_f  * 0.85 }.sum.round(2)
+  end
+  
+  def remove_stripe
+    update(has_stripe_account: false, stripe_token: nil)
+  end
+  
+  def can_message diner
+    reservations.map(&:customer_id).include? diner.id
+  end
+  
+  def cannot_message diner
+    !can_message diner
   end
   
   protected

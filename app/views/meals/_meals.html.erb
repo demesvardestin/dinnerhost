@@ -31,17 +31,18 @@
     <% end %>
 <% else %>
     <div class="col-md-12">
-        <p>No results found. Our chefs are actively adding new listings, so check back soon!</p>
+        <p>No listings found in your area. Our chefs are actively adding new listings, so check back soon!</p>
     </div>
     
-    <div class="col-md-12" align="center" style="margin-top: 20px;">
-        <button class="btn btn-primary box-shadow height-50" style="text-transform: uppercase;">
-            Refer a chef. Earn $20
-        </button>
+    <div class="col-md-12" style="margin-top: 20px;">
+        <a class="btn btn-primary box-shadow white"
+            style="text-transform: uppercase;" href="/refer-a-chef">
+            Refer a chef. Earn up to $10
+        </a>
     </div>
 <% end %>
 
-<script type="text/javascript">
+<script>
     $mealCard = $('.meal-card');
     $mealCard.hover(shadowCard);
     

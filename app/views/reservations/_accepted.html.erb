@@ -1,10 +1,116 @@
 <section id="reservation-accepted">
     <div class="row">
-        <div class="col-md-10 offset-md-1">
+        <div class="col-md-8">
             <div class="card">
                 <div class="card-body">
-                    <h4 style="color: #000;">What you need to know</h4>
+                    <h4 style="color: #000;">Congrats! You've accepted <%= @reservation.customer.first_name %>'s request!</h4>
+                    
                     <hr>
+                    
+                    <div style="margin-top: 15px;" class="bold">
+                        Confirmed for: <span class="badge badge-success background-transparent
+                            theme-green border-green" style="font-size: 20px;
+                            border-width: 0.5px; border-style: solid;">
+                            <%= @reservation.request_period_stringified %>
+                        </span>
+                    </div>
+                    
+                    <p style="font-size: 16px; margin-top: 15px;">
+                        What you need to know:
+                    </p>
+                    
+                    <ul style="margin-top: 15px;">
+                        <li>
+                            You are responsible for your own ingredients. The diner
+                            is responsible for things such as cutlery, table
+                            accessories and any other additional dinner arrangements.
+                        </li>
+                        <li>We recommend ommunicating with diners only through DinnerHost.</li>
+                        <li>Payments made/received outside DinnerHost are strictly prohibited and discouraged.</li>
+                        <li>
+                            Always double-check the allergens details for the
+                            reservation request (message the diner if needed).
+                        </li>
+                        <li>
+                            We vet diners to the best of our ability,
+                            but our system is far from perfect. Therefore, always
+                            use your best judgement when accepting requests.
+                        </li>
+                    </ul>
+                    
+                    <a class="btn btn-primary white"
+                        href="/view_request/<%= @reservation.id %>">
+                        <i class="fa fa-angle-left"></i> View Request Details
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header background-cyan text-center">
+                    <h4>Diner</h4>
+                </div>
+                <div class="card-body text-center">
+                    <div id="customer-avi" align="center" class="cursor-pointer"
+                        style="height: 64px; width: 64px; margin: auto;
+                                overflow: hidden; border-radius: 32px;
+                                border: 0.5px solid #e7e7e9;">
+                        <img src="<%= @reservation.customer.image %>" alt="cus"
+                            style="height: auto; width: inherit;">
+                    </div>
+                    
+                    <div class="add-margin-top">
+                        <h5 class="bold"><%= @reservation.customer.first_name %></h5>
+                    </div>
+                    
+                    <div class="add-margin-top">
+                        <h6><%= @reservation.customer.abridged_address %></h6>
+                    </div>
+                    
+                    <div class="add-margin-top">
+                        <% if current_chef && current_chef.has_not_rated(@customer) %>
+                            <span class="diner-rating" align="center">
+                                <% 5.times.each_with_index do |s, idx| %>
+                                    <span class="star">
+                                        <i class="<%= diner_star_rating(idx + 1, @customer) %> theme-cyan"
+                                            style="font-size: 20px;"></i>
+                                    </span>
+                                <% end %>
+                                
+                                <span class="rating-count" style="font-size: 18px;">
+                                    (<%= @customer.rating_count %>)
+                                </span>
+                                
+                                <span style="margin-left: 5px;"
+                                    class="badge badge-primary cursor-pointer"
+                                    data-toggle="modal" data-target="#rateDiner">
+                                    Rate
+                                </span>
+                            </span>
+                        <% else %>
+                            <span class="diner-rating" align="center"
+                                style="margin-left: 10px;">
+                                <% 5.times.each_with_index do |s, idx| %>
+                                    <span class="star">
+                                        <i class="<%= diner_star_rating(idx + 1, @customer) %> theme-cyan"
+                                            style="font-size: 20px;"></i>
+                                    </span>
+                                <% end %>
+                                
+                                <span class="rating-count" style="font-size: 18px;">
+                                    (<%= @customer.rating_count %>)
+                                </span>
+                            </span>
+                        <% end %>
+                    </div>
+                    
+                    <div style="margin-top: 15px;">
+                        <a href="/message_diner/<%= @reservation.customer.id %>"
+                            class="btn btn-primary white">
+                           <i class="fa fa-envelope-o"></i> Message 
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

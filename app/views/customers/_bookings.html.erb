@@ -1,4 +1,49 @@
 <% bookings.each do |b| %>
+    <% if b.cancellable? %>
+        <div class="modal fade" id="cancel-reservation-modal-<%= b.id %>" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content box-shadow">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="font-size: 30px;">
+                                &times;
+                            </span>
+                        </button>
+                    </div>
+                    <div class="modal-body cook-rating-modal-body" style="padding-bottom: 30px;">
+                        <div class="modal-body-header">
+                            <h4 class="bold modal-body-header-headline">Cancellation request</h4>
+                        </div>
+                        
+                        <div style="margin-top: 20px;" id="cancel-reservation-form-<%= b.id %>" class="font-18">
+                            <p>
+                                We're so sorry to see you cancel! Please tell us
+                                why you no longer want to book <%= b.chef.first_name %>
+                            </p>
+                            
+                            <form action="/submit_cancellation_request?id=<%= b.id %>"
+                                method="post" data-remote="true" class="add-margin-top">
+                                <textarea class="form-control no-box-shadow"
+                                    name="reservation_cancellation[reason]"
+                                    style="height: 100px;"
+                                    placeholder="I don't feel like it anymore..."></textarea>
+                                
+                                <div class="actions" align="right">
+                                    <button class="btn btn-primary height-50 add-margin-top"
+                                        type="submit" data-disable-with="Submitting...">
+                                        Submit & request $<%= b.refund_amount %> refund
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <%= render partial: "reservation_refund", locals: { b: b } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% end %>
     <div class="col-md-4 add-margin-bottom">
         <div class="card reservation-card">
             <div class="card-header"
@@ -41,12 +86,28 @@
                 
                 <hr>
                 
+                <div class="add-margin-top" id="status-<%= b.id %>">
+                    <p align="center" class="<%= b.status_color %>">
+                        <%= b.status %>
+                    </p>
+                </div>
+                
+                <hr>
+                
                 <div class="add-margin-top">
                     <p align="center">
                         <a href="/reservation/<%= b.id %>/meals"
                             class="background-transparent theme-cyan">
-                            View meals
+                            View Details
                         </a>
+                        <% if b.cancellable? %>
+                            <span id="cancel-reservation-btn-span-<%= b.id %>">
+                                | <a data-toggle="modal" data-target="#cancel-reservation-modal-<%= b.id %>"
+                                    class="background-transparent theme-blue cursor-pointer">
+                                    Cancel
+                                </a>
+                            </span>
+                        <% end %>
                     </p>
                 </div>
             </div>

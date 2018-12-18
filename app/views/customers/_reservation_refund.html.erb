@@ -1,0 +1,31 @@
+<% if b.last_minute_cancellation %>
+    <hr>
+    
+    <div style="margin-top: 5px;">
+        <p>
+            You are cancelling within less than 12 hours of the
+            reservation time. You can only receive 25% of
+            the total reservation cost.
+        </p>
+    </div>
+<% elsif b.very_late_cancellation %>
+    <hr>
+    
+    <div style="margin-top: 5px;">
+        <p>
+            You are cancelling within less than 24 hours of the
+            reservation time. You can only receive 50% of
+            the total reservation cost.
+        </p>
+    </div>
+<% elsif b.late_cancellation %>
+    <hr>
+    
+    <div style="margin-top: 5px;">
+        <p>
+            You are cancelling within less than 48 hours of the
+            reservation time. You can only receive 75% of
+            the total reservation cost.
+        </p>
+    </div>
+<% end %>
