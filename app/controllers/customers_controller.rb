@@ -76,6 +76,16 @@ class CustomersController < ApplicationController
         @meals = @reservation.meals
     end
     
+    def message_chef
+        @chef = Chef.find_by(id: params[:id])
+        
+        @conversation = Conversation.find_by(chef_id: @chef.id, customer_id: current_customer.id)
+        if @conversation.nil?
+          @conversation = Conversation.create(chef_id: @chef.id, customer_id: current_customer.id)
+        end
+        redirect_to chat_path(:id => @conversation.id)
+    end
+    
     private
     
     def set_customer

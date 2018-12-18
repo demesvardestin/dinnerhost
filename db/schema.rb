@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181218002358) do
+ActiveRecord::Schema.define(version: 20181218191419) do
 
   create_table "chef_ratings", force: :cascade do |t|
     t.integer  "value"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 20181218002358) do
     t.boolean  "has_stripe_account",     default: false
     t.string   "stripe_token"
     t.boolean  "deleted",                default: false
+    t.string   "license",                default: "none"
     t.index ["email"], name: "index_chefs_on_email", unique: true
     t.index ["reset_password_token"], name: "index_chefs_on_reset_password_token", unique: true
   end
@@ -133,6 +134,16 @@ ActiveRecord::Schema.define(version: 20181218002358) do
     t.text     "details"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+  end
+
+  create_table "ingredients", force: :cascade do |t|
+    t.string   "name"
+    t.string   "quantity"
+    t.text     "additional_details"
+    t.integer  "chef_id"
+    t.integer  "meal_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
   create_table "meal_ratings", force: :cascade do |t|

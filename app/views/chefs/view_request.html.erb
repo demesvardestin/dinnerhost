@@ -104,14 +104,16 @@
                                 <p class="add-margin-top">Status: <%= @reservation.status %></p>
                             </div>
                             
-                            <div class="col-md-12" align="center">
-                                <p class="add-margin-top">
-                                    <a href="/reservation/<%= @reservation.id %>/<%= @reservation.customer.id %>/accepted"
-                                        class="background-transparent theme-cyan">
-                                        What You Need To Know <i class="fa fa-exclamation-circle"></i> 
-                                    </a>
-                                </p>
-                            </div>
+                            <% if @reservation.accepted %>
+                                <div class="col-md-12" align="center">
+                                    <p class="add-margin-top">
+                                        <a href="/reservation/<%= @reservation.id %>/<%= @reservation.customer.id %>/accepted"
+                                            class="background-transparent theme-cyan">
+                                            What You Need To Know <i class="fa fa-exclamation-circle"></i> 
+                                        </a>
+                                    </p>
+                                </div>
+                            <% end %>
                         <% end %>
                     </div>
                 </div>
@@ -177,12 +179,14 @@
                         <% end %>
                     </div>
                     
-                    <div style="margin-top: 15px;">
-                        <a href="/message_diner/<%= @reservation.customer.id %>"
-                            class="btn btn-primary white">
-                           <i class="fa fa-envelope-o"></i> Message 
-                        </a>
-                    </div>
+                    <% if @reservation.accepted %>
+                        <div style="margin-top: 15px;">
+                            <a href="/message_diner/<%= @reservation.customer.id %>"
+                                class="btn btn-primary white">
+                               <i class="fa fa-envelope-o"></i> Message 
+                            </a>
+                        </div>
+                    <% end %>
                 </div>
             </div>
         </div>

@@ -1,0 +1,53 @@
+<section id="ingredients-list-for-meal-<%= @meal.id %>">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card box-shadow">
+                <div class="card-body">
+                    <h5 class="bold add-margin-bottom">Add Ingredients To "<%= @meal.name %>"</h5>
+                    
+                    <hr>
+                    
+                    <%= form_for(@ingredient, :html => { :multipart => true, :class => 'ingredient-form', :id => "ingredient_form" }, :url => { action: "create_ingredient" }, :remote => true) do |f| %>
+                        <% if @meal.errors.any? %>
+                            <div id="error_explanation">
+                                <h2>This ingredient could not be added due to the following <%= pluralize(@ingredient.errors.count, "error") %>:</h2>
+                        
+                                <ul>
+                                    <% @ingredient.errors.full_messages.each do |message| %>
+                                        <li><%= message %></li>
+                                    <% end %>
+                                </ul>
+                            </div>
+                        <% end %>
+                        
+                        <div class="field row">
+                            <input type="hidden" name="ingredient[meal_id]" value="<%= @meal.id %>">
+                            <div class="col-md-8">
+                              <%= f.text_field :name, class:"form-control no-box-shadow height-50 font-15 pf", label: false, placeholder: "Ingredient Name", required: true %>
+                            </div>
+                            <div class="col-md-4">
+                              <%= f.text_field :quantity, class:"form-control no-box-shadow height-50 font-15 pf", label: false, placeholder: "Amount (Ex: 5 teaspoons)", required: true %>
+                            </div>
+                        </div>
+                        
+                        <div class="field row">
+                            <div class="col-md-12">
+                              <%= f.text_area :additional_details, class:"form-control no-box-shadow font-15 pf", style: "height: 100px !important;", label: false, placeholder: "Additional Details (optional)" %>
+                            </div>
+                        </div>
+                        
+                        <div class="actions text-center action-button">
+                            <%= f.submit "Add", class:"btn btn-primary", id:"add-ingredient-btn", data: { "disable-with": "Adding..." } %>
+                        </div>
+                    <% end %>
+                    
+                    <hr>
+                    
+                    <div id="ingredients-list">
+                        <%= render partial: "ingredients", locals: { ingredients: @meal.ingredients, meal: @meal } %>
+                    </div>
+                </div>
+            </div>
+        <div>
+    </div>
+</section>

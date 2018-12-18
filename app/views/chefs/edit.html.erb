@@ -11,4 +11,80 @@
             </div>
         </div>
     </div>
+    
+    <div class="row" style="margin-top: 15px;">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header background-cyan">
+                    License Held (If Any)
+                </div>
+                
+                <div class="card-body" align="right">
+                    <%= form_for(@cook, :html => { :multipart => true, :class => 'cook-license-form', :id => "cook_license_form", :remote => true }) do |f| %>
+                        <div class="col-md-12" style="width: 100%;">
+                          <div class="dropdown">
+                            <div style="border: 0.5px solid #e7e7e9; border-radius: 5px;"
+                              id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                              aria-expanded="false" class="cursor-pointer">
+                              <div class="row">
+                                <div class="col-md-12" style="padding: 15px;">
+                                  <p class="font-15 text-left" style="padding: 0 15px;">
+                                    <span class="float-left" id='license-value'>
+                                      <%= current_chef.license.present? ? current_chef.license : "none" %>
+                                    </span>
+                                    <span class="float-right">
+                                      <i class="fa fa-angle-down"></i>
+                                    </span>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+                              style="padding-top: 0; padding-bottom: 0; max-height: 250px; overflow-y: auto;">
+                              <a class="dropdown-item cursor-pointer"
+                                onclick="changeLicense(this,'none');">
+                                None
+                              </a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item cursor-pointer"
+                                onclick="changeLicense(this,'cc');">
+                                Certified Culinarian
+                              </a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item cursor-pointer"
+                                onclick="changeLicense(this,'csc');">
+                                Certified Sous Chef
+                              </a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item cursor-pointer"
+                                onclick="changeLicense(this,'ccc');">
+                                Certified Chef De Cusine
+                              </a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item cursor-pointer"
+                                onclick="changeLicense(this,'cec');">
+                                Certified Executive Chef
+                              </a>
+                              <div class="dropdown-divider"></div>
+                              <a class="dropdown-item cursor-pointer"
+                                onclick="changeLicense(this,'cmc');">
+                                Certified Master Chef
+                              </a>
+                            </div>
+                          </div>
+                          <%= f.text_field :license, class:"no-display", id:"license", label: false, value: "none" %>
+                          
+                          <%= f.submit "Update License", class:"btn btn-primary height-50",
+                              style:"margin-top: 15px;", id:"update-license",
+                              data: { "disable-with": "Updating..." } %>
+                        </div>
+                    <% end %>
+                </div>
+                
+                <div class="card-footer">
+                    Note: You don't need to have a license to receive booking requests.
+                </div>
+            </div>
+        </div>
+    </div>
 </section>

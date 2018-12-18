@@ -1,0 +1,5 @@
+$('#ingredients-list').html(`
+    <%= render partial: "ingredients", locals: { ingredients: @meal.ingredients, meal: @meal } %>
+`);
+
+showNotice("Ingredient Removed!");

@@ -15,16 +15,13 @@
     <div class="col-md-2">
       <label>First name</label>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-4">
       <%= f.text_field :first_name, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"First name" %>
     </div>
-  </div>
-  
-  <div class="field row">
     <div class="col-md-2">
       <label>Last name</label>
     </div>
-    <div class="col-md-10">
+    <div class="col-md-4">
       <%= f.text_field :last_name, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Last name" %>
     </div>
   </div>
@@ -40,18 +37,15 @@
   
   <div class="field row">
     <div class="col-md-2">
-      <label>Where do you live?</label>
+      <label>Location</label>
     </div>
-    <div class="col-md-3">
-      <%= f.text_field :street_address, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Street address" %>
-    </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
       <%= f.text_field :town, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Town or city" %>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-3">
       <%= f.text_field :state, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"State" %>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-3">
       <%= f.text_field :zipcode, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Zipcode" %>
     </div>
   </div>
@@ -91,5 +85,10 @@
   $('#cook-image-input').on('change', e => {
     $('.cook-image-name').append($('#cook-image-input').get(0).files[0].name);
   });
+  
+  function changeLicense(elem,license=null) {
+    document.querySelector('#license').value = license.toLowerCase();
+    $('#license-value').text(elem.innerHTML);
+  }
     
 </script>

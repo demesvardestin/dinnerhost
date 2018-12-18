@@ -67,6 +67,7 @@ class ChefsController < ApplicationController
   
   def accept_reservation
     @reservation = Reservation.find(params[:id])
+    @customer = @reservation.customer
     @cook.accept_reservation @reservation
     render :layout => false
   end
@@ -121,7 +122,7 @@ class ChefsController < ApplicationController
     
     @conversation = Conversation.find_by(chef_id: current_chef.id, customer_id: @diner.id)
     if @conversation.nil?
-      @conversation = Conversation.create(chef_id: params[:chef_id], customer_id: current_customer.id)
+      @conversation = Conversation.create(chef_id: current_chef.id, customer_id: @diner.id)
     end
     redirect_to chat_path(:id => @conversation.id)
   end
@@ -146,6 +147,7 @@ class ChefsController < ApplicationController
   
   def accepted
     @reservation = Reservation.find(params[:id])
+    redirect_to :back, notice: "Page not accessible" if @reservation.cancelled
   end
   
   def all_accepted
@@ -185,7 +187,7 @@ class ChefsController < ApplicationController
     .require(:chef)
     .permit(:first_name, :last_name, :phone_number, :twitter, :facebook, :instagram,
             :pinterest, :bio, :street_address, :town, :state, :zipcode, :booking_rate,
-            :username, :image)
+            :username, :image, :license)
   end
   
 end

@@ -108,4 +108,8 @@ module ApplicationHelper
         '7:00PM', '7:30PM', '8:00PM', '8:30PM', '9:00PM', '9:30PM', '10:00PM', '10:30PM', '11:00PM', '11:30PM'] 
     end
     
+    def page(page)
+        url.include? page
+    end
+    
 end

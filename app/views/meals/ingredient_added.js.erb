@@ -1,0 +1,7 @@
+document.querySelector("#ingredient_form").reset();
+
+$('#ingredients-list').html(`
+    <%= render partial: "ingredients", locals: { ingredients: @ingredients, meal: @meal } %>
+`);
+
+showNotice("Ingredient Added!");

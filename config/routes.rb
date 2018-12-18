@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   get '/submit_token', to: 'customers#submit_token'
   get '/save_listing/:id', to: 'customers#save_listing'
   get '/wishlist', to: 'customers#wishlist'
+  get '/message_chef/:id', to: 'customers#message_chef'
   ## END CUSTOMER ROUTES ##
   
   ## Chef routes
@@ -57,12 +58,16 @@ Rails.application.routes.draw do
   get '/view_request/:id', to: 'chefs#view_request'
   get '/message_diner/:id', to: 'chefs#message_diner'
   post '/rate_diner', to: 'chefs#rate_diner'
+  get '/add-ingredients/:id', to: 'meals#ingredients_list', as: 'add_ingredients'
+  post "/create_ingredient", to: 'meals#create_ingredient'
+  get '/listing/:id/ingredients', to: 'meals#ingredients_list'
+  get '/remove_ingredient', to: 'meals#remove_ingredient'
   ## END CHEF ROUTES ##
   
   ## RESOURCES
   resources :conversations, except: [:delete, :edit, :update]
   resources :messages, only: :create
-  resources :chefs, :meals, :reservations, :customers
+  resources :chefs, :reservations, :customers, :meals
   ## END RESOURCES ##
   
   ## Global routes

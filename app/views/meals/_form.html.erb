@@ -4,7 +4,7 @@
   }
 </style>
 
-<%= form_for(@meal, :html => { :multipart => true, :class => 'meal-form', :id => "meal_form" }) do |f| %>
+<%= form_for(@meal, :html => { :multipart => true, :class => 'meal-form', :id => "meal_form" }, :remote => true) do |f| %>
   <% if @meal.errors.any? %>
     <div id="error_explanation">
         <h2>This post could not be saved due to the following <%= pluralize(@meal.errors.count, "error") %>:</h2>
@@ -35,21 +35,11 @@
     </div>
   </div>
   
-  <div class="field row">
-    <div class="col-md-2">
-      <label>Cuisine type</label>
-    </div>
-    <div class="col-md-10">
-      <%= f.text_field :meal_type, class:"form-control no-box-shadow height-50 font-15 pf", label: false, placeholder: "Ex: Cambodian", required: true %>
-    </div>
-  </div>
+  <hr>
   
   <div class="field row">
-    <div class="col-md-2">
-      <label>Prep fee</label>
-    </div>
-    <div class="col-md-2">
-      <%= f.text_field :prep_fee, class:"form-control no-box-shadow height-50 font-15 pf", label: false, required: true %>
+    <div class="col-md-4">
+      <%= f.text_field :meal_type, class:"form-control no-box-shadow height-50 font-15 pf", label: false, placeholder: "Cuisine (Ex: Korean)", required: true %>
     </div>
     
     <div class="col-md-3" style="width: 100%;">
@@ -165,14 +155,7 @@
     </div>
   </div>
   
-  <div class="field row">
-    <div class="col-md-2">
-      <label>Notable Ingredients</label>
-    </div>
-    <div class="col-md-10">
-      <%= f.text_field :notable_ingredients, class:"form-control no-box-shadow height-50 font-15 pf", label: false, placeholder: "Comma separated (Ex: Anchovies, brown butter, cane syrup...)", required: true %>
-    </div>
-  </div>
+  <hr>
   
   <div class="field row">
     <div class="col-md-2">
@@ -217,7 +200,13 @@
   </div>
   
   <div class="actions text-center action-button">
-    <%= f.submit "Publish", class:"btn btn-primary height-50", id:"create_meal", data: { "disable-with": "Publishing your meal..." } %>
+    <% if @meal.not_yet_created %>
+      <button class="btn btn-primary height-50" id="create_meal" data-disable-with="Saving...">
+        Add Ingredients <i class="fa fa-angle-right"></i>
+      </button>
+    <% else %>
+      <%= f.submit "Update", class:"btn btn-primary height-50", id:"create_meal", data: { "disable-with": "Updating..." } %>
+    <% end %>
   </div>
 <% end %>
 

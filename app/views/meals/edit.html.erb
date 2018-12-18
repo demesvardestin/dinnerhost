@@ -8,13 +8,29 @@
     </div>
 </div>
 
-<div class="row" style="margin-top: 20px;">
+<div class="row" style="margin-top: 15px;">
     <div class="col-md-10 offset-md-1">
         <div class="card">
             <div class="card-header background-cyan">
-                Danger Zone
+                Ingredients
             </div>
             <div class="card-body">
+                <%= render partial: 'ingredients', locals: { ingredients: @meal.ingredients, meal: @meal } %>
+            </div>
+            <div class="card-footer">
+                <a href="/listing/<%= @meal.id %>/ingredients" class="btn btn-primary">
+                    Edit Ingredients
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="margin-top: 20px;">
+    <div class="col-md-10 offset-md-1">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="bold add-margin-bottom">Irreversible Action</h4>
                 <%= link_to meal_path(@meal), class: "btn btn-danger white",
                     title: "Delete this listing (irreversible action)",
                     style:"text-transform: uppercase;", data: {"disable-with": "Deleting..."},

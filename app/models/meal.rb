@@ -6,6 +6,7 @@ class Meal < ApplicationRecord
     has_many :meal_reports
     has_many :meal_ratings
     has_many :wishlists
+    has_many :ingredients, dependent: :destroy
     
     scope :not_deleted, -> { where(deleted: false) }
     
@@ -120,6 +121,10 @@ class Meal < ApplicationRecord
     
     def link
         "https://dinnerhost.co/dish/#{self.id}/#{self.slug}"
+    end
+    
+    def not_yet_created
+        id.nil?
     end
     
     protected

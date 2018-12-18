@@ -1,0 +1,26 @@
+<% if ingredients.present? %>
+    <% ingredients.each do |ingredient| %>
+        <div>
+            <p>
+                <%= ingredient.name %>
+                
+                <span class="badge badge-primary" style="margin-left: 5px;">
+                    <%= ingredient.quantity %>
+                </span>
+                
+                
+                <span style="margin-left: 5px;">
+                    [<%= link_to remove_ingredient_path(id: ingredient.id, meal_id: meal.id), class:"theme-red background-transparent", remote: true do %>remove<% end %>]
+                </span>
+            </p>
+            
+            <p class="text-muted">
+                <%= "Note: " + ingredient.additional_details if ingredient.additional_details.present? %>
+            </p>
+            
+            <hr>
+        </div>
+    <% end %>
+<% else %>
+    <p class="font-16">No ingredients listed</p>
+<% end %>

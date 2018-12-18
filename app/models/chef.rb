@@ -5,6 +5,7 @@ class Chef < ApplicationRecord
          :recoverable, :rememberable, :validatable, :trackable
   
   has_many :meals, dependent: :destroy
+  has_many :ingredients, through: :meals, dependent: :destroy
   has_many :messages, through: :conversations
   has_many :conversations
   has_many :cook_reports
@@ -101,6 +102,27 @@ class Chef < ApplicationRecord
   
   def cannot_message diner
     !can_message diner
+  end
+  
+  def licensed
+    license != "none"
+  end
+  
+  def license_type
+    case license.downcase
+    when "cc"
+      "Certified Culinarian"
+    when "csc"
+      "Certified Sous Chef"
+    when "ccc"
+      "Certified Chef de Cuisine"
+    when "cec"
+      "Certified Executive Chef"
+    when "cmc"
+      "Certified Master Chef"
+    else
+      "No License"
+    end
   end
   
   protected

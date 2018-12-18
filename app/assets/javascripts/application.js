@@ -58,41 +58,45 @@ function fadeModal(modal) {
 }
 
 function updateReservationParams() {
-    var requestDate = document.querySelector('.start-date-input').value;
-    var requestTime = $('#chosen-time').text();
-    var adultCount = $('.adult-count').text();
-    var childrenCount = $('.children-count').text();
-    var reportType = document.querySelector('#report-type');
-    var reportTypeValue = reportType ? reportType.value : "";
-    var mealIDS = $('.meal-ids').text();
-    var allergies = document
-                    .querySelector('#allergies')
-                    .value.replace(/\s/g,'');
-    var bookingBtn = document.querySelector('#booking-btn');
-    
-    var $requestDate = document.querySelector('#request-date');
-    var $requestTime = document.querySelector('#request-time');
-    var $adultCount = document.querySelector('#adult-count');
-    var $childrenCount = document.querySelector('#children-count');
-    var $customerAllergies = document.querySelector('#customer-allergies');
-    var $mealIDS = document.querySelector('#meal-ids');
-    
-    $requestDate.value = requestDate;
-    $requestTime.value = requestTime;
-    $adultCount.value = adultCount;
-    $childrenCount.value = childrenCount;
-    $customerAllergies.value = allergies;
-    $mealIDS.value = mealIDS;
-    
-    if ($mealIDS.value && $requestDate.value) {
-        bookingBtn.removeAttribute('disabled');
+    try {
+        var requestDate = document.querySelector('.start-date-input').value;
+        var requestTime = $('#chosen-time').text();
+        var adultCount = $('.adult-count').text();
+        var childrenCount = $('.children-count').text();
+        var reportType = document.querySelector('#report-type');
+        var reportTypeValue = reportType ? reportType.value : "";
+        var mealIDS = $('.meal-ids').text();
+        var allergies = document
+                        .querySelector('#allergies')
+                        .value.replace(/\s/g,'');
+        var bookingBtn = document.querySelector('#booking-btn');
+        
+        var $requestDate = document.querySelector('#request-date');
+        var $requestTime = document.querySelector('#request-time');
+        var $adultCount = document.querySelector('#adult-count');
+        var $childrenCount = document.querySelector('#children-count');
+        var $customerAllergies = document.querySelector('#customer-allergies');
+        var $mealIDS = document.querySelector('#meal-ids');
+        
+        $requestDate.value = requestDate;
+        $requestTime.value = requestTime;
+        $adultCount.value = adultCount;
+        $childrenCount.value = childrenCount;
+        $customerAllergies.value = allergies;
+        $mealIDS.value = mealIDS;
+        
+        if ($mealIDS.value && $requestDate.value) {
+            bookingBtn.removeAttribute('disabled');
+        }
+        
+        history
+        .replaceState(null, '', "?meal_ids=" + mealIDS + "&request_date=" + requestDate +
+                "&request_time=" + requestTime + "&adult_count=" + adultCount +
+                "&children_count=" + childrenCount + "&allergies=" + allergies +
+                (reportTypeValue ? "&customer_report=" + reportTypeValue : ""));
+    } catch(err) {
+        showNotice("Login or Signup to make a reservation");
     }
-    
-    history
-    .replaceState(null, '', "?meal_ids=" + mealIDS + "&request_date=" + requestDate +
-            "&request_time=" + requestTime + "&adult_count=" + adultCount +
-            "&children_count=" + childrenCount + "&allergies=" + allergies +
-            (reportTypeValue ? "&customer_report=" + reportTypeValue : ""));
 }
 
 function selectReportCategory(elem) {

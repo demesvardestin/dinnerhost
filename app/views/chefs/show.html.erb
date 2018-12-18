@@ -53,7 +53,10 @@
         </div>
         <div class="col-md-9">
             <div id="chef-salutation">
-                <h1>Hey, I'm <%= @cook.first_name %>!</h1>
+                <h1>
+                    Hey, I'm <%= @cook.first_name %>!
+                    <%= render partial: 'chefs/license', locals: { chef: @cook } %>
+                </h1>
             </div>
             
             <div class="add-margin-top" id="chef-location">
@@ -86,7 +89,7 @@
                 <p><%= @cook.bio %></p>
             </div>
             
-            <div class="add-margin-top" id="chef-reviews">
+            <div class="add-margin-top" id="chef-verification">
                 <p>
                     <% if @cook.verified %>
                         <span style="margin-right: 10px;" class="font-16 badge badge-success">
@@ -102,6 +105,11 @@
                     <button class="btn btn-success">
                         Book <%= @cook.first_name %>
                     </button>
+                </a>
+                
+                <a href="/message_chef/<%= @cook.id %>"
+                    class="btn btn-primary white">
+                   Send A Message 
                 </a>
             </div>
             

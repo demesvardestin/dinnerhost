@@ -35,7 +35,7 @@
         <div class="card sender-message <%= message_box_alignment(m.sender_type) %>" style="width: 80%;">
             <div class="card-body text-left">
                 <p><%= m.content %></p>
-                <p class="font-14 opaque message-timestamp"><%= m.created_at.strftime('%b %e, %Y') %></p>
+                <p class="font-14 opaque message-timestamp"><%= (m.created_at - 5.hour).strftime('%b %e, %Y at %l:%M%p') %></p>
             </div>
         </div>
     </div>

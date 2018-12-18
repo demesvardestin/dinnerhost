@@ -1,4 +1,14 @@
-<p class="bold">
+<% if cook.licensed %>
+    <p class="bold">
+        License
+    </p>
+    
+    <p>
+        <%= cook.license_type %>
+    </p>
+<% end %>
+
+<p class="bold add-margin-top">
     Education
 </p>
 

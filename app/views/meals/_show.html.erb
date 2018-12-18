@@ -174,14 +174,6 @@
                     <div class="col-md-12">
                         <h3 class="bold">
                             <%= @meal.name %>
-                            <span class="badge badge-light theme-green cursor-pointer"
-                                style="font-size: 20px;"
-                                data-toggle="modal" data-target="#why-this-price">
-                                + $<%= @meal.prep_fee %>
-                                <i class="fa fa-question-circle"
-                                    style="font-size: 18px;"
-                                    title="The cook's booking rate, plus this fee, is the total booking fee."></i>
-                            </span>
                         </h3>
                         <h5>
                             <a href="/category/<%= @meal.meal_type.downcase %>"
@@ -194,32 +186,66 @@
                 <div class="row add-margin-top">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header background-yellow">
-                                Highlights
-                            </div>
                             <div class="card-body">
+                                <h5 class="bold">Highlights</h5>
+                                
+                                <hr>
+                                
                                 <p>
                                     <b>Course</b>: <%= @meal.course %>
                                 </p>
-                                <p>
+                                <p class="add-margin-top">
                                     <b>Served</b>: <%= @meal.serving_temperature %>
                                 </p>
-                                <p>
+                                <p class="add-margin-top">
                                     <b>Flavor</b>: <%= @meal.flavor %>
                                 </p>
-                                <p>
-                                    <b>Notable Ingredients</b>: <%= @meal.notable_ingredients %>
-                                </p>
-                                <p>
+                                <p class="add-margin-top">
                                     <b>Allergens</b>: <%= @meal.allergens %>
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
+                
                 <div class="row" style="margin-top: 20px;">
                     <div class="col-md-12">
                         <p class="font-15"><%= @meal.description %></p>
+                    </div>
+                </div>
+                
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header background-purple">
+                                Ingredients
+                            </div>
+                            <div class="card-body">
+                                <div id="ingredients-list">
+                                    <% if @meal.ingredients.present? %>
+                                        <% @meal.ingredients.each do |ingredient| %>
+                                            <div>
+                                                <p>
+                                                    <%= ingredient.name %>
+                                                    
+                                                    <span class="badge badge-primary" style="margin-left: 5px;">
+                                                        <%= ingredient.quantity %>
+                                                    </span>
+                                                </p>
+                                                
+                                                <p class="text-muted">
+                                                    <%= "Note: " + ingredient.additional_details if ingredient.additional_details.present? %>
+                                                </p>
+                                                
+                                                <% if !(ingredient == @meal.ingredients.last) %><hr><% end %>
+                                            </div>
+                                        <% end %>
+                                    <% else %>
+                                        <p class="font-16">No ingredients listed</p>
+                                    <% end %>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 

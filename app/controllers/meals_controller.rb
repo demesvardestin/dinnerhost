@@ -1,7 +1,8 @@
 class MealsController < ApplicationController
-  before_action :authenticate_chef!, only: [:create, :update, :edit, :destroy]
+  before_action :authenticate_chef!, only: [:create, :create_ingredient, :ingredients_list, :update, :edit, :destroy]
+  before_action :own_meal, only: [:edit, :update, :destroy, :ingredients_list]
   before_action :authenticate_customer!, only: [:reserve, :booking_confirmation]
-  before_action :set_meal, only: [:create, :update, :show, :edit, :destroy]
+  before_action :set_meal, only: [:update, :show, :edit, :destroy]
   before_action :set_meal_attributes, only: :new
   
   def create
@@ -9,11 +10,45 @@ class MealsController < ApplicationController
     @meal.chef = current_chef
     respond_to do |format|
       if @meal.save
-        format.html { redirect_to @meal, notice: 'Meal created'}
+        format.html { redirect_to add_ingredients_path(:id => @meal.id) }
       else
         render :new
       end
     end
+  end
+  
+  def create_ingredient
+    @ingredient = Ingredient.new(ingredient_params)
+    @meal = Meal.find_by(id: params[:ingredient][:meal_id])
+    own_meal @meal.id
+    
+    @ingredient.meal = @meal
+    @ingredient.chef = current_chef
+    respond_to do |format|
+      if @ingredient.save
+        @ingredients = @meal.ingredients
+        format.js { render "ingredient_added", :layout => false }
+      else
+        format.js { render "common/error", :layout => false }
+      end
+    end
+  end
+  
+  def remove_ingredient
+    @ingredient = Ingredient.find_by(id: params[:id])
+    @meal = Meal.find_by(:id => params[:meal_id])
+    own_meal @meal.id
+    
+    return warn if not_proper_user @ingredient
+    @ingredient.destroy
+    
+    @ingredients = @meal.ingredients
+    render "ingredient_removed", :layout => false
+  end
+  
+  def ingredients_list
+    @meal = Meal.find_by(id: params[:id])
+    @ingredient = Ingredient.new
   end
   
   def update
@@ -24,7 +59,8 @@ class MealsController < ApplicationController
     @meal.zipcode = current_chef.zipcode
     respond_to do |format|
       if @meal.save
-        format.html { redirect_to "/dish/#{@meal.id}/#{@meal.slug}", notice: "Event updated!" }
+        @notice = "Listing updated!"
+        format.js { render "common/show_notice", :layout => false }
       else
         render :edit
       end
@@ -127,8 +163,21 @@ class MealsController < ApplicationController
   
   private
   
-  def set_meal
-    @meal = Meal.not_deleted.find_by(id: params[:id])
+  def set_meal(id=nil)
+    @meal = Meal.not_deleted.find(id || params[:id])
+  end
+  
+  def own_meal(id=nil)
+    set_meal id
+    @notice = "Unauthorized access!"
+    
+    if @meal.chef != current_chef
+      if request.xhr?
+        render "common/unauthorized", :layout => false
+      else
+        redirect_to :back, notice: @notice
+      end
+    end
   end
   
   def set_meal_attributes
@@ -148,11 +197,28 @@ class MealsController < ApplicationController
             :notable_ingredients)
   end
   
+  def ingredient_params
+    params.require(:ingredient).permit(:name, :quantity, :additional_details)
+  end
+  
   def meal_report_params
     params.require(:meal_report).permit(:report_type, :details, :meal_id, :customer_id)
   end
   
   def reservation_params
     params.require(:reservation).permit(:start_date, :end_date, :adult_count, :children_count)
+  end
+  
+  def current_user
+    current_chef || current_customer
+  end
+  
+  def not_proper_user(obj)
+    obj.user != current_user
+  end
+  
+  def warn
+    @notice = "Unauthorized Access!"
+    render "common/unauthorized", :layout => false
   end
 end
