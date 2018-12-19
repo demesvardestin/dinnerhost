@@ -94,7 +94,7 @@ class MainController < ApplicationController
             if e.try(:to_i)
                 MessageUpdate.invite_chef(e, current_customer)
             else
-                ReferralMailer.invite_chef(e, current_customer).deliver_now
+                UserMailer.invite_chef(e, current_customer).deliver_now
             end
         end
         
