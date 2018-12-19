@@ -90,11 +90,11 @@ class MainController < ApplicationController
     
     def submit_chef_referral
         chef_list = params[:chef_referral][:list]
-        chef_list.split(',').map{|c| c.strip! != "" }.each do |e|
+        chef_list.split(',').each do |e|
             if e.try(:to_i)
-                MessageUpdate.invite_chef(e, current_customer)
+                MessageUpdate.invite_chef(e.strip, current_customer)
             else
-                UserMailer.invite_chef(e, current_customer).deliver_now
+                UserMailer.invite_chef(e.strip, current_customer).deliver_now
             end
         end
         
