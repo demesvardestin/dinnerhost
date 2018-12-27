@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
   end
   
   def load_cook
-    @cook = Chef.find_by(id: params[:id]) || Chef.find_by(username: params[:username]) || Chef.find_by(shortened_url: params[:shortened_url]) || Chef.find_by(id: params[:correspondent_id])
+    @cook = Chef.find_by(id: params[:id]) || Chef.find_by(username: params[:username]) || Chef.find_by(shortened_url: params[:shortened_url]) || Chef.find_by(id: params[:correspondent_id]) || Chef.new
   end
   
   def load_meal

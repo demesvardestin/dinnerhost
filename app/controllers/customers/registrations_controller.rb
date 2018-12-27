@@ -13,7 +13,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
     end
     
     def after_sign_up_path_for(resource)
-        customers_dashboard_path
+        authenticated_customer_root_path
     end
     
     def after_sign_in_path_for(resource_or_scope)
