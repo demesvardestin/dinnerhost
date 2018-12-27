@@ -38,7 +38,7 @@
         <hr>
         
         <div id="view-cook-profile-btn-div" align="center" style="margin-top: 15px;">
-            <%= link_to book_path(:username => @cook.username), class:"btn btn-primary" do %>
+            <%= link_to "/book/#{@cook.username}?meal_ids=#{@meal.id},&request_date=&request_time=Time&adult_count=1&children_count=0&allergies=", class:"btn btn-primary" do %>
                 Book <%= @cook.first_name %>
             <% end %>
             <%= link_to "/chef/#{@cook.username}", class:"btn btn-secondary" do %>

@@ -1,3 +1,8 @@
+<style>
+    #main-body {
+        padding-top: 0 !important;
+    }
+</style>
 <section style="width: 100%; height: 100%;" align="center" id="meal-show">
     <span style="margin: auto; top: 25%; vertical-align: middle !important;">
         <i class="fa fa-spinner fa-pulse fa-3x fa-fw theme-cyan"
@@ -7,7 +12,7 @@
 </section>
 
 <div class="container">
-    <div class="row" id="recommended-dishes" style="margin-top: 15px;">
+    <div class="row" id="recommended-dishes">
         <% if recommended_dishes(@meal).present? %>
             <%= render partial: "meals/meals", locals: { meals: recommended_dishes(@meal) } %>
         <% else %>
@@ -21,8 +26,8 @@
 <script type="text/javascript">
     var body = document.querySelector('#main-body');
     body.classList.remove('container');
-    
-    document.querySelector('body').style.paddingTop = '50px';
+    body.style.paddingLeft = "0 !important";
+    body.style.paddingRight = "0 !important";
     
     $('#meal-show')
     .html(`<%= render "show" %>`)

@@ -1,0 +1,104 @@
+<section id="booking-complete" align="center" style="margin-top: 30px;">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h3 class="bold">Bon Appetit!</h3>
+            
+            <h5 class="add-margin-top text-muted">
+                Your request has been sent. We'll notify you once
+                <a href="/c/<%= @chef.username %>" class="background-transparent theme-cyan">
+                    <%= @chef.first_name %>
+                </a>
+                accepts it.
+            </h5>
+            
+            <img src="/images/salad.png" height="200" style="margin-top: 20px;">
+            
+            <p style="margin-top: 20px;">Reservation ID: <b><%= @reservation.token %></b></p>
+        </div>
+        
+        <div class="col-md-8 offset-md-2" style="margin-top: 20px;">
+            <div class="card" align="left" style="margin-top: 20px;">
+                <div class="card-header background-cyan">
+                    Booking Details
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5 style="color: #000;">Meals requested</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <% @reservation.meals.each do |m| %>
+                            <div class="col-md-12 add-margin-bottom">
+                                <%= link_to "/dish/#{m.id}/#{m.slug}", class:"theme-cyan" do %>
+                                    <%= m.name %>
+                                <% end %>
+                            </div>
+                        <% end %>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <h5 style="color: #000;">Date & Time</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-muted">
+                            <%= @reservation.request_period_stringified %>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <h5 style="color: #000;">People</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-muted">
+                            <%= (@reservation.adult_count.to_s + " adults") if @reservation.adult_count > 0 %>
+                            <%= (" and " + @reservation.children_count.to_s + " children") if @reservation.children_count > 0 %>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <h5 style="color: #000;">Allergens</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 theme-red">
+                            <%= @reservation.allergens_present? %>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-md-12">
+                            <h5 style="color: #000;">Total</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 bold theme-green">
+                            $<%= @reservation.fee %>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a href="/message_chef/<%= @chef.id %>"
+                        class="background-transparent no-underline">
+                        <button class="btn btn-success">
+                            <i class="fa fa-envelope-o"></i> Message <%= @chef.first_name %>
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

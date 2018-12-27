@@ -3,6 +3,8 @@ class Message < ApplicationRecord
     has_one :customer
     has_one :chef
     
+    after_create :update_chat
+    
     def user_type
         self.sender_type
     end
@@ -16,10 +18,16 @@ class Message < ApplicationRecord
     end
     
     def content_snipet
-        self.content[0..60] + "..."
+        content.truncate(60)
     end
     
     def extended_content_snipet
-        self.content[0..150] + "..."
+        content.truncate(150)
+    end
+    
+    protected
+    
+    def update_chat
+        conversation.update(updated_at: Time.zone.now)
     end
 end

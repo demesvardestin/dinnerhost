@@ -14,7 +14,11 @@ class CustomersController < ApplicationController
         source = params[:customer][:stripe_token][:id]
         brand = params[:customer][:stripe_token][:card][:brand]
         last_4 = params[:customer][:stripe_token][:card][:last4]
-        return if source.nil? || source.empty?
+        if source.nil? || source.empty?
+            @notice = "Payment update failed. Please try again"
+            render "common/error", :layout => false
+            return
+        end
         
         begin
             stripe_acct = Stripe::Customer.retrieve(current_customer.stripe_token)

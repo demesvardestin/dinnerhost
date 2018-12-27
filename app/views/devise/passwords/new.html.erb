@@ -1,11 +1,12 @@
-<section id="store-login" class="container" style="margin-bottom: 125px; margin-top: 50px;">
+<section id="store-login" class="container" style="margin-bottom: 100px; margin-top: 50px;">
   <div class="row">
-    <div class="col-md-6 offset-md-3">
+    <div class="col-md-4 offset-md-4">
       <div class="card">
-        <div class="card-header theme-background">
-          <h5 class="white text-center">Forgot your password?</h5>
-        </div>
         <div class="card-body">
+          <div class="header">
+            <h5 class="text-center medium-gray">Forgot your password?</h5>
+            <hr style="height: 2px; background-color: #F27649; border-color: #F27649; width: 15%; margin: auto !important;">
+          </div>
           <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
             <div class="form-inputs" style="vertical-align: middle !important;">
               <% if !devise_error_messages!.empty? %>
@@ -28,8 +29,10 @@
               </div>
               
               <div class="col-md-12 add-padding-top text-center">
-                <%= link_to "Log into your account", store_retrieve_password_path, class:"background-transparent theme-blue font-16 display-block", onclick:"window.location.replace('/store/login');" %>
-                <%= link_to "Don't have an account? Register here", register_a_store_path, class:"background-transparent theme-blue font-16 display-block", onclick:"window.location.replace('/register-a-store');" %>
+                <%= link_to "Don't have an account? Register here", new_chef_registration_path, class:"background-transparent theme-blue font-16 display-block" if request.original_url.include?('chef') %>
+                <%= link_to "Don't have an account? Register here", customer_signup_path, class:"background-transparent theme-blue font-16 display-block" unless request.original_url.include?('chef') %>
+                <%= link_to "Already have an account?", chef_login_path, class:"background-transparent theme-blue font-16 display-block" if request.original_url.include?('chef') %>
+                <%= link_to "Already have an account?", customer_login_path, class:"background-transparent theme-blue font-16 display-block" unless request.original_url.include?('chef') %>
               </div>
               
             </div>

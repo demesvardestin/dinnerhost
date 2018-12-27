@@ -4,7 +4,12 @@
             <div class="card box-shadow">
                 <div class="card-body">
                     <h5 class="bold add-margin-bottom">Add Ingredients To "<%= @meal.name %>"</h5>
-                    
+                    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                      Ingredients listed are assumed to be for 2 people
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
                     <hr>
                     
                     <%= form_for(@ingredient, :html => { :multipart => true, :class => 'ingredient-form', :id => "ingredient_form" }, :url => { action: "create_ingredient" }, :remote => true) do |f| %>

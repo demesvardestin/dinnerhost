@@ -19,7 +19,7 @@ class Chef < ApplicationRecord
   
   mount_uploader :image, ImageUploader
   
-  after_create :create_rating, :create_shortened_url
+  after_create :create_rating, :create_shortened_url, :send_welcome_email
   
   scope :live, -> { where(live: true) }
   
@@ -134,6 +134,10 @@ class Chef < ApplicationRecord
   
   def create_shortened_url
     self.update(shortened_url: RandomToken.random(8))
+  end
+  
+  def send_welcome_email
+    UserMailer.welcome_email(self).deliver_now
   end
   
 end

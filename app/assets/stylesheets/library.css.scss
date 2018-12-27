@@ -3,8 +3,6 @@ body {
     background: #fff;
     color: #484848;
     line-height: 1.43;
-    padding: 80px 0 0 0;
-    margin: 5px 0 0 0;
     font-family: 'Roboto', sans-serif !important;
     z-index: 1;
 }
@@ -125,12 +123,12 @@ a:hover {
 }
 
 .form-control {
-    border-radius: 5px;
+    border-radius: 2px;
     height: 50px;
 }
 
 input.btn, .btn, .card, .modal-content, .alert {
-    border-radius: 5px;
+    border-radius: 2px;
 }
 
 input.btn {
@@ -194,7 +192,7 @@ input.btn {
 }
 
 .background-white {
-    background: #fff !important;
+    background-color: #fff !important;
 }
 
 .background-red {
@@ -250,6 +248,10 @@ input.btn {
 
 .border-blue {
     border-color: #007bff !important;
+}
+
+.font-blue {
+    color: #007bff !important;
 }
 
 .border-lightgray {
@@ -322,7 +324,7 @@ input.btn {
 .badge-circle {
     height: 10px;
     width: 10px;
-    border-radius: 5px;
+    border-radius: 2px;
 }
 .badge-circle-medium {
     height: 30px;
@@ -493,18 +495,8 @@ $size: 40px;
     display: none;
 }
 
-.navbar {
-    border-bottom: 1px solid #eee;
-    background: #fff !important;
-    padding: 16px;
-}
-
 .navbar-brand {
     padding: 0;
-}
-
-.navbar-toggler {
-    padding: .75rem;
 }
 
 .platform-color {
@@ -582,26 +574,6 @@ $size: 40px;
     color: #F27649;
 }
 
-.pac-container {
-    padding: 0 0.75rem 1rem 0.75rem !important;
-    width: 730px;
-    margin-left: -36.78px;
-    box-shadow: none !important;
-    border: 0.5px solid #e7e7e9 !important;
-    font-family: 'Montserrat', sans-serif !important;
-}
-
-.pac-item {
-    border-top: none;
-    border-bottom: 0.5px solid #e7e7e9;
-    padding: 10px 0;
-    cursor: pointer !important;
-}
-
-.pac-icon {
-    color: #F27649 !important;
-}
-
 .prepend-group {
     height: 65px;
     border-color: #fff;
@@ -643,7 +615,7 @@ div.how-to > i {
     height: 10px;
     width: 10px;
     padding: 0;
-    border-radius: 5px;
+    border-radius: 2px;
     font-size: 15px !important;
 }
 
@@ -651,7 +623,7 @@ div.how-to > i {
     height: 10px;
     width: 10px;
     padding: 0;
-    border-radius: 5px;
+    border-radius: 2px;
     background-color: #ff3232 !important;
     font-size: 15px !important;
 }
@@ -742,7 +714,7 @@ button, input, .btn {
 
 button, .btn {
     color: #fff;
-    border-radius: 5px;
+    border-radius: 2px;
 }
 
 .theme-color {
@@ -898,28 +870,7 @@ canvas {
     width: 100%;
 }
 
-@media only screen and (min-device-width: 1366px) {
-    
-    .pac-container {
-        width: 730px !important;
-        margin-left: -36.78px !important;
-    }
-}
-
-/* Mobile Rules */
-
-@media only screen and (min-device-width: 1024px) and (max-device-width: 1365.98px) {
-    
-    .pac-container {
-        width: 610px !important;
-        margin-left: -36.78px !important;
-    }
-}
-
 @media only screen and (min-device-width: 768px) and (max-device-width: 1023px) {
-    .icon-image {
-        margin-left: -65px;
-    }
     
     #search {
         margin-top: -380px !important;
@@ -929,17 +880,20 @@ canvas {
     .social-share-inline-middle {
         padding: 0 !important;
     }
-    
-    .pac-container {
-        width: 451px !important;
-        margin-left: -36.78px !important;
-    }
 }
 
 @media only screen and (max-device-width: 767.98px) {
-    #main-body {
-        padding-left: 15px !important;
-        padding-right: 15px !important;
+    #book-chef {
+        padding: 0 15px;
+    }
+    
+    #meal-search-results {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
+    .row-containing-main-search {
+        margin-top: 40% !important;
     }
     
     #mobile-toggle {
@@ -948,6 +902,11 @@ canvas {
     
     .social-share-inline {
         padding: 0 15px !important;
+    }
+    
+    .meal-page-container {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
     }
     
     #banner-text {
@@ -983,11 +942,6 @@ canvas {
     
     #store-banner-div {
         height: 390px !important;
-    }
-    
-    .pac-container {
-        width: 331px !important;
-        margin-left: -36.78px !important;
     }
     
     .social-share-right {
@@ -1036,7 +990,13 @@ canvas {
         left: 0 !important;
         top: -40px !important;
         border-radius: 0 !important;
-        box-shadow: none !important;
-        border: none !important;
+    }
+    
+    .no-mobile-display {
+        display: none !important;
+    }
+    
+    #request-location {
+        border-radius: 2px !important;
     }
 }

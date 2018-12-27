@@ -23,7 +23,7 @@
             </div>
         </form>
         <p class="card-saved">
-            <%= "#{current_customer.card_brand} ending in #{current_customer.stripe_last_4}" %>
+            <%= "#{current_customer.card_brand.upcase} ending in #{current_customer.stripe_last_4}" %>
             <a class="background-transparent theme-cyan cursor-pointer"
                 onclick="$('.card-saved').hide();$('#payment-form').show();"
                 style="margin-left: 5px;">

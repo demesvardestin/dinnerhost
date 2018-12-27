@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181218191419) do
+ActiveRecord::Schema.define(version: 20181223231300) do
+
+  create_table "app_errors", force: :cascade do |t|
+    t.string   "error_type"
+    t.text     "details"
+    t.boolean  "resolved",    default: false
+    t.string   "object_type"
+    t.integer  "object_id"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
 
   create_table "chef_ratings", force: :cascade do |t|
     t.integer  "value"
@@ -247,6 +257,10 @@ ActiveRecord::Schema.define(version: 20181218191419) do
     t.boolean  "cancelled",          default: false
     t.datetime "cancelled_on"
     t.boolean  "completed",          default: false
+    t.string   "token"
+    t.boolean  "diner_alerted",      default: false
+    t.datetime "diner_alerted_on"
+    t.integer  "diner_alerts_sent",  default: 0
   end
 
   create_table "stars", force: :cascade do |t|

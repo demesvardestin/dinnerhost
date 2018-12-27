@@ -133,8 +133,13 @@
                             <h4 class="bold modal-body-header-headline text-center">Rate <%= @cook.first_name if @cook %></h4>
                         </div>
                         
-                        <div class="cook-profile-image add-margin-top" align="center">
-                            <img src="" alt="cook">
+                        <div id="cook-avi" class="cursor-pointer add-margin-top"
+                            onclick="window.location.href='/c/<%= @cook.username %>'"
+                            style="height: 60px; width: 60px; margin: auto;
+                                    overflow: hidden; border-radius: 30px;
+                                    border: 0.5px solid #e7e7e9;">
+                            <img src="<%= @cook.image.url %>" alt="cook"
+                                style="height: auto; width: inherit;">
                         </div>
                         
                         <div class="star-rating" align="center" style="margin-top: 20px;">
@@ -183,43 +188,6 @@
     <% end %>
     
 <% end %>
-
-<div class="row">
-    <div class="col-md-6 offset-md-3">
-        <% if params[:origin] && params[:reservation] %>
-            <div id="reservation-made" class="box-shadow-amp">
-                <div class="row">
-                    <div class="col-md-12 cursor-pointer" align="right" style="font-size: 30px;"
-                        onclick="$('#reservation-made').hide(); resetHistory();">
-                        &times;
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-md-12 cursor-pointer">
-                        <h4 class="bold">Your reservation has beend made!</h4>
-                        <h6 class="add-margin-top">You will receive a confirmation email with further details.</h6>
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-md-12 text-center">
-                        <div style="background-image: url('/images/cook-invite-banner.png');
-                                background-position: center; background-size: cover;
-                                height: 150px; border-radius: 5px; margin-top: 30px;
-                                padding-top: 50px;">
-                            <a href="/refer-a-chef" class="background-transparent no-underline">
-                                <button class="btn btn-light height-50 box-shadow-amp theme-blue">
-                                    Refer a chef. Earn $20
-                                </button>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <% end %>
-    </div>
-</div>
 
 <% if url.include?("book/") %>
     <div class="modal fade" id="addPaymentModal" tabindex="-1" role="dialog"

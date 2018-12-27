@@ -1,7 +1,7 @@
 module ReservationsHelper
     
     def reservation_tips
-        ["All cooks are responsible for their own ingredients, but you are responsible for things
+        ["You are responsible for providing the ingredients, as well as things
         such as cutlery, table accessories, and any additional dinner arrangements.",
         "Make sure to specify any potential allergen to you or anyone present.
         If you forgot to do so on the previous page, be sure to send the cook

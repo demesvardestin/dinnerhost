@@ -3,8 +3,13 @@ $('.cook-rating-modal-body').html(`
         <h4 class="bold modal-body-header-headline text-center">Thank you for your feedback!</h4>
     </div>
     
-    <div class="cook-profile-image add-margin-top" align="center">
-        <img src="" alt="cook">
+    <div id="cook-avi" class="cursor-pointer add-margin-top"
+        onclick="window.location.href='/c/<%= @cook.username %>'"
+        style="height: 60px; width: 60px; margin: auto;
+                overflow: hidden; border-radius: 30px;
+                border: 0.5px solid #e7e7e9;">
+        <img src="<%= @cook.image.url %>" alt="cook"
+            style="height: auto; width: inherit;">
     </div>
     
     <div class="star-rating" align="center" style="margin-top: 20px;">

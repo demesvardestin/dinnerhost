@@ -87,7 +87,7 @@
                 <hr>
                 
                 <div class="add-margin-top" id="status-<%= b.id %>">
-                    <p align="center" class="<%= b.status_color %>">
+                    <p align="center" class="<%= b.status_color %> bold">
                         <%= b.status %>
                     </p>
                 </div>
@@ -96,7 +96,7 @@
                 
                 <div class="add-margin-top">
                     <p align="center">
-                        <a href="/reservation/<%= b.id %>/meals"
+                        <a href="/booking-complete?reservation=<%= b.id %>"
                             class="background-transparent theme-cyan">
                             View Details
                         </a>

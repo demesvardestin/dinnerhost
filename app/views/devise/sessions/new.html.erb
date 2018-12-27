@@ -1,6 +1,6 @@
 <section id="store-login" class="container" style="margin-bottom: 75px; margin-top: 30px;">
   <div class="row">
-    <div class="col-md-6 offset-md-3">
+    <div class="col-md-4 offset-md-4">
       <% flash.each do |name, msg| %>
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
           <%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
@@ -11,7 +11,10 @@
       <% end %>
       <div class="card theme-border">
         <div class="card-body">
-          <h5 align="center" class="theme-color add-margin-bottom">Log in</h5>
+          <div class="header">
+            <h5 class="text-center medium-gray">Welcome Back</h5>
+            <hr style="height: 2px; background-color: #F27649; border-color: #F27649; width: 15%; margin: auto !important;">
+          </div>
           <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
             <div class="form-inputs" style="vertical-align: middle !important;">
               <% if !devise_error_messages!.empty? %>

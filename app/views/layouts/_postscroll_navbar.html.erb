@@ -1,0 +1,38 @@
+<a class="navbar-brand cursor-pointer" href="/"><img src="/images/logo-transparent.png" height="50"></a>
+<button class="navbar-toggler" type="button" data-toggle="collapse"
+    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+    aria-expanded="false" aria-label="Toggle navigation"
+    onclick="$('.dh-navbar-collapse').toggleClass('display-block'); $('.navbar').toggleClass('background-white');">
+    <span class="navbar-toggler-icon">
+        <i class="fa fa-bars"></i>
+    </span>
+</button>
+
+<%= render "layouts/mobile_dropdown" %>
+
+<div class="justify-content-start no-mobile-display" id="navbar-search"
+    style="height: 100%;">
+    <ul class="navbar-nav" style="height: 100%;">
+        <li class="nav-item">
+            <span class="nav-link-child">
+                <%= render 'common/search_form' %>
+            </span>
+        </li>
+    </ul>
+</div>
+<div class="collapse navbar-collapse no-mobile-display justify-content-end" id="navbarSupportedContent">
+    <ul class="navbar-nav navbar-links">
+        <li class="nav-item hp-nav-item">
+            <a class="nav-link btn btn-light box-shadow font-blue" data-toggle="modal"
+                data-target="#customerAuthentication" id="diner-login-btn">
+                Diner Login
+            </a>
+        </li>
+        <li class="nav-item hp-nav-item">
+            <a class="btn btn-primary white nav-link box-shadow" href="/chef/signup"
+                id="become-a-chef">
+                Become a chef
+            </a>
+        </li>
+    </ul>
+</div>

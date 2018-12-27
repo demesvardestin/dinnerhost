@@ -7,6 +7,7 @@ class Referral < ApplicationRecord
         referral = chef.referral
         return if !referral || (referral && referral.applied)
         customer = Customer.find_by(referral_code: referral.code_value)
+        return if customer.nil?
         customer.update(credit_value: customer.credit_value + 5.0)
         referral.update(applied: true)
         

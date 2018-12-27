@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Great news, <%= @chef.first_name %> has accepted your reservation request!</h1>
+    <p>
+        Here's what you will need to have ready:
+    </p>
+    
+    <ul>
+        <% @ingredients.each do |i| %>
+            <li>
+                <%= i.name %> (<%= i.quantity %>)<br />
+                <% if i.additional_details.present? %>
+                    <span class="text-muted">
+                        <%= "Note: " + i.additional_details %>
+                    </span>
+                <% end %>
+            </li>
+        <% end %>
+    </ul>
+    <p>Bon appetit!</p>
+  </body>
+</html>

@@ -18,7 +18,7 @@ class MainController < ApplicationController
         else
             meal_type = params[:meal_type] || ""
             location = params[:request_location] || ""
-            @meals = Meal.not_deleted.near(location, 5).filter_type(meal_type)
+            @meals = Meal.not_deleted.near(location, 15).filter_type(meal_type)
         end
     end
     

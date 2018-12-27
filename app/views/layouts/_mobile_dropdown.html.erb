@@ -1,0 +1,130 @@
+<% if current_chef %>
+    <div class="dh-navbar-collapse box-shadow display-mobile">
+        <div class="dh-navbar-collapse-nav">
+            <a class="background-transparent" href="/new-dish" style="color: #000;">
+                Add a dish
+            </a>
+        </div>
+        <div class="dh-navbar-collapse-nav">
+            <a class="background-transparent" href="/chef/edit/payout" style="color: #000;">
+                Reservations
+            </a>
+        </div>
+        <div class="dh-navbar-collapse-nav">
+            <a class="background-transparent" href="/inbox" style="color: #000;">
+                Messages <i class="<%= inbox_status %>" style="font-size: 8px; vertical-align: super !important;"></i>
+            </a>
+        </div>
+        <div class="dh-navbar-collapse-nav">
+            <div class="dropdown" style="height: 100%;">
+                <a class="background-transparent font-blue bold" href="/inbox"
+                    id="dropdownMenuButton" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Account <i class="fa fa-angle-down"></i>
+                </a>
+                <div class="dropdown-menu box-shadow no-border-radius dropdown-menu-right"
+                    aria-labelledby="dropdownMenuButton"
+                    style="border-color: #eee; padding: 0; margin-top: -18.5px;
+                        width: 250px;">
+                    <a class="background-transparent dropdown-item cursor-pointer"
+                        href="/chef/edit/profile">
+                        Account Settings
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="background-transparent dropdown-item cursor-pointer"
+                        href="/chef/password-settings">
+                        Password Settings
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="background-transparent dropdown-item cursor-pointer"
+                        href="/chef/edit/social">
+                        Social Settings
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="background-transparent dropdown-item cursor-pointer"
+                        href="/chef/edit/payout">
+                        Payout Settings
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="background-transparent dropdown-item cursor-pointer"
+                        href="/chef/edit/listings">
+                        Meals
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <%= link_to destroy_chef_session_path, class:"background-transparent dropdown-item", method: :delete do %>
+                        Log Out
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+<% elsif current_customer %>
+    <div class="dh-navbar-collapse box-shadow display-mobile">
+        <div class="dh-navbar-collapse-nav">
+            <a class="background-transparent" href="/wishlist" style="color: #000;">
+                Saved
+            </a>
+        </div>
+        <div class="dh-navbar-collapse-nav">
+            <a class="background-transparent" href="/bookings" style="color: #000;">
+                Bookings
+            </a>
+        </div>
+        <div class="dh-navbar-collapse-nav">
+            <a class="background-transparent" href="/inbox" style="color: #000;">
+                Messages <i class="<%= inbox_status %>" style="font-size: 8px; vertical-align: super !important;"></i>
+            </a>
+        </div>
+        <div class="dh-navbar-collapse-nav">
+            <div class="dropdown" style="height: 100%;">
+                <a class="background-transparent font-blue bold" href="/inbox"
+                    id="dropdownMenuButton" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Account <i class="fa fa-angle-down"></i>
+                </a>
+                <div class="dropdown-menu box-shadow no-border-radius dropdown-menu-right"
+                    aria-labelledby="dropdownMenuButton"
+                    style="border-color: #eee; padding: 0; margin-top: -18.5px;
+                        width: 250px;">
+                    <a class="background-transparent dropdown-item cursor-pointer"
+                        href="/edit/profile">
+                        Edit profile
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="background-transparent dropdown-item cursor-pointer"
+                        href="/customer/password-settings">
+                        Password Settings
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="background-transparent dropdown-item cursor-pointer"
+                        href="/edit/verification">
+                        Trust & Verification
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="background-transparent dropdown-item cursor-pointer"
+                        href="/refer-a-chef">
+                        Refer chefs
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <%= link_to destroy_customer_session_path, class:"background-transparent dropdown-item", method: :delete do %>
+                        Sign out
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+<% else %>
+    <div class="dh-navbar-collapse box-shadow display-mobile">
+        <div class="dh-navbar-collapse-nav">
+            <a class="background-transparent" data-toggle="modal"
+                data-target="#customerAuthentication" style="color: #000;">
+                Log in
+            </a>
+        </div>
+        <div class="dh-navbar-collapse-nav">
+            <a class="background-transparent font-blue bold" href="/chef/signup">
+                Become a chef
+            </a>
+        </div>
+    </div>
+<% end %>

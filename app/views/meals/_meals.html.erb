@@ -1,28 +1,20 @@
 <% if meals.present? %>
     <% meals.each do |m| %>
-        <div class="col-md-4 add-margin-bottom">
+        <div class="col-md-4 add-margin-bottom meal-card add-padding-top" style="border-radius: 5px;">
             <a href="/dish/<%= m.id %>/<%= m.slug %>" class="background-transparent theme-blue no-underline">
-                <div class="card cursor-pointer meal-card">
+                <div class="card cursor-pointer no-border">
                     <div class="card-body"
                         style="background-image: url('<%= m.image %>'); background-size: cover;
-                            background-position: center; height: 130px; border-top-left-radius: 5px;
-                            border-top-right-radius: 5px;">
-                        <span class="badge badge-primary"><%= m.meal_type %></span>
+                            background-position: center; height: 150px; border-radius: 5px;">
                     </div>
                     
-                    <div class="card-footer background-transparent">
-                        <span class="bold font-13 theme-blue float-left">
+                    <div class="meal-card-footer">
+                        <span class="font-15 float-left">
                             <%= m.name %>
                         </span>
                         
                         <span class="bold font-13 theme-blue float-right">
-                            <div id="chef-avi" align="center" class="cursor-pointer"
-                                style="height: 25px; width: 25px;
-                                        overflow: hidden; border-radius: 12.5px;
-                                        border: 0.5px solid #e7e7e9;">
-                                <img src="<%= m.chef.image %>" alt="chef"
-                                    style="height: auto; width: inherit;">
-                            </div>
+                            <span class="badge badge-primary"><%= m.meal_type %></span>
                         </span>
                     </div>
                 </div>

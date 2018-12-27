@@ -38,6 +38,28 @@
     <%= favicon_link_tag '/images/logo-transparent.png', :rel => 'shortcut icon' %>
     <%= csrf_meta_tags %>
   </head>
+  <script>
+    $(function () {
+        $(document).scroll(function () {
+          var $nav = $(".main--navbar");
+          $nav.toggleClass('scrolled fixed-top', check($nav));
+        });
+        
+        function check(nav) {
+          if ($(this).scrollTop() > nav.height()) {
+            $('#navbar-search').show();
+            $('.main-nav-link').css('color', '#000 !important');
+            return true;
+          } else {
+            <% if current_page? root_url %>
+              $('#navbar-search').hide();
+            <% end %>
+            $('.main-nav-link').css('color', '#fff !important');
+            return false;
+          }
+        }
+    });
+  </script>
   <body id="body"> 
     <%= render navbar %>
     <%= render body %>

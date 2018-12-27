@@ -1,6 +1,6 @@
 class ChefsController < ApplicationController
   before_action :set_cook, except: :show
-  before_action :authenticate_chef!, only: [:dashboard, :edit, :reservations]
+  before_action :authenticate_chef!, except: :show
   before_action :load_booking_estimate, only: [:booking_estimate, :reserve]
   before_action :load_reservations, except: [:show]
   
@@ -69,7 +69,17 @@ class ChefsController < ApplicationController
     @reservation = Reservation.find(params[:id])
     @customer = @reservation.customer
     @cook.accept_reservation @reservation
-    render :layout => false
+    
+    begin
+      Reservation.charge_customer @reservation
+      render :layout => false
+      
+      UserMailer.reservation_accepted(@reservation).deliver_now
+      MessageUpdate.reservation_accepted(@reservation)
+    rescue
+      @notice = "Unable to process this request at this time. Please try again."
+      render "common/error", :layout => false
+    end
   end
   
   def deny_reservation
@@ -77,6 +87,9 @@ class ChefsController < ApplicationController
     @pending = Reservation.where(chef_id: current_chef.id).pending
     @cook.deny_reservation @reservation
     render :layout => false
+    
+    UserMailer.reservation_denied(@reservation).deliver_now
+    MessageUpdate.reservation_denied(@reservation)
   end
   
   def load_reservations_category

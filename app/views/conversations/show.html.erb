@@ -1,4 +1,16 @@
 <section id="conversation">
+    <% if (current_chef || current_customer).has_archived @conversation %>
+        <div class="row" id="conversation-archived-label">
+            <div class="col-md-12">
+                <div class="alert alert-warning" role="alert">
+                    This conversation is currently archived.
+                    <%= link_to unarchive_conversation_path(@conversation), class:"btn btn-link bold", remote: true do %>
+                        <i class="fa fa-archive"></i> Unarchive it.
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    <% end %>
     <div class="row">
         <div class="col-md-4">
             <div class="card">

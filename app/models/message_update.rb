@@ -11,6 +11,50 @@ class MessageUpdate
         )
     end
     
+    def self.reservation_accepted(reservation)
+        chef = reservation.chef
+        customer = reservation.customer
+        twilio, twilio_phone = self.twilio
+        twilio.messages.create(
+            body: "#{chef.first_name} has accepted your reservation request! You'll receive a separate email with further reservation details. If you don't receive any email within the next 3 hours, please reach out to help@dinnerhost.com",
+            to: customer.phone_number,
+            from: twilio_phone
+        )
+    end
+    
+    def self.reservation_denied(reservation)
+        chef = reservation.chef
+        customer = reservation.customer
+        twilio, twilio_phone = self.twilio
+        twilio.messages.create(
+            body: "Unfortunately, #{chef.first_name} has denied your reservation request. But don't worry, we've got you covered. Head to dinnerhost.co to browse more delicious listings!",
+            to: customer.phone_number,
+            from: twilio_phone
+        )
+    end
+    
+    def self.booking_complete(reservation)
+        chef = reservation.chef
+        customer = reservation.customer
+        twilio, twilio_phone = self.twilio
+        twilio.messages.create(
+            body: "Your reservation request has been sent out! Once #{chef.first_name} accepts it, you will receive a confirmation email with further details.",
+            to: customer.phone_number,
+            from: twilio_phone
+        )
+    end
+    
+    def self.new_reservation_request(reservation)
+        chef = reservation.chef
+        customer = reservation.customer
+        twilio, twilio_phone = self.twilio
+        twilio.messages.create(
+            body: "You have a new reservation request from #{customer.first_name}! Head over to https://dinnerhost.co/my-requests for more details!",
+            to: chef.phone_number,
+            from: twilio_phone
+        )
+    end
+    
     def self.twilio
         twilio = self.initialize_twilio
         # twilio_phone = ENV["TWILIO_PHONE"]

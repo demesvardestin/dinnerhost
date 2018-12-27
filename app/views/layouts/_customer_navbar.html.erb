@@ -1,10 +1,18 @@
 <nav class="navbar navbar-expand-lg fixed-top">
     <!--<div class="container" style="height: 100% !important;">-->
         <a class="navbar-brand cursor-pointer" href="/"><img src="/images/logo-transparent.png" height="50"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation"
+        onclick="$('.dh-navbar-collapse').toggleClass('display-block'); $('.navbar').toggleClass('background-white');">
+            <span class="navbar-toggler-icon">
+                <i class="fa fa-bars font-blue" style="font-size: 30px !important;"></i>
+            </span>
         </button>
-        <div class="collapse navbar-collapse justify-content-start" style="height: 100%;">
+        
+        <%= render "layouts/mobile_dropdown" %>
+        
+        <div class="collapse navbar-collapse justify-content-start no-mobile-display" style="height: 100%;">
             <ul class="navbar-nav" style="height: 100%;">
                 <li class="nav-item">
                     <span class="nav-link-child">
@@ -13,7 +21,7 @@
                 </li>
             </ul>
         </div>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent" style="height: 100%;">
+        <div class="collapse navbar-collapse justify-content-end no-mobile-display" id="navbarSupportedContent" style="height: 100%;">
             <ul class="navbar-nav" style="height: 100%;">
                 <li class="nav-item nav-item-nav">
                     <a class="nav-link-child background-transparent no-underline" href="/wishlist">
@@ -49,10 +57,16 @@
                         </div>
                         <div class="dropdown-menu box-shadow no-border-radius dropdown-menu-right"
                             aria-labelledby="dropdownMenuButton"
-                            style="border-color: #eee; padding: 0; margin-top: -18.5px;">
+                            style="border-color: #eee; padding: 0; margin-top: -18.5px;
+                                width: 250px;">
                             <a class="background-transparent dropdown-item cursor-pointer"
                                 href="/edit/profile">
                                 Edit profile
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="background-transparent dropdown-item cursor-pointer"
+                                href="/customer/password-settings">
+                                Password Settings
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="background-transparent dropdown-item cursor-pointer"

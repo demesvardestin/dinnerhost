@@ -20,7 +20,7 @@
  */
 .navbar {
     border-bottom: 1px solid #e7e7e9;
-    background: #fff !important;
+    background-color: #fff;
     padding: 0 16px;
     height: 75px !important;
 }
@@ -36,6 +36,10 @@
 
 li.nav-item {
     font-size: 14px;
+}
+
+.hp-nav-item {
+    margin-left: 15px;
 }
 
 .navbar-search-icon {
@@ -84,32 +88,25 @@ p {
 }
 
 .sender-message {
-    border-radius: 5px;
+    border-radius: 2px;
 }
 
-/*.sender-message.float-left:before {*/
-/*    content: "";*/
-/*    display: inline-block;*/
-/*    position: absolute;*/
-/*    left: -9px;*/
-/*    top: -1px;*/
-/*    right: auto;*/
-/*    border: 10px solid transparent;*/
-/*    border-left: 0;*/
-/*    border-right-color: #edefed;*/
-/*}*/
+.pac-container {
+    padding: 0 15px !important;
+    border: 0.5px solid #e7e7e9 !important;
+    font-family: 'Montserrat', sans-serif !important;
+}
 
-/*.sender-message.float-right:after {*/
-/*    content: "";*/
-/*    display: inline-block;*/
-/*    position: absolute;*/
-/*    right: -9px;*/
-/*    top: -1px;*/
-/*    left: auto;*/
-/*    border: 9px solid transparent;*/
-/*    border-right: 0;*/
-/*    border-left-color: #edefed;*/
-/*}*/
+.pac-item {
+    border-top: none;
+    border-bottom: 0.5px solid #e7e7e9;
+    padding: 10px 0;
+    cursor: pointer !important;
+}
+
+.pac-icon {
+    color: #F27649 !important;
+}
 
 .narbar-search {
     height: 30px !important;
@@ -142,11 +139,37 @@ p {
     height: 100%;
 }
 
+.navbar-toggler {
+    border-color: #007bff !important;
+    background-color: #007bff !important;
+    border-radius: 2px;
+}
+
+.navbar-toggler-icon > .fa-bars {
+    color: #fff !important;
+    font-size: 30px !important;
+}
+
 .nav-link-child {
     vertical-align: middle !important;
     font-size: 13px !important;
     color: #000 !important;
     font-weight: 500;
+}
+
+.main-nav-link {
+    font-size: 16px !important;
+    color: #000;
+}
+
+.main-navbar {
+    /*background-color: transparent !important;*/
+}
+
+.main-nav-link:hover {
+    background-color: #007bff;
+    opacity: 0.7;
+    border-radius: 2px;
 }
 
 .datetime-picker-div, .guest_count_picker, .time_picker {
@@ -249,7 +272,11 @@ p {
 }
 
 .meal-card {
-    border-radius: 5px;
+    border-radius: 2px;
+}
+
+.meal-card-footer {
+    padding: 10px 0;
 }
 
 .toast-top-right {
@@ -284,14 +311,13 @@ p {
     top: 59px;
     background-color: #fff;
     padding: 15px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
 }
 
 #request-location:focus {
     width: 430px !important;
     box-shadow: none;
-    /*box-shadow: 0 6px 12px 0 rgba(50,50,70,.08), 0 3px 5px 0 rgba(0,0,0,.05) !important;*/
 }
 
 .main-search-input-prepend {
@@ -312,7 +338,7 @@ p {
     display: none;
     z-index: 3;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 2px;
 }
 
 #footer-button {
@@ -332,10 +358,20 @@ p {
     display: none;
 }
 
+#non-authenticated-footer {
+    position: relative;
+    bottom: 0;
+    right: 0;
+    background-color: #fff;
+    padding: 30px 0;
+    border-top: 1px solid #e7e7e9;
+    width: 100%;
+}
+
 #reservation-made {
     position: absolute;
     background-color: #fff;
-    border-radius: 5px;
+    border-radius: 2px;
     border: 0.5px solid #e7e7e9;
     top: 30px;
     margin: auto;
@@ -347,7 +383,7 @@ p {
 #times {
     position: absolute;
     background-color: #fff;
-    border-radius: 5px;
+    border-radius: 2px;
     border: 0.5px solid #e7e7e9;
     z-index: 1049;
     width: 100%;
@@ -378,4 +414,75 @@ p {
     padding: 15px 0;
     border-bottom: 0.5px solid #e7e7e9;
     font-size: 14px !important;
+}
+
+#become-a-chef {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#diner-login-btn {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.display-mobile {
+    display: none;
+}
+
+.dh-navbar-collapse {
+    position: absolute;
+    width: 100%;
+    background-color: #fff;
+    left: 0;
+    top: 75px;
+    display: none;
+    margin: 0;
+    border: 0.5px solid #e7e7e9;
+    border-left: none;
+    border-right: none;
+    z-index: 1049;
+}
+
+.dh-navbar-collapse-nav {
+    padding: 20px;
+    border-bottom: 0.5px solid #e7e7e9;
+}
+
+@media only screen and (max-device-width: 767.98px) {
+    
+    #banner-request-location {
+        border-top-left-radius: 5px !important;
+        border-bottom-left-radius: 5px !important;
+    }
+    
+    .pac-container {
+        width: 330px;
+    }
+    
+    footer {
+        text-align: center !important;
+    }
+    
+    .how-to {
+        margin-bottom: 10px;
+    }
+}
+
+@media only screen and (max-device-width: 1024px) {
+    .no-mobile-display {
+        display: none !important;
+    }
+}
+
+@media only screen and (min-device-width: 767.98) and (max-device-width: 1024.02) {
+    .pac-container {
+        width: 482px !important;
+    }
+}
+
+@media only screen and (min-device-width: 360px) and (max-device-width: 640px) {
+    .pac-container {
+        width: 330px;
+    }
 }

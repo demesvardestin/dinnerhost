@@ -26,4 +26,8 @@ class Conversation < ApplicationRecord
     def correspondent(messager)
         return (messager.user_type == "customer" ? Chef.find_by(id: self.chef_id) : Customer.find_by(id: self.customer_id))
     end
+    
+    def last_message
+        messages.last.created_at
+    end
 end

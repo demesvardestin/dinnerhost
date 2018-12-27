@@ -1,6 +1,6 @@
 <% meals.each do |m| %>
     <div class="col-md-4 add-margin-bottom" style="padding: 0 5px;">
-        <div class="card cursor-pointer meal-card" id="card-meal-<%= m.id %>"
+        <div class="card cursor-pointer meal-card <%= "box-shadow-amp" if params[:meal_ids] && params[:meal_ids].split(',').include?(m.id.to_s) %>" id="card-meal-<%= m.id %>"
             onclick="selectMeal(this)">
             <div class="card-body"
                 style="background-image: url('<%= m.image %>'); background-size: cover;
@@ -13,7 +13,7 @@
                     <%= m.name %>
                 </span>
                 <span class="float-right" id="selection-circle">
-                    <i class="fa fa-circle-thin text-muted" style="font-size: 20px; top: -2px;"></i>
+                    <i class="fa fa-<%= (params[:meal_ids] && params[:meal_ids].split(',').include?(m.id.to_s)) ? "circle theme-cyan" : "circle-thin text-muted" %>" style="font-size: 20px; top: -2px;"></i>
                 </span>
             </div>
         </div>

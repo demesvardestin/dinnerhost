@@ -1,5 +1,17 @@
 $('#conversation-block-<%= @conversation.id %>').fadeOut();
+
 $('.inbox-navs')
 .html(`
     <%= render 'inbox_navs' %>
+`);
+
+$('#conversation-archived-label').html(`
+    <div class="col-md-12">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Conversation unarchived!
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+    </div>
 `);

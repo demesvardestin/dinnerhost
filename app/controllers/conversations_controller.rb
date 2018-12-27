@@ -23,12 +23,12 @@ class ConversationsController < ApplicationController
     end
     
     def archived
-        @archived = @user.conversations.archived @user
+        @archived = @user.conversations.archived(@user).order("updated_at DESC")
         render :layout => false
     end
     
     def all
-        @active = @user.conversations.not_archived @user
+        @active = @user.conversations.not_archived(@user).order("updated_at DESC")
         render :layout => false
     end
     
@@ -87,7 +87,7 @@ class ConversationsController < ApplicationController
     
     def check_archives
         @user = user
-        @active = @user.conversations.not_archived @user
-        @archived = @user.conversations.archived @user
+        @active = @user.conversations.not_archived(@user).sort_by(&:last_message).reverse
+        @archived = @user.conversations.archived(@user)
     end
 end

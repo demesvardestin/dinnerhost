@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>You have a new reservation request from <%= @diner.first_name %>!</h1>
+    <p>
+        The following meals have been requested:
+    </p>
+    
+    <ul>
+        <% @reservation.meals.each do |m| %>
+            <li>
+                <%= m.name %>
+            </li>
+        <% end %>
+    </ul>
+    <p>Head to dinnerhost.co/my-requests for more information!</p>
+  </body>
+</html>

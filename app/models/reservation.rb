@@ -11,21 +11,26 @@ class Reservation < ApplicationRecord
     scope :completed, -> { where(accepted: true, completed: true) }
     scope :cancelled, -> { where(cancelled: true) }
     
-    def self.book_chef(meal, token, customer)
+    def self.charge_customer(reservation)
+        total = reservation.fee.to_f.to_i * 100
+        chef = reservation.chef
+        customer = reservation.customer
+        stripe_cus = Stripe::Customer.retrieve(customer.stripe_token)
+        
         charge = Stripe::Charge.create(
             {
-                :amount => meal.chef.booking_rate.to_i * 100,
+                :amount => total,
                 :currency => "usd",
-                :source => token,
-                :description => "Booking for meal #{meal.id}",
-                # :destination => {
-                #     :amount => total_amount - fee,
-                #     :account => self.get_store.stripe_cus,
-                # }
+                :customer => stripe_cus.id,
+                :description => "Booking for reservation ID: #{reservation.id}. Customer ID: #{customer.id}. Chef ID: #{chef.id}"
             }
         )
-        res = Reservation.create(meal_id: meal.id, charge_id: charge.id, customer_id: customer.id)
-        res
+        
+        reservation.update(charge_id: charge.id, active: true)
+        Referral.check_referrals chef
+        PaymentProcessingJob
+        .set(wait_until: reservation.request_period + 6.hours)
+        .perform_later(reservation)
     end
     
     def people_count
@@ -48,7 +53,7 @@ class Reservation < ApplicationRecord
     end
     
     def user
-        self.chef || self.customer
+        chef || customer
     end
     
     def requested_for
@@ -104,9 +109,9 @@ class Reservation < ApplicationRecord
         when "accepted"
             "theme-green"
         when "denied"
-            "theme-yellow"
-        when "cancelled"
             "theme-red"
+        when "cancelled"
+            "theme-yellow"
         end
     end
     
@@ -153,6 +158,18 @@ class Reservation < ApplicationRecord
         else
             fee_
         end.round(2)
+    end
+    
+    def ingredients_needed
+        meals.map(&:ingredients).select {|i| !i.empty? }.flatten
+    end
+    
+    def generate_reservation_token
+        token = RandomToken.random(8)
+        until !Reservation.exists?(token: token)
+          generate_reservation_token
+        end
+        update(token: token)
     end
     
     def self.sort_by_spec load_, spec, current_chef

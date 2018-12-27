@@ -1,9 +1,12 @@
-<section id="cook-profile">
+<section id="book-chef">
     <div class="row">
-        <div class="col-md-12"><h5 class="bold">Select the meal(s) you want prepared</h5></div>
+        <div class="col-md-12">
+            <h5 class="bold">OPTIONAL - Add additional meals</h5>
+            <h6 class="bold text-muted">($20 per additional meal)</h6>
+        </div>
         <div class="col-md-8">
             <div class="row" style="margin: 0 -5px;">
-                <span class="meal-ids no-display"></span>
+                <span class="meal-ids no-display"><%= params[:meal_ids] if params[:meal_ids] %></span>
                 <%= render partial: 'chefs/cook_listings', locals: { meals: @cook.meals } %>
             </div>
         </div>

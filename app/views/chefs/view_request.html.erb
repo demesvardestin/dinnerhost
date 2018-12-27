@@ -1,13 +1,13 @@
 <section id="reservation-meals">
     <div class="row">
-        <div class="col-md-4 offset-md-2">
+        <div class="col-md-10 offset-md-1">
             <a href="/chef/edit/payout" class="btn btn-primary white add-margin-bottom">
                 <i class="fa fa-angle-left"></i> Return To Payout Dashboard
             </a>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4 offset-md-2">
+        <div class="col-md-6 offset-md-1">
             <div class="card">
                 <div class="card-header background-cyan">
                     Request details
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 text-muted">
                             <%= @reservation.request_period_stringified %>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-12 text-muted">
                             <%= (@reservation.adult_count.to_s + " adults") if @reservation.adult_count > 0 %>
                             <%= (" and " + @reservation.children_count.to_s + " children") if @reservation.children_count > 0 %>
                         </div>
@@ -88,14 +88,14 @@
                             <div class="col-md-6">
                                 <%= link_to accept_reservation_path(:id => @reservation.id),
                                     class:"background-transparent btn btn-success theme-green btn-block",
-                                    remote: true do %>
+                                    remote: true, data: {"disable-with": "processing..."} do %>
                                     Accept
                                 <% end %>
                             </div>
                             <div class="col-md-6">
                                 <%= link_to deny_reservation_path(:id => @reservation.id),
                                     class:"background-transparent btn btn-danger theme-red btn-block",
-                                    style:"margin-right: 5px;", remote: true do %>
+                                    style:"margin-right: 5px;", remote: true, data: {"disable-with": "processing..."} do %>
                                     Deny
                                 <% end %>
                             </div>

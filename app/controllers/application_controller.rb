@@ -51,4 +51,16 @@ class ApplicationController < ActionController::Base
     @reservation = Reservation.find_by(id: params[:reservation])
   end
   
+  def _500_
+    "/500"
+  end
+  
+  def _404_
+    "/404"
+  end
+  
+  def _422_
+    "/422"
+  end
+  
 end

@@ -56,6 +56,15 @@
     </div>
   </div>
   
+  <div class="field row">
+    <div class="col-md-2">
+      <label>Education</label>
+    </div>
+    <div class="col-md-10">
+      <%= f.text_field :education, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"ACME Culinary School..." %>
+    </div>
+  </div>
+  
   <div class="actions text-right action-button">
     <%= f.submit "Update", class:"btn btn-primary height-50", id:"update-social", data: { "disable-with": "Updating..." } %>
   </div>

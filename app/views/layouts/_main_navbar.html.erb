@@ -1,33 +1,21 @@
-<nav class="navbar navbar-expand-lg fixed-top main-navbar">
-    <div class="container">
-        <a class="navbar-brand cursor-pointer" href="/">Book-a-Chef</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-            <ul class="navbar-nav navbar-links">
-                <li class="nav-item">
-                    <a class="nav-link theme-color cursor-pointer" href="/meal/search">
-                        <i class="fa fa-search navbar-search-icon"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link theme-color" data-toggle="modal" data-target="#customerAuthentication">
-                        Log in
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link theme-color" href="/customer/register">
-                        Sign up
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-primary white nav-link" href="/chef/signup">
-                        Become a chef
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
+<nav class="navbar navbar-expand-lg main-navbar main--navbar">
+    <%= render "layouts/postscroll_navbar" %>
 </nav>
+<script type="text/javascript">
+    $('#request-location').click(function() {
+        $('#request-location')
+        .css({'width': '430px'})
+        .toggleClass('no-bottom-radii');
+        $('.input-group-text')
+        .toggleClass('no-bottom-radii');
+        $('#search-box').fadeIn();
+    });
+    
+    $('#request-location').focusout(function() {
+        $('#request-location')
+        .toggleClass('no-bottom-radii');
+        
+        $('.input-group-text')
+        .toggleClass('no-bottom-radii');
+    });
+</script>
