@@ -131,7 +131,7 @@ class Meal < ApplicationRecord
     
     def create_rating
         MealRating
-        .create(value: 5, meal_id: self.id, customer_id: 1, details: "This is an automated DinnerHost bot review.")
+        .create(value: 5, meal_id: self.id, customer_id: Customer.first.id, details: "This is an automated DinnerHost verification review.")
     end
     
     def set_address

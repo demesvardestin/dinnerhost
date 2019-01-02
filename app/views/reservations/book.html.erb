@@ -1,21 +1,20 @@
 <section id="book-chef">
-    <div class="row">
-        <div class="col-md-12">
+    <div class="row" style="margin: 0;">
+        <div class="col-lg-12 no-mobile-padding">
             <h5 class="bold">OPTIONAL - Add additional meals</h5>
             <h6 class="bold text-muted">($20 per additional meal)</h6>
         </div>
-        <div class="col-md-8">
-            <div class="row" style="margin: 0 -5px;">
+        <div class="col-lg-8 no-mobile-padding">
+            <div class="row" style="margin: 0;">
                 <span class="meal-ids no-display"><%= params[:meal_ids] if params[:meal_ids] %></span>
                 <%= render partial: 'chefs/cook_listings', locals: { meals: @cook.meals } %>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header background-cyan">
-                    Book <%= @cook.first_name %>
-                </div>
-                <div class="card-body">
+        <div class="col-lg-4 no-mobile-padding">
+            <div class="add-margin-top-mobile">
+                <div class="dh-card no-mobile-padding">
+                    <h5>Book <%= @cook.first_name %></h5>
+                    <hr>
                     <p>
                         <span class="bold font-22 booking-estimate">$<%= @cook.booking_rate %></span>
                     </p>

@@ -135,6 +135,19 @@
                         <hr>
                         
                         <p class="font-18">
+                            <a rel="nofollow " data-site="pinterest"
+                                class="background-transparent theme-cyan"
+                                onclick="return SocialShareButton.share(this);"
+                                title="Share to Pinterest" href="#"
+                                data-twitter-title="<%= social_share_text(@meal, "dinnerhost") %>">
+                                <i class="fa fa-pinterest theme-blue"></i>
+                                <span style="margin-left: 5px;">Pinterest</span>
+                            </a>
+                        </p>
+                        
+                        <hr>
+                        
+                        <p class="font-18">
                             <a href="mailto:?subject=Check%20out%20this%20delicious%20listing!&body=https://dinnerhost.co/dish/<%= @meal.id %>"
                                 target="_top" class="background-transparent theme-cyan">
                                 <i class="fa fa-envelope-o theme-blue"></i>
@@ -163,7 +176,7 @@
         </div>
     </div>
     <section id="meal-banner-image" style="background-image: url('<%= @meal.image.url %>');
-        background-position: center; background-size: cover; height: 300px;"></section>
+        background-position: center; background-size: cover; height: 375px;"></section>
     <span id='meal-id' class="no-display"><%= @meal.id %></span>
     
     <div class="container" style="margin-top: 25px;">

@@ -51,6 +51,13 @@
                     <div id="ingredients-list">
                         <%= render partial: "ingredients", locals: { ingredients: @meal.ingredients, meal: @meal } %>
                     </div>
+                    
+                    <div align="right">
+                        <a class="btn btn-success white height-50"
+                            style="padding-top: 12px;" href="/dish/<%= @meal.id %>/<%= @meal.slug %>">
+                            <i class="fa fa-angle-left"></i> View Listing
+                        </a>
+                    </div>
                 </div>
             </div>
         <div>

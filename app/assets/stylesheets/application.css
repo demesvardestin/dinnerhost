@@ -497,6 +497,12 @@ p {
         border-radius: 5px !important;
     }
     
+    #ui-datepicker-div {
+        position: relative !important;
+        margin-top: -300px !important;
+        top: auto !important;
+    }
+    
     .user-selection-card {
         margin-bottom: 15px;
     }
