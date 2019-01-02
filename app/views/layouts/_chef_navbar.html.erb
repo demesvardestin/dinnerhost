@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg fixed-top store-navbar">
+<nav class="navbar navbar-expand-lg fixed-top chef-navbar">
     <!--<div class="container" style="height: 100% !important;">-->
         <a class="navbar-brand cursor-pointer" href="/"><img src="/images/logo-transparent.png" height="50"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -31,9 +31,14 @@
                     </a>
                 </li>
                 <li class="nav-item nav-item-nav">
-                    <a class="nav-link-child background-transparent no-underline" href="/chef/edit/payout">
+                    <a class="nav-link-child background-transparent no-underline" href="/reservations">
                         <button class="btn btn-link nav-link" style="height: 100%;">
                             Reservations
+                            <% if pending_reservations %>
+                                <span class="badge badge-success">
+                                    <%= pending_reservations_count %> new requests
+                                </span>
+                            <% end %>
                         </button>
                     </a>
                 </li>
@@ -70,18 +75,18 @@
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="background-transparent dropdown-item cursor-pointer"
-                                href="/chef/edit/social">
-                                Social Settings
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="background-transparent dropdown-item cursor-pointer"
                                 href="/chef/edit/payout">
                                 Payout Settings
+                                <% if current_chef.payout_settings_incomplete %>
+                                    <span class="badge badge-warning">
+                                        incomplete
+                                    </span>
+                                <% end %>
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="background-transparent dropdown-item cursor-pointer"
                                 href="/chef/edit/listings">
-                                Meals
+                                My Listings
                             </a>
                             <div class="dropdown-divider"></div>
                             <%= link_to destroy_chef_session_path, class:"background-transparent dropdown-item", method: :delete do %>

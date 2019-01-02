@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get '/bookings', to: 'customers#bookings'
   get '/reservation/:id/meals', to: 'customers#reservation_meals'
   get '/edit/profile', to: 'customers#edit'
+  get '/customer/edit/profile', to: 'customers#edit'
   get '/featured-listings', to: 'customers#featured_listings'
   get '/:location/listings', to: 'meals#location_based_listings'
   get '/edit/verification', to: 'customers#edit_verification'
@@ -37,6 +38,7 @@ Rails.application.routes.draw do
   authenticated :chef do
     root 'chefs#payout_form', as: :authenticated_chef_root
   end
+  get '/chef_onboarding', to: 'chefs#onboarding'
   get '/chef/dashboard', to: 'chefs#dashboard'
   get '/inbox', to: 'conversations#inbox'
   get '/chef/edit/profile', to: 'chefs#edit'
@@ -50,6 +52,7 @@ Rails.application.routes.draw do
   get '/b/:shortened_url', to: 'reservations#book'
   get '/chef/edit/social', to: 'chefs#social_form'
   get '/chef/edit/payout', to: 'chefs#payout_form'
+  get '/change_payout', to: 'chefs#change_payout'
   get '/my-requests', to: 'chefs#payout_form'
   get '/chef/edit/listings', to: 'chefs#my_listings'
   get '/verify_bank', to: 'chefs#verify_bank'
@@ -63,6 +66,7 @@ Rails.application.routes.draw do
   post "/create_ingredient", to: 'meals#create_ingredient'
   get '/listing/:id/ingredients', to: 'meals#ingredients_list'
   get '/remove_ingredient', to: 'meals#remove_ingredient'
+  get '/trigger_payout', to: 'chefs#trigger_payout'
   ## END CHEF ROUTES ##
   
   ## RESOURCES
@@ -112,6 +116,9 @@ Rails.application.routes.draw do
   post '/submit-chef-referral', to: 'main#submit_chef_referral'
   get '/referral', to: 'main#referral'
   get '/verify_referral/:ref', to: 'main#verify_referral'
+  get '/join', to: 'main#join'
+  get '/new_user_guidelines', to: 'main#new_user_guidelines'
+  get '/accept_guidelines', to: 'main#accept_guidelines'
   ## END GLOBAL ROUTES ##
   
   

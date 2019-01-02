@@ -1,61 +1,56 @@
 <section id="change-password">
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <div class="card">
-        <div class="card-header background-cyan">
-          Change Your Password
-        </div>
-        <div class="card-body">
-          <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-          
-            <div class="form-inputs">
-              <div class="field">
-                <%= f.email_field :email, class:"form-control no-box-shadow", placeholder: "Email", required: true, autofocus: true %>
-              </div>
-          
-              <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-                <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
-              <% end %>
-              
-              <div class="field">
-                <%= f.password_field :current_password,
-                  hint: "we need your current password to confirm your changes",
-                  required: true, class:"form-control no-box-shadow",
-                  placeholder:"Current Password" %>
-              </div>
-              
-              <div class="field add-margin-top">
-                <%= f.password_field :password,
-                  hint: "leave it blank if you don't want to change it",
-                  required: false, class:"form-control no-box-shadow",
-                  placeholder:"New Password" %>
-              </di>
-              
-              <div class="field add-margin-top">
-                <%= f.password_field :password_confirmation,
-                  required: false, class:"form-control no-box-shadow",
-                  placeholder:"New Password Confirmation" %>
-              </div>
+    <div class="col-lg-4 offset-lg-4 no-padding">
+      <div class="dh-card">
+        <h5>Change Your Password</h5>
+        <hr>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+        
+          <div class="form-inputs">
+            <div class="field">
+              <%= f.email_field :email, class:"form-control no-box-shadow", placeholder: "Email", required: true  %>
             </div>
-          
-            <div class="form-actions text-center">
-              <%= f.submit "Update", class:"btn btn-primary height-50", data: {"disable-with": "Updating..."} %>
+        
+            <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+              <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
+            <% end %>
+            
+            <div class="field">
+              <%= f.password_field :current_password,
+                hint: "we need your current password to confirm your changes",
+                required: true, class:"form-control no-box-shadow",
+                placeholder:"Current Password" %>
             </div>
-          <% end %>
-        </div>
+            
+            <div class="field add-margin-top">
+              <%= f.password_field :password,
+                hint: "leave it blank if you don't want to change it",
+                required: false, class:"form-control no-box-shadow",
+                placeholder:"New Password" %>
+            </di>
+            
+            <div class="field add-margin-top">
+              <%= f.password_field :password_confirmation,
+                required: false, class:"form-control no-box-shadow",
+                placeholder:"New Password Confirmation" %>
+            </div>
+          </div>
+        
+          <div class="form-actions text-center">
+            <%= f.submit "Update", class:"btn btn-primary btn-block height-50", data: {"disable-with": "Updating..."} %>
+          </div>
+        <% end %>
       </div>
     </div>
     
-    <div class="card add-margin-top">
-      <div class="card-header background-red">
+    <div class="dh-card add-margin-top">
+      <h5>
         Danger Zone
-      </div>
-      <div class="card-body">
-        <p>
-          <%= link_to "Delete my account", registration_path(resource_name),
-          class:"btn btn-danger", data: { confirm: "Are you sure?" }, method: :delete %>
-        </p>
-      </div>
+      </h5>
+      
+      <hr>
+      
+      <%= link_to "Delete my account", registration_path(resource_name),
+        class:"btn btn-danger mobile-block-display height-50 btn-block",
+        style:"padding-top: 12px;", data: { confirm: "Are you sure?" }, method: :delete %>
     </div>
-  </div>
 </section>

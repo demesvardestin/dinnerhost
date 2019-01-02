@@ -1,46 +1,40 @@
-<div class="row">
-    <div class="col-md-10 offset-md-1">
-        <div class="card">
-            <div class="card-body">
-                <%= render 'form' %>
-            </div>
+<div>
+    <div class="col-lg-10 offset-lg-1 no-padding">
+        <div class="dh-card">
+            <%= render 'form' %>
         </div>
     </div>
 </div>
 
-<div class="row" style="margin-top: 15px;">
-    <div class="col-md-10 offset-md-1">
-        <div class="card">
-            <div class="card-header background-cyan">
-                Ingredients
-            </div>
-            <div class="card-body">
-                <%= render partial: 'ingredients', locals: { ingredients: @meal.ingredients, meal: @meal } %>
-            </div>
-            <div class="card-footer">
-                <a href="/listing/<%= @meal.id %>/ingredients" class="btn btn-primary">
-                    Edit Ingredients
-                </a>
-            </div>
+<div style="margin-top: 15px;">
+    <div class="col-lg-10 offset-lg-1 no-padding">
+        <div class="dh-card">
+            <h5>Ingredients</h5>
+            <hr>
+            <%= render partial: 'ingredients', locals: { ingredients: @meal.ingredients, meal: @meal } %>
+            
+            <a href="/listing/<%= @meal.id %>/ingredients"
+                class="btn btn-primary mobile-block-display" style="margin-top: 10px;">
+                Edit Ingredients
+            </a>
         </div>
     </div>
 </div>
 
-<div class="row" style="margin-top: 20px;">
-    <div class="col-md-10 offset-md-1">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="bold add-margin-bottom">Irreversible Action</h4>
-                <%= link_to meal_path(@meal), class: "btn btn-danger white",
-                    title: "Delete this listing (irreversible action)",
-                    style:"text-transform: uppercase;", data: {"disable-with": "Deleting..."},
-                    method: :delete do %>
-                    Delete This Listing
-                <% end %>
-            </div>
-            <div class="card-footer">
-                This action is irreversible!
-            </div>
+<div style="margin-top: 20px;">
+    <div class="col-lg-10 offset-lg-1 no-padding">
+        <div class="dh-card">
+            <h5 class="bold">Irreversible Action</h5>
+            <hr>
+            
+            <%= link_to meal_path(@meal), class: "btn btn-danger white mobile-block-display",
+                title: "Delete this listing (irreversible action)",
+                style:"text-transform: uppercase;", data: {"disable-with": "Deleting..."},
+                method: :delete do %>
+                Delete This Listing
+            <% end %>
+            
+            <p class="add-margin-top">This action is irreversible!</p>
         </div>
     </div>
 </div>

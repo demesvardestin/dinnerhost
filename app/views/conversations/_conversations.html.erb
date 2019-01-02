@@ -1,42 +1,49 @@
-<% conversations.each do |c| %>
-    <div class="col-md-12" id="conversation-block-<%= c.id %>">
-        <div class="row" onmouseover="showControls(<%= c.id %>)", onmouseout="hideControls(<%= c.id %>)">
-            <div class="col-md-2 text-left">
-                <div id="cook-avi" class="cursor-pointer"
-                    style="height: 40px; width: 40px;
-                            overflow: hidden; border-radius: 20px;
-                            border: 0.5px solid #e7e7e9;"
-                    id="dropdownMenuButton" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    <img src="<%= messagee(c.chef_id, c.customer_id).image %>" alt="cook"
-                        style="height: auto; width: inherit;">
+<% if conversations.present? %>
+    <% conversations.each do |c| %>
+        <div class="col-lg-12 no-mobile-padding" id="conversation-block-<%= c.id %>">
+            <div class="row" onmouseover="showControls(<%= c.id %>)", onmouseout="hideControls(<%= c.id %>)">
+                <div class="col-md-2 text-left">
+                    <div id="cook-avi" class="cursor-pointer"
+                        style="height: 40px; width: 40px;
+                                overflow: hidden; border-radius: 20px;
+                                border: 0.5px solid #e7e7e9;"
+                        id="dropdownMenuButton" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <img src="<%= messagee(c.chef_id, c.customer_id).image %>" alt="cook"
+                            style="height: auto; width: inherit;">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <p style="font-size: 14px;" ><%= messagee(c.chef_id, c.customer_id).first_name %></p>
+                    <p style="font-size: 14px;"><%= c.messages.last.created_at.strftime('%b %e, %Y') %></p>
+                </div>
+                <div class="col-md-6" style="padding-bottom: 10px;">
+                    <%= link_to chat_path(:id => c.id, :correspondent_id => messagee(c.chef_id, c.customer_id).id), class:"background-transparent no-underline #{message_snipet_color c.messages.last}", style:"width: 100%;" do %>
+                        <p style="font-size: 14px;" class="bold">"<%= c.messages.last.content_snipet %>"</p>
+                        <p style="font-size: 14px;"><%= messagee(c.chef_id, c.customer_id).full_address %></p>
+                    <% end %>
+                </div>
+                <div class="col-md-2">
+                    <p id="archive-<%= c.id %>">
+                        <% if (current_chef || current_customer).has_archived c %>
+                            <%= link_to unarchive_conversation_path(c), class:"btn btn-link theme-green", style:"padding: 0; font-size: 13px !important", remote: true do %>
+                                <i class="fa fa-archive"></i> Unarchive
+                            <% end %>
+                        <% else %>
+                            <%= link_to archive_conversation_path(c), class:"btn btn-link theme-blue control control#{c.id}", style:"display: none; padding: 0; font-size: 13px !important", remote: true do %>
+                                <i class="fa fa-archive"></i> Archive
+                            <% end %>
+                        <% end %>
+                    </p>
                 </div>
             </div>
-            <div class="col-md-2">
-                <p style="font-size: 14px;" ><%= messagee(c.chef_id, c.customer_id).first_name %></p>
-                <p style="font-size: 14px;"><%= c.messages.last.created_at.strftime('%b %e, %Y') %></p>
-            </div>
-            <div class="col-md-6" style="padding-bottom: 10px;">
-                <%= link_to chat_path(:id => c.id, :correspondent_id => messagee(c.chef_id, c.customer_id).id), class:"background-transparent no-underline #{message_snipet_color c.messages.last}", style:"width: 100%;" do %>
-                    <p style="font-size: 14px;"><%= c.messages.last.content_snipet %></p>
-                    <p style="font-size: 14px;"><%= messagee(c.chef_id, c.customer_id).full_address %></p>
-                <% end %>
-            </div>
-            <div class="col-md-2">
-                <p id="archive-<%= c.id %>">
-                    <% if (current_chef || current_customer).has_archived c %>
-                        <%= link_to unarchive_conversation_path(c), class:"btn btn-link theme-green", style:"padding: 0; font-size: 13px !important", remote: true do %>
-                            <i class="fa fa-archive"></i> Unarchive
-                        <% end %>
-                    <% else %>
-                        <%= link_to archive_conversation_path(c), class:"btn btn-link theme-blue control control#{c.id}", style:"display: none; padding: 0; font-size: 13px !important", remote: true do %>
-                            <i class="fa fa-archive"></i> Archive
-                        <% end %>
-                    <% end %>
-                </p>
-            </div>
+            <% if !(c == conversations.last) %><hr><% end %>
         </div>
-        <% if !(c == conversations.last) %><hr><% end %>
+    <% end %>
+<% else %>
+    <div class="col-md-12 text-center text-muted">
+        <i class="fa fa-envelope-o" style="font-size: 24px;"></i>
+        <p class="add-margin-top">Your inbox is empty</p>
     </div>
 <% end %>
 

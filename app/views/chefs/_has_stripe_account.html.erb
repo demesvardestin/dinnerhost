@@ -1,0 +1,75 @@
+<section class="jumbotron no-border-radius"
+    style="background-image: url('/images/why_dinnerhost.png');
+        background-size: cover; background-position: center; height: 330px;
+        display: flex; align-items: center; justify-content: center; margin-bottom: 0;">
+    <div style="margin: 0; text-align: center !important; width: 100%;">
+        
+        
+        <div>
+            <p class="font-18 white"><%= current_chef.full_name %></p>
+        </div>
+        
+        <div>
+            <% 5.times.each_with_index do |s, idx| %>
+                <span class="star rated-star">
+                    <i class="<%= star_rating(idx + 1, current_chef) %> white"
+                        style="font-size: 17px;"></i>
+                </span>
+            <% end %>
+        </div>
+        
+        <div class="text-center" style="margin-top: 20px;" id="balance-summary">
+            <%= render "balance_summary" %>
+        </div>
+    </div>
+</section>
+
+<section style="display: flex;">
+    <div class="col-md-4 offset-md-4 no-padding">
+        <% if current_chef.reservations.completed.present? %>
+        <% current_chef.reservations.completed.reverse.each do |rc| %>
+            <div style="display: inline-block; width: 100%; padding: 10px 0;
+                border-bottom: 0.5px solid #e7e7e9;">
+                <div style="padding: 0 15px;">
+                    <div id="reserver-avi" class="cursor-pointer float-left"
+                        style="height: 35px; width: 35px; margin: auto;
+                                overflow: hidden; border-radius: 17.5px;
+                                border: 0.5px solid #e7e7e9;">
+                        <img src="<%= current_chef.image.url %>" alt="cook"
+                            style="height: auto; width: inherit;">
+                    </div>
+                    
+                    <div class="float-left" style="margin-left: 15px;">
+                        <p class="font-15 font-blue"><%= rc.customer.first_name %></p>
+                        <p class="font-14 text-muted"><%= rc.request_period_stringified %></p>
+                    </div>
+                    
+                    <div class="float-right" style="margin-left: 15px;">
+                        <p class="font-14 text-muted">$<%= rc.chef_payout %></p>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+        <% else %>
+            <div class="dh-card" style="margin-top: 15px;">
+                <h5 class="text-center">
+                    No payout data
+                </h5>
+            </div>
+        <% end %>
+    </div>
+</section>
+
+<script type="text/javascript">
+    var body = document.querySelector('#main-body');
+    body.classList.remove('container');
+    body.style.paddingLeft = "0 !important";
+    body.style.paddingRight = "0 !important";
+    body.style.paddingTop = "0";
+    
+    function triggerPayout() {
+        $("#get-paid-now")
+        .html("<i class='fa fa-spinner fa-pulse fa-3x fa-fw' style='font-size: 22px;'></i>");
+        $.get('/trigger_payout');
+    }
+</script>

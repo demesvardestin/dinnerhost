@@ -43,8 +43,19 @@
         </div>
     <% end %>
 <% else %>
-    <div class="col-md-12">
-        <p>No cooks found in your area.</p>
+    <div class="col-md-12 text-center">
+        <img src="/images/choose_chef.png" height="120">
+    </div>
+    <div class="col-md-12 text-center text-muted add-margin-top">
+        <p>No chefs found in your area so far.</p>
+    </div>
+    <div class="col-md-12 text-center" style="margin-top: 20px;">
+        <a class="background-transparent no-underline" href="/refer-a-chef">
+            <button class="btn btn-primary box-shadow height-50"
+                style="text-transform: uppercase;">
+                Refer a chef. Earn up to $10
+            </button>
+        </a>
     </div>
 <% end %>
 

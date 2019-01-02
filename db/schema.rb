@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181223231300) do
+ActiveRecord::Schema.define(version: 20190101003010) do
 
   create_table "app_errors", force: :cascade do |t|
     t.string   "error_type"
@@ -73,6 +73,9 @@ ActiveRecord::Schema.define(version: 20181223231300) do
     t.string   "stripe_token"
     t.boolean  "deleted",                default: false
     t.string   "license",                default: "none"
+    t.string   "stripe_bank_token"
+    t.boolean  "suspended",              default: false
+    t.datetime "accepted_guidelines_on"
     t.index ["email"], name: "index_chefs_on_email", unique: true
     t.index ["reset_password_token"], name: "index_chefs_on_reset_password_token", unique: true
   end
@@ -133,6 +136,8 @@ ActiveRecord::Schema.define(version: 20181223231300) do
     t.string   "stripe_last_4"
     t.string   "card_brand"
     t.boolean  "deleted",                default: false
+    t.boolean  "suspended",              default: false
+    t.datetime "accepted_guidelines_on"
     t.index ["email"], name: "index_customers_on_email", unique: true
     t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
   end

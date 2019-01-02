@@ -1,19 +1,19 @@
-<div class="row">
-    <div class="col-md-3">
+<div class="display-flex mobile-block-display">
+    <div class="col-lg-3 no-padding">
         <div class="dropdown">
             <button class="btn btn-secondary background-transparent text-muted btn-block
                 load-reservations-dropdown"
                 type="button" id="dropdownMenuButton" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <span class="float-left">
-                    All Requests
+                    Pending (<%= @reservations.pending.count %>)
                 </span>
                 <span class="float-right">
                     <i class="fa fa-angle-down"></i>
                 </span>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
-                style="padding-top: 0; padding-bottom: 0;">
+                style="padding-top: 0; padding-bottom: 0;" id="chef-reservations-sorting-btn">
                 <a class="dropdown-item cursor-pointer"
                     onclick="$.get('/load_reservations', { category: 'pending' });">
                     Pending (<%= @reservations.pending.count %>)
@@ -41,8 +41,8 @@
             </div>
         </div>
     </div>
-    
-    <div class="col-md-2 offset-md-7">
+
+    <div class="col-lg-2 offset-lg-7 no-padding add-margin-top-mobile">
         <div class="dropdown">
             <button class="btn btn-secondary background-transparent text-muted btn-block
                 sort-reservations-dropdown"
@@ -69,46 +69,45 @@
             </div>
         </div>
     </div>
-    
-    <!--<div class="col-md-2 offset-md-5">-->
-    <!--    <button class="btn btn-secondary background-transparent text-muted btn-block">-->
-    <!--        <span class="float-left">-->
-    <!--            Download CSV-->
-    <!--        </span>-->
-    <!--        <span class="float-right">-->
-    <!--            <i class="fa fa-download"></i>-->
-    <!--        </span>-->
-    <!--    </button>-->
-    <!--</div>-->
 </div>
 
-<div class="row" style="margin-top: 15px;">
-    <div class="col-md-12">
-        <div class="card box-shadow">
-            <div class="card-header" style="background-color: #f2f2f2;">
-                <div class="row bold" style="font-size: 14px; color: #7f7f7f;">
-                    <div class="col-md-3 offset-md-3">
-                        Date Requested
-                    </div>
-                    <div class="col-md-1">
-                        Dishes
-                    </div>
-                    <div class="col-md-1">
-                        People
-                    </div>
-                    <div class="col-md-1">
-                        Status
-                    </div>
-                    <div class="col-md-1">
-                        Total
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card-body" style="padding-top: 0; padding-bottom: 0;"
-                id="reservation-payouts">
-                <%= render partial: 'payout_reservations', locals: { reservations: current_chef.reservations } %>
+<hr>
+
+<!--<div class="col-lg-2 offset-lg-5">-->
+<!--    <button class="btn btn-secondary background-transparent text-muted btn-block">-->
+<!--        <span class="float-left">-->
+<!--            Download CSV-->
+<!--        </span>-->
+<!--        <span class="float-right">-->
+<!--            <i class="fa fa-download"></i>-->
+<!--        </span>-->
+<!--    </button>-->
+<!--</div>-->
+</div>
+
+<div>
+    <div class="col-lg-12 no-mobile-padding">
+        <div class="dh-card" style="padding-top: 0;">
+            <div id="reservation-payouts">
+                <%= render partial: 'payout_reservations', locals: { reservations: @reservations.pending } %>
             </div>
         </div>
     </div>
 </div>
+
+<!--<table>-->
+<!--  <tr>-->
+<!--    <th>Company</th>-->
+<!--    <th>Contact</th>-->
+<!--    <th>Country</th>-->
+<!--    <th>Contact</th>-->
+<!--    <th>Country</th>-->
+<!--  </tr>-->
+<!--  <tr>-->
+<!--    <td>Alfreds Futterkiste</td>-->
+<!--    <td>Maria Anders</td>-->
+<!--    <td>Germany</td>-->
+<!--    <td>Maria Anders</td>-->
+<!--    <td>Germany</td>-->
+<!--  </tr>-->
+<!--</table>-->

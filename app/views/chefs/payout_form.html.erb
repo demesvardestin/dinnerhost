@@ -1,62 +1,7 @@
 <section id="my-payouts" style="height: 100%;">
     <% if current_chef.has_stripe_account %>
-        <%= render 'payouts' %>
+        <%= render 'has_stripe_account' %>
     <% else %>
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="card" style="margin-top: 40px;">
-                    <div class="card-header background-cyan">
-                        Set up your payout account
-                    </div>
-                    <div class="card-body">
-                        <%= render 'payout_form' %>
-                    </div>
-                    <div class="card-footer" align="center">
-                        <a href="https://stripe.com" class="background-transparent no-underline">
-                            <img src="/images/powered_by_stripe.png" height="40">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <%= render 'payout_form' %>
     <% end %>
 </section>
-
-<script type="text/javascript">
-    
-    var stripeForm = document.getElementById('cook-payout-form');
-    stripeForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-        
-        var stripe = Stripe("pk_test_4rlj7z7bgOSQVv1TrZAMhrJi");
-        var formBtn = document.getElementById('update-payout');
-        var acct = document.getElementById('account-number').value;
-        var routing = document.getElementById('routing-number').value;
-        var dob = document.getElementById('dob').value;
-        var last_4 = document.getElementById('last_4').value;
-        var firstName = document.querySelector("#first_name");
-        var lastName = document.querySelector("#last_name");
-        formBtn.setAttribute('disabled', 'true');
-        formBtn.innerHTML = 'Setting up your account...';
-        
-        stripe.createToken('bank_account', {
-          country: 'US',
-          currency: 'usd',
-          routing_number: routing,
-          account_number: acct,
-          account_holder_name: [firstName, lastName].join(' '),
-          account_holder_type: 'Individual'
-        }).then(function(result) {
-            if (result.token) {
-                var data = {
-                    "dob": dob,
-                    "last_4": last_4,
-                    "token": result.token.id
-                };
-                $.get('/verify_bank', { data: data });
-            } else {
-                toastr.warning("This bank account could not be verified. Please try again.")
-            }
-        });
-    });
-</script>

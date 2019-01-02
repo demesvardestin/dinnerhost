@@ -285,7 +285,7 @@
                                     <i class="fa fa-heart"></i> Listing saved
                                 </button>
                             <% end %>
-                        <% else %>
+                        <% elsif !current_chef %>
                             <a class="btn btn-link border-blue"
                                 data-toggle="modal" data-target="#customerAuthentication"
                                 title="Log in to add listing to wishlist">
@@ -339,6 +339,8 @@
                 <% if current_chef %>
                     <% if @meal.chef == current_chef %>
                         <%= render 'meal_owner' %>
+                    <% else %>
+                        <%= render 'prepared_by' %>
                     <% end %>
                 <% else %>
                     <%= render 'prepared_by' %>
@@ -364,7 +366,7 @@
                                         <i class="fa fa-heart"></i> Listing saved
                                     </button>
                                 <% end %>
-                            <% else %>
+                            <% elsif !current_chef %>
                                 <a class="btn btn-link border-blue"
                                     data-toggle="modal" data-target="#customerAuthentication"
                                     title="Log in to add listing to wishlist">

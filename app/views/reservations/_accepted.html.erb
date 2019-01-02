@@ -1,52 +1,50 @@
 <section id="reservation-accepted">
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-body">
-                    <h4 style="color: #000;">Congrats! You've accepted <%= @reservation.customer.first_name %>'s request!</h4>
-                    
-                    <hr>
-                    
-                    <div style="margin-top: 15px;" class="bold">
-                        Confirmed for: <span class="badge badge-success background-transparent
-                            theme-green border-green" style="font-size: 20px;
-                            border-width: 0.5px; border-style: solid;">
-                            <%= @reservation.request_period_stringified %>
-                        </span>
-                    </div>
-                    
-                    <p style="font-size: 16px; margin-top: 15px;">
-                        What you need to know:
-                    </p>
-                    
-                    <ul style="margin-top: 15px;">
-                        <li>
-                            The diner is responsible for the ingredients as well
-                            as for things such as cutlery, table accessories and
-                            any other additional dinner arrangements.
-                        </li>
-                        <li>We recommend ommunicating with diners only through DinnerHost.</li>
-                        <li>Payments made/received outside DinnerHost are strictly prohibited and discouraged.</li>
-                        <li>
-                            Always double-check the allergens details for the
-                            reservation request (message the diner if needed).
-                        </li>
-                        <li>
-                            We vet diners to the best of our ability,
-                            but our system is far from perfect. Therefore, always
-                            use your best judgement when accepting requests.
-                        </li>
-                    </ul>
-                    
-                    <a class="btn btn-primary white"
-                        href="/view_request/<%= @reservation.id %>">
-                        <i class="fa fa-angle-left"></i> View Request Details
-                    </a>
+    <div class="row" style="margin: 0;">
+        <div class="col-lg-8 no-padding">
+            <div class="dh-card">
+                <h4 style="color: #000;">Congrats! You've accepted <%= @reservation.customer.first_name %>'s request!</h4>
+                
+                <hr>
+                
+                <div style="margin-top: 15px;" class="bold">
+                    Confirmed for: <span class="badge badge-success background-transparent
+                        theme-green border-green" style="font-size: 20px;
+                        border-width: 0.5px; border-style: solid;">
+                        <%= @reservation.request_period_stringified %>
+                    </span>
                 </div>
+                
+                <p style="font-size: 16px; margin-top: 15px;">
+                    What you need to know:
+                </p>
+                
+                <ul style="margin-top: 15px;">
+                    <li>
+                        The diner is responsible for the ingredients as well
+                        as for things such as cutlery, table accessories and
+                        any other additional dinner arrangements.
+                    </li>
+                    <li>We recommend ommunicating with diners only through DinnerHost.</li>
+                    <li>Payments made/received outside DinnerHost are strictly prohibited and discouraged.</li>
+                    <li>
+                        Always double-check the allergens details for the
+                        reservation request (message the diner if needed).
+                    </li>
+                    <li>
+                        We vet diners to the best of our ability,
+                        but our system is far from perfect. Therefore, always
+                        use your best judgement when accepting requests.
+                    </li>
+                </ul>
+                
+                <a class="btn btn-primary white mobile-block-display"
+                    href="/view_request/<%= @reservation.id %>">
+                    <i class="fa fa-angle-left"></i> View Request Details
+                </a>
             </div>
         </div>
         
-        <div class="col-md-4">
+        <div class="col-lg-4">
             <div class="card">
                 <div class="card-header background-cyan text-center">
                     <h4>Diner</h4>

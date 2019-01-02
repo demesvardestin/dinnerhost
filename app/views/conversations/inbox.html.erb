@@ -1,21 +1,13 @@
-<section id="customer-inbox">
-    <div class="row">
-        <div class="col-md-10 offset-md-1">
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="dropdown inbox-navs">
-                        <%= render 'inbox_navs' %>
-                    </div>
-                </div>
-            </div>
-            <div class="card" id="conversations-box">
-                <div class="card-body">
-                    <div class="row">
-                        <%= render partial: 'conversations', locals: { conversations: @active } %>
-                    </div>
-                </div>
+<section id="customer-inbox" class="col-lg-10 offset-lg-1">
+    <div class="display-flex mobile-block-display">
+        <div class="col-lg-3 no-padding">
+            <div class="dropdown inbox-navs">
+                <%= render 'inbox_navs' %>
             </div>
         </div>
+    </div>
+    <div class="dh-card no-mobile-padding" id="conversations-box">
+        <%= render partial: 'conversations', locals: { conversations: @active } %>
     </div>
 </section>
 

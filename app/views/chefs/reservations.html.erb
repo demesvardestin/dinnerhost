@@ -1,18 +1,14 @@
 <section id="cook-reservations">
-    <h3 class="bold">Reservations</h3>
-    
-    <div id="reservation-controls" style="margin-top: 20px;">
-        <%= render 'reservation_controls' %>
+    <div class="col-lg-12">
+        <h3 class="bold">Reservations</h3>
     </div>
     
-    <div class="row">
-        <div class="col-md-12">
-            <hr>
-        </div>
+    <div class="col-lg-12">
+        <hr>
     </div>
     
-    <div class="row" id="reservations-box">
-        <%= render partial: 'reservations', locals: { reservations: @reservations.pending } %>
+    <div id="reservations-box" class="col-lg-12">
+        <%= render partial: 'payouts' %>
     </div>
 </section>
 

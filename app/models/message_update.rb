@@ -55,6 +55,24 @@ class MessageUpdate
         )
     end
     
+    def self.send_booking_reminder_to_chef(reservation)
+        twilio, twilio_phone = self.twilio
+        twilio.messages.create(
+            body: "Upcoming DinnerHost reservation reminder:\nBooked by #{reservation.customer.first_name} for #{reservation.request_period_stringified}.\nView more details at dinnerhost.co/view_request/#{reservation.id}",
+            to: reservation.chef.phone_number,
+            from: twilio_phone
+        )
+    end
+    
+    def self.send_booking_reminder_to_customer(reservation)
+        twilio, twilio_phone = self.twilio
+        twilio.messages.create(
+            body: "Upcoming DinnerHost reservation reminder:\nYou've booked #{reservation.chef.first_name} for #{reservation.request_period_stringified}.\nView more details at dinnerhost.co/booking-accepted?reservation=#{reservation.id}",
+            to: reservation.chef.phone_number,
+            from: twilio_phone
+        )
+    end
+    
     def self.twilio
         twilio = self.initialize_twilio
         # twilio_phone = ENV["TWILIO_PHONE"]

@@ -1,0 +1,28 @@
+<h3 class="white" style="margin-bottom: 0;">$<%= current_chef.stripe_balance %></h3>
+<p class="font-15 white">Current Balance</p>
+
+<div class="row">
+    <div class="col-lg-6 offset-lg-3">
+        <div class="float-left" style="width: 47.5%;">
+            <% if !current_chef.has_stripe_balance %>
+                <button class="btn btn-light box-shadow-amp height-50 btn-block
+                    font-blue" style="margin-top: 20px;" disabled title="Your account currently has no funds">
+                    Get Paid Now
+                </button>
+            <% else %>
+                <button class="btn btn-light box-shadow-amp height-50 btn-block
+                    font-blue" style="margin-top: 20px;"
+                    onclick="triggerPayout()" id="get-paid-now" title="Send balance to your bank">
+                    Get Paid Now
+                </button>
+            <% end %>
+        </div>
+        <div class="float-right" style="width: 47.5%;">
+            <button class="btn btn-secondary box-shadow-amp height-50 btn-block"
+                style="margin-top: 20px;" onclick="window.location.href='/change_payout'"
+                title="Edit payout settings">
+                Settings
+            </button>
+        </div>
+    </div>
+</div>

@@ -112,4 +112,8 @@ module ApplicationHelper
         url.include? page
     end
     
+    def home_page
+        current_page? root_url
+    end
+    
 end

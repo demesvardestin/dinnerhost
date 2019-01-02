@@ -3,6 +3,8 @@ class MainController < ApplicationController
     skip_before_action :verify_authenticity_token, only: [:account]
     before_action :authenticate_customer!, only: [:rate, :rate_meal, :report]
     before_action :authenticate_user, only: :refer_a_chef
+    before_action :user, only: :accept_guidelines
+    
     
     def index
     end
@@ -111,7 +113,7 @@ class MainController < ApplicationController
         customer = Customer.find_by(referral_code: ref)
         
         if customer == nil
-            redirect_to root_path
+            redirect_to new_user_guidelines_path
             return
         end
         
@@ -121,10 +123,19 @@ class MainController < ApplicationController
             current_chef.update(referral_id: referral.id)
         end
         
-        redirect_to root_path
+        redirect_to new_user_guidelines_path
+    end
+    
+    def accept_guidelines
+        @user.accept_guidelines
+        redirect_to "/#{@user.user_type}/edit/profile"
     end
     
     private
+    
+    def user
+        @user = current_chef || current_customer
+    end
     
     def rating_params
         params.require(:chef_rating).permit(:value, :chef_id, :customer_id, :details)

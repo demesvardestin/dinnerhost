@@ -8,14 +8,16 @@ class UserMailer < ApplicationMailer
     end
     
     def invite_chef(email, customer)
-        @link = "https://dinnerhost.co/referral?ref#{customer.referral_code}"
-        mail(to: email, subject: "#{customer.first_name} has invited you to join DinnerHost!")
+        @customer = customer
+        @link = "https://dinnerhost.co/referral?ref#{@customer.referral_code}"
+        mail(to: email, subject: "#{@customer.first_name} has invited you to join DinnerHost!")
     end
     
     def reservation_accepted(reservation)
-        @diner = reservation.customer
-        @chef = reservation.chef
-        @ingredients = reservation.ingredients_needed
+        @reservation = reservation
+        @diner = @reservation.customer
+        @chef = @reservation.chef
+        @ingredients = @reservation.ingredients_needed
         
         mail(to: @diner.email, subject: "#{@chef.first_name} has accepted your reservation!")
     end

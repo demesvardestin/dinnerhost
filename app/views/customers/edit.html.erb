@@ -1,23 +1,22 @@
-<div class="row">
-    <div class="col-md-8 offset-md-2">
-        <div class="card">
-            <div class="card-header background-cyan">
-                Profile Details
-            </div>
-            <div class="card-body">
-                <%= render 'edit_profile_form' %>
-            </div>
+<div class="display-flex mobile-block-display" style="flex-wrap: wrap;">
+    <div class="col-lg-8 offset-lg-2 no-padding">
+        <div class="dh-card">
+            <h5>
+                Account Details
+            </h5>
+            <hr>
+            <%= render 'edit_profile_form' %>
         </div>
-        
-        <div class="card" style="margin-top: 20px;">
-            <div class="card-header background-cyan">
-                Payment Details
-            </div>
-            <div class="card-body" id="payment-card">
-                <%= render 'payment' %>
-            </div>
+    </div>
+   
+    <div class="col-lg-8 offset-lg-2 no-padding" style="margin-top: 20px;">
+        <div class="dh-card" id="payment-card">
+            <h5>
+                Add a payment method
+            </h5>
+            <%= render 'payment' %>
         </div>
-   </div>
+    </div>
 </div>
 
 <script>

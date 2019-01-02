@@ -81,10 +81,6 @@ a:hover {
 .fixed-top.scrolled {
     background-color: #fff !important;
     transition: background-color 200ms linear;
-    .pharmacy-login {
-        color: #4095e3 !important;
-    }
-    // border-bottom: 1px solid #b4b4b4;
     box-shadow: 0 6px 12px 0 rgba(50,50,70,.08), 0 3px 5px 0 rgba(0,0,0,.05) !important;
 }
 
@@ -193,6 +189,10 @@ input.btn {
 
 .background-white {
     background-color: #fff !important;
+}
+
+.background-lightgray {
+    background-color: #d2d5d8 !important;
 }
 
 .background-red {
@@ -332,7 +332,7 @@ input.btn {
     border-radius: 15px;
 }
 .theme-yellow {
-    color: #fdfd66 !important;
+    color: #ffc107 !important;
 }
 
 .no-underline {
@@ -805,7 +805,6 @@ canvas {
 
 .no-padding {
     padding: 0 !important;
-    color: #fff !important;
 }
 
 .bold {

@@ -1,16 +1,23 @@
-<section id="store-login" class="container" style="margin-bottom: 75px; margin-top: 30px;">
+<style>
+  .navbar {
+    position: static !important;
+  }
+</style>
+<section id="resource-login" class="container" style="margin-bottom: 75px; margin-top: 65px;">
   <div class="row">
-    <div class="col-md-4 offset-md-4">
+    <div class="col-lg-4 offset-lg-4" style="padding: 0;">
       <% flash.each do |name, msg| %>
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          <%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+        <% if msg.is_a?(String) && !msg.downcase.include?("signed out successfully") %>
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <% end %>
       <% end %>
-      <div class="card theme-border">
-        <div class="card-body">
+      <div class="auth-card" style="padding-top: 30px; padding-bottom: 30px;">
+        <!--<div class="card-body">-->
           <div class="header">
             <h5 class="text-center medium-gray">Welcome Back</h5>
             <hr style="height: 2px; background-color: #F27649; border-color: #F27649; width: 15%; margin: auto !important;">
@@ -49,7 +56,7 @@
               
             </div>
           <% end %>
-        </div>
+        <!--</div>-->
       </div>
     </div>
   </div>

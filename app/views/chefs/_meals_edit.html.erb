@@ -1,4 +1,4 @@
-<% if current_chef.meals %>
+<% if current_chef.meals.present? %>
     <% current_chef.meals.not_deleted.each do |m| %>
         <p>
             <%= m.name %>
@@ -14,7 +14,13 @@
         
     <% end %>
 <% else %>
-    <a href="/new-dish" class="btn btn-primary">
-        Add a dish
-    </a>
+    <div align="center">
+        <p>
+            You haven't listed a dish yet.
+            <a href="/new-dish" class="theme-cyan"
+                style="margin-top: 10px; padding-top: 12px;">
+                Post your first dish
+            </a>
+        </p>
+    </div>
 <% end %>

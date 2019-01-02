@@ -1,49 +1,100 @@
-<form id="cook-payout-form" data-remote="true">
-  <span id="first_name" class="no-display"><%= current_chef.first_name %></span>
-  <span id="last_name" class="no-display"><%= current_chef.last_name %></span>
-  
-  <div class="field row">
-    <div class="col-md-2">
-      <label>Account</label>
+<div class="col-lg-6 offset-lg-3 no-padding">
+    <div class="dh-card">
+        <h5>Update payout info</h5>
+        <hr>
+        <form id="cook-payout-form" data-remote="true">
+          <span id="first_name" class="no-display"><%= current_chef.first_name %></span>
+          <span id="last_name" class="no-display"><%= current_chef.last_name %></span>
+          
+          <div class="field row">
+            <div class="col-md-2">
+              <label>Account #</label>
+            </div>
+            <div class="col-md-10">
+              <input type="text" class="form-control no-box-shadow" name="account_number"
+                id="account-number" placeholder="Bank account number" required="true">
+            </div>
+          </div>
+          
+          <div class="field row">
+            <div class="col-md-2">
+              <label>Routing #</label>
+            </div>
+            <div class="col-md-10">
+              <input type="text" class="form-control no-box-shadow" name="routing_number"
+                id="routing-number" placeholder="Bank routing number" required="true">
+            </div>
+          </div>
+          
+          <div class="field row">
+            <div class="col-md-2">
+              <label>Date of Birth</label>
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control no-box-shadow" name="dob" id="dob"
+                placeholder="mm/dd/yyyy" required="true">
+            </div>
+            
+            <div class="col-md-2">
+              <label>SSN Last 4</label>
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control no-box-shadow" name="last_4"
+                id="last_4" placeholder="0000" required="true">
+            </div>
+          </div>
+          
+          <div class="actions text-center action-button">
+            <button class="btn btn-primary height-50 mobile-block-display" id="update-payout">
+              Update
+            </button>
+          </div>
+          
+        </form>
     </div>
-    <div class="col-md-10">
-      <input type="text" class="form-control no-box-shadow" name="account_number"
-        id="account-number" placeholder="Account number" required="true">
+    <div style="margin-top: 15px;" align="center">
+        <a href="https://stripe.com" class="background-transparent no-underline">
+            <img src="/images/powered_by_stripe.png" height="40">
+        </a>
     </div>
-  </div>
-  
-  <div class="field row">
-    <div class="col-md-2">
-      <label>Routing</label>
-    </div>
-    <div class="col-md-10">
-      <input type="text" class="form-control no-box-shadow" name="routing_number"
-        id="routing-number" placeholder="Routing number" required="true">
-    </div>
-  </div>
-  
-  <div class="field row">
-    <div class="col-md-2">
-      <label>DOB</label>
-    </div>
-    <div class="col-md-4">
-      <input type="text" class="form-control no-box-shadow" name="dob" id="dob"
-        placeholder="mm/dd/yyyy" required="true">
-    </div>
-    
-    <div class="col-md-2">
-      <label>SSN Last 4</label>
-    </div>
-    <div class="col-md-4">
-      <input type="text" class="form-control no-box-shadow" name="last_4"
-        id="last_4" placeholder="0000" required="true">
-    </div>
-  </div>
-  
-  <div class="actions text-center action-button">
-    <button class="btn btn-primary height-50" id="update-payout">
-      Update
-    </button>
-  </div>
-  
-</form>
+</div>
+
+<script type="text/javascript">
+  var stripeForm = document.getElementById('cook-payout-form');
+    stripeForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        var stripe = Stripe("pk_test_4rlj7z7bgOSQVv1TrZAMhrJi");
+        var formBtn = document.getElementById('update-payout');
+        var acct = document.getElementById('account-number').value;
+        var routing = document.getElementById('routing-number').value;
+        var dob = document.getElementById('dob').value;
+        var last_4 = document.getElementById('last_4').value;
+        var firstName = document.querySelector("#first_name");
+        var lastName = document.querySelector("#last_name");
+        formBtn.setAttribute('disabled', 'true');
+        formBtn.innerHTML = '<i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="font-size: 16px;"></i> Setting up your account...';
+        
+        stripe.createToken('bank_account', {
+          country: 'US',
+          currency: 'usd',
+          routing_number: routing,
+          account_number: acct,
+          account_holder_name: [firstName, lastName].join(' '),
+          account_holder_type: 'Individual'
+        }).then(function(result) {
+            if (result.token) {
+                console.log(result.token);
+                var data = {
+                    "dob": dob,
+                    "last_4": last_4,
+                    "bankToken": result.token.bank_account.id,
+                    "token": result.token.id
+                };
+                $.get('/verify_bank', { data: data });
+            } else {
+                toastr.warning("This bank account could not be verified. Please try again.")
+            }
+        });
+    });
+</script>

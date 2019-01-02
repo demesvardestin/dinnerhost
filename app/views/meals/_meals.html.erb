@@ -1,11 +1,11 @@
 <% if meals.present? %>
     <% meals.each do |m| %>
-        <div class="col-md-4 add-margin-bottom meal-card add-padding-top" style="border-radius: 5px;">
+        <div class="col-md-4 meal-card add-padding-top" style="border-radius: 5px;">
             <a href="/dish/<%= m.id %>/<%= m.slug %>" class="background-transparent theme-blue no-underline">
                 <div class="card cursor-pointer no-border">
                     <div class="card-body"
                         style="background-image: url('<%= m.image %>'); background-size: cover;
-                            background-position: center; height: 150px; border-radius: 5px;">
+                            background-position: center; height: 150px; border-radius: 2px;">
                     </div>
                     
                     <div class="meal-card-footer">
@@ -17,20 +17,40 @@
                             <span class="badge badge-primary"><%= m.meal_type %></span>
                         </span>
                     </div>
+                    <div class="row" style="margin: 0;">
+                        <div class="col-lg-12 no-padding">
+                            <span class="float-left" style="font-size: 15px !important;">
+                                by
+                                <a href="/c/<%= m.chef.username %>"
+                                    class="theme-cyan font-15" style="margin-left: 5px;">
+                                    <%= m.chef.first_name %>
+                                </a>
+                            </span>
+                            
+                            <span class="float-right">
+                                <span class="cursor-pointer" align="center"
+                                    data-toggle="modal" data-target="#rateMeal"
+                                    style="margin-left: 10px;">
+                                    <% 5.times.each_with_index do |s, idx| %>
+                                        <span class="star">
+                                            <i class="<%= meal_star_rating(idx + 1, m) %> theme-yellow"
+                                                style="font-size: 15px;"></i>
+                                        </span>
+                                    <% end %>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </a>
         </div>
     <% end %>
 <% else %>
-    <div class="col-md-12">
-        <p>No listings found in your area. Our chefs are actively adding new listings, so check back soon!</p>
+    <div class="col-md-12 text-center">
+        <img src="/images/not_found.png" height="120">
     </div>
-    
-    <div class="col-md-12" style="margin-top: 20px;">
-        <a class="btn btn-primary box-shadow white"
-            style="text-transform: uppercase;" href="/refer-a-chef">
-            Refer a chef. Earn up to $10
-        </a>
+    <div class="col-md-12 text-center text-muted add-margin-top">
+        <p>No listings found in your area. Our chefs are actively adding new listings, so check back soon!</p>
     </div>
 <% end %>
 

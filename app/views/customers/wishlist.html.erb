@@ -1,10 +1,69 @@
 <section id="wishlist">
-    <div class="row">
-        <div class="col-md-12">
+    <div class="row" style="margin: 0;">
+        <div class="col-lg-12">
             <h4 class="bold">Saved Listings</h4>
         </div>
     </div>
-    <div class='row'>
-        <%= render partial: "meals/meals", locals: { meals: @saved }%>
+    <div class='row' style="margin: 0;">
+        <% if @saved.present? %>
+            <% @saved.each do |m| %>
+                <div class="col-md-4 meal-card add-padding-top" style="border-radius: 5px;">
+                    <a href="/dish/<%= m.id %>/<%= m.slug %>" class="background-transparent theme-blue no-underline">
+                        <div class="card cursor-pointer no-border">
+                            <div class="card-body"
+                                style="background-image: url('<%= m.image %>'); background-size: cover;
+                                    background-position: center; height: 150px; border-radius: 2px;">
+                            </div>
+                            
+                            <div class="meal-card-footer">
+                                <span class="font-15 float-left">
+                                    <%= m.name %>
+                                </span>
+                                
+                                <span class="bold font-13 theme-blue float-right">
+                                    <span class="badge badge-primary"><%= m.meal_type %></span>
+                                </span>
+                            </div>
+                            <div class="row" style="margin: 0;">
+                                <div class="col-lg-12 no-padding">
+                                    <span class="float-left" style="font-size: 15px !important;">
+                                        by <a href="/c/<%= m.chef.username %>"
+                                            class="theme-cyan">
+                                            <%= m.chef.first_name %>
+                                        </a>
+                                    </span>
+                                    
+                                    <span class="float-right">
+                                        <span class="cursor-pointer" align="center"
+                                            data-toggle="modal" data-target="#rateMeal"
+                                            style="margin-left: 10px;">
+                                            <% 5.times.each_with_index do |s, idx| %>
+                                                <span class="star">
+                                                    <i class="<%= meal_star_rating(idx + 1, m) %> theme-yellow"
+                                                        style="font-size: 15px;"></i>
+                                                </span>
+                                            <% end %>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <% end %>
+        <% else %>
+            <div class="col-md-12">
+                <p>You haven't saved anything yet.</p>
+            </div>
+        <% end %>
+        
+        <script>
+            $mealCard = $('.meal-card');
+            $mealCard.hover(shadowCard);
+            
+            function shadowCard() {
+                $(this).toggleClass('box-shadow-amp');
+            };
+        </script>
     </div>
 </section>

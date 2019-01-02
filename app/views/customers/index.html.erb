@@ -1,16 +1,16 @@
 <section id="featured-meals">
-    <div class="row">
-        <div class="col-md-12">
-            <h3 class="bold">Featured dishes</h3>
+    <div class="row" style="margin: 0;">
+        <div class="col-lg-12">
+            <h3 class="bold">Featured listings</h3>
         </div>
     </div>
     
-    <div class="row">
+    <div class="row" style="margin: 0;">
         <%= render partial: "meals/meals", locals: { meals: @meals.first(9) } %>
     </div>
     
     <% if @meals.first(9).count > 9 %>
-        <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+        <div class="row" style="margin: 20px 0;">
             <div class="col-md-4 offset-md-4" align="center">
                 <a class="background-transparent no-underline white" href="/featured-listings">
                     <button class="btn btn-primary height-50 box-shadow btn-block">
@@ -21,12 +21,14 @@
         </div>
     <% end %>
     
-    <div class="row" style="margin-top: 30px;">
-        <div class="col-md-12">
+    <hr>
+    
+    <div class="row" style="margin: 30px 0 0 0;">
+        <div class="col-lg-12">
             <h3 class="bold">Featured chefs</h3>
         </div>
     </div>
-    <div class="row add-margin-top" style="height: 100% !important;">
+    <div class="row" style="height: 100% !important; margin: 10px 0 0 0;">
         <%= render partial: "chefs/chefs", locals: { chefs: @chefs.first(9) } %>
     </div>
 </section>

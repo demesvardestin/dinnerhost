@@ -31,6 +31,17 @@ class Reservation < ApplicationRecord
         PaymentProcessingJob
         .set(wait_until: reservation.request_period + 6.hours)
         .perform_later(reservation)
+        MessagingJob
+        .set(wait_until: reservation.request_period - 24.hours)
+        .perform_later(reservation)
+    end
+    
+    def self.make_complete(chef_id)
+        self.all.where(chef_id: chef_id).each {|s| s.update(accepted: true, completed: true)}
+    end
+    
+    def chef_payout
+        (fee.to_f - (fee.to_f * 0.15)).round(2)
     end
     
     def people_count

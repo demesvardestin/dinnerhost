@@ -1,8 +1,10 @@
 <section id="past-reservations">
-    <div class="row">
-        <div class="col-md-12">
+    <div class="display-flex mobile-block-display">
+        <div class="col-lg-12">
             <h2>Past reservations</h2>
         </div>
+    </div>
+    <div class="display-flex mobile-block-display" style="flex-wrap: wrap;">
         <%= render partial: 'bookings', locals: { bookings: @bookings } %>
     </div>
 </section>

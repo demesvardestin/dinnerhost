@@ -28,6 +28,9 @@ toastr.options = {
 
 function initMap() {
     var input = document.getElementById('banner-request-location');
+    if (!input) {
+        var input = document.getElementById('request-location');
+    }
     var map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: -33.8688, lng: 151.2195},
         zoom: 13
@@ -37,35 +40,25 @@ function initMap() {
     var infowindow = new google.maps.InfoWindow();
     var infowindowContent = document.getElementById('infowindow-content');
     infowindow.setContent(infowindowContent);
-    // var marker = new google.maps.Marker({
-    //     map: map,
-    //     anchorPoint: new google.maps.Point(0, -29)
-    // });
 
     autocomplete.addListener('place_changed', function() {
-      infowindow.close();
-      var place = autocomplete.getPlace();
-      // if (!place.geometry) {
-      //   // User entered the name of a Place that was not suggested and
-      //   // pressed the Enter key, or the Place Details request failed.
-      //   window.alert("Place not available");
-      //   return;
-      // }
-
-      var address = '';
-      if (place.address_components) {
-        address = [
-          (place.address_components[0] && place.address_components[0].short_name || ''),
-          (place.address_components[1] && place.address_components[1].short_name || ''),
-          (place.address_components[2] && place.address_components[2].short_name || '')
-        ].join(' ');
-        window.location.replace("/search?request_location=" + encodeURI(address));
-      }
+        infowindow.close();
+        var place = autocomplete.getPlace();
+        var address = '';
+        if (place.address_components) {
+            address = [
+              (place.address_components[0] && place.address_components[0].short_name || ''),
+              (place.address_components[1] && place.address_components[1].short_name || ''),
+              (place.address_components[2] && place.address_components[2].short_name || ''),
+              (place.address_components[5] && place.address_components[5].short_name || '')
+            ].join(', ');
+            window.location.replace("/search?request_location=" + encodeURI(address));
+        }
     });
 }
 
 $('.pac-item').on('click', e => {
-  var searchValue = document.getElementById('request-location').value;
+  var searchValue = document.getElementById('banner-request-location').value;
   window.location.href = "/search?request_location=" + encodeURI(searchValue);
 });
 
@@ -410,4 +403,13 @@ function copyListingLink(elem) {
 function resetLink(elem) {
     $("#"+elem.id)
     .html('<i class="fa fa-file-text-o theme-blue" style="margin-right: 5px;"></i>Copy');
+}
+
+function adjustPacContainerWidth() {
+    var pac = document.querySelector('.pac-container');
+    if (window.innerWidth > 1024) {
+        if (!pac.classList.contains('width-over-1024')) {
+            pac.classList.add('width-over-1024');
+        }
+    }
 }

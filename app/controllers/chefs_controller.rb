@@ -4,6 +4,11 @@ class ChefsController < ApplicationController
   before_action :load_booking_estimate, only: [:booking_estimate, :reserve]
   before_action :load_reservations, except: [:show]
   
+  
+  def onboarding
+    
+  end
+  
   def dashboard
   end
   
@@ -34,13 +39,32 @@ class ChefsController < ApplicationController
       acct.legal_entity.last_name = current_chef.last_name
       acct.legal_entity.ssn_last_4 = data[:last_4]
       acct.save
-      current_chef.update(stripe_token: acct.id, has_stripe_account: true)
+      current_chef.update(stripe_token: acct.id, has_stripe_account: true, stripe_bank_token: data[:bankToken])
       @notice = "Account successfully created!"
       render 'bank_verified', :layout => false
     rescue Exception => e
       @error = e
       render 'stripe_account_error', :layout => false
     end
+  end
+  
+  def trigger_payout
+    begin
+      # balance = current_chef.stripe_balance_in_cents
+      Stripe::Payout.create(
+        {
+          :amount => 3000,
+          :currency => "usd",
+          :method => "standard"
+        },
+        {:stripe_account => Chef.first.stripe_token}
+      )
+    rescue Stripe::StripeError => e
+      p e
+      render "payout_failed", :layout => false
+      return
+    end
+    render :layout => false
   end
   
   def show

@@ -91,12 +91,6 @@ p {
     border-radius: 2px;
 }
 
-.pac-container {
-    padding: 0 15px !important;
-    border: 0.5px solid #e7e7e9 !important;
-    font-family: 'Montserrat', sans-serif !important;
-}
-
 .pac-item {
     border-top: none;
     border-bottom: 0.5px solid #e7e7e9;
@@ -162,14 +156,23 @@ p {
     color: #000;
 }
 
-.main-navbar {
-    /*background-color: transparent !important;*/
+.pac-container {
+    padding: 0 15px !important;
+    border: 0.5px solid #e7e7e9 !important;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+.width-over-1024 {
+    width: 869px !important;
+    left: 16.666667% !important;
+    margin-left: 15px !important;
 }
 
 .main-nav-link:hover {
     background-color: #007bff;
     opacity: 0.7;
     border-radius: 2px;
+    color: #fff;
 }
 
 .datetime-picker-div, .guest_count_picker, .time_picker {
@@ -442,18 +445,93 @@ p {
     border-left: none;
     border-right: none;
     z-index: 1049;
+    height: 450px;
+    overflow-y: auto;
 }
 
 .dh-navbar-collapse-nav {
-    padding: 20px;
     border-bottom: 0.5px solid #e7e7e9;
+}
+
+.dh-navbar-collapse-nav > a {
+    display: block !important;
+    padding: 20px;
+}
+
+.user-selection-card {
+    cursor: pointer;
+}
+
+.user-selection-card:hover {
+    cursor: pointer;
+    box-shadow: 0 6px 12px 0 rgba(50,50,70,.08), 0 3px 5px 0 rgba(0,0,0,.05);
+}
+
+.user-selection-card > a:hover {
+    background-color: #1cc7c7;
+    color: #fff !important;
+}
+
+.auth-card, .dh-card {
+    border: 0.5px solid #e7e7e9;
+    padding: 15px;
+    border-radius: 2px;
+}
+
+.dh-card label, .dh-card {
+    color: #000 !important;
+}
+
+.display-flex {
+    display: flex;
+}
+
+.dh-row {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 @media only screen and (max-device-width: 767.98px) {
     
     #banner-request-location {
-        border-top-left-radius: 5px !important;
-        border-bottom-left-radius: 5px !important;
+        border-radius: 5px !important;
+    }
+    
+    .user-selection-card {
+        margin-bottom: 15px;
+    }
+    
+    .payout-chef-avi {
+        margin-left: 50% !important;
+    }
+    
+    #chef-reservations-sorting-btn {
+        top: 75px !important;
+    }
+    
+    .meal--card > .card-body {
+        border-radius: 0 !important;
+    }
+    
+    .dh-row {
+        display: block !important;
+    }
+    
+    .no-mobile-padding {
+        padding: 0;
+    }
+    
+    input.btn, .mobile-block-display {
+        display: block !important;
+        width: 100% !important;
+    }
+    
+    .add-margin-bottom-mobile {
+        margin-bottom: 10px !important;
+    }
+    
+    .add-margin-top-mobile {
+        margin-top: 10px !important;
     }
     
     .pac-container {
@@ -467,11 +545,28 @@ p {
     .how-to {
         margin-bottom: 10px;
     }
+    
+    .auth-card, .dh-card {
+        border: none;
+        padding-top: 0 !important;
+    }
+    
+    #resource-login, #resource-signup, #resource-password-retrieve {
+        margin-top: 10px !important;
+        margin-bottom: 0 !important;
+    }
+    
+    .filters-box {
+        margin-top: -150px !important;
+    }
 }
 
 @media only screen and (max-device-width: 1024px) {
     .no-mobile-display {
         display: none !important;
+    }
+    #banner-request-location {
+        border-radius: 5px !important;
     }
 }
 

@@ -8,7 +8,7 @@
 
 <% if reservations.present? %>
     <% reservations.each do |r| %>
-        <div id="reservation-<%= r.id %>" class="col-md-4 add-margin-bottom">
+        <div id="reservation-<%= r.id %>" class="col-lg-4 add-margin-bottom">
             <div class="modal" id="reservation-details-modal-<%= r.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -141,7 +141,7 @@
         </div>
     <% end %>
 <% else %>
-    <div class="col-md-12 text-center">
+    <div class="col-lg-12 text-center no-padding">
         <h5> No <%= @status %> reservations
     </div>
 <% end %>

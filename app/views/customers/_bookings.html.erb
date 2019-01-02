@@ -1,117 +1,123 @@
-<% bookings.each do |b| %>
-    <% if b.cancellable? %>
-        <div class="modal fade" id="cancel-reservation-modal-<%= b.id %>" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content box-shadow">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" style="font-size: 30px;">
-                                &times;
-                            </span>
-                        </button>
-                    </div>
-                    <div class="modal-body cook-rating-modal-body" style="padding-bottom: 30px;">
-                        <div class="modal-body-header">
-                            <h4 class="bold modal-body-header-headline">Cancellation request</h4>
+<% if bookings.present? %>
+    <% bookings.each do |b| %>
+        <% if b.cancellable? %>
+            <div class="modal fade" id="cancel-reservation-modal-<%= b.id %>" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content box-shadow">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true" style="font-size: 30px;">
+                                    &times;
+                                </span>
+                            </button>
                         </div>
-                        
-                        <div style="margin-top: 20px;" id="cancel-reservation-form-<%= b.id %>" class="font-18">
-                            <p>
-                                We're so sorry to see you cancel! Please tell us
-                                why you no longer want to book <%= b.chef.first_name %>
-                            </p>
+                        <div class="modal-body cook-rating-modal-body" style="padding-bottom: 30px;">
+                            <div class="modal-body-header">
+                                <h4 class="bold modal-body-header-headline">Cancellation request</h4>
+                            </div>
                             
-                            <form action="/submit_cancellation_request?id=<%= b.id %>"
-                                method="post" data-remote="true" class="add-margin-top">
-                                <textarea class="form-control no-box-shadow"
-                                    name="reservation_cancellation[reason]"
-                                    style="height: 100px;"
-                                    placeholder="I don't feel like it anymore..."></textarea>
+                            <div style="margin-top: 20px;" id="cancel-reservation-form-<%= b.id %>" class="font-18">
+                                <p>
+                                    We're so sorry to see you cancel! Please tell us
+                                    why you no longer want to book <%= b.chef.first_name %>
+                                </p>
                                 
-                                <div class="actions" align="right">
-                                    <button class="btn btn-primary height-50 add-margin-top"
-                                        type="submit" data-disable-with="Submitting...">
-                                        Submit & request $<%= b.refund_amount %> refund
-                                    </button>
-                                </div>
-                            </form>
+                                <form action="/submit_cancellation_request?id=<%= b.id %>"
+                                    method="post" data-remote="true" class="add-margin-top">
+                                    <textarea class="form-control no-box-shadow"
+                                        name="reservation_cancellation[reason]"
+                                        style="height: 100px;"
+                                        placeholder="I don't feel like it anymore..."></textarea>
+                                    
+                                    <div class="actions" align="right">
+                                        <button class="btn btn-primary height-50 add-margin-top"
+                                            type="submit" data-disable-with="Submitting...">
+                                            Submit & request $<%= b.refund_amount %> refund
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <%= render partial: "reservation_refund", locals: { b: b } %>
                         </div>
-                        
-                        <%= render partial: "reservation_refund", locals: { b: b } %>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+        <div class="col-md-4 add-margin-bottom">
+            <div class="card reservation-card box-shadow">
+                <div class="card-header"
+                    style="background-image: url('<%= b.meals.last.image %>');
+                        background-size: cover; background-position: center; height: 160px;">
+                </div>
+                <div class="card-body" align="center">
+                    
+                    <div id="cook-avi" align="center" class="cursor-pointer"
+                        onclick="window.location.href='/c/<%= b.chef.username %>'"
+                        style="height: 60px; width: 60px; margin: auto;
+                                overflow: hidden; border-radius: 30px;
+                                border: 0.5px solid #e7e7e9;">
+                        <img src="<%= b.chef.image.url %>" alt="cook"
+                            style="height: auto; width: inherit;">
+                    </div>
+                    
+                    <div class="add-margin-top">
+                        <h5><%= b.chef.first_name %></h5>
+                    </div>
+                    
+                    <div class="cook-rating">
+                        <% 5.times.each_with_index do |s, idx| %>
+                            <span class="star">
+                                <i class="<%= star_rating(idx + 1, b.chef) %> theme-cyan"
+                                    style="font-size: 11px;"></i>
+                            </span>
+                        <% end %>
+                        <span class="rating-count" style="font-size: 12px;">
+                            <%= b.chef.rating_count %>
+                        </span>
+                    </div>
+                    
+                    <div class="add-margin-top">
+                        <p>
+                            <%= b.request_date.to_datetime.strftime('%b %e, %Y') %>
+                            &bull; <%= pluralize(b.people_count, 'person') %>
+                        </p>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="add-margin-top" id="status-<%= b.id %>">
+                        <p align="center" class="<%= b.status_color %> bold">
+                            <%= b.status %>
+                        </p>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="add-margin-top">
+                        <p align="center">
+                            <a href="/booking-complete?reservation=<%= b.id %>"
+                                class="background-transparent theme-cyan">
+                                View Details
+                            </a>
+                            <% if b.cancellable? %>
+                                <span id="cancel-reservation-btn-span-<%= b.id %>">
+                                    | <a data-toggle="modal" data-target="#cancel-reservation-modal-<%= b.id %>"
+                                        class="background-transparent theme-blue cursor-pointer">
+                                        Cancel
+                                    </a>
+                                </span>
+                            <% end %>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     <% end %>
-    <div class="col-md-4 add-margin-bottom">
-        <div class="card reservation-card">
-            <div class="card-header"
-                style="background-image: url('<%= b.meals.last.image %>');
-                    background-size: cover; background-position: center; height: 160px;">
-            </div>
-            <div class="card-body" align="center">
-                
-                <div id="cook-avi" align="center" class="cursor-pointer"
-                    onclick="window.location.href='/c/<%= b.chef.username %>'"
-                    style="height: 60px; width: 60px; margin: auto;
-                            overflow: hidden; border-radius: 30px;
-                            border: 0.5px solid #e7e7e9;">
-                    <img src="<%= b.chef.image.url %>" alt="cook"
-                        style="height: auto; width: inherit;">
-                </div>
-                
-                <div class="add-margin-top">
-                    <h5><%= b.chef.first_name %></h5>
-                </div>
-                
-                <div class="cook-rating">
-                    <% 5.times.each_with_index do |s, idx| %>
-                        <span class="star">
-                            <i class="<%= star_rating(idx + 1, b.chef) %> theme-cyan"
-                                style="font-size: 11px;"></i>
-                        </span>
-                    <% end %>
-                    <span class="rating-count" style="font-size: 12px;">
-                        <%= b.chef.rating_count %>
-                    </span>
-                </div>
-                
-                <div class="add-margin-top">
-                    <p>
-                        <%= b.request_date.to_datetime.strftime('%b %e, %Y') %>
-                        &bull; <%= pluralize(b.people_count, 'person') %>
-                    </p>
-                </div>
-                
-                <hr>
-                
-                <div class="add-margin-top" id="status-<%= b.id %>">
-                    <p align="center" class="<%= b.status_color %> bold">
-                        <%= b.status %>
-                    </p>
-                </div>
-                
-                <hr>
-                
-                <div class="add-margin-top">
-                    <p align="center">
-                        <a href="/booking-complete?reservation=<%= b.id %>"
-                            class="background-transparent theme-cyan">
-                            View Details
-                        </a>
-                        <% if b.cancellable? %>
-                            <span id="cancel-reservation-btn-span-<%= b.id %>">
-                                | <a data-toggle="modal" data-target="#cancel-reservation-modal-<%= b.id %>"
-                                    class="background-transparent theme-blue cursor-pointer">
-                                    Cancel
-                                </a>
-                            </span>
-                        <% end %>
-                    </p>
-                </div>
-            </div>
-        </div>
+<% else %>
+    <div class="col-md-12">
+        <p>You haven't made any reservations yet</p>
     </div>
 <% end %>
 

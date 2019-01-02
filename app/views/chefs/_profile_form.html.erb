@@ -16,13 +16,13 @@
       <label>First name</label>
     </div>
     <div class="col-md-4">
-      <%= f.text_field :first_name, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"First name" %>
+      <%= f.text_field :first_name, class:"form-control no-box-shadow height-50 font-15 pf", placeholder:"First name" %>
     </div>
     <div class="col-md-2">
       <label>Last name</label>
     </div>
     <div class="col-md-4">
-      <%= f.text_field :last_name, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Last name" %>
+      <%= f.text_field :last_name, class:"form-control no-box-shadow height-50 font-15 pf", placeholder:"Last name" %>
     </div>
   </div>
   
@@ -31,7 +31,7 @@
       <label>Phone number</label>
     </div>
     <div class="col-md-10">
-      <%= f.text_field :phone_number, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Phone number" %>
+      <%= f.text_field :phone_number, class:"form-control no-box-shadow height-50 font-15 pf", placeholder:"Phone number" %>
     </div>
   </div>
   
@@ -40,13 +40,13 @@
       <label>Location</label>
     </div>
     <div class="col-md-4">
-      <%= f.text_field :town, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Town or city" %>
+      <%= f.text_field :town, class:"form-control no-box-shadow height-50 font-15 pf", placeholder:"Town or city" %>
     </div>
     <div class="col-md-3">
-      <%= f.text_field :state, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"State" %>
+      <%= f.text_field :state, class:"form-control no-box-shadow height-50 font-15 pf", placeholder:"State" %>
     </div>
     <div class="col-md-3">
-      <%= f.text_field :zipcode, class:"form-control no-box-shadow height-50 font-15 pf", autofocus: true, placeholder:"Zipcode" %>
+      <%= f.text_field :zipcode, class:"form-control no-box-shadow height-50 font-15 pf", placeholder:"Zipcode" %>
     </div>
   </div>
   
@@ -72,7 +72,7 @@
   </div>
   
   <div class="actions text-right action-button">
-    <%= f.submit "Update", class:"btn btn-primary height-50", id:"update-profile", data: { "disable-with": "Updating..." } %>
+    <%= f.submit "Update", class:"btn btn-primary height-50 mobile-block-display", id:"update-profile", data: { "disable-with": "Updating..." } %>
   </div>
 <% end %>
 

@@ -37,7 +37,7 @@ class Chef::RegistrationsController < Devise::RegistrationsController
     end
     
     def after_sign_up_path_for(resource)
-        chef_dashboard_path
+        new_user_guidelines_path
     end
     
     # def after_sign_in_path_for(resource)

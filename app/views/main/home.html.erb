@@ -32,18 +32,20 @@
                         </div>
                         <input class="form-control" name="request_location"
                             id="banner-request-location" autocomplete="off"
-                            placeholder="Where are you located?"
+                            placeholder="Where are you located?" type="search"
                             style="height: 70px; font-size: 18px;
-                                width: 50%; border-radius: 5px;
-                                border-top-left-radius: 0;
-                                border-bottom-left-radius: 0;
-                                border-left: none; box-shadow: none;" required="true">
+                                width: 50%; border-radius: 0;
+                                border-left: none; box-shadow: none;" required="true"
+                                onkeyup="adjustPacContainerWidth()">
+                        <button class="btn btn-primary no-mobile-display font-18"
+                            style="border-top-left-radius: 0;
+                                border-bottom-left-radius: 0; padding-left: 30px; padding-right: 30px;">
+                            Search
+                        </button>
                     </div>
-                    <button class="no-display">Submit</button>
                 </form>
                 <div id="map" style="display: none;"></div>
-                <div id="infowindow-content">
-                </div>
+                <div id="infowindow-content"></div>
             </div>
         </div>
     </div>
@@ -217,6 +219,8 @@
     body.classList.remove('container');
     body.style.marginTop = "0";
     body.style.paddingTop = "0";
+    $('.main-nav-link').css('color', '#fff');
+    $('.main-nav-link').css('font-weight', 'bold');
     
     document.querySelector('body').style.paddingTop = '0';
     document.querySelector('body').style.marginTop = '0';

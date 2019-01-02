@@ -97,6 +97,10 @@ class Customer < ApplicationRecord
     referrals.unapplied.count * 5.00
   end
   
+  def accept_guidelines
+    update(accepted_guidelines_on: Time.zone.now)
+  end
+  
   private
   
   def set_referral_code

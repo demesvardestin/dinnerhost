@@ -8,7 +8,6 @@ class PaymentProcessingJob < ApplicationJob
     amount = (total - fee).to_i
     chef = reservation.chef
     
-    ## Trigger transfer
     Stripe::Transfer.create(
       :amount => amount,
       :currency => "usd",

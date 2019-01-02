@@ -1,44 +1,47 @@
-<section id="store-login" class="container" style="margin-bottom: 100px; margin-top: 50px;">
-  <div class="row">
-    <div class="col-md-4 offset-md-4">
-      <div class="card">
-        <div class="card-body">
-          <div class="header">
-            <h5 class="text-center medium-gray">Forgot your password?</h5>
-            <hr style="height: 2px; background-color: #F27649; border-color: #F27649; width: 15%; margin: auto !important;">
+<style>
+  .navbar {
+    position: static !important;
+  }
+</style>
+<section id="resource-password-retrieve" style="margin-bottom: 100px; margin-top: 50px;">
+  <div class="col-lg-4 offset-lg-4" style="padding: 0;">
+    <div class="auth-card">
+      <div class="header">
+        <h5 class="text-center medium-gray">Forgot your password?</h5>
+        <hr style="height: 2px; background-color: #F27649; border-color: #F27649; width: 15%; margin: auto !important;">
+      </div>
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+        <div class="form-inputs" style="vertical-align: middle !important;">
+          <% if !devise_error_messages!.empty? %>
+            <div id="error_explanation">
+              <ul>
+                <li><%= devise_error_messages! %></li>
+              </ul>
+            </div>
+          <% end %>
+          
+          <div class="field">
+            <%= f.email_field :email,
+                        required: true,
+                        autofocus: true,
+                        class:"form-control height-50 no-box-shadow", placeholder:"Email" %>
           </div>
-          <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-            <div class="form-inputs" style="vertical-align: middle !important;">
-              <% if !devise_error_messages!.empty? %>
-                <div id="error_explanation">
-                  <ul>
-                    <li><%= devise_error_messages! %></li>
-                  </ul>
-                </div>
-              <% end %>
-              
-              <div class="form-inputs">
-                <%= f.email_field :email,
-                            required: true,
-                            autofocus: true,
-                            class:"form-control height-50 no-box-shadow", placeholder:"Email" %>
-              </div>
-            
-              <div class="form-actions add-margin-top">
+        
+          <div class="actions add-margin-top">
+            <div class="row">
+              <div class="col-md-12">
                 <%= f.submit "Send me reset instructions", class:"btn btn-primary btn-block height-50 log-in no-box-shadow" %>
               </div>
-              
               <div class="col-md-12 add-padding-top text-center">
                 <%= link_to "Don't have an account? Register here", new_chef_registration_path, class:"background-transparent theme-blue font-16 display-block" if request.original_url.include?('chef') %>
                 <%= link_to "Don't have an account? Register here", customer_signup_path, class:"background-transparent theme-blue font-16 display-block" unless request.original_url.include?('chef') %>
                 <%= link_to "Already have an account?", chef_login_path, class:"background-transparent theme-blue font-16 display-block" if request.original_url.include?('chef') %>
                 <%= link_to "Already have an account?", customer_login_path, class:"background-transparent theme-blue font-16 display-block" unless request.original_url.include?('chef') %>
               </div>
-              
-            </div>
-          <% end %>
+          </div>
+          
         </div>
-      </div>
+      <% end %>
     </div>
   </div>
 </section>

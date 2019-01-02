@@ -39,6 +39,20 @@ class Chef < ApplicationRecord
     "Joined " + created_at.strftime('%B %Y')
   end
   
+  def stripe_balance_in_cents
+    balance = Stripe::Balance.retrieve({:stripe_account => stripe_token})
+    balance.available.first.amount
+    # Stripe::Balance.retrieve().available.first.amount
+  end
+  
+  def stripe_balance
+    (stripe_balance_in_cents/100.to_f).round 2
+  end
+  
+  def has_stripe_balance
+    stripe_balance > 0
+  end
+  
   def has_archived(convo)
     conversations.include?(convo) && convo.archived_by.include?(user_type)
   end
@@ -123,6 +137,14 @@ class Chef < ApplicationRecord
     else
       "No License"
     end
+  end
+  
+  def accept_guidelines
+    update(accepted_guidelines_on: Time.zone.now)
+  end
+  
+  def payout_settings_incomplete
+    stripe_token.nil? && !has_stripe_account && stripe_bank_token.nil?
   end
   
   protected

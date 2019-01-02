@@ -1,3 +1,9 @@
+<style>
+    .row {
+        margin: 0 !important;
+    }
+</style>
+
 <section id="conversation">
     <% if (current_chef || current_customer).has_archived @conversation %>
         <div class="row" id="conversation-archived-label">
@@ -12,7 +18,7 @@
         </div>
     <% end %>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 add-margin-bottom">
             <div class="card">
                 <div class="card-body text-center">
                     <div id="cook-avi" class="cursor-pointer" align="center"
@@ -72,7 +78,7 @@
         </div>
         <div class="col-md-7 offset-md-1">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 no-padding">
                     <form id="message-form" data-remote="true" action="/create_message" method="post">
                         <div class="card">
                             <div class="card-body" style="padding: 0;">
@@ -109,7 +115,7 @@
                 </div>
             <% end %>
             
-            <div class="row" id="all-messages">
+            <div class="row add-margin-top" id="all-messages">
                 <%= render partial: 'messages', locals: { messages: @messages } %>
             </div>
         </div>

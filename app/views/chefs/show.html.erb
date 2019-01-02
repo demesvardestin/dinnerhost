@@ -3,7 +3,7 @@
         <div class="col-md-3">
             <div id="cook-avi"
                 style="height: 230px; overflow: hidden;
-                        border-radius: 5px;">
+                        border-radius: 2px;">
                 <img src="<%= @cook.image.url %>" alt="cook"
                     style="height: auto; width: 100%;">
             </div>
@@ -99,19 +99,21 @@
                 </p>
             </div>
             
-            <div id="chef-reviews" style="margin-top: 20px;">
-                <a class="background-transparent no-underline"
-                    href="/book/<%= @cook.username || @cook.id %>">
-                    <button class="btn btn-success">
-                        Book <%= @cook.first_name %>
-                    </button>
-                </a>
-                
-                <a href="/message_chef/<%= @cook.id %>"
-                    class="btn btn-primary white">
-                   Send A Message 
-                </a>
-            </div>
+            <% if current_customer %>
+                <div id="chef-reviews" style="margin-top: 20px;">
+                    <a class="background-transparent no-underline"
+                        href="/book/<%= @cook.username || @cook.id %>">
+                        <button class="btn btn-success">
+                            Book <%= @cook.first_name %>
+                        </button>
+                    </a>
+                    
+                    <a href="/message_chef/<%= @cook.id %>"
+                        class="btn btn-primary white">
+                       Send A Message 
+                    </a>
+                </div>
+            <% end %>
             
             <div class="row" id="chef-meals" style="margin-top: 30px;">
                 <div class="col-md-12"><h4>Listings <span class="text-muted font-20">(<%= @cook.meals.count %>)</span></h4></div>

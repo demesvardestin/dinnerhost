@@ -1,6 +1,6 @@
 <% if reservations.present? %>
     <% reservations.each do |r| %>
-        <div class="row reservation-row text-muted" onclick="console.log('yo');">
+        <div class="row reservation-row text-muted">
             <div class="col-md-1">
                 <div id="customer-avi" class="cursor-pointer"
                     style="height: 40px; width: 40px;
@@ -14,13 +14,13 @@
                 <%= r.customer.first_name %>
             </div>
             <div class="col-md-3" style="margin-top: 10px;">
-                <%= r.requested_for %>
+                For: <%= r.requested_for %>
             </div>
             <div class="col-md-1" style="margin-top: 10px;">
-                <%= r.meals.count %>
+                <%= r.meals.count %> meals
             </div>
             <div class="col-md-1" style="margin-top: 10px;">
-                <%= r.people_count %>
+                <%= r.people_count %> diners
             </div>
             <div class="col-md-1" style="margin-top: 10px;">
                 <%= r.status %>
@@ -38,8 +38,8 @@
     <% end %>
 <% else %>
     <div class="row">
-        <div class="col-md-12 add-padding-top add-padding-bottom" align="center">
-            <em>No Matching Reservations</em>
+        <div class="col-md-12 add-padding-top text-muted" align="center">
+            No Matching Reservations
         </div>
     </div>
 <% end %>
