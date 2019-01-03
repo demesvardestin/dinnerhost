@@ -50,19 +50,19 @@ gem 'jquery-rails'
 gem 'turbolinks'
 # font-awesome for icons
 gem 'font-awesome-rails'
+# textarea editor
 gem 'bootstrap-wysihtml5-rails'
-gem 'webpush'
-gem 'serviceworker-rails'
-gem 'pusher'
+# prettify notifications
 gem 'toastr-rails'
+# social sharing
 gem 'social-share-button'
+# datepicker
 gem 'bootstrap-datepicker-rails'
-
+# active_job adapter
+gem 'resque'
 # DB administration
 gem "administrate"
 
-# BigCommerce
-gem 'bigcommerce'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.

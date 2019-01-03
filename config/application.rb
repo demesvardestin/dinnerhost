@@ -17,5 +17,6 @@ module Workspace
     #     ENV[key.to_s] = value
     #   end if File.exists?(env_file)
     # end
+    config.active_job.queue_adapter = :resque
   end
 end
