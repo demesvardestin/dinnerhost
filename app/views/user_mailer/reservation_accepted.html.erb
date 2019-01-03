@@ -12,99 +12,22 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu:400" rel="stylesheet">
   </head>
-  <body>
-    <style>
-      .row {
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-        margin-right: -15px;
-        margin-left: -15px;
-      }
-      
-      .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
-        position: relative;
-        width: 100%;
-        min-height: 1px;
-        padding-right: 15px;
-        padding-left: 15px;
-      }
-      
-      body {
-        padding-top: 30px;
-        font-family: 'roboto', sans-serif !important;
-      }
-      
-      .height-50 {
-        height: 50px;
-      }
-      
-      p {
-        font-size: 17px;
-      }
-      
-      .btn {
-        display: inline-block;
-        font-weight: 400;
-        text-align: center;
-        white-space: nowrap;
-        vertical-align: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        border: 1px solid transparent;
-        padding: 10px 20px;
-        font-size: 1rem;
-        line-height: 1.5;
-        border-radius: 2px;
-        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-        background-color: #007bff;
-        border-color: #007bff;
-        color: #fff;
-        font-size: 16px;
-      }
-      
-      .cursor-pointer {
-        cursor: pointer;
-      }
-      
-      .card {
-        border: 0.5px solid #e7e7e9;
-        border-radius: 2px;
-      }
-      
-      .card-header {
-        background-color: #e7e7e9;
-        padding: 0.25rem 1.25rem;
-        border-bottom: 1px solid gray;
-      }
-      
-      .card-footer {
-        background-color: #e7e7e9;
-        padding: 0.75rem 1.25rem;
-        border-top: 1px solid gray;
-        text-align: right;
-      }
-      
-      .card-body {
-        padding: 1.25rem;
-      }
-    </style>
+  <body style="padding-top: 30px; font-family: 'roboto', sans-serif;">
     <section class="row" style="margin: 0;">
       <div class="col-lg-6 offset-lg-3">
         <a class="navbar-brand cursor-pointer" href="https://dinnerhost.co">
           <img src="https://s3.us-east-2.amazonaws.com/dinnerhost/static/dinnerhost_logo.png" height="50">
         </a>
         
-        <p style="margin-top: 20px;">
+        <p style="margin-top: 30px; font-size: 17px;">
             Great news <%= @diner.first_name %>,<br /><br />
             <%= @chef.first_name %> has accepted your reservation request!
         </p>
         
-        <div class="card">
-          <div class="card-header" style="background-color: #1cc7c7;">
+        <div class="card" style="border: 0.5px solid #e7e7e9;
+          border-radius: 2px;">
+          <div class="card-header"
+            style="background-color: #1cc7c7; padding: 0.25rem 1.25rem; border-bottom: 1px solid gray;">
             <h5 style="color: #fff;">**Here's what you will need to have ready:</h5>
           </div>
           <% @ingredients.each do |i| %>
@@ -117,19 +40,42 @@
                 <% end %>
             </div>
           <% end %>
-          <div class="card-footer" align="right">
+          <div class="card-footer" align="right"
+            style="background-color: #e7e7e9;
+                  padding: 0.75rem 1.25rem;
+                  border-top: 1px solid gray;
+                  text-align: right;">
             <a href="https://dinnerhost.co/booking-accepted?reservation=<%= @reservation.id  %>"
-              class="btn btn-primary white mobile-block-display">
+              class="btn white mobile-block-display" style="margin-top: 30px; display: inline-block;
+                font-weight: 400;
+                text-align: center;
+                cursor: pointer;
+                white-space: nowrap;
+                vertical-align: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                border: 1px solid transparent;
+                padding: 10px 20px;
+                font-size: 1rem;
+                line-height: 1.5;
+                border-radius: 2px;
+                transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+                background-color: #007bff;
+                border-color: #007bff;
+                color: #fff;
+                font-size: 16px;">
               View Details
             </a>
           </div>
         </div>
         
-        <p style="margin-top: 30px;">
+        <p style="margin-top: 30px; font-size: 17px;">
           <b>**These ingredient quantities serve 2 people.</b>
         </p>
         
-        <p style="margin-top: 30px;">
+        <p style="margin-top: 30px; font-size: 17px;">
           Bon Appetit,<br />
           The DinnerHost Team
         </p>
