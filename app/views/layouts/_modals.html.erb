@@ -217,7 +217,7 @@
 
 <script>
     
-    var stripe = Stripe("pk_test_4rlj7z7bgOSQVv1TrZAMhrJi");
+    var stripe = Stripe("<%= stripe_key %>");
     var elements = stripe.elements();
     
     var style = {

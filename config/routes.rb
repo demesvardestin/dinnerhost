@@ -119,6 +119,8 @@ Rails.application.routes.draw do
   get '/join', to: 'main#join'
   get '/new_user_guidelines', to: 'main#new_user_guidelines'
   get '/accept_guidelines', to: 'main#accept_guidelines'
+  get '/privacy', to: 'main#privacy'
+  get '/contact-us', to: "main#contact"
   ## END GLOBAL ROUTES ##
   
   

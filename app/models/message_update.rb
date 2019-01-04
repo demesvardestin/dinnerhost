@@ -1,76 +1,76 @@
 class MessageUpdate
    
     def self.alert_receiver(message, sender, receiver)
-        twilio, twilio_phone = self.twilio
-        message_header = "#{sender.first_name} has sent you a message on DinnerHost: \n\n"
-        message_footer = "\n\nGo to dinnerhost.co/inbox to reply."
-        twilio.messages.create(
-            body: message_header + message.extended_content_snipet + message_footer,
-            to: receiver.phone_number,
-            from: twilio_phone
-        )
+        # twilio, twilio_phone = self.twilio
+        # message_header = "#{sender.first_name} has sent you a message on DinnerHost: \n\n"
+        # message_footer = "\n\nGo to dinnerhost.co/inbox to reply."
+        # twilio.messages.create(
+        #     body: message_header + message.extended_content_snipet + message_footer,
+        #     to: receiver.phone_number,
+        #     from: twilio_phone
+        # )
     end
     
     def self.reservation_accepted(reservation)
-        chef = reservation.chef
-        customer = reservation.customer
-        twilio, twilio_phone = self.twilio
-        twilio.messages.create(
-            body: "#{chef.first_name} has accepted your reservation request! You'll receive a separate email with further reservation details. If you don't receive any email within the next 3 hours, please reach out to help@dinnerhost.com",
-            to: customer.phone_number,
-            from: twilio_phone
-        )
+        # chef = reservation.chef
+        # customer = reservation.customer
+        # twilio, twilio_phone = self.twilio
+        # twilio.messages.create(
+        #     body: "#{chef.first_name} has accepted your reservation request! You'll receive a separate email with further reservation details. If you don't receive any email within the next 3 hours, please reach out to help@dinnerhost.com",
+        #     to: customer.phone_number,
+        #     from: twilio_phone
+        # )
     end
     
     def self.reservation_denied(reservation)
-        chef = reservation.chef
-        customer = reservation.customer
-        twilio, twilio_phone = self.twilio
-        twilio.messages.create(
-            body: "Unfortunately, #{chef.first_name} has denied your reservation request. But don't worry, we've got you covered. Head to dinnerhost.co to browse more delicious listings!",
-            to: customer.phone_number,
-            from: twilio_phone
-        )
+        # chef = reservation.chef
+        # customer = reservation.customer
+        # twilio, twilio_phone = self.twilio
+        # twilio.messages.create(
+        #     body: "Unfortunately, #{chef.first_name} has denied your reservation request. But don't worry, we've got you covered. Head to dinnerhost.co to browse more delicious listings!",
+        #     to: customer.phone_number,
+        #     from: twilio_phone
+        # )
     end
     
     def self.booking_complete(reservation)
-        chef = reservation.chef
-        customer = reservation.customer
-        twilio, twilio_phone = self.twilio
-        twilio.messages.create(
-            body: "Your reservation request has been sent out! Once #{chef.first_name} accepts it, you will receive a confirmation email with further details.",
-            to: customer.phone_number,
-            from: twilio_phone
-        )
+        # chef = reservation.chef
+        # customer = reservation.customer
+        # twilio, twilio_phone = self.twilio
+        # twilio.messages.create(
+        #     body: "Your reservation request has been sent out! Once #{chef.first_name} accepts it, you will receive a confirmation email with further details.",
+        #     to: customer.phone_number,
+        #     from: twilio_phone
+        # )
     end
     
     def self.new_reservation_request(reservation)
-        chef = reservation.chef
-        customer = reservation.customer
-        twilio, twilio_phone = self.twilio
-        twilio.messages.create(
-            body: "You have a new reservation request from #{customer.first_name}! Head over to https://dinnerhost.co/my-requests for more details!",
-            to: chef.phone_number,
-            from: twilio_phone
-        )
+        # chef = reservation.chef
+        # customer = reservation.customer
+        # twilio, twilio_phone = self.twilio
+        # twilio.messages.create(
+        #     body: "You have a new reservation request from #{customer.first_name}! Head over to https://dinnerhost.co/my-requests for more details!",
+        #     to: chef.phone_number,
+        #     from: twilio_phone
+        # )
     end
     
     def self.send_booking_reminder_to_chef(reservation)
-        twilio, twilio_phone = self.twilio
-        twilio.messages.create(
-            body: "Upcoming DinnerHost reservation reminder:\nBooked by #{reservation.customer.first_name} for #{reservation.request_period_stringified}.\nView more details at dinnerhost.co/view_request/#{reservation.id}",
-            to: reservation.chef.phone_number,
-            from: twilio_phone
-        )
+        # twilio, twilio_phone = self.twilio
+        # twilio.messages.create(
+        #     body: "Upcoming DinnerHost reservation reminder:\nBooked by #{reservation.customer.first_name} for #{reservation.request_period_stringified}.\nView more details at dinnerhost.co/view_request/#{reservation.id}",
+        #     to: reservation.chef.phone_number,
+        #     from: twilio_phone
+        # )
     end
     
     def self.send_booking_reminder_to_customer(reservation)
-        twilio, twilio_phone = self.twilio
-        twilio.messages.create(
-            body: "Upcoming DinnerHost reservation reminder:\nYou've booked #{reservation.chef.first_name} for #{reservation.request_period_stringified}.\nView more details at dinnerhost.co/booking-accepted?reservation=#{reservation.id}",
-            to: reservation.chef.phone_number,
-            from: twilio_phone
-        )
+        # twilio, twilio_phone = self.twilio
+        # twilio.messages.create(
+        #     body: "Upcoming DinnerHost reservation reminder:\nYou've booked #{reservation.chef.first_name} for #{reservation.request_period_stringified}.\nView more details at dinnerhost.co/booking-accepted?reservation=#{reservation.id}",
+        #     to: reservation.chef.phone_number,
+        #     from: twilio_phone
+        # )
     end
     
     def self.twilio
@@ -94,7 +94,7 @@ class MessageUpdate
     
     def self.invite_chef(number, referrer)
         twilio, twilio_phone = self.twilio
-        link = "http://senzzu-rx-demo07.c9users.io/referral?ref#{referrer.referral_code}"
+        link = "https://dinnerhost.co/referral?ref#{referrer.referral_code}"
         message = "#{referrer.first_name} has invited you to join DinnerHost! As a DinnerHost cook, you can get booked and paid to prepare your best dishes for customers near you. To get started, go to #{link}."
         twilio.messages.create(
             body: message,

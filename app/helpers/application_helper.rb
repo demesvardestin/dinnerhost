@@ -1,5 +1,9 @@
 module ApplicationHelper
     
+    def stripe_key
+        Rails.env == "development" ? "pk_test_4rlj7z7bgOSQVv1TrZAMhrJi" : ENV["STRIPE_PUBLISHABLE"]
+    end
+    
     def url
         request.original_url
     end

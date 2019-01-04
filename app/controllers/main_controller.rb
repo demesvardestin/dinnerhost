@@ -95,11 +95,11 @@ class MainController < ApplicationController
         chef_list.split(',').each do |e|
             e.strip!
             begin
-                if e.scan(/\D/).empty?
-                    MessageUpdate.invite_chef(e, current_customer)
-                else
+                # if e.scan(/\D/).empty?
+                #     MessageUpdate.invite_chef(e, current_customer)
+                # else
                     UserMailer.invite_chef(e, current_customer).deliver_now
-                end
+                # end
             rescue
                 next
             end
