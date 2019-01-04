@@ -2,9 +2,33 @@
 <html>
   <head>
     <title>We're sorry, but something went wrong while displaying this page (500)</title>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="Z6g-RDOOuglEBVmRl4vIf8YKK_ZMvUkSr_C1I0eZL7s" />
+    <link rel="stylesheet" href="devise.css.scss">
+    <link rel="stylesheet" href="library.css.scss">
+    <link rel="stylesheet" href="application.css.scss">
+    <link rel="stylesheet" href="stores.css">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Ubuntu:400" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+       rel = "stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//js.pusher.com/3.1/pusher.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <style>
       nav {
         height: auto;
@@ -70,71 +94,97 @@
       a {
         background-color: transparent;
         text-decoration: none;
-      }
-      #store-search {
-        height: 50px;
-        border-radius: 3px;
-        background-color: #fff;
-        box-shadow: none;
-        border: none;
-        font-size: 16px;
-        padding: 0 10px;
-        width: 75%;
+        color: #fff;
       }
       body {
-        background-color: #F27649;
+        background-color: #007bff;
         color: #fff;
         text-align: center;
         font-family: 'ubuntu', sans-serif;
-        margin: 0;
       }
       .cursor-pointer {
         cursor: pointer;
       }
+      
+      .navbar-toggler {
+          border-color: #007bff !important;
+          background-color: #007bff !important;
+          border-radius: 2px;
+      }
+      
+      .navbar-toggler-icon > .fa-bars {
+          color: #fff !important;
+          font-size: 30px !important;
+      }
+      .dh-row {
+        display: flex;
+        flex-wrap: wrap;
+      }
     </style>
   </head>
 
-  <body>
+  <body style="padding-top: 120px;">
     <!-- This file lives in public/404.html -->
     <nav class="navbar navbar-expand-lg fixed-top main-navbar">
-      <div class="nav-container">
+      <div class="container">
         <a class="navbar-brand cursor-pointer" onclick="window.location.replace('/');" style="float: left;">
-          <img src="https://s3.us-east-2.amazonaws.com/senzzu/logo-transparent.png" alt="Senzzu" height="47">
+          <img src="https://s3.us-east-2.amazonaws.com/dinnerhost/static/dinnerhost_logo.png" alt="DinnerHost" height="47">
         </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+          data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+          aria-expanded="false" aria-label="Toggle navigation"
+          onclick="$('.dh-navbar-collapse').toggleClass('display-block'); $('.navbar').toggleClass('background-white');">
+          <span class="navbar-toggler-icon">
+              <i class="fa fa-bars" style="color: #fff; font-size: 30px;"></i>
+          </span>
+        </button>
+        <div class="collapse navbar-collapse no-mobile-display justify-content-end" id="navbarSupportedContent">
+          <ul class="navbar-nav navbar-links">
+            <li class="nav-item hp-nav-item">
+                <a class="nav-link main-nav-link cursor-pointer" data-toggle="modal"
+                    data-target="#customerAuthentication" style="color: #000; font-weight: normal;">
+                    Diner Login
+                </a>
+            </li>
+            <li class="nav-item hp-nav-item">
+                <a class="nav-link main-nav-link" href="/chef/login"
+                    style="color: #000; font-weight: normal;">
+                    Cook Login
+                </a>
+            </li>
+            <li class="nav-item hp-nav-item">
+                <a class="btn btn-primary white nav-link box-shadow" href="/join"
+                    id="become-a-chef" style="border-radius: 2px;">
+                    Join DinnerHost
+                </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
-    <section>
-      <div class="dialog-header">
+    <section class="dh-row" style="margin: 0;">
+      <div class="dialog-header col-lg-8 offset-lg-2 no-padding">
         <h1 style="font-size: 40px; color: #fff;">
           Sorry, this page is currently unavailable!
         </h1>
-      </div>
-      <a class="submit-search" align="center" type="button" href="/">
-          Return home
-      </a>
-      <div id="suggestionBoxContainer">
-          <div id="suggestionBox">
-              <div id="map" style="display: none;"></div>
-              <div id="infowindow-content">
-                  <img src="" width="16" height="16" id="place-icon">
-                  <span id="place-name"  class="title" style="font-size: 17px;"></span><br>
-                  <span id="place-address"></span>
-              </div>
-          </div>
-      </div>
-      <div style="margin-top: 30px">
-        <p style="font-size: 15px;">
-          &copy; Senzzu |
-          <a href="/legal/privacy">
-            Privacy
-          </a> |
-          <a href="/legal/privacy">
-            Terms
-          </a> |
-          <a href="/legal/privacy">
-            Contact
-          </a>
-        </p>
+        <a class="btn btn-secondary" align="center" href="/"
+          style="box-shadow: none !important; border-radius: 2px !important; color: #fff;">
+            Return home
+        </a>
+        <div style="margin-top: 30px">
+          <p style="font-size: 15px;">
+            &copy; Senzzu |
+            <a href="/privacy">
+              Privacy
+            </a> |
+            <a href="https://app.termly.io/document/privacy-policy/613ee504-9fd4-475c-8339-ffc94ae03f72">
+              Terms
+            </a> |
+            <a href="/contact-us">
+              Contact
+            </a>
+          </p>
+        </div>
       </div>
     </section>
   </body>
