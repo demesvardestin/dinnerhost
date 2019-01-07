@@ -84,6 +84,7 @@ function fadeModal(modal) {
 }
 
 function updateReservationParams() {
+    var reservationID = $('#reservation-id').text();
     try {
         var requestDate = document.querySelector('.start-date-input').value;
         var requestTime = $('#chosen-time').text();
@@ -120,6 +121,16 @@ function updateReservationParams() {
                 "&request_time=" + requestTime + "&adult_count=" + adultCount +
                 "&children_count=" + childrenCount + "&allergies=" + allergies +
                 (reportTypeValue ? "&customer_report=" + reportTypeValue : ""));
+        var reservation = {
+            "id": reservationID,
+            "meal_ids": mealIDS,
+            "request_date": requestDate,
+            "request_time": requestTime,
+            "adult_count": adultCount,
+            "children_count": childrenCount,
+            "allergies": allergies
+        };
+        $.get('/update_reservation', { reservation: reservation });
     } catch(err) {
         showNotice("Login or Signup to make a reservation");
     }

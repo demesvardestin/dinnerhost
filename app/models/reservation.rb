@@ -10,6 +10,7 @@ class Reservation < ApplicationRecord
     scope :upcoming, -> { where(accepted: true, completed: false) }
     scope :completed, -> { where(accepted: true, completed: true) }
     scope :cancelled, -> { where(cancelled: true) }
+    scope :active, -> { where(active: true) }
     
     def self.charge_customer(reservation)
         total = reservation.fee.to_f.to_i * 100

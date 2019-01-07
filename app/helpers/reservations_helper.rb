@@ -14,4 +14,11 @@ module ReservationsHelper
         judgement when making reservations."]
     end
     
+    def get_fee(meals, people)
+        meal_count = meals.split(',').length
+        people_count = people.to_i > 2 ? people.to_i - 2 : 0
+        rebate = meal_count - 1
+        40 + (people_count * 15) + ((rebate < 0 ? 0 : rebate) * 5)
+    end
+    
 end

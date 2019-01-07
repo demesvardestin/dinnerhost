@@ -108,7 +108,7 @@ class ChefsController < ApplicationController
   
   def deny_reservation
     @reservation = Reservation.find(params[:id])
-    @pending = Reservation.where(chef_id: current_chef.id).pending
+    @pending = Reservation.where(chef_id: current_chef.id).active.pending
     @cook.deny_reservation @reservation
     render :layout => false
     
@@ -121,15 +121,15 @@ class ChefsController < ApplicationController
     
     @reservations = case @category
     when "pending"
-      current_chef.reservations.pending
+      current_chef.reservations.active.pending
     when "upcoming"
-      current_chef.reservations.upcoming
+      current_chef.reservations.active.upcoming
     when "denied"
-      current_chef.reservations.denied
+      current_chef.reservations.active.denied
     when "completed"
-      current_chef.reservations.completed
+      current_chef.reservations.active.completed
     when "cancelled"
-      current_chef.reservations.cancelled
+      current_chef.reservations.active.cancelled
     end
     
     render "load_reservations", :layout => false
@@ -139,7 +139,7 @@ class ChefsController < ApplicationController
     @sort_by = params[:sort_by]
     @load = params[:load]
     
-    @reservations = Reservation.sort_by_spec @load, @sort_by, current_chef
+    @reservations = Reservation.active.sort_by_spec @load, @sort_by, current_chef
     
     @sort_by = "Date Requested" if params[:sort_by] == "request_period"
     
@@ -189,17 +189,17 @@ class ChefsController < ApplicationController
   
   def all_accepted
     @status = "accepted"
-    @accepted = Reservation.where(chef_id: current_chef.id).accepted
+    @accepted = Reservation.where(chef_id: current_chef.id).active.accepted
   end
   
   def denied
     @status = "denied"
-    @denied = Reservation.where(chef_id: current_chef.id).denied
+    @denied = Reservation.where(chef_id: current_chef.id).active.denied
   end
   
   def pending
     @status = "pending"
-    @pending = Reservation.where(chef_id: current_chef.id).pending
+    @pending = Reservation.where(chef_id: current_chef.id).active.pending
   end
   
   private
@@ -213,7 +213,7 @@ class ChefsController < ApplicationController
   end
   
   def load_reservations
-    @reservations = Reservation.where(chef_id: current_chef.id).order("created_at DESC")
+    @reservations = Reservation.where(chef_id: current_chef.id).order("created_at DESC").active
     @accepted = @reservations.accepted.reverse
     @denied = @reservations.denied.reverse
     @pending = @reservations.pending.reverse

@@ -1,7 +1,46 @@
-<p>Hello <%= @resource.email %>!</p>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="application.css">
+    <link rel="stylesheet" href="library.css.scss">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu:400" rel="stylesheet">
+  </head>
+  <body style="padding: 30px; font-family: 'roboto', sans-serif;">
+    <section class="row" style="margin: 0;">
+      <div class="col-lg-6">
+        <a class="navbar-brand cursor-pointer" href="https://dinnerhost.co">
+            <img src="https://s3.us-east-2.amazonaws.com/dinnerhost/static/dinnerhost_logo.png" height="50">
+        </a>
+        
+        <p style="margin-top: 30px; font-size: 17px;">
+            Hello <%= @resource.email %>!<br /><br />
+            Your account has been locked due to an excessive number of unsuccessful sign in attempts.
+            Click the link below to unlock your account:<br />
+            <%= link_to 'Unlock my account', unlock_url(@resource, unlock_token: @token) %>
+        </p>
+        
+        <p style="margin-top; 30px; font-size: 17px;">
+            If you did not make those attempts, please reach out to us at
+            <a href="mailto:contact@dinnerhost.co" class="color: #1cc7c7;">
+                contact@dinnerhost.co
+            </a>.
+        </p>
+        
+        <p style="margin-top: 30px; font-size: 17px;">
+            Thanks,<br />
+            The DinnerHost Team
+        </p>
+      </div>
+    </section>
+  </body>
+</html>
 
-<p>Your account has been locked due to an excessive number of unsuccessful sign in attempts.</p>
 
-<p>Click the link below to unlock your account:</p>
 
-<p><%= link_to 'Unlock my account', unlock_url(@resource, unlock_token: @token) %></p>

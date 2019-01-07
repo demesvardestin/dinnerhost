@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   get '/save_listing/:id', to: 'customers#save_listing'
   get '/wishlist', to: 'customers#wishlist'
   get '/message_chef/:id', to: 'customers#message_chef'
+  get '/update_reservation', to: 'reservations#update_reservation'
   ## END CUSTOMER ROUTES ##
   
   ## Chef routes
@@ -96,7 +97,8 @@ Rails.application.routes.draw do
   get '/inbox/all', to: 'conversations#all'
   get 'user_type', to: 'main#user_type'
   get '/c/:username', to: 'chefs#show'
-  get '/book/:username', to: 'reservations#book', as: 'book'
+  get '/book/:username/:id', to: 'reservations#book', as: 'book'
+  get '/start_reservation/:username', to: 'reservations#start_reservation'
   post '/reserve', to: 'reservations#reserve'
   post '/complete-reservation', to: 'reservations#complete_reservation'
   get '/booking-complete', to: 'reservations#booking_complete'
@@ -119,7 +121,7 @@ Rails.application.routes.draw do
   get '/join', to: 'main#join'
   get '/new_user_guidelines', to: 'main#new_user_guidelines'
   get '/accept_guidelines', to: 'main#accept_guidelines'
-  get '/privacy', to: 'main#privacy'
+  get '/terms', to: 'main#terms'
   get '/contact-us', to: "main#contact"
   ## END GLOBAL ROUTES ##
   

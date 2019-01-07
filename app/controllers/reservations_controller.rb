@@ -1,33 +1,54 @@
 class ReservationsController < ApplicationController
-  before_action :set_reservation
-  before_action :authorized_to_view, except: [:reserve, :book, :booking_estimate]
-  before_action :load_booking_estimate, only: [:booking_estimate, :reserve]
+  before_action :set_reservation, except: :start_reservation
+  before_action :authorized_to_view, except: [:reserve, :booking_estimate, :start_reservation]
+  before_action :authenticate_customer!, only: :start_reservation
+  before_action :load_booking_estimate, only: [:update_reservation]
   before_action :unauthorized, only: :accepted
   
   def show
   end
   
-  def book
+  def start_reservation
     @cook = Chef.find_by(id: params[:id]) || Chef.find_by(username: params[:username]) || Chef.find_by(shortened_url: params[:shortened_url])
+    @meal = Meal.find_by(id: params[:meal_id])
+    meal_ids = if @meal
+      @meal.id.to_s + ','
+    else
+      ''
+    end
+    @reservation = Reservation.create(
+      customer_id: current_customer.id,
+      chef_id: @cook.id,
+      fee: "40.00",
+      meal_ids: meal_ids
+    )
+    redirect_to "/book/#{@cook.username}/#{@reservation.id}/?meal_ids=#{@reservation.meal_ids}&request_date=&request_time=Time&adult_count=1&children_count=0&allergies="
+  end
+  
+  def book
+    @cook = Chef.find_by(username: params[:username])
+    @reservation = Reservation.find_by(id: params[:id])
   end
   
   def booking_estimate
     render :layout => false
   end
   
+  def update_reservation
+    params[:reservation][:fee] = @booking_rate
+    @reservation = Reservation.find(params[:reservation][:id])
+    @reservation.update(reservation_params)
+    
+    render :layout => false
+  end
+  
   def reserve
-    @reservation = Reservation.new(reservation_params)
-    @reservation.customer = current_customer
-    @reservation.chef = @chef
-    @reservation.fee = @booking_rate.to_s
-    respond_to do |format|
-      if @reservation.save
-        format.html { redirect_to "/booking/confirmation/#{@reservation.id}" }
-      end
-    end
+    @reservation = Reservation.find_by(id: params[:reservation][:id])
+    redirect_to "/booking/confirmation/#{@reservation.id}"
   end
   
   def complete_reservation
+    params[:reservation][:active] = true
     @reservation.update(reservation_params)
     respond_to do |format|
       if @reservation.save
@@ -123,7 +144,7 @@ class ReservationsController < ApplicationController
   private
   
   def set_reservation
-    @reservation = Reservation.find_by(id: params[:id]) || Reservation.find_by(id: params[:reservation])
+    @reservation = Reservation.find_by(id: params[:id]) || Reservation.find_by(id: params[:reservation]) || Reservation.find_by(id: params[:reservation][:id])
   end
   
   def unauthorized
@@ -159,7 +180,7 @@ class ReservationsController < ApplicationController
   def reservation_params
     params.require(:reservation).permit(:request_date, :meal_ids, :adult_count,
                                 :children_count, :allergies, :additional_message,
-                                :request_time)
+                                :request_time, :fee, :active)
   end
   
   def cancel_params
@@ -169,9 +190,11 @@ class ReservationsController < ApplicationController
   def load_booking_estimate
     meal_ids = params[:reservation][:meal_ids].split(',').map { |i| i.to_i }
     meal_count = meal_ids.length
-    meal_fees = (meal_count - 1) * 20
-    @chef = Chef.find_by(id: Meal.find(meal_ids).last.chef_id)
-    @booking_rate = @chef.booking_rate.to_f + meal_fees
+    people_count = params[:reservation][:adult_count].to_i > 2 ? (params[:reservation][:adult_count].to_i - 2) : 0
+    people_fees = people_count * 15
+    meal_fees = (meal_count - 1) * 5
+    @chef = Chef.find_by(username: params[:reservation][:chef])
+    @booking_rate = 40 + people_fees + meal_fees
   end
   
   def not_proper_user(obj)

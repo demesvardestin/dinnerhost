@@ -8,7 +8,7 @@
                 </h5>
                 <hr>
                 <div class="card-body text-center">
-                    <h1>$<%= @user.credit_value %></h1>
+                    <h1>$<%= @user.credit_value.to_s << '0' %></h1>
                 </div>
             </div>
             

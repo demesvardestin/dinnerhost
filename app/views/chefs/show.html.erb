@@ -102,7 +102,7 @@
             <% if current_customer %>
                 <div id="chef-reviews" style="margin-top: 20px;">
                     <a class="background-transparent no-underline"
-                        href="/book/<%= @cook.username || @cook.id %>">
+                        href="/start_reservation/<%= @cook.username || @cook.id %>">
                         <button class="btn btn-success">
                             Book <%= @cook.first_name %>
                         </button>

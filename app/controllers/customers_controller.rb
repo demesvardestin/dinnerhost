@@ -73,7 +73,7 @@ class CustomersController < ApplicationController
     end
     
     def bookings
-        @bookings = current_customer.reservations.order("created_at DESC")
+        @bookings = current_customer.reservations.active.order("created_at DESC")
     end
     
     def reservation_meals

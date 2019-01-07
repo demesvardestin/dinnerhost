@@ -7,7 +7,7 @@
         
           <div class="form-inputs">
             <div class="field">
-              <%= f.email_field :email, class:"form-control no-box-shadow", placeholder: "Email", required: true  %>
+              <%= f.email_field :email, class:"form-control no-box-shadow", placeholder: "Email", required: true, value: "#{resource.email}"  %>
             </div>
         
             <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>

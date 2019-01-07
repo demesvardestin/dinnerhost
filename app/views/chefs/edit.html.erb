@@ -1,5 +1,15 @@
 <section id="edit-profile">
     <div class="col-lg-8 offset-lg-2 no-padding">
+        <% unless current_chef.live %>
+            <div class="alert alert-primary" role="alert">
+              <h4 class="alert-heading">Welcome <%= current_chef.first_name %>!</h4>
+              <hr>
+              Your account is currently pending verification. Someone from our team
+              may reach out to you if we need more details. If you don't receive a
+              verification notice within 2 hours, please reach out to us at
+              <a href="mailto:contact@dinnerhost.co" class="theme-cyan">contact@dinnerhost.co</a>.
+            </div>
+        <% end %>
         <div class="dh-card">
             <h5>Account Settings</h5>
             <hr>

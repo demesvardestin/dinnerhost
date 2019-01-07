@@ -12,7 +12,10 @@
                 <span class="bold font-13 float-left">
                     <%= m.name %>
                 </span>
-                <span class="float-right" id="selection-circle">
+                <span class="no-display" id="<%= m.id %>-is-selected">
+                    <%= params[:meal_ids].split(',').include?(m.id.to_s) ? "selected" : "" %>
+                </span>
+                <span class="float-right selection-circle-<%= m.id %>" id="selection-circle">
                     <i class="fa fa-<%= (params[:meal_ids] && params[:meal_ids].split(',').include?(m.id.to_s)) ? "circle theme-cyan" : "circle-thin text-muted" %>" style="font-size: 20px; top: -2px;"></i>
                 </span>
             </div>
@@ -28,14 +31,34 @@
         $(this).toggleClass('box-shadow-amp');
     };
     
-    function selectMeal(elem) {
+    function selectMeal(elem, id=null) {
         var mealID = elem.id.split('card-meal-').join('');
-        $('#' + elem.id).toggleClass('box-shadow-amp');
-        $('#' + elem.id + ' #selection-circle')
-        .html('<i class="fa fa-circle theme-cyan" style="font-size: 20px; top: -2px;"></i>');
-        $('.meal-ids').append(mealID + ',');
+        if ($("#" + mealID + '-is-selected').text().trim() === "selected") {
+            console.log('unselected');
+            $('#' + elem.id + ' #selection-circle')
+            .html('<i class="fa fa-circle-thin text-muted" style="font-size: 20px; top: -2px;"></i>');
+            var $ids = $('.meal-ids').text().trim();
+            // console.log($ids);
+            $('.meal-ids').empty();
+            var out = [];
+            for(i=0;i<$ids.split(',').length;i++) {
+            	x = $ids.split(',')[i];
+            	if (x != mealID && x != ",") {
+            		out.push(x);
+            	} else {
+            		continue;
+            	}
+            }
+            out = out.join(',');
+            $('.meal-ids').text(out);
+            $("#" + mealID + '-is-selected').empty();
+        } else {
+            console.log('selected');
+            $('#' + elem.id + ' #selection-circle')
+            .html('<i class="fa fa-circle theme-cyan" style="font-size: 20px; top: -2px;"></i>');
+            $('.meal-ids').append(mealID + ',');
+            $("#" + mealID + '-is-selected').text("selected");
+        }
         updateReservationParams();
-        var data = { meal_ids: $('.meal-ids').text() };
-        $.get('/booking-estimate', { reservation: data });
     };
 </script>
