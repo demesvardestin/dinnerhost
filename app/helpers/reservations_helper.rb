@@ -18,7 +18,7 @@ module ReservationsHelper
         meal_count = meals.split(',').length
         people_count = people.to_i > 2 ? people.to_i - 2 : 0
         rebate = meal_count - 1
-        40 + (people_count * 15) + ((rebate < 0 ? 0 : rebate) * 5)
+        50 + (people_count * 15) + ((rebate < 0 ? 0 : rebate) * 10)
     end
     
 end

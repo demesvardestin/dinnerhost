@@ -19,7 +19,7 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.create(
       customer_id: current_customer.id,
       chef_id: @cook.id,
-      fee: "40.00",
+      fee: "50.00",
       meal_ids: meal_ids
     )
     redirect_to "/book/#{@cook.username}/#{@reservation.id}/?meal_ids=#{@reservation.meal_ids}&request_date=&request_time=Time&adult_count=1&children_count=0&allergies="
@@ -192,9 +192,9 @@ class ReservationsController < ApplicationController
     meal_count = meal_ids.length
     people_count = params[:reservation][:adult_count].to_i > 2 ? (params[:reservation][:adult_count].to_i - 2) : 0
     people_fees = people_count * 15
-    meal_fees = (meal_count - 1) * 5
+    meal_fees = (meal_count - 1) * 10
     @chef = Chef.find_by(username: params[:reservation][:chef])
-    @booking_rate = 40 + people_fees + meal_fees
+    @booking_rate = 50 + people_fees + meal_fees
   end
   
   def not_proper_user(obj)
